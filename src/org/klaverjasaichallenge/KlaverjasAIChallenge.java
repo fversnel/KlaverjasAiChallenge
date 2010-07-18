@@ -8,6 +8,7 @@ import java.util.LinkedList;
 
 import org.klaverjasaichallenge.ai.JoostAI;
 import org.klaverjasaichallenge.shared.Action;
+import org.klaverjasaichallenge.shared.PlayCardAction;
 
 /**
  * @author Joost
@@ -36,6 +37,9 @@ public class KlaverjasAIChallenge {
 				/**
 				 * Alter gamestate with action
 				 */
+				if(action instanceof PlayCardAction) {
+					
+				}
 
 			}
 			
