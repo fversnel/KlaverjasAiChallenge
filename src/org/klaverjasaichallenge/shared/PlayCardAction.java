@@ -8,9 +8,9 @@ package org.klaverjasaichallenge.shared;
  * Use this action to play a Card
  */
 public class PlayCardAction implements Action {
-	private Card card;
+	private final Card card;
 
-	public void setCard(Card card) {
+	public PlayCardAction(Card card) {
 		this.card = card;
 	}
 

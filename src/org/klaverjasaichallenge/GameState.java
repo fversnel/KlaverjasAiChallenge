@@ -1,4 +1,8 @@
 package org.klaverjasaichallenge;
+
+import java.util.List;
+
+import org.klaverjasaichallenge.shared.Card;
 /**
  * 
  */
@@ -14,5 +18,6 @@ public interface GameState {
 	}
 	
 	public GameStatePhases getPhase();
+	public List<Card> getPlayerHand(Player player);
 	
 }

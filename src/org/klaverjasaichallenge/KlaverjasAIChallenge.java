@@ -6,15 +6,18 @@ package org.klaverjasaichallenge;
 import java.util.List;
 import java.util.LinkedList;
 
+import org.klaverjasaichallenge.GameState.GameStatePhases;
 import org.klaverjasaichallenge.ai.JoostAI;
+import org.klaverjasaichallenge.shared.AcceptTrumpAction;
 import org.klaverjasaichallenge.shared.Action;
 import org.klaverjasaichallenge.shared.PlayCardAction;
+import org.klaverjasaichallenge.shared.Card.Suit;
 
 /**
  * @author Joost
  * 
  */
-public class KlaverjasAIChallenge {  
+public class KlaverjasAIChallenge {
 
 	public static void main(String[] args) {
 
@@ -22,29 +25,50 @@ public class KlaverjasAIChallenge {
 		players.add(new JoostAI());
 		players.add(new JoostAI());
 		players.add(new JoostAI());
-		players.add(new JoostAI()); 
+		players.add(new JoostAI());
 
 		DefaultGameState state = new DefaultGameState(players);
 
 		while (state.getPhase() != GameState.GameStatePhases.FINISHED) {
-			for (final Player currentPlayer : players) {
 
-				/**
-				 * Request Action from player
-				 */
-				Action action = currentPlayer.respond(state, null);
-				
-				/**
-				 * Alter gamestate with action
-				 */
-				if(action instanceof PlayCardAction) {
-					
+			/**
+			 * Phase: Choosing Trumps
+			 */
+			if (state.getPhase() == GameStatePhases.CHOOSING_TRUMP) {
+				try {
+					Suit trump = state.drawTrump();
+					System.out.println("Trump drawn: " + trump);
+				} catch (Exception e) {
+					System.out.println(e);
 				}
-
 			}
-			
-			// Hack to finish the game
-			state.setPhase(GameState.GameStatePhases.FINISHED);
+
+			Player currentPlayer = state.calculateCurrentPlayer();
+			System.out.println("Current player: " + currentPlayer);
+			/**
+			 * Request Action from player
+			 */
+			Action action = currentPlayer.respond(state, null);
+
+			/**
+			 * Alter gamestate with action
+			 */
+			if (action instanceof AcceptTrumpAction) {
+				AcceptTrumpAction acceptTrumpAction = (AcceptTrumpAction) action;
+
+				if (acceptTrumpAction.isTrumpAccepted())
+					state.playerAcceptedTrump(currentPlayer);
+			}
+
+			if (action instanceof PlayCardAction) {
+				PlayCardAction playCardAction = (PlayCardAction) action;
+				try {
+					state.playCard(playCardAction.getCard());
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 }
