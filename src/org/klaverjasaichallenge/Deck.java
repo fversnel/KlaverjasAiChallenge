@@ -3,6 +3,8 @@ package org.klaverjasaichallenge;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Stack;
+import java.util.Vector;
 /**
  * 
  */
@@ -16,7 +18,7 @@ import org.klaverjasaichallenge.shared.card.rank.*;
  *
  */
 public class Deck {
-	private List<Card> cards;
+	private Stack<Card> cards;
 	
 	public Deck() {
 		this.cards = this.createDeck();
@@ -29,13 +31,11 @@ public class Deck {
 	 * TODO this has not been tested yet
 	 */
 	public Card drawCard() {
-		Card card = cards.get(0);
-		cards.remove(0);
-		return card;
+		return cards.pop();
 	}
 	
-	private List<Card> createDeck() {
-		cards = new LinkedList<Card>();
+	private Stack<Card> createDeck() {
+		cards = new Stack<Card>();
 		for (Suit suit : Card.getSuits()) {
 			for (Rank rank : Card.getRanks()) {
 				cards.add(new Card(suit, rank));
