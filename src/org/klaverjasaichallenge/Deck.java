@@ -12,23 +12,15 @@ import org.klaverjasaichallenge.shared.Card.Rank;
 import org.klaverjasaichallenge.shared.Card.Suit;
 
 /**
- * @author Joost
+ * @author Joost Pastoor and Frank Versnel
  *
  */
 public class Deck {
-	public List<Card> cards;
+	private List<Card> cards;
 	
 	public Deck() {
-		cards = new LinkedList<Card>();
-
-		// Add all cards to the deck
-		for (Suit suit : Suit.values()) {
-			for (Rank rank : Rank.values()) {
-				cards.add(new Card(suit, rank));
-			}
-		}
-		
-		Collections.shuffle(cards);
+		this.cards = this.createDeck();
+		this.shuffleDeck(cards);
 		
 		System.out.println(cards);
 	}
@@ -40,5 +32,19 @@ public class Deck {
 		Card card = cards.get(0);
 		cards.remove(0);
 		return card;
+	}
+
+	private List<Card> createDeck() {
+		cards = new LinkedList<Card>();
+		for (Suit suit : Suit.values()) {
+			for (Rank rank : Rank.values()) {
+				cards.add(new Card(suit, rank));
+			}
+		}
+		return cards;
+	}
+
+	private void shuffleDeck(List<Card> cards) {
+		Collections.shuffle(cards);
 	}
 }
