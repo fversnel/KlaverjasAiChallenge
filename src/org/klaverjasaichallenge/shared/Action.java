@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.klaverjasaichallenge.action;
+package org.klaverjasaichallenge.shared;
 
 /**
  * @author Joost

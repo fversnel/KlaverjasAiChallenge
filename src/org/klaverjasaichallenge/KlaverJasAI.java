@@ -1,6 +1,6 @@
 package org.klaverjasaichallenge;
 
-import org.klaverjasaichallenge.action.Action;
+import org.klaverjasaichallenge.shared.Action;
 
 /**
  * 

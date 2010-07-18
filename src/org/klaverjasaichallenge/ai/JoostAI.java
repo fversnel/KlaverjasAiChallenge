@@ -3,11 +3,11 @@
  */
 package org.klaverjasaichallenge.ai;
 
-import org.klaverjasaichallenge.Card;
 import org.klaverjasaichallenge.GameState;
 import org.klaverjasaichallenge.KlaverJasAI;
 import org.klaverjasaichallenge.RuleSet;
-import org.klaverjasaichallenge.action.Action;
+import org.klaverjasaichallenge.shared.Action;
+import org.klaverjasaichallenge.shared.Card;
 
 /**
  * @author Joost Pastoor
