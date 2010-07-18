@@ -20,44 +20,13 @@ public class Deck {
 	
 	public Deck() {
 		cards = new LinkedList<Card>();
-		
-		// TODO Instead; Loop through the enums, if thats possible?
-		
-		cards.add(new Card(Suit.CLUBS, Rank.ACE));
-		cards.add(new Card(Suit.CLUBS, Rank.KING));
-		cards.add(new Card(Suit.CLUBS, Rank.QUEEN));
-		cards.add(new Card(Suit.CLUBS, Rank.JACK));
-		cards.add(new Card(Suit.CLUBS, Rank.TEN));
-		cards.add(new Card(Suit.CLUBS, Rank.NINE));
-		cards.add(new Card(Suit.CLUBS, Rank.EIGHT));
-		cards.add(new Card(Suit.CLUBS, Rank.SEVEN));
-		
-		cards.add(new Card(Suit.DIAMONDS, Rank.ACE));
-		cards.add(new Card(Suit.DIAMONDS, Rank.KING));
-		cards.add(new Card(Suit.DIAMONDS, Rank.QUEEN));
-		cards.add(new Card(Suit.DIAMONDS, Rank.JACK));
-		cards.add(new Card(Suit.DIAMONDS, Rank.TEN));
-		cards.add(new Card(Suit.DIAMONDS, Rank.NINE));
-		cards.add(new Card(Suit.DIAMONDS, Rank.EIGHT));
-		cards.add(new Card(Suit.DIAMONDS, Rank.SEVEN));
-		
-		cards.add(new Card(Suit.HEARTS, Rank.ACE));
-		cards.add(new Card(Suit.HEARTS, Rank.KING));
-		cards.add(new Card(Suit.HEARTS, Rank.QUEEN));
-		cards.add(new Card(Suit.HEARTS, Rank.JACK));
-		cards.add(new Card(Suit.HEARTS, Rank.TEN));
-		cards.add(new Card(Suit.HEARTS, Rank.NINE));
-		cards.add(new Card(Suit.HEARTS, Rank.EIGHT));
-		cards.add(new Card(Suit.HEARTS, Rank.SEVEN));
-		
-		cards.add(new Card(Suit.SPADES, Rank.ACE));
-		cards.add(new Card(Suit.SPADES, Rank.KING));
-		cards.add(new Card(Suit.SPADES, Rank.QUEEN));
-		cards.add(new Card(Suit.SPADES, Rank.JACK));
-		cards.add(new Card(Suit.SPADES, Rank.TEN));
-		cards.add(new Card(Suit.SPADES, Rank.NINE));
-		cards.add(new Card(Suit.SPADES, Rank.EIGHT));
-		cards.add(new Card(Suit.SPADES, Rank.SEVEN));
+
+		// Add all cards to the deck
+		for (Suit suit : Suit.values()) {
+			for (Rank rank : Rank.values()) {
+				cards.add(new Card(suit, rank));
+			}
+		}
 		
 		Collections.shuffle(cards);
 		
