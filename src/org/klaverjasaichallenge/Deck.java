@@ -1,10 +1,8 @@
 package org.klaverjasaichallenge;
 
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
-import java.util.Vector;
 /**
  * 
  */
@@ -27,9 +25,6 @@ public class Deck {
 		System.out.println(cards);
 	}
 	
-	/**
-	 * TODO this has not been tested yet
-	 */
 	public Card drawCard() {
 		return cards.pop();
 	}
