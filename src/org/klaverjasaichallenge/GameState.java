@@ -2,7 +2,7 @@ package org.klaverjasaichallenge;
 
 import java.util.List;
 
-import org.klaverjasaichallenge.shared.Card;
+import org.klaverjasaichallenge.shared.card.Card;
 /**
  * 
  */

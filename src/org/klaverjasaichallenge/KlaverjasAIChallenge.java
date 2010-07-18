@@ -11,7 +11,7 @@ import org.klaverjasaichallenge.ai.JoostAI;
 import org.klaverjasaichallenge.shared.AcceptTrumpAction;
 import org.klaverjasaichallenge.shared.Action;
 import org.klaverjasaichallenge.shared.PlayCardAction;
-import org.klaverjasaichallenge.shared.Card.Suit;
+import org.klaverjasaichallenge.shared.card.suit.Suit;
 
 /**
  * @author Joost

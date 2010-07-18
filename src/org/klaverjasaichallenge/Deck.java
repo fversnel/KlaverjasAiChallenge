@@ -7,9 +7,9 @@ import java.util.List;
  * 
  */
 
-import org.klaverjasaichallenge.shared.Card;
-import org.klaverjasaichallenge.shared.Card.Rank;
-import org.klaverjasaichallenge.shared.Card.Suit;
+import org.klaverjasaichallenge.shared.card.Card;
+import org.klaverjasaichallenge.shared.card.suit.*;
+import org.klaverjasaichallenge.shared.card.rank.*;
 
 /**
  * @author Joost Pastoor and Frank Versnel
@@ -33,11 +33,11 @@ public class Deck {
 		cards.remove(0);
 		return card;
 	}
-
+	
 	private List<Card> createDeck() {
 		cards = new LinkedList<Card>();
-		for (Suit suit : Suit.values()) {
-			for (Rank rank : Rank.values()) {
+		for (Suit suit : Card.getSuits()) {
+			for (Rank rank : Card.getRanks()) {
 				cards.add(new Card(suit, rank));
 			}
 		}

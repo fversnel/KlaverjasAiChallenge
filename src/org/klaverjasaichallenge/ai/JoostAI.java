@@ -11,7 +11,7 @@ import org.klaverjasaichallenge.RuleSet;
 import org.klaverjasaichallenge.GameState.GameStatePhases;
 import org.klaverjasaichallenge.shared.AcceptTrumpAction;
 import org.klaverjasaichallenge.shared.Action;
-import org.klaverjasaichallenge.shared.Card;
+import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.PlayCardAction;
 
 /**

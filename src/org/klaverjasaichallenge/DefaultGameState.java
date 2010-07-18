@@ -10,9 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import org.klaverjasaichallenge.shared.Card;
-import org.klaverjasaichallenge.shared.Card.Rank;
-import org.klaverjasaichallenge.shared.Card.Suit;
+import org.klaverjasaichallenge.shared.card.Card;
+import org.klaverjasaichallenge.shared.card.suit.Suit;
 
 /**
  * @author Joost
@@ -68,7 +67,7 @@ public class DefaultGameState implements GameState {
 			throw new Exception("May only draw three trumps");
 
 		// Put all suits in a list
-		Suit[] suits = Suit.values();
+		Suit[] suits = Card.getSuits();
 		Random seed = new Random(System.nanoTime());
 		Suit chosenSuit = suits[seed.nextInt(suits.length)];
 

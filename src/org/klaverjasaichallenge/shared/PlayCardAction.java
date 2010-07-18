@@ -3,6 +3,8 @@
  */
 package org.klaverjasaichallenge.shared;
 
+import org.klaverjasaichallenge.shared.card.Card;
+
 
 /**
  * Use this action to play a Card
