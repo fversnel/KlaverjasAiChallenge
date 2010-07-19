@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import org.klaverjasaichallenge.shared.Points;
 import org.klaverjasaichallenge.shared.Trick;
+import org.klaverjasaichallenge.shared.Order;
 import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
 import org.klaverjasaichallenge.shared.card.rank.*;
@@ -47,7 +48,7 @@ class SpecialScore {
 			Points roem = new Points();
 			
 			roem = calculateFourCardsSameRankScore(trick);
-			roem = Points.plus(roem, calculateFourCardConsecutiveScore(trick));
+			roem = Points.plus(roem, calculateFourCardConsecutiveScore(trick, trump));
 			roem = Points.plus(roem, calculateThreeCardConsecutiveScore(trick));
 			roem = Points.plus(roem, calculateStukScore(trick, trump));
 
@@ -72,21 +73,20 @@ class SpecialScore {
 			}
 		}
 
-		boolean fourCardsSameRank = false;
 		if(sameRanks.size() == 4) {
-			fourCardsSameRank = true;
+			boolean fourCardsSameRank = true;
 			for(Rank compareRank : sameRanks) {
 				if(!compareRank.getClass().isInstance(sameRanks.get(0))) {
 					fourCardsSameRank = false;
 				}
 			}
-		}
 
-		if(fourCardsSameRank) {
-			if(sameRanks.get(0) instanceof Jack) {
-				score = FOUR_JACKS;
-			} else {
-				score = FOUR_CARDS_SAME_RANK;
+			if(fourCardsSameRank) {
+				if(sameRanks.get(0) instanceof Jack) {
+					score = FOUR_JACKS;
+				} else {
+					score = FOUR_CARDS_SAME_RANK;
+				}
 			}
 		}
 
@@ -96,10 +96,20 @@ class SpecialScore {
 	/**
 	 * TODO Implement this method.
 	 */
-	private static Points calculateFourCardConsecutiveScore(final Trick trick) {
+	private static Points calculateFourCardConsecutiveScore(final Trick trick, final Suit trump) {
 		Points score = new Points();
 
+		List<Order> roemOrder = new ArrayList<Order>();
 		for(Card card : trick.getCards()) {
+			Suit cardSuit = card.getSuit();
+			if(cardSuit.getClass().isInstance(trump)) {
+				roemOrder.add(card.getRank().getRoemOrder());
+			}
+		}
+
+		if(roemOrder.size() >= 4) {
+			for(Order cardOrder : roemOrder) {
+			}
 		}
 
 		return score;
