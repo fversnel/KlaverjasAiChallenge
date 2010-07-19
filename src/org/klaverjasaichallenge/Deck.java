@@ -22,11 +22,11 @@ public class Deck {
 		this.cards = this.createDeck();
 		this.shuffleDeck(cards);
 		
-		System.out.println(cards);
+		System.out.println(this.cards);
 	}
 	
 	public Card drawCard() {
-		return cards.pop();
+		return this.cards.pop();
 	}
 	
 	private Stack<Card> createDeck() {

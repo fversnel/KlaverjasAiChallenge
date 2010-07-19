@@ -3,6 +3,7 @@
  */
 package org.klaverjasaichallenge.shared.card;
 
+import org.klaverjasaichallenge.shared.Points;
 import org.klaverjasaichallenge.shared.card.rank.*;
 import org.klaverjasaichallenge.shared.card.suit.*;
 
@@ -22,6 +23,14 @@ public class Card {
     	this.suit = suit;
     	this.rank = rank;
     }
+
+	public Points getPoints(Suit trump) {
+		if(this.suit == trump) {
+			return this.rank.getTrumpPoints();
+		} else {
+			return this.rank.getNormalPoints();
+		}
+	}
     
     public String toString() {
 		return this.rank + " of " + this.suit;
