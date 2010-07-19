@@ -4,15 +4,11 @@ import org.klaverjasaichallenge.shared.Order;
 import org.klaverjasaichallenge.shared.Points;
 
 public class Seven extends Rank {
+	private static final String NAME = "Seven";
 
 	public Seven() {
-		this.name = "SEVEN";
-		
-		this.normalOrder = new Order(1);
-		this.trumpOrder = new Order(1);
-		
-		this.normalPoints = new Points(0);
-		this.trumpPoints = new Points(0);
+		super(NAME, new Order(1), new Order(1), new Order(1), new Points(0),
+				new Points(0));
 	}
 
 }

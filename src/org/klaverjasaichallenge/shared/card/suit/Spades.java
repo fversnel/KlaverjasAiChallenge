@@ -1,8 +1,10 @@
 package org.klaverjasaichallenge.shared.card.suit;
 
 public class Spades extends Suit {
+	private static final String NAME = "Spades";
 
 	public Spades() {
-		this.name = "SPADES";
+		super(NAME);
 	}
+
 }

@@ -93,9 +93,16 @@ class SpecialScore {
 		return score;
 	}
 
+	/**
+	 * TODO Implement this method.
+	 */
 	private static Points calculateFourCardConsecutiveScore(final Trick trick) {
-		// TODO Implement this method.
-		return new Points();
+		Points score = new Points();
+
+		for(Card card : trick.getCards()) {
+		}
+
+		return score;
 	}
 
 	private static Points calculateThreeCardConsecutiveScore(final Trick trick) {
