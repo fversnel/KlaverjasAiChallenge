@@ -72,13 +72,12 @@ class SpecialScore {
 			}
 		}
 
-		boolean fourCardsSameRank = true;
+		boolean fourCardsSameRank = false;
 		if(sameRanks.size() == 4) {
+			fourCardsSameRank = true;
 			for(Rank compareRank : sameRanks) {
-				for(Rank otherRank : sameRanks) {
-					if(!compareRank.getClass().isInstance(otherRank)) {
-						fourCardsSameRank = false;
-					}
+				if(!compareRank.getClass().isInstance(sameRanks.get(0))) {
+					fourCardsSameRank = false;
 				}
 			}
 		}

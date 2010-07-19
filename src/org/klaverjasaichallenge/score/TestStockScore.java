@@ -31,7 +31,7 @@ public class TestStockScore {
 		Points actual = new Points(StockScore.calculateScore(testTricks, testTrump));
 		Points expected = new Points(33);
 
-		assertEquals(actual.getPoints(), expected.getPoints());
+		assertEquals(expected.getPoints(), actual.getPoints());
 	}
 
 }

@@ -15,59 +15,82 @@ import org.klaverjasaichallenge.shared.card.suit.*;
 import org.klaverjasaichallenge.shared.card.rank.*;
 
 public class TestSpecialScore {
+	private Suit testTrump;
+	private Trick testTrick;
+	private List<Trick> testTricks;
+
+	@Before
+	public void setUp() {
+		this.testTrump = new Hearts();
+		this.testTrick = new Trick();
+		this.testTricks = new LinkedList<Trick>();
+		this.testTricks.add(this.testTrick);
+	}
 	
 	@Test
 	public void testStuk() {
-		Suit testTrump = new Hearts();
-		Trick testTrick = new Trick();
-		testTrick.addCard(new Card(new Clubs(), new Jack()));
-		testTrick.addCard(new Card(testTrump, new Queen()));
-		testTrick.addCard(new Card(new Diamonds(), new Ten()));
-		testTrick.addCard(new Card(testTrump, new King()));
+		this.testTrick.addCard(new Card(new Clubs(), new Jack()));
+		this.testTrick.addCard(new Card(this.testTrump, new Queen()));
+		this.testTrick.addCard(new Card(new Diamonds(), new Ten()));
+		this.testTrick.addCard(new Card(this.testTrump, new King()));
 
-		List<Trick> testTricks = new LinkedList<Trick>();
-		testTricks.add(testTrick);
-
-		Points actual = new Points(SpecialScore.calculateScore(testTricks, testTrump));
+		Points actual = new Points(SpecialScore.calculateScore(this.testTricks, this.testTrump));
 		Points expected = new Points(20);
 
-		assertEquals(actual.getPoints(), expected.getPoints());
+		assertEquals(expected.getPoints(), actual.getPoints());
+	}
+
+	@Test
+	public void testNotStuk() {
+		this.testTrick.addCard(new Card(new Clubs(), new Queen()));
+		this.testTrick.addCard(new Card(this.testTrump, new Queen()));
+		this.testTrick.addCard(new Card(this.testTrump, new Jack()));
+		this.testTrick.addCard(new Card(new Spades(), new Eight()));
+
+		Points actual = new Points(SpecialScore.calculateScore(this.testTricks, this.testTrump));
+		Points expected = new Points(0);
+
+		assertEquals(expected.getPoints(), actual.getPoints());
 	}
 
 	@Test
 	public void testFourJacks() {
-		Suit testTrump = new Hearts();
-		Trick testTrick = new Trick();
-		testTrick.addCard(new Card(new Clubs(), new Jack()));
-		testTrick.addCard(new Card(new Hearts(), new Jack()));
-		testTrick.addCard(new Card(new Diamonds(), new Jack()));
-		testTrick.addCard(new Card(new Spades(), new Jack()));
+		this.testTrick.addCard(new Card(new Clubs(), new Jack()));
+		this.testTrick.addCard(new Card(new Hearts(), new Jack()));
+		this.testTrick.addCard(new Card(new Diamonds(), new Jack()));
+		this.testTrick.addCard(new Card(new Spades(), new Jack()));
 
-		List<Trick> testTricks = new LinkedList<Trick>();
-		testTricks.add(testTrick);
-
-		Points actual = new Points(SpecialScore.calculateScore(testTricks, testTrump));
+		Points actual = new Points(SpecialScore.calculateScore(this.testTricks, this.testTrump));
 		Points expected = new Points(200);
 
-		assertEquals(actual.getPoints(), expected.getPoints());
+		assertEquals(expected.getPoints(), actual.getPoints());
 	}
 
 	@Test
 	public void testFourCardsSameRank() {
-		Suit testTrump = new Hearts();
-		Trick testTrick = new Trick();
-		testTrick.addCard(new Card(new Clubs(), new Queen()));
-		testTrick.addCard(new Card(new Hearts(), new Queen()));
-		testTrick.addCard(new Card(new Diamonds(), new Queen()));
-		testTrick.addCard(new Card(new Spades(), new Queen()));
+		this.testTrick.addCard(new Card(new Clubs(), new Queen()));
+		this.testTrick.addCard(new Card(new Hearts(), new Queen()));
+		this.testTrick.addCard(new Card(new Diamonds(), new Queen()));
+		this.testTrick.addCard(new Card(new Spades(), new Queen()));
 
-		List<Trick> testTricks = new LinkedList<Trick>();
-		testTricks.add(testTrick);
-
-		Points actual = new Points(SpecialScore.calculateScore(testTricks, testTrump));
+		Points actual = new Points(SpecialScore.calculateScore(this.testTricks, this.testTrump));
 		Points expected = new Points(100);
 
-		assertEquals(actual.getPoints(), expected.getPoints());
+		assertEquals(expected.getPoints(), actual.getPoints());
+	}
+
+
+	@Test
+	public void testFourCardsNotSameRank() {
+		this.testTrick.addCard(new Card(new Clubs(), new Queen()));
+		this.testTrick.addCard(new Card(new Hearts(), new Queen()));
+		this.testTrick.addCard(new Card(new Diamonds(), new Queen()));
+		this.testTrick.addCard(new Card(new Spades(), new Ten()));
+
+		Points actual = new Points(SpecialScore.calculateScore(this.testTricks, this.testTrump));
+		Points expected = new Points(0);
+
+		assertEquals(expected.getPoints(), actual.getPoints());
 	}
 
 }
