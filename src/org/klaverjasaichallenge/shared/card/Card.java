@@ -19,17 +19,25 @@ public class Card {
 	private final Suit suit;
 	private final Rank rank;
     
-    public Card(Suit suit, Rank rank) {
+    public Card(final Suit suit, final Rank rank) {
     	this.suit = suit;
     	this.rank = rank;
     }
 
-	public Points getPoints(Suit trump) {
+	public Points getPoints(final Suit trump) {
 		if(this.suit == trump) {
 			return this.rank.getTrumpPoints();
 		} else {
 			return this.rank.getNormalPoints();
 		}
+	}
+
+	public Suit getSuit() {
+		return this.suit;
+	}
+
+	public Rank getRank() {
+		return this.rank;
 	}
     
     public String toString() {

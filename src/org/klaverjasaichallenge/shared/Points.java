@@ -13,6 +13,10 @@ public class Points {
 		this.points = points;
 	}
 	
+	public Points(final Points points) {
+		this.points = points.getPoints();
+	}
+
 	public int getPoints() {
 		return this.points;
 	}
