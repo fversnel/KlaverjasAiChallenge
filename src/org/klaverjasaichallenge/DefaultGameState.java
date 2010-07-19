@@ -18,6 +18,9 @@ import org.klaverjasaichallenge.shared.card.suit.Suit;
  * 
  */
 public class DefaultGameState implements GameState {
+	private static final int CARDS_IN_HAND = 8;
+	private static final int MAXIMUM_AMOUNT_TRUMPS = 3;
+	private static final int PLAYER_AMOUNT = 4;
 
 	private final List<Player> players;
 	private final Map<Player, List<Card>> hands;
@@ -51,7 +54,7 @@ public class DefaultGameState implements GameState {
 			List<Card> hand = new LinkedList<Card>();
 
 			// Draw 8 cards for the hand
-			for (int i = 1; i <= 8; i++) {
+			for (int i = 1; i <= CARDS_IN_HAND; i++) {
 				hand.add(deck.drawCard());
 			}
 
@@ -63,13 +66,14 @@ public class DefaultGameState implements GameState {
 	}
 
 	public Suit drawTrump() throws Exception {
-		if (this.drawnSuits.size() == 3)
-			throw new Exception("May only draw three trumps");
+		if (this.drawnSuits.size() == MAXIMUM_AMOUNT_TRUMPS) {
+			throw new Exception("May only draw" + MAXIMUM_AMOUNT_TRUMPS + "trumps");
+		}
 
 		// Put all suits in a list
-		Suit[] suits = Card.getSuits();
-		Random seed = new Random(System.nanoTime());
-		Suit chosenSuit = suits[seed.nextInt(suits.length)];
+		final Suit[] suits = Card.getSuits();
+		final Random seed = new Random(System.nanoTime());
+		final Suit chosenSuit = suits[seed.nextInt(suits.length)];
 
 		boolean suitAlreadyDrawn = false;
 
@@ -79,7 +83,7 @@ public class DefaultGameState implements GameState {
 				suitAlreadyDrawn = true;
 		}
 
-		if (suitAlreadyDrawn == false) {
+		if (!suitAlreadyDrawn) {
 			this.drawnSuits.add(chosenSuit);
 			this.trump = chosenSuit;
 			return chosenSuit;
@@ -119,7 +123,7 @@ public class DefaultGameState implements GameState {
 			int nextPlayerIndex = this.players.indexOf(currentPlayer) + 1;
 
 			// Start at the first player again if we had them all
-			if (nextPlayerIndex == 4)
+			if (nextPlayerIndex == PLAYER_AMOUNT)
 				nextPlayerIndex = 0;
 
 			this.currentPlayer = this.players.get(nextPlayerIndex);
