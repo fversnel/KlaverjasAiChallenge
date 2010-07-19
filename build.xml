@@ -36,11 +36,10 @@
   <property name="dependency.check.closure" value="true" />
 
   <!-- Library files -->
-  <property name="jar.junit" value="${dir.libraries}/junit-4.8.1.jar" />
+  <property name="jar.junit" value="${dir.libraries}/junit-4.8.2.jar" />
 
   <!-- Project class path -->
   <path id="project.class.path">
-    <pathelement path="${jar.antlr}" />
     <pathelement path="${jar.junit}" />
   </path>
 
