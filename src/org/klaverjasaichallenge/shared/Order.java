@@ -23,11 +23,11 @@ public class Order {
 		return this.getOrder() >= order.getOrder();
 	}
 
-	public boolean equals(Order toCompare) {
+	public boolean equals(final Order toCompare) {
 		return this.order == toCompare.getOrder();
 	}
 
-	public static Order minus(Order leftHandSide, Order rightHandSide) {
+	public static Order minus(final Order leftHandSide, final Order rightHandSide) {
 		return new Order(leftHandSide.getOrder() - rightHandSide.getOrder());
 	}
 

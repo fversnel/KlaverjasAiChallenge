@@ -14,7 +14,7 @@ import org.klaverjasaichallenge.shared.card.rank.*;
 class RoemScore {
 	private static final Points FOUR_JACKS = new Points(200);
 	private static final Points FOUR_CARDS_SAME_RANK = new Points(100);
-	private static final Points FOUR_CONSECUTIVE_CARDS = new Points(30);
+	private static final Points FOUR_CONSECUTIVE_CARDS = new Points(50);
 	private static final Points THREE_CONSECUTIVE_CARDS = new Points(20);
 	private static final Points STUK = new Points(20);
 
@@ -28,7 +28,7 @@ class RoemScore {
 		Points score = new Points();
 
 		score = Points.plus(score, calculateFourCardsSameRankScore(trick));
-		score = Points.plus(score, calculateFourConsecutiveCardsScore(trick, trump));
+		score = Points.plus(score, calculateFourConsecutiveCardsScore(trick));
 		score = Points.plus(score, calculateThreeConsecutiveCardsScore(trick));
 		score = Points.plus(score, calculateStukScore(trick, trump));
 
@@ -44,7 +44,7 @@ class RoemScore {
 		if(cardOrder.isHigherOrSameAs(FIRST_HIGH_CARD)) {
 			boolean test = true;
 			for(Card card : cards) {
-				Class currentCardRank = card.getRank().getClass();	
+				Class<? extends Rank> currentCardRank = card.getRank().getClass();	
 				if(!(currentCardRank.isInstance(cardRank))) {
 					test = false;
 				}
@@ -68,26 +68,31 @@ class RoemScore {
 	/**
 	 * TODO Implement this method.
 	 */
-	private static Points calculateFourConsecutiveCardsScore(final Trick trick, final Suit trump) {
+	private static Points calculateFourConsecutiveCardsScore(final Trick trick) {
 		Points score = new Points();
 
 		List<Order> roemOrder = new ArrayList<Order>();
-		for(Card card : trick.getCards()) {
-			Suit cardSuit = card.getSuit();
-			if(cardSuit.getClass().isInstance(trump)) {
+		List<Card> cards = trick.getCards();
+		Class cardSuit = cards.get(0).getSuit().getClass();
+		for(Card card : cards) {
+			if(cardSuit.isInstance(card.getSuit())) {
 				roemOrder.add(card.getRank().getRoemOrder());
 			}
 		}
-
-		if(roemOrder.size() >= FOUR_CARDS) {
+		
+		if(roemOrder.size() == FOUR_CARDS) {
 			boolean cardConsecutive = true;
 
 			roemOrder = Order.sort(roemOrder);
-			for(int i = 0; i < 3; i++) {
+			// TODO Perhaps use iterators:
+			for(int i = 0; i < FOUR_CARDS - 1; i++) {
 				Order currentOrder = roemOrder.get(i);
 				Order nextOrder = roemOrder.get(i + 1);
 				Order toCompare = Order.minus(nextOrder, new Order(1));
 
+				// DEBUG OUTPUT:
+				System.out.println(currentOrder.getOrder() + "-" + nextOrder.getOrder());
+				
 				if(!currentOrder.equals(toCompare)) {
 					cardConsecutive = false;
 				}
@@ -116,7 +121,7 @@ class RoemScore {
 		boolean queen = false;
 		boolean king = false;
 		for(Card trickCard : trick.getCards()) {
-			Class cardSuit = trickCard.getSuit().getClass();
+			Class<? extends Suit> cardSuit = trickCard.getSuit().getClass();
 			Rank cardRank = trickCard.getRank();
 			if(cardSuit.isInstance(trump)) {
 				if(cardRank instanceof Queen) {

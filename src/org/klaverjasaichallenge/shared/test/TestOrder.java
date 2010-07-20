@@ -37,4 +37,26 @@ public class TestOrder {
 		expected = 8;
 		assertEquals(expected, actual);
 	}
+
+	@Test
+	public void testEquals() {
+		Order testOrder1 = new Order(2);
+		Order testOrder2 = new Order(2);
+
+		boolean expected = true;
+		boolean actual = testOrder1.equals(testOrder2);
+
+		assertEquals(expected, actual);
+	}
+
+	@Test
+	public void testMinus() {
+		Order testOrder1 = new Order(5);
+		Order testOrder2 = new Order(3);
+
+		int expected = 2;
+		int actual = Order.minus(testOrder1, testOrder2).getOrder();
+
+		assertEquals(expected, actual);
+	}
 }
