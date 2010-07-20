@@ -24,4 +24,5 @@ public class Points {
 	public static Points plus(final Points leftHandSide, final Points rightHandSide) {
 		return new Points(leftHandSide.getPoints() + rightHandSide.getPoints());
 	}
+
 }
