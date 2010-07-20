@@ -10,14 +10,12 @@ import org.klaverjasaichallenge.shared.card.Card;
 
 class StockScore {
 
-	public static Points calculateScore(List<Trick> tricks, Suit trump) {
+	public static Points calculateScore(final Trick trick, final Suit trump) {
 		Points totalPoints = new Points();
 
-		for(Trick trick : tricks) {
-			for(Card card : trick.getCards()) {
-				Points cardPoints = card.getPoints(trump);
-				totalPoints = Points.plus(totalPoints, cardPoints);
-			}
+		for(Card card : trick.getCards()) {
+			Points cardPoints = card.getPoints(trump);
+			totalPoints = Points.plus(totalPoints, cardPoints);
 		}
 
 		return totalPoints;

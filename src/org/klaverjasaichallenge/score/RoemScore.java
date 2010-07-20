@@ -21,19 +21,13 @@ class RoemScore {
 	private static final int FOUR_CARDS = 4;
 	private static final int THREE_CARDS = 3;
 
-	public static Points calculateScore(final List<Trick> tricks, final Suit trump) {
+	public static Points calculateScore(final Trick trick, final Suit trump) {
 		Points score = new Points();
 
-		for(Trick trick : tricks) {
-			Points roem = new Points();
-			
-			roem = calculateFourCardsSameRankScore(trick);
-			roem = Points.plus(roem, calculateFourCardConsecutiveScore(trick, trump));
-			roem = Points.plus(roem, calculateThreeCardConsecutiveScore(trick));
-			roem = Points.plus(roem, calculateStukScore(trick, trump));
-
-			score = Points.plus(score, roem);
-		}
+		score = Points.plus(score, calculateFourCardsSameRankScore(trick));
+		score = Points.plus(score, calculateFourConsecutiveCardsScore(trick, trump));
+		score = Points.plus(score, calculateThreeConsecutiveCardsScore(trick));
+		score = Points.plus(score, calculateStukScore(trick, trump));
 
 		return score;
 	}
@@ -41,28 +35,26 @@ class RoemScore {
 	private static Points calculateFourCardsSameRankScore(final Trick trick) {
 		Points score = new Points();
 
-		List<Rank> sameRanks = new ArrayList<Rank>();
-		for(Card card : trick.getCards()) {
-			Rank cardRank = card.getRank();
-			if(cardRank instanceof Ace
-					|| cardRank instanceof King
-					|| cardRank instanceof Queen
-					|| cardRank instanceof Jack
-					|| cardRank instanceof Ten) {
-				sameRanks.add(cardRank);
-			}
-		}
-
-		if(sameRanks.size() == FOUR_CARDS) {
-			boolean fourCardsSameRank = true;
-			for(Rank compareRank : sameRanks) {
-				if(!compareRank.getClass().isInstance(sameRanks.get(0))) {
-					fourCardsSameRank = false;
+		List<Card> cards = trick.getCards();
+		Rank firstRank = cards.get(0).getRank();
+		if(firstRank instanceof Ace
+				|| firstRank instanceof King
+				|| firstRank instanceof Queen
+				|| firstRank instanceof Jack
+				|| firstRank instanceof Ten) {
+			boolean test = true;
+			for(Card card : cards) {
+				Class cardRank = card.getRank().getClass();	
+				if(!(cardRank.isInstance(firstRank))) {
+					test = false;
 				}
 			}
 
-			if(fourCardsSameRank) {
-				if(sameRanks.get(0) instanceof Jack) {
+			if(test) {
+				// TODO This can be refactored by using polymorphism.
+				// Perhaps some points can be assigned to a specific rank or
+				// card.
+				if(firstRank instanceof Jack) {
 					score = FOUR_JACKS;
 				} else {
 					score = FOUR_CARDS_SAME_RANK;
@@ -76,7 +68,7 @@ class RoemScore {
 	/**
 	 * TODO Implement this method.
 	 */
-	private static Points calculateFourCardConsecutiveScore(final Trick trick, final Suit trump) {
+	private static Points calculateFourConsecutiveCardsScore(final Trick trick, final Suit trump) {
 		Points score = new Points();
 
 		List<Order> roemOrder = new ArrayList<Order>();
@@ -88,10 +80,21 @@ class RoemScore {
 		}
 
 		if(roemOrder.size() >= FOUR_CARDS) {
-			for(Order cardOrder : roemOrder) {
-				// TODO Sort the list by numbers.  This might be a method that
-				// can be implemented in the Order class. Then find out if the
-				// numbers are consecutive.
+			boolean cardConsecutive = true;
+
+			roemOrder = Order.sort(roemOrder);
+			for(int i = 0; i < 3; i++) {
+				Order currentOrder = roemOrder.get(i);
+				Order nextOrder = roemOrder.get(i + 1);
+				Order toCompare = Order.minus(nextOrder, new Order(1));
+
+				if(!currentOrder.equals(toCompare)) {
+					cardConsecutive = false;
+				}
+			}
+
+			if(cardConsecutive) {
+				score = FOUR_CONSECUTIVE_CARDS;
 			}
 		}
 
@@ -101,7 +104,7 @@ class RoemScore {
 	/**
 	 * TODO Implement this method.
 	 */
-	private static Points calculateThreeCardConsecutiveScore(final Trick trick) {
+	private static Points calculateThreeConsecutiveCardsScore(final Trick trick) {
 		Points score = new Points();
 
 		return score;
