@@ -21,6 +21,9 @@ class RoemScore {
 	private static final int FOUR_CARDS = 4;
 	private static final int THREE_CARDS = 3;
 
+	private static final Order FIRST_HIGH_CARD = new Order(4);
+	private static final Order JACK = new Jack().getRoemOrder();
+
 	public static Points calculateScore(final Trick trick, final Suit trump) {
 		Points score = new Points();
 
@@ -36,16 +39,13 @@ class RoemScore {
 		Points score = new Points();
 
 		List<Card> cards = trick.getCards();
-		Rank firstRank = cards.get(0).getRank();
-		if(firstRank instanceof Ace
-				|| firstRank instanceof King
-				|| firstRank instanceof Queen
-				|| firstRank instanceof Jack
-				|| firstRank instanceof Ten) {
+		Rank cardRank = cards.get(0).getRank();
+		Order cardOrder = cardRank.getRoemOrder();
+		if(cardOrder.isHigherOrSameAs(FIRST_HIGH_CARD)) {
 			boolean test = true;
 			for(Card card : cards) {
-				Class cardRank = card.getRank().getClass();	
-				if(!(cardRank.isInstance(firstRank))) {
+				Class currentCardRank = card.getRank().getClass();	
+				if(!(currentCardRank.isInstance(cardRank))) {
 					test = false;
 				}
 			}
@@ -54,7 +54,7 @@ class RoemScore {
 				// TODO This can be refactored by using polymorphism.
 				// Perhaps some points can be assigned to a specific rank or
 				// card.
-				if(firstRank instanceof Jack) {
+				if(cardOrder.equals(JACK)) {
 					score = FOUR_JACKS;
 				} else {
 					score = FOUR_CARDS_SAME_RANK;

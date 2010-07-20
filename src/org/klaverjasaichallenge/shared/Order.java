@@ -15,8 +15,12 @@ public class Order {
 		return this.order;
 	}
 	
-	public boolean isHigher(final Order order) {
-		return this.getOrder() < order.getOrder();
+	public boolean isHigherThan(final Order order) {
+		return this.getOrder() > order.getOrder();
+	}
+
+	public boolean isHigherOrSameAs(final Order order) {
+		return this.getOrder() >= order.getOrder();
 	}
 
 	public boolean equals(Order toCompare) {
