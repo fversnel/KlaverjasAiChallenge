@@ -29,12 +29,16 @@ public class DefaultGameState implements GameState {
 
 	private Suit trump;
 	private Player overrideCurrentPlayer;
+	private Player leadingPlayer;
 	private Player currentPlayer;
+	
+	private Map<Player, Card> cardsOnTable;
 
 	public DefaultGameState(List<Player> players) {
 		this.players = players;
 		this.setPhase(GameStatePhases.CHOOSING_TRUMP);
 		this.drawnSuits = new LinkedList<Suit>();
+		this.leadingPlayer = null;
 
 		/**
 		 * Give players their cards
@@ -93,6 +97,7 @@ public class DefaultGameState implements GameState {
 
 	public void playerAcceptedTrump(Player player) {
 		this.overrideCurrentPlayer = player;
+		this.leadingPlayer = player;
 		this.phase = GameStatePhases.PLAYING;
 	}
 
@@ -119,6 +124,8 @@ public class DefaultGameState implements GameState {
 		if (this.overrideCurrentPlayer != null) {
 			this.currentPlayer = this.overrideCurrentPlayer;
 			this.overrideCurrentPlayer = null;
+			// Clear the cards currently on the table
+			this.cardsOnTable = new HashMap<Player, Card>();
 		} else if (this.currentPlayer != null) {
 			int nextPlayerIndex = this.players.indexOf(currentPlayer) + 1;
 
@@ -146,5 +153,7 @@ public class DefaultGameState implements GameState {
 	public void playCard(Card card) throws Exception {
 		if(!this.hands.get(this.currentPlayer).remove(card))
 			throw new Exception("The player played an invalid card! This card is not in his hand");
+		
+		
 	}
 }

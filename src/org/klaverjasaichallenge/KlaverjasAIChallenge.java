@@ -6,8 +6,9 @@ package org.klaverjasaichallenge;
 import java.util.List;
 import java.util.LinkedList;
 
+import nl.joostpastoor.joostklaverjasai.JoostAI;
+
 import org.klaverjasaichallenge.GameState.GameStatePhases;
-import org.klaverjasaichallenge.ai.JoostAI;
 import org.klaverjasaichallenge.shared.AcceptTrumpAction;
 import org.klaverjasaichallenge.shared.Action;
 import org.klaverjasaichallenge.shared.PlayCardAction;
