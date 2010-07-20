@@ -11,12 +11,15 @@ import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
 import org.klaverjasaichallenge.shared.card.rank.*;
 
-class SpecialScore {
+class RoemScore {
 	private static final Points FOUR_JACKS = new Points(200);
 	private static final Points FOUR_CARDS_SAME_RANK = new Points(100);
 	private static final Points FOUR_CONSECUTIVE_CARDS = new Points(30);
 	private static final Points THREE_CONSECUTIVE_CARDS = new Points(20);
 	private static final Points STUK = new Points(20);
+
+	private static final int FOUR_CARDS = 4;
+	private static final int THREE_CARDS = 3;
 
 	public static Points calculateScore(final List<Trick> tricks, final Suit trump) {
 		Points score = new Points();
@@ -50,7 +53,7 @@ class SpecialScore {
 			}
 		}
 
-		if(sameRanks.size() == 4) {
+		if(sameRanks.size() == FOUR_CARDS) {
 			boolean fourCardsSameRank = true;
 			for(Rank compareRank : sameRanks) {
 				if(!compareRank.getClass().isInstance(sameRanks.get(0))) {
@@ -84,8 +87,11 @@ class SpecialScore {
 			}
 		}
 
-		if(roemOrder.size() >= 4) {
+		if(roemOrder.size() >= FOUR_CARDS) {
 			for(Order cardOrder : roemOrder) {
+				// TODO Sort the list by numbers.  This might be a method that
+				// can be implemented in the Order class. Then find out if the
+				// numbers are consecutive.
 			}
 		}
 

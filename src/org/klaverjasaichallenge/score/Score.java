@@ -15,7 +15,7 @@ public class Score {
 	}
 
 	public static Points calculateRoemScore(final List<Trick> tricks, final Suit trump) {
-		return SpecialScore.calculateScore(tricks, trump);
+		return RoemScore.calculateScore(tricks, trump);
 	}
 
 	public static Points calculateMarchScore(final List<Trick> tricks) {
