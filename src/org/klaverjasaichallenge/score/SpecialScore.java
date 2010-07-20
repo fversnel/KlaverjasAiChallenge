@@ -12,36 +12,13 @@ import org.klaverjasaichallenge.shared.card.suit.Suit;
 import org.klaverjasaichallenge.shared.card.rank.*;
 
 class SpecialScore {
-	private static final Points MARCH = new Points(100);
 	private static final Points FOUR_JACKS = new Points(200);
 	private static final Points FOUR_CARDS_SAME_RANK = new Points(100);
 	private static final Points FOUR_CONSECUTIVE_CARDS = new Points(30);
 	private static final Points THREE_CONSECUTIVE_CARDS = new Points(20);
 	private static final Points STUK = new Points(20);
 
-	private static final int ALL_TRICKS = 8;
-
 	public static Points calculateScore(final List<Trick> tricks, final Suit trump) {
-		Points score = new Points();
-
-		score = calculateMarchScore(tricks);
-		score = Points.plus(score, calculateRoemScore(tricks, trump));
-
-		return score;
-	}
-
-	private static Points calculateMarchScore(final List<Trick> tricks) {
-		Points score = new Points();
-
-		final int amountTricks = tricks.size();
-		if(amountTricks == ALL_TRICKS) {
-			score = MARCH;
-		}
-
-		return score;
-	}
-
-	private static Points calculateRoemScore(final List<Trick> tricks, final Suit trump) {
 		Points score = new Points();
 
 		for(Trick trick : tricks) {
@@ -115,9 +92,13 @@ class SpecialScore {
 		return score;
 	}
 
+	/**
+	 * TODO Implement this method.
+	 */
 	private static Points calculateThreeCardConsecutiveScore(final Trick trick) {
-		// TODO Implement this method.
-		return new Points();
+		Points score = new Points();
+
+		return score;
 	}
 
 	private static Points calculateStukScore(final Trick trick, final Suit trump) {

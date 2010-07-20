@@ -10,13 +10,16 @@ import org.klaverjasaichallenge.shared.card.suit.Suit;
 
 public class Score {
 
-	public static Points getScore(List<Trick> tricks, Suit trump) {
-		Points totalPoints = new Points();
+	public static Points calculateStockScore(List<Trick> tricks, Suit trump) {
+		return StockScore.calculateScore(tricks, trump);
+	}
 
-		totalPoints = Points.plus(totalPoints, StockScore.calculateScore(tricks, trump));
-		totalPoints = Points.plus(totalPoints, SpecialScore.calculateScore(tricks, trump));
+	public static Points calculateRoemScore(final List<Trick> tricks, final Suit trump) {
+		return SpecialScore.calculateScore(tricks, trump);
+	}
 
-		return totalPoints;
+	public static Points calculateMarchScore(final List<Trick> tricks) {
+		return MarchScore.calculateScore(tricks);
 	}
 
 }
