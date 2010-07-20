@@ -89,9 +89,6 @@ class RoemScore {
 				Order currentOrder = roemOrder.get(i);
 				Order nextOrder = roemOrder.get(i + 1);
 				Order toCompare = Order.minus(nextOrder, new Order(1));
-
-				// DEBUG OUTPUT:
-				System.out.println(currentOrder.getOrder() + "-" + nextOrder.getOrder());
 				
 				if(!currentOrder.equals(toCompare)) {
 					cardConsecutive = false;

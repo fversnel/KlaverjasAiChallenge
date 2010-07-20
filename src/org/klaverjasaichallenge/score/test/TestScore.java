@@ -127,11 +127,5 @@ public class TestScore {
 
 		assertEquals(expected.getPoints(), actual.getPoints());
 	}
-	
-	public static void main(String args[]) {
-		TestScore testScore = new TestScore();
-		testScore.setUp();
-		testScore.testFourConsecutiveCardsScore();	
-	}
 
 }
