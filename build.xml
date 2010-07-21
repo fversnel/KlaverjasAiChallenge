@@ -37,10 +37,12 @@
 
   <!-- Library files -->
   <property name="jar.junit" value="${dir.libraries}/junit-4.8.2.jar" />
+  <property name="jar.ai" value="${dir.libraries}/KlaverjasJoostAI.jar" />
 
   <!-- Project class path -->
   <path id="project.class.path">
     <pathelement path="${jar.junit}" />
+    <pathelement path="${jar.ai}" />
   </path>
 
   <!-- Performs tasks useful to all other targets in the ant file, outputs
@@ -115,6 +117,7 @@
     <java classname="${main.class}" fork="true" >
       <classpath>
         <pathelement path="${distribution.file}"/>
+        <pathelement path="${jar.ai}"/>
       </classpath>
     </java>
   </target>
