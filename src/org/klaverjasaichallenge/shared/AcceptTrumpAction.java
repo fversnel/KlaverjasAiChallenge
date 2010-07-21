@@ -3,6 +3,8 @@
  */
 package org.klaverjasaichallenge.shared;
 
+import org.klaverjasaichallenge.Player;
+import org.klaverjasaichallenge.DefaultGameState;
 
 /**
  * Use this action tell whether you accept or dont accept a certain trump
@@ -18,4 +20,9 @@ public class AcceptTrumpAction implements Action {
 		return this.trumpAccepted;
 	}
 
+	public void perform(DefaultGameState gameState, Player currentPlayer) {
+		if (this.isTrumpAccepted()) {
+			gameState.playerAcceptedTrump(currentPlayer);
+		}
+	}
 }

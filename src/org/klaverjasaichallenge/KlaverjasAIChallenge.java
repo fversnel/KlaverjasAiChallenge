@@ -34,6 +34,9 @@ public class KlaverjasAIChallenge {
 
 			/**
 			 * Phase: Choosing Trumps
+			 * TODO Seems like this can be abstracted away from this
+			 * high-level game loop. Perhaps use polymorphism to handle
+			 * different game states.
 			 */
 			if (state.getPhase() == GameStatePhases.CHOOSING_TRUMP) {
 				try {
@@ -46,29 +49,12 @@ public class KlaverjasAIChallenge {
 
 			Player currentPlayer = state.calculateCurrentPlayer();
 			System.out.println("Current player: " + currentPlayer);
-			/**
-			 * Request Action from player
-			 */
-			Action action = currentPlayer.respond(state, null);
 
-			/**
-			 * Alter gamestate with action
-			 */
-			if (action instanceof AcceptTrumpAction) {
-				AcceptTrumpAction acceptTrumpAction = (AcceptTrumpAction) action;
-
-				if (acceptTrumpAction.isTrumpAccepted())
-					state.playerAcceptedTrump(currentPlayer);
-			}
-
-			if (action instanceof PlayCardAction) {
-				PlayCardAction playCardAction = (PlayCardAction) action;
-				try {
-					state.playCard(playCardAction.getCard());
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			Action requestedAction = currentPlayer.respond(state, null);
+			// TODO Apparently the last action is null, why is that? Possibly
+			// a bug I guess.
+			if(requestedAction != null) {
+				requestedAction.perform(state, currentPlayer);
 			}
 		}
 	}
