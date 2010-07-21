@@ -9,6 +9,7 @@ import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
 
 public class Score {
+	private static final Points LAST_TRICK = new Points(10);
 
 	public static Points calculateStockScore(final Trick trick, final Suit trump) {
 		return StockScore.calculateScore(trick, trump);
@@ -20,6 +21,10 @@ public class Score {
 
 	public static Points calculateMarchScore(final List<Trick> tricks) {
 		return MarchScore.calculateScore(tricks);
+	}
+
+	public static Points getLastTrickScore() {
+		return LAST_TRICK;
 	}
 
 }
