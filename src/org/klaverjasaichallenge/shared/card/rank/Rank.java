@@ -5,11 +5,11 @@ import org.klaverjasaichallenge.shared.Points;
 
 public abstract class Rank {
 	protected final String name;
-	
+
 	protected final Order normalOrder;
 	protected final Order trumpOrder;
 	protected final Order roemOrder;
-	
+
 	protected final Points normalPoints;
 	protected final Points trumpPoints;
 
@@ -39,15 +39,15 @@ public abstract class Rank {
 	public Order getRoemOrder() {
 		return this.roemOrder;
 	}
-	
+
 	public Points getNormalPoints() {
 		return this.normalPoints;
 	}
-	
+
 	public Points getTrumpPoints() {
 		return this.trumpPoints;
 	}
-	
+
 	public String toString() {
 		return this.name;
 	}
