@@ -14,7 +14,7 @@ import org.klaverjasaichallenge.shared.card.rank.*;
 class RoemScore {
 	private static final Points FOUR_JACKS = new Points(200);
 	private static final Points FOUR_CARDS_SAME_RANK = new Points(100);
-	private static final Points FOUR_CONSECUTIVE_CARDS = new Points(50);
+	private static final Points FOUR_CONSECUTIVE_CARDS = new Points(30);
 	private static final Points THREE_CONSECUTIVE_CARDS = new Points(20);
 	private static final Points STUK = new Points(20);
 
@@ -65,10 +65,9 @@ class RoemScore {
 		return score;
 	}
 
-	/**
-	 * TODO Implement this method.
-	 */
-	private static Points calculateFourConsecutiveCardsScore(final Trick trick) {
+	private static Points calculateConsecutiveCardsScore(
+			final Trick trick, final int amountConsecutiveCards,
+			final Points consecutiveScore) {
 		Points score = new Points();
 
 		List<Order> roemOrder = new ArrayList<Order>();
@@ -80,36 +79,36 @@ class RoemScore {
 			}
 		}
 		
-		if(roemOrder.size() == FOUR_CARDS) {
-			boolean cardConsecutive = true;
+		if(roemOrder.size() >= amountConsecutiveCards) {
+			int consecutiveCards = 1;
 
 			roemOrder = Order.sort(roemOrder);
+
 			// TODO Perhaps use iterators:
-			for(int i = 0; i < FOUR_CARDS - 1; i++) {
+			for(int i = 0; i < roemOrder.size() - 1; i++) {
 				Order currentOrder = roemOrder.get(i);
 				Order nextOrder = roemOrder.get(i + 1);
 				Order toCompare = Order.minus(nextOrder, new Order(1));
 				
-				if(!currentOrder.equals(toCompare)) {
-					cardConsecutive = false;
+				if(currentOrder.equals(toCompare)) {
+					consecutiveCards++;
 				}
 			}
 
-			if(cardConsecutive) {
-				score = FOUR_CONSECUTIVE_CARDS;
+			if(consecutiveCards >= amountConsecutiveCards) {
+				score = consecutiveScore;
 			}
 		}
 
 		return score;
 	}
 
-	/**
-	 * TODO Implement this method.
-	 */
 	private static Points calculateThreeConsecutiveCardsScore(final Trick trick) {
-		Points score = new Points();
+		return calculateConsecutiveCardsScore(trick, THREE_CARDS, THREE_CONSECUTIVE_CARDS);
+	}
 
-		return score;
+	private static Points calculateFourConsecutiveCardsScore(final Trick trick) {
+		return calculateConsecutiveCardsScore(trick, FOUR_CARDS, FOUR_CONSECUTIVE_CARDS);
 	}
 
 	private static Points calculateStukScore(final Trick trick, final Suit trump) {

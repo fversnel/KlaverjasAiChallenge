@@ -128,4 +128,17 @@ public class TestScore {
 		assertEquals(expected.getPoints(), actual.getPoints());
 	}
 
+	@Test
+	public void testThreeConsecutiveCardsScore() {
+		this.testTrick.addCard(new Card(new Hearts(), new Seven()));
+		this.testTrick.addCard(new Card(new Hearts(), new Ten()));
+		this.testTrick.addCard(new Card(new Hearts(), new Jack()));
+		this.testTrick.addCard(new Card(new Hearts(), new Nine()));
+
+		Points actual = new Points(Score.calculateRoemScore(this.testTrick, this.testTrump));
+		Points expected = new Points(20);
+
+		assertEquals(expected.getPoints(), actual.getPoints());
+	}
+
 }
