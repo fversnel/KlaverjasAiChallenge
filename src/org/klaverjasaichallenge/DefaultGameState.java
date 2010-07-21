@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Random;
 
@@ -19,12 +20,12 @@ import org.klaverjasaichallenge.shared.card.suit.Suit;
  */
 public class DefaultGameState implements GameState {
 	private static final int CARDS_IN_HAND = 8;
-	private static final int MAXIMUM_AMOUNT_TRUMPS = 3;
+	private static final int MINIMUM_AMOUNT_TRUMPS_LEFT = 1;
 	private static final int PLAYER_AMOUNT = 4;
 
 	private final List<Player> players;
 	private final Map<Player, List<Card>> hands;
-	private List<Suit> drawnSuits;
+	private List<Suit> availableTrumps;
 	private GameStatePhases phase;
 
 	private Suit trump;
@@ -37,7 +38,7 @@ public class DefaultGameState implements GameState {
 	public DefaultGameState(List<Player> players) {
 		this.players = players;
 		this.setPhase(GameStatePhases.CHOOSING_TRUMP);
-		this.drawnSuits = new LinkedList<Suit>();
+		this.availableTrumps = this.createAvailableTrumps();
 		this.leadingPlayer = null;
 
 		/**
@@ -70,29 +71,15 @@ public class DefaultGameState implements GameState {
 	}
 
 	public Suit drawTrump() throws Exception {
-		if (this.drawnSuits.size() == MAXIMUM_AMOUNT_TRUMPS) {
-			throw new Exception("May only draw" + MAXIMUM_AMOUNT_TRUMPS + "trumps");
+		if (this.availableTrumps.size() == MINIMUM_AMOUNT_TRUMPS_LEFT) {
+			throw new Exception("Maximum amount of trumps drawn.");
 		}
 
-		// Put all suits in a list
-		final Suit[] suits = Card.getSuits();
-		final Random seed = new Random(System.nanoTime());
-		final Suit chosenSuit = suits[seed.nextInt(suits.length)];
+		final Random random = new Random(System.nanoTime());
+		final int trumpIndex = random.nextInt(availableTrumps.size());
+		final Suit chosenTrump = availableTrumps.remove(trumpIndex);
 
-		boolean suitAlreadyDrawn = false;
-
-		// If this trump has not been chosen yet
-		for (Suit drawnSuit : this.drawnSuits) {
-			if (drawnSuit == chosenSuit)
-				suitAlreadyDrawn = true;
-		}
-
-		if (!suitAlreadyDrawn) {
-			this.drawnSuits.add(chosenSuit);
-			this.trump = chosenSuit;
-			return chosenSuit;
-		} else
-			return drawTrump();
+		return chosenTrump;
 	}
 
 	public void playerAcceptedTrump(Player player) {
@@ -156,4 +143,9 @@ public class DefaultGameState implements GameState {
 		
 		
 	}
+
+	private List<Suit> createAvailableTrumps() {
+		return Card.getSuits();
+	}
+
 }

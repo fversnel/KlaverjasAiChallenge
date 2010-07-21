@@ -30,7 +30,7 @@ public class KlaverjasAIChallenge {
 
 		DefaultGameState state = new DefaultGameState(players);
 
-		while (state.getPhase() != GameState.GameStatePhases.FINISHED) {
+		while (state.getPhase() != GameStatePhases.FINISHED) {
 
 			/**
 			 * Phase: Choosing Trumps
@@ -50,11 +50,11 @@ public class KlaverjasAIChallenge {
 			Player currentPlayer = state.calculateCurrentPlayer();
 			System.out.println("Current player: " + currentPlayer);
 
-			Action requestedAction = currentPlayer.respond(state, null);
-			// TODO Apparently the last action is null, why is that? Possibly
-			// a bug I guess.
-			if(requestedAction != null) {
-				requestedAction.perform(state, currentPlayer);
+			Action playerAction = currentPlayer.respond(state, null);
+			// TODO Apparently the last action is null, why is that? 
+			// A bug I guess.
+			if(playerAction != null) {
+				playerAction.perform(state, currentPlayer);
 			}
 		}
 	}

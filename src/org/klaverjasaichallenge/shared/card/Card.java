@@ -3,6 +3,9 @@
  */
 package org.klaverjasaichallenge.shared.card;
 
+import java.util.List;
+import java.util.ArrayList;
+
 import org.klaverjasaichallenge.shared.Points;
 import org.klaverjasaichallenge.shared.Order;
 import org.klaverjasaichallenge.shared.card.rank.*;
@@ -13,10 +16,6 @@ import org.klaverjasaichallenge.shared.card.suit.*;
  *
  */
 public class Card {
-	private static final Suit[] SUITS = {new Clubs(), new Diamonds(), new Hearts(), new Spades()};
-	private static final Rank[] RANKS = {new Seven(), new Eight(), new Nine(), new Ten(), new Jack(), 
-		new Queen(), new King(), new Ace()};
-
 	private final Suit suit;
 	private final Rank rank;
 
@@ -57,11 +56,28 @@ public class Card {
 		return this.rank + " of " + this.suit;
 	}
 
-	public static Suit[] getSuits() {
-		return SUITS;
+	public static List<Suit> getSuits() {
+		List<Suit> suits = new ArrayList<Suit>();
+		suits.add(new Clubs());
+		suits.add(new Diamonds());
+		suits.add(new Hearts());
+		suits.add(new Spades());
+
+		return suits;
 	}
 
-	public static Rank[] getRanks() {
-		return RANKS;
+	public static List<Rank> getRanks() {
+		List<Rank> ranks = new ArrayList<Rank>();
+		ranks.add(new Seven());
+		ranks.add(new Eight());
+		ranks.add(new Nine());
+		ranks.add(new Ten());
+		ranks.add(new Jack());
+		ranks.add(new Queen());
+		ranks.add(new King());
+		ranks.add(new Ace());
+
+		return ranks;
 	}
+
 }
