@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.Random;
 
@@ -37,9 +36,11 @@ public class DefaultGameState implements GameState {
 
 	public DefaultGameState(List<Player> players) {
 		this.players = players;
-		this.setPhase(GameStatePhases.CHOOSING_TRUMP);
-		this.availableTrumps = this.createAvailableTrumps();
 		this.leadingPlayer = null;
+
+		this.setPhase(GameStatePhases.CHOOSING_TRUMP);
+
+		this.availableTrumps = this.createAvailableTrumps();
 
 		/**
 		 * Give players their cards
@@ -56,15 +57,7 @@ public class DefaultGameState implements GameState {
 		Map<Player, List<Card>> hands = new HashMap<Player, List<Card>>();
 
 		for (Player player : players) {
-			List<Card> hand = new LinkedList<Card>();
-
-			// Draw 8 cards for the hand
-			for (int i = 1; i <= CARDS_IN_HAND; i++) {
-				hand.add(deck.drawCard());
-			}
-
-			// Add this players hand to the hands variable
-			hands.put(player, hand);
+			hands.put(player, this.drawHand(deck));
 		}
 
 		return hands;
@@ -105,9 +98,9 @@ public class DefaultGameState implements GameState {
 
 	/**
 	 * Watch out: This method changes the current player!
+	 * TODO This method is really complex and not readable.
 	 */
 	public Player calculateCurrentPlayer() {
-
 		if (this.overrideCurrentPlayer != null) {
 			this.currentPlayer = this.overrideCurrentPlayer;
 			this.overrideCurrentPlayer = null;
@@ -146,6 +139,15 @@ public class DefaultGameState implements GameState {
 
 	private List<Suit> createAvailableTrumps() {
 		return Card.getSuits();
+	}
+
+	private List<Card> drawHand(final Deck deck) {
+		List<Card> hand = new LinkedList<Card>();
+		for (int i = 1; i <= CARDS_IN_HAND; i++) {
+			hand.add(deck.drawCard());
+		}
+
+		return hand;
 	}
 
 }
