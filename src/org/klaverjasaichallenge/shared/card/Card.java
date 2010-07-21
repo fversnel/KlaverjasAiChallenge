@@ -4,6 +4,7 @@
 package org.klaverjasaichallenge.shared.card;
 
 import org.klaverjasaichallenge.shared.Points;
+import org.klaverjasaichallenge.shared.Order;
 import org.klaverjasaichallenge.shared.card.rank.*;
 import org.klaverjasaichallenge.shared.card.suit.*;
 
@@ -38,6 +39,18 @@ public class Card {
 
 	public Rank getRank() {
 		return this.rank;
+	}
+
+	public Order getNormalOrder() {
+		return this.rank.getNormalOrder();
+	}
+
+	public Order getTrumpOrder() {
+		return this.rank.getTrumpOrder();
+	}
+
+	public Order getRoemOrder() {
+		return this.rank.getRoemOrder();
 	}
     
     public String toString() {

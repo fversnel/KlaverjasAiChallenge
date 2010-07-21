@@ -3,6 +3,7 @@ package org.klaverjasaichallenge.score;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import org.klaverjasaichallenge.shared.Points;
 import org.klaverjasaichallenge.shared.Trick;
@@ -21,6 +22,7 @@ class RoemScore {
 	private static final int FOUR_CARDS = 4;
 	private static final int THREE_CARDS = 3;
 
+	private static final Order CONSECUTIVE_DIFFERENCE = new Order(1);
 	private static final Order FIRST_HIGH_CARD = new Order(4);
 	private static final Order JACK = new Jack().getRoemOrder();
 
@@ -39,8 +41,9 @@ class RoemScore {
 		Points score = new Points();
 
 		List<Card> cards = trick.getCards();
-		Rank cardRank = cards.get(0).getRank();
-		Order cardOrder = cardRank.getRoemOrder();
+		Card firstCard = cards.get(0);
+		Rank cardRank = firstCard.getRank();
+		Order cardOrder = firstCard.getRoemOrder();
 		if(cardOrder.isHigherOrSameAs(FIRST_HIGH_CARD)) {
 			boolean test = true;
 			for(Card card : cards) {
@@ -72,10 +75,10 @@ class RoemScore {
 
 		List<Order> roemOrder = new ArrayList<Order>();
 		List<Card> cards = trick.getCards();
-		Class cardSuit = cards.get(0).getSuit().getClass();
+		Class<? extends Suit> cardSuit = cards.get(0).getSuit().getClass();
 		for(Card card : cards) {
 			if(cardSuit.isInstance(card.getSuit())) {
-				roemOrder.add(card.getRank().getRoemOrder());
+				roemOrder.add(card.getRoemOrder());
 			}
 		}
 		
@@ -84,13 +87,15 @@ class RoemScore {
 
 			roemOrder = Order.sort(roemOrder);
 
-			// TODO Perhaps use iterators:
-			for(int i = 0; i < roemOrder.size() - 1; i++) {
-				Order currentOrder = roemOrder.get(i);
-				Order nextOrder = roemOrder.get(i + 1);
-				Order toCompare = Order.minus(nextOrder, new Order(1));
+			for(int currentIndex = 0; currentIndex < roemOrder.size() - 1;
+					currentIndex++) {
+				int nextIndex = currentIndex + 1;
+
+				Order currentOrder = roemOrder.get(currentIndex);
+				Order nextOrder = roemOrder.get(nextIndex);
+				Order toCompare = Order.minus(nextOrder, currentOrder);
 				
-				if(currentOrder.equals(toCompare)) {
+				if(toCompare.equals(CONSECUTIVE_DIFFERENCE)) {
 					consecutiveCards++;
 				}
 			}
