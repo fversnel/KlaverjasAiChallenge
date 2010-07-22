@@ -174,9 +174,11 @@ public class DefaultGameState {
 	/**
 	 * The Personal Game State is an immutable object that can be returned to the players so that
 	 * they can base their decisions on that information.
+	 * 
+	 * TODO Copy all the parameters, instead of passing them so it does not matter if the AI changes it
 	 */
 	public PersonalGameState getPersonalGameState(Player player) {
-		return new PersonalGameState(this.hands.get(player), this.cardsOnTable, this.trump, this.leadingPlayer, this.phase);
+		return new PersonalGameState(new LinkedList<Card>(this.hands.get(player)), this.cardsOnTable, this.trump, this.leadingPlayer, this.phase);
 	}
 
 	private List<Suit> createAvailableTrumps() {

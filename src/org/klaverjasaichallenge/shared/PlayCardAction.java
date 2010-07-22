@@ -28,5 +28,9 @@ public class PlayCardAction implements Action {
 			e.printStackTrace();
 		}
 	}
+	
+	public String toString() {
+		return "PlayCardAction - " + this.card;
+	}	
 
 }

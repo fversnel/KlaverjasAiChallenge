@@ -24,4 +24,11 @@ public class AcceptTrumpAction implements Action {
 			gameState.playerAcceptedTrump(currentPlayer);
 		}
 	}
+	
+	public String toString() {
+		if(this.trumpAccepted)
+			return "AcceptTrumpAction - Trump Accepted";
+		else
+			return "AcceptTrumpAction - Trump NOT Accepted";
+	}
 }

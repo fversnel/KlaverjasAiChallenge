@@ -47,10 +47,12 @@ public class KlaverjasAIChallenge {
 			}
 
 			Player currentPlayer = state.calculateCurrentPlayer();
-			System.out.println("Current player: " + currentPlayer);
 
 			Action playerAction = currentPlayer.respond(state.getPersonalGameState(currentPlayer));
-			// TODO Apparently the last action is null, why is that? 
+
+			System.out.println("Current player: " + currentPlayer + " action: " + playerAction);
+			
+			// TODO Apparently the last action is null, why is that?
 			// A bug I guess.
 			if(playerAction != null) {
 				playerAction.perform(state, currentPlayer);
