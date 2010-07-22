@@ -141,4 +141,43 @@ public class TestScore {
 		assertEquals(expected.getPoints(), actual.getPoints());
 	}
 
+	@Test
+	public void testNoThreeConsecutiveCardsScore() {
+		this.testTrick.addCard(new Card(new Hearts(), new Seven()));
+		this.testTrick.addCard(new Card(new Clubs(), new Ten()));
+		this.testTrick.addCard(new Card(new Hearts(), new Jack()));
+		this.testTrick.addCard(new Card(new Hearts(), new Nine()));
+
+		Points actual = new Points(Score.calculateRoemScore(this.testTrick, this.testTrump));
+		Points expected = new Points(0);
+
+		assertEquals(expected.getPoints(), actual.getPoints());
+	}
+
+	@Test
+	public void testStukAndThreeConsecutiveCardsScore() {
+		this.testTrick.addCard(new Card(this.testTrump, new Queen()));
+		this.testTrick.addCard(new Card(this.testTrump, new Seven()));
+		this.testTrick.addCard(new Card(this.testTrump, new Jack()));
+		this.testTrick.addCard(new Card(this.testTrump, new King()));
+
+		Points actual = new Points(Score.calculateRoemScore(this.testTrick, this.testTrump));
+		Points expected = new Points(40);
+
+		assertEquals(expected.getPoints(), actual.getPoints());
+	}
+
+	@Test
+	public void testStukAndFourConsecutiveCardsScore() {
+		this.testTrick.addCard(new Card(this.testTrump, new Queen()));
+		this.testTrick.addCard(new Card(this.testTrump, new Ten()));
+		this.testTrick.addCard(new Card(this.testTrump, new Jack()));
+		this.testTrick.addCard(new Card(this.testTrump, new King()));
+
+		Points actual = new Points(Score.calculateRoemScore(this.testTrick, this.testTrump));
+		Points expected = new Points(70);
+
+		assertEquals(expected.getPoints(), actual.getPoints());
+	}
+
 }
