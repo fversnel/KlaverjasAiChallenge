@@ -103,19 +103,6 @@ public class TestScore {
 	}
 
 	@Test
-	public void testMarchScore() {
-		List<Trick> testTricks = new LinkedList<Trick>();
-		for(int i = 1; i <= 8; i++) {
-			testTricks.add(new Trick());
-		}
-
-		Points actual = new Points(Score.calculateMarchScore(testTricks));
-		Points expected = new Points(100);
-
-		assertEquals(expected.getPoints(), actual.getPoints());
-	}
-
-	@Test
 	public void testFourConsecutiveCardsScore() {
 		this.testTrick.addCard(new Card(new Clubs(), new Queen()));
 		this.testTrick.addCard(new Card(new Clubs(), new Ten()));
@@ -176,6 +163,17 @@ public class TestScore {
 
 		Points actual = new Points(Score.calculateRoemScore(this.testTrick, this.testTrump));
 		Points expected = new Points(70);
+
+		assertEquals(expected.getPoints(), actual.getPoints());
+	}
+
+	@Test
+	public void testHalfTrick() {
+		this.testTrick.addCard(new Card(new Clubs(), new Jack()));
+		this.testTrick.addCard(new Card(new Diamonds(), new Eight()));
+
+		Points actual = new Points(Score.calculateRoemScore(this.testTrick, this.testTrump));
+		Points expected = new Points(0);
 
 		assertEquals(expected.getPoints(), actual.getPoints());
 	}
