@@ -1,5 +1,8 @@
-package org.klaverjasaichallenge.shared;
+package org.klaverjasaichallenge;
 
+import org.klaverjasaichallenge.shared.Action;
+import org.klaverjasaichallenge.shared.card.Card;
+import org.klaverjasaichallenge.shared.Trick;
 
 /**
  * 
@@ -13,7 +16,14 @@ package org.klaverjasaichallenge.shared;
  * @version 1.0
  */
 public interface KlaverJasAI extends Player {
-	
-	
 
+	// TODO Use this to construct the interface for the game.
+	// These are just some ideas for an interface that is provided to the
+	// AI by the game:
+	//public Trick getLastPlayedTrick();
+	//public void playCard(Card card);
+	//public Points calculateRoemScore(Trick trick)
+	//public Points calculateStockScore(Trick trick)
+	//public Trick getCardsOnTable()
+	//public Suit getTrump()
 }
