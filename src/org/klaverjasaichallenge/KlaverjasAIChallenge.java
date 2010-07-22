@@ -8,7 +8,7 @@ import java.util.LinkedList;
 
 import nl.joostpastoor.joostklaverjasai.JoostAI;
 
-import org.klaverjasaichallenge.GameState.GameStatePhases;
+import org.klaverjasaichallenge.shared.PersonalGameState.GameStatePhases;
 import org.klaverjasaichallenge.shared.AcceptTrumpAction;
 import org.klaverjasaichallenge.shared.Action;
 import org.klaverjasaichallenge.shared.PlayCardAction;

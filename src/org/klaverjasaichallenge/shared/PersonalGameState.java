@@ -4,9 +4,7 @@
 package org.klaverjasaichallenge.shared;
 
 import java.util.List;
-import java.util.Map;
 
-import org.klaverjasaichallenge.GameState.GameStatePhases;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
 import org.klaverjasaichallenge.shared.card.Card;
 
@@ -15,11 +13,17 @@ import org.klaverjasaichallenge.shared.card.Card;
  * 
  */
 public class PersonalGameState {
+	public enum GameStatePhases {
+		CHOOSING_TRUMP, PLAYING, FINISHED
+	}
+	
 	private final List<Card> hand;
 	private final Trick cardsOnTable;
 	private final Suit trump;
 	private final Player leadingPlayer;
 	private final GameStatePhases phase;
+	
+	
 
 	public PersonalGameState(List<Card> hand, Trick cardsOnTable, Suit trump, Player leadingPlayer,
 			GameStatePhases phase) {

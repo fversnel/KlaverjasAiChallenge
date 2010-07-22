@@ -12,6 +12,7 @@ import java.util.Random;
 import org.klaverjasaichallenge.shared.PersonalGameState;
 import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.Trick;
+import org.klaverjasaichallenge.shared.PersonalGameState.GameStatePhases;
 import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.rank.Rank;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
@@ -24,7 +25,7 @@ import org.klaverjasaichallenge.shared.card.suit.Suit;
  * @author Joost Pastoor
  * 
  */
-public class DefaultGameState implements GameState {
+public class DefaultGameState {
 	private static final int CARDS_IN_HAND = 8;
 	private static final int MINIMUM_AMOUNT_TRUMPS_LEFT = 1;
 	private static final int PLAYER_AMOUNT = 4;
