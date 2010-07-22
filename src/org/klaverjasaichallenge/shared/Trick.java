@@ -3,6 +3,8 @@ package org.klaverjasaichallenge.shared;
 
 import java.util.List;
 import java.util.LinkedList;
+import java.util.Map;
+import java.util.HashMap;
 
 import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
@@ -10,24 +12,26 @@ import org.klaverjasaichallenge.shared.card.suit.Suit;
 public class Trick {
 	private static final int FIRST_ADDED_CARD = 1;
 
-	private List<Card> cards;
+	private Map<Player, Card> cards;
 	private Suit leadingSuit;
 
 	public Trick() {
-		this.cards = new LinkedList<Card>();
+		this.cards = new HashMap<Player, Card>();
 		this.leadingSuit = null;
 	}
 
-	public void addCard(Card card) {
-		this.cards.add(card);
+	public void addCard(final Player player, final Card cardPlayed) {
+		this.cards.put(player, cardPlayed);
 
 		if(this.cards.size() == FIRST_ADDED_CARD) {
-			this.leadingSuit = card.getSuit();
+			this.leadingSuit = cardPlayed.getSuit();
 		}
 	}
 
 	public List<Card> getCards() {
-		return this.cards;
+		// TODO Somehow the compiler thinks this is an unsafe operation.
+		// Can we fix this?
+		return new LinkedList(this.cards.values());
 	}
 
 	public Suit getLeadingSuit() {

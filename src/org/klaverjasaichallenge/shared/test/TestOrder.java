@@ -13,13 +13,13 @@ public class TestOrder {
 
 	@Test
 	public void testSort() {
-		List<Order> testOrders = new LinkedList<Order>();
-		testOrders.add(new Order(5));
-		testOrders.add(new Order(3));
-		testOrders.add(new Order(1));
-		testOrders.add(new Order(8));
+		List<Order> actualOrders = new LinkedList<Order>();
+		actualOrders.add(new Order(5));
+		actualOrders.add(new Order(3));
+		actualOrders.add(new Order(1));
+		actualOrders.add(new Order(8));
 
-		List<Order> actualOrders = Order.sort(testOrders);
+		Order.sort(actualOrders);
 
 		int actual = actualOrders.get(0).getOrder();	
 		int expected = 1;

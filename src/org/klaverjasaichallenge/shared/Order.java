@@ -1,10 +1,11 @@
 package org.klaverjasaichallenge.shared;
 
+import java.util.Collections;
 import java.util.Arrays;
 import java.util.List;
 import java.util.LinkedList;
 
-public class Order {
+public class Order implements Comparable {
 	private final int order;
 	
 	public Order(final int order) {
@@ -19,6 +20,17 @@ public class Order {
 		return this.getOrder() > order.getOrder();
 	}
 
+	public int compareTo(Object o) {
+		Order toCompare = (Order)o;
+		if(this.isHigherThan(toCompare)) {
+			return 1;
+		} else if (this.equals(toCompare)) {
+			return 0;
+		} else {
+			return -1;
+		}
+	}
+
 	public boolean isHigherOrSameAs(final Order order) {
 		return this.getOrder() >= order.getOrder();
 	}
@@ -31,21 +43,8 @@ public class Order {
 		return new Order(leftHandSide.getOrder() - rightHandSide.getOrder());
 	}
 
-	public static List<Order> sort(final List<Order> orders) {
-		int[] intOrders = new int[orders.size()];
-		for(int i = 0; i < orders.size(); i++) {
-			int intOrder = orders.get(i).getOrder();
-			intOrders[i] = intOrder;
-		}
-
-		Arrays.sort(intOrders);
-
-		List<Order> sortedOrders = new LinkedList<Order>();
-		for(int i = 0; i < intOrders.length; i++) {
-			sortedOrders.add(new Order(intOrders[i]));
-		}
-
-		return sortedOrders;
+	public static void sort(List<Order> orders) {
+		Collections.sort(orders);
 	}
 
 }

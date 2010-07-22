@@ -85,7 +85,7 @@ class RoemScore {
 		if(roemOrder.size() >= amountConsecutiveCards) {
 			int consecutiveCards = 1;
 
-			roemOrder = Order.sort(roemOrder);
+			Order.sort(roemOrder);
 
 			for(int currentIndex = 0; currentIndex < roemOrder.size() - 1;
 					currentIndex++) {

@@ -16,12 +16,12 @@ import org.klaverjasaichallenge.shared.card.Card;
  */
 public class PersonalGameState {
 	private final List<Card> hand;
-	private final Map<Player, Card> cardsOnTable;
+	private final Trick cardsOnTable;
 	private final Suit trump;
 	private final Player leadingPlayer;
 	private final GameStatePhases phase;
 
-	public PersonalGameState(List<Card> hand, Map<Player, Card> cardsOnTable, Suit trump, Player leadingPlayer,
+	public PersonalGameState(List<Card> hand, Trick cardsOnTable, Suit trump, Player leadingPlayer,
 			GameStatePhases phase) {
 		this.hand = hand;
 		this.cardsOnTable = cardsOnTable;
@@ -40,7 +40,7 @@ public class PersonalGameState {
 	/**
 	 * @return the cardsOnTable
 	 */
-	public Map<Player, Card> getCardsOnTable() {
+	public Trick getCardsOnTable() {
 		return cardsOnTable;
 	}
 
