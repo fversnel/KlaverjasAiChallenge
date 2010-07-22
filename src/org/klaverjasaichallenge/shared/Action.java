@@ -3,7 +3,6 @@
  */
 package org.klaverjasaichallenge.shared;
 
-import org.klaverjasaichallenge.Player;
 import org.klaverjasaichallenge.DefaultGameState;
 
 /**

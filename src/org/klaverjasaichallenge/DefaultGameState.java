@@ -3,19 +3,24 @@
  */
 package org.klaverjasaichallenge;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import org.klaverjasaichallenge.shared.PersonalGameState;
+import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.rank.Rank;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
 
 /**
- * @author Joost
+ * Information about the current state of the Game
+ * 
+ * Do not return this to the Players, use getPersonalGameState() instead.
+ * 
+ * @author Joost Pastoor
  * 
  */
 public class DefaultGameState implements GameState {
@@ -166,6 +171,14 @@ public class DefaultGameState implements GameState {
 		}
 		
 		this.cardsOnTable.put(this.currentPlayer, card);
+	}
+	
+	/**
+	 * The Personal Game State is an immutable object that can be returned to the players so that
+	 * they can base their decisions on that information.
+	 */
+	public PersonalGameState getPersonalGameState(Player player) {
+		return new PersonalGameState(this.hands.get(player), this.cardsOnTable, this.trump, this.leadingPlayer, this.phase);
 	}
 
 	private List<Suit> createAvailableTrumps() {

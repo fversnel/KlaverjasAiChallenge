@@ -12,6 +12,7 @@ import org.klaverjasaichallenge.GameState.GameStatePhases;
 import org.klaverjasaichallenge.shared.AcceptTrumpAction;
 import org.klaverjasaichallenge.shared.Action;
 import org.klaverjasaichallenge.shared.PlayCardAction;
+import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
 
 /**
@@ -50,7 +51,7 @@ public class KlaverjasAIChallenge {
 			Player currentPlayer = state.calculateCurrentPlayer();
 			System.out.println("Current player: " + currentPlayer);
 
-			Action playerAction = currentPlayer.respond(state, null);
+			Action playerAction = currentPlayer.respond(state.getPersonalGameState(currentPlayer));
 			// TODO Apparently the last action is null, why is that? 
 			// A bug I guess.
 			if(playerAction != null) {

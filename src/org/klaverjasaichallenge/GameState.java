@@ -2,6 +2,7 @@ package org.klaverjasaichallenge;
 
 import java.util.List;
 
+import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.card.Card;
 /**
  * 
