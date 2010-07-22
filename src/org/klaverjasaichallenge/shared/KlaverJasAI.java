@@ -1,4 +1,4 @@
-package org.klaverjasaichallenge;
+package org.klaverjasaichallenge.shared;
 
 import org.klaverjasaichallenge.shared.Action;
 import org.klaverjasaichallenge.shared.card.Card;
