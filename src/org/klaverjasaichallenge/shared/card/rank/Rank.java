@@ -48,6 +48,10 @@ public abstract class Rank {
 		return this.trumpPoints;
 	}
 
+	public boolean equals(Rank toCompare) {
+		return this.getClass().isInstance(toCompare);
+	}
+
 	public String toString() {
 		return this.name;
 	}

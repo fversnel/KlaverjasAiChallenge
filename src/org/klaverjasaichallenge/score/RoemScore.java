@@ -47,8 +47,8 @@ class RoemScore {
 		if(cardOrder.isHigherOrSameAs(FIRST_HIGH_CARD)) {
 			boolean test = true;
 			for(Card card : cards) {
-				Class<? extends Rank> currentCardRank = card.getRank().getClass();	
-				if(!(currentCardRank.isInstance(cardRank))) {
+				Rank currentCardRank = card.getRank();
+				if(!(currentCardRank.equals(cardRank))) {
 					test = false;
 				}
 			}
@@ -75,9 +75,9 @@ class RoemScore {
 
 		List<Order> roemOrder = new ArrayList<Order>();
 		List<Card> cards = trick.getCards();
-		Class<? extends Suit> cardSuit = cards.get(0).getSuit().getClass();
+		Suit cardSuit = cards.get(0).getSuit();
 		for(Card card : cards) {
-			if(cardSuit.isInstance(card.getSuit())) {
+			if(cardSuit.equals(card.getSuit())) {
 				roemOrder.add(card.getRoemOrder());
 			}
 		}
@@ -122,9 +122,9 @@ class RoemScore {
 		boolean queen = false;
 		boolean king = false;
 		for(Card trickCard : trick.getCards()) {
-			Class<? extends Suit> cardSuit = trickCard.getSuit().getClass();
+			Suit cardSuit = trickCard.getSuit();
 			Rank cardRank = trickCard.getRank();
-			if(cardSuit.isInstance(trump)) {
+			if(cardSuit.equals(trump)) {
 				if(cardRank instanceof Queen) {
 					queen = true;
 				} else if(cardRank instanceof King) {

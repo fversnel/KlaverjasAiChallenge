@@ -6,6 +6,10 @@ public abstract class Suit {
 	public Suit(final String name) {
 		this.name = name;
 	}
+
+	public boolean equals(Suit toCompare) {
+		return this.getClass().isInstance(toCompare);
+	}
 	
 	public String toString() {
 		return this.name;
