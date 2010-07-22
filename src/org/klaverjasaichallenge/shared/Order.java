@@ -1,11 +1,9 @@
 package org.klaverjasaichallenge.shared;
 
 import java.util.Collections;
-import java.util.Arrays;
 import java.util.List;
-import java.util.LinkedList;
 
-public class Order implements Comparable {
+public class Order implements Comparable<Order> {
 	private final int order;
 	
 	public Order(final int order) {
@@ -20,8 +18,7 @@ public class Order implements Comparable {
 		return this.getOrder() > order.getOrder();
 	}
 
-	public int compareTo(Object o) {
-		Order toCompare = (Order)o;
+	public int compareTo(Order toCompare) {
 		if(this.isHigherThan(toCompare)) {
 			return 1;
 		} else if (this.equals(toCompare)) {
@@ -46,5 +43,4 @@ public class Order implements Comparable {
 	public static void sort(List<Order> orders) {
 		Collections.sort(orders);
 	}
-
 }

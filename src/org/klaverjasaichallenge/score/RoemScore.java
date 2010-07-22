@@ -3,8 +3,6 @@ package org.klaverjasaichallenge.score;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Iterator;
-
 import org.klaverjasaichallenge.shared.Points;
 import org.klaverjasaichallenge.shared.Trick;
 import org.klaverjasaichallenge.shared.Order;

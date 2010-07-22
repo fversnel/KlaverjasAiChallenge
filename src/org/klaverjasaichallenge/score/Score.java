@@ -1,11 +1,8 @@
 
 package org.klaverjasaichallenge.score;
 
-import java.util.List;
-
 import org.klaverjasaichallenge.shared.Points;
 import org.klaverjasaichallenge.shared.Trick;
-import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
 
 public class Score {

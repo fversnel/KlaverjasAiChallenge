@@ -4,9 +4,6 @@ package org.klaverjasaichallenge.score.test;
 import static org.junit.Assert.*;
 
 import org.junit.*;
-import java.util.List;
-import java.util.LinkedList;
-
 import org.klaverjasaichallenge.score.Score;
 import org.klaverjasaichallenge.shared.Points;
 import org.klaverjasaichallenge.shared.Trick;

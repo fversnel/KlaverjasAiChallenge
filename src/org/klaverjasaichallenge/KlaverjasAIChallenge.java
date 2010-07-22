@@ -9,9 +9,7 @@ import java.util.LinkedList;
 import nl.joostpastoor.joostklaverjasai.JoostAI;
 
 import org.klaverjasaichallenge.shared.PersonalGameState.GameStatePhases;
-import org.klaverjasaichallenge.shared.AcceptTrumpAction;
 import org.klaverjasaichallenge.shared.Action;
-import org.klaverjasaichallenge.shared.PlayCardAction;
 import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
 
