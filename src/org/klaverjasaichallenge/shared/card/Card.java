@@ -52,6 +52,11 @@ public class Card {
 		return this.rank.getRoemOrder();
 	}
 
+	public boolean equals(final Card toCompare) {
+		return this.getRank().equals(toCompare.getRank()) 
+				&& this.getSuit.equals(toCompare.getSuit());
+	}
+
 	public String toString() {
 		return this.rank + " of " + this.suit;
 	}
