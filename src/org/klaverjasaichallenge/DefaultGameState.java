@@ -121,17 +121,9 @@ public class DefaultGameState {
 			int nextPlayerIndex = this.players.indexOf(currentPlayer) + 1;
 
 			// Start at the first player again if we had them all
-			if (nextPlayerIndex == PLAYER_AMOUNT)
+			if (nextPlayerIndex == PLAYER_AMOUNT) {
 				nextPlayerIndex = 0;
-
-			this.currentPlayer = this.players.get(nextPlayerIndex);
-
-		} else
-			this.currentPlayer = this.players.get(0);
-
-		// End this phase if the player doesnt have cards anymore
-		if (this.hands.get(this.currentPlayer).amountOfCards() == 0) {
-			this.phase = GameStatePhases.FINISHED;
+			}
 
 			// Print the score of the trick that was played
 			if(this.trump != null && this.cardsOnTable != null) {
@@ -142,6 +134,15 @@ public class DefaultGameState {
 				System.out.println("Total score for this trick: " 
 						+ this.cardsOnTable.getTotalScore(this.trump).getPoints());
 			}
+
+			this.currentPlayer = this.players.get(nextPlayerIndex);
+		} else {
+			this.currentPlayer = this.players.get(0);
+		}
+
+		// End this phase if the player doesnt have cards anymore
+		if (this.hands.get(this.currentPlayer).amountOfCards() == 0) {
+			this.phase = GameStatePhases.FINISHED;
 		}
 
 		return this.currentPlayer;
