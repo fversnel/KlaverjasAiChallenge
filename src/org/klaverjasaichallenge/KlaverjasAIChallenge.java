@@ -28,8 +28,6 @@ public class KlaverjasAIChallenge {
 		players.add(new JoostAI());
 		players.add(new JoostAI());
 		players.add(new JoostAI());
-
-		
 		
 		for(int currentGameId = 0; currentGameId < PLAY_GAMES; currentGameId++) {
 	
