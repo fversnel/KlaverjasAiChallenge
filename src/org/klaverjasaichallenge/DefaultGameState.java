@@ -114,6 +114,7 @@ public class DefaultGameState {
 		if (this.overrideCurrentPlayer != null) {
 			this.currentPlayer = this.overrideCurrentPlayer;
 			this.overrideCurrentPlayer = null;
+
 			// Clear the cards currently on the table
 			this.cardsOnTable = new Trick();
 		} else if (this.currentPlayer != null) {
@@ -131,6 +132,16 @@ public class DefaultGameState {
 		// End this phase if the player doesnt have cards anymore
 		if (this.hands.get(this.currentPlayer).amountOfCards() == 0) {
 			this.phase = GameStatePhases.FINISHED;
+
+			// Print the score of the trick that was played
+			if(this.trump != null && this.cardsOnTable != null) {
+				System.out.println("Stock score for this trick: " 
+						+ this.cardsOnTable.getStockScore(this.trump).getPoints());
+				System.out.println("Roem score for this trick: " 
+						+ this.cardsOnTable.getRoemScore(this.trump).getPoints());
+				System.out.println("Total score for this trick: " 
+						+ this.cardsOnTable.getTotalScore(this.trump).getPoints());
+			}
 		}
 
 		return this.currentPlayer;

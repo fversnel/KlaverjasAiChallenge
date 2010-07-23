@@ -25,11 +25,15 @@ public class Card {
 	}
 
 	public Points getPoints(final Suit trump) {
-		if(this.suit == trump) {
-			return this.rank.getTrumpPoints();
+		Points points = new Points();
+
+		if(this.suit.equals(trump)) {
+			points = this.rank.getTrumpPoints();
 		} else {
-			return this.rank.getNormalPoints();
+			points = this.rank.getNormalPoints();
 		}
+
+		return points;
 	}
 
 	public Suit getSuit() {
@@ -50,6 +54,18 @@ public class Card {
 
 	public Order getRoemOrder() {
 		return this.rank.getRoemOrder();
+	}
+
+	public boolean isHigherThan(final Suit trump, final Card card) {
+		boolean result = false;
+
+		if(this.suit.equals(trump)) {
+			result = this.getTrumpOrder().isHigherThan(card.getTrumpOrder());
+		} else {
+			result = this.getNormalOrder().isHigherThan(card.getNormalOrder());
+		}
+
+		return result;
 	}
 
 	public boolean equals(final Card toCompare) {

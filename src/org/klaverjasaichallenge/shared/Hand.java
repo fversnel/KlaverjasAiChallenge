@@ -10,7 +10,7 @@ import org.klaverjasaichallenge.shared.card.suit.Suit;
 public class Hand {
 	private static final int CARDS_IN_HAND = 8;
 
-	private List<Card> cards;
+	private final List<Card> cards;
 
 	public Hand(final Deck deck) {
 		this.cards = this.drawHand(deck);
@@ -20,17 +20,6 @@ public class Hand {
 		boolean check = false;
 		for(Card cardInHand : cards) {
 			if(cardInHand.getSuit().equals(suit)) {
-				check = true;
-			}
-		}
-
-		return check;
-	}
-
-	public boolean hasCard(final Card card) {
-		boolean check = false;
-		for(Card cardInHand : cards) {
-			if(cardInHand.equals(card)) {
 				check = true;
 			}
 		}

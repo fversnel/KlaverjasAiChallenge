@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.HashMap;
 
+import org.klaverjasaichallenge.score.Score;
 import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
 
@@ -34,6 +35,23 @@ public class Trick {
 
 	public Suit getLeadingSuit() {
 		return this.leadingSuit;
+	}
+
+	public Points getStockScore(final Suit trump) {
+		return Score.calculateStockScore(this, trump);
+	}
+
+	public Points getRoemScore(final Suit trump) {
+		return Score.calculateRoemScore(this, trump);
+	}
+
+	public Points getTotalScore(final Suit trump) {
+		Points score = new Points();
+
+		score = this.getStockScore(trump);
+		score = Points.plus(score, this.getRoemScore(trump));
+
+		return score;
 	}
 
 }
