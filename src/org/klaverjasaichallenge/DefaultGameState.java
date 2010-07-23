@@ -1,4 +1,4 @@
-/**
+package/**
  * 
  */
 package org.klaverjasaichallenge;
@@ -11,6 +11,7 @@ import java.util.Random;
 
 import org.klaverjasaichallenge.shared.PersonalGameState;
 import org.klaverjasaichallenge.shared.Player;
+import org.klaverjasaichallenge.shared.Hand;
 import org.klaverjasaichallenge.shared.Trick;
 import org.klaverjasaichallenge.shared.PersonalGameState.GameStatePhases;
 import org.klaverjasaichallenge.shared.card.Card;
@@ -26,12 +27,11 @@ import org.klaverjasaichallenge.shared.card.suit.Suit;
  * 
  */
 public class DefaultGameState {
-	private static final int CARDS_IN_HAND = 8;
 	private static final int MINIMUM_AMOUNT_TRUMPS_LEFT = 1;
 	private static final int PLAYER_AMOUNT = 4;
 
 	private final List<Player> players;
-	private final Map<Player, List<Card>> hands;
+	private final Map<Player, Hand> hands;
 	private List<Suit> availableTrumps;
 	private GameStatePhases phase;
 
@@ -60,12 +60,12 @@ public class DefaultGameState {
 	 * This function creates a Deck object and gives the cards to the different
 	 * players so they all have a hand of 8 cards, which is returned.
 	 */
-	private Map<Player, List<Card>> generateHands(List<Player> players) {
+	private Map<Player, Hand> generateHands(List<Player> players) {
 		Deck deck = new Deck();
-		Map<Player, List<Card>> hands = new HashMap<Player, List<Card>>();
+		Map<Player, Hand> hands = new HashMap<Player, Hand>();
 
 		for (Player player : players) {
-			hands.put(player, this.drawHand(deck));
+			hands.put(player, new Hand(player, deck));
 		}
 
 		return hands;
@@ -129,7 +129,7 @@ public class DefaultGameState {
 			this.currentPlayer = this.players.get(0);
 
 		// End this phase if the player doesnt have cards anymore
-		if (this.hands.get(this.currentPlayer).size() == 0) {
+		if (this.hands.get(this.currentPlayer).amountOfCards() == 0) {
 			this.phase = GameStatePhases.FINISHED;
 		}
 
@@ -137,12 +137,14 @@ public class DefaultGameState {
 	}
 
 	public List<Card> getPlayerHand(Player player) {
-		return this.hands.get(player);
+		return this.hands.get(player).getCards();
 	}
 
 	public void playCard(Card card) throws Exception {
-		if (!this.hands.get(this.currentPlayer).remove(card))
-			throw new Exception("The player played an invalid card! This card is not in his hand");
+		if (this.hands.get(this.currentPlayer).drawCard(card) == null) {
+			throw new Exception("The player played an invalid card! This card"
+			+ " is not in his hand");
+		}
 
 		// Find out current suit
 		Suit leadingSuit = cardsOnTable.getLeadingSuit();
@@ -156,15 +158,31 @@ public class DefaultGameState {
 					// If the player is playing a trump card
 					if(card.getSuit().equals(this.trump)) {
 						Rank highestTrumpOnTable = getHighestTrump();
-						// If the player is not raising a trump, but is able to (playerCanRaiseTrump()), throw exception
-						if(highestTrumpOnTable != null && highestTrumpOnTable.getTrumpOrder().isHigherThan(card.getRank().getTrumpOrder()) && playerCanRaiseTrump(this.currentPlayer))
-							throw new Exception("Player " + this.currentPlayer + " can raise the trump but is not doing it. Current trump: " + this.trump + ". Card played: " + card);
+						// If the player is not raising a trump, but is able
+						// to (playerCanRaiseTrump()), throw exception
+						if(highestTrumpOnTable != null &&
+								highestTrumpOnTable.getTrumpOrder().isHigherThan(card.getRank().getTrumpOrder())
+								&& playerCanRaiseTrump(this.currentPlayer)) {
+							throw new Exception("Player " + this.currentPlayer
+									+ " can raise the trump but is not doing it."
+									+ " Current trump: " + this.trump + ". Card played: "
+									+ card);
+						}
 					}
-					// Else - Player is not playing a trump card, but is able to (playerHasTrump(), throw exception
-					else if(playerHasTrump(this.currentPlayer)) throw new Exception("Player " + this.currentPlayer + " has trump but is not playing it. Current trump: " + this.trump + ". Card played: " + card);
+					// Else - Player is not playing a trump card, but is able
+					// to (playerHasTrump(), throw exception
+					else if(playerHasTrump(this.currentPlayer)) {
+						throw new Exception("Player " + this.currentPlayer 
+								+ " has trump but is not playing it. Current trump: "
+								+ this.trump + ". Card played: " + card);
+					}
 				}
 				// Else - Player can follow suit but is not, throw exception
-				else throw new Exception("Player " + this.currentPlayer + " can follow suit but is not. Current suit: " + leadingSuit + ". Card played: " + card);
+				else  {
+					throw new Exception("Player " + this.currentPlayer 
+							+ " can follow suit but is not. Current suit: " 
+							+ leadingSuit + ".  Card played: " + card);
+				}
 			}
 		}
 		
@@ -178,20 +196,13 @@ public class DefaultGameState {
 	 * TODO Copy all the parameters, instead of passing them so it does not matter if the AI changes it
 	 */
 	public PersonalGameState getPersonalGameState(Player player) {
-		return new PersonalGameState(new LinkedList<Card>(this.hands.get(player)), this.cardsOnTable, this.trump, this.leadingPlayer, this.phase);
+		return new PersonalGameState(new
+				LinkedList<Card>(this.hands.get(player)), this.cardsOnTable,
+				this.trump, this.leadingPlayer, this.phase);
 	}
 
 	private List<Suit> createAvailableTrumps() {
 		return Card.getSuits();
-	}
-
-	private List<Card> drawHand(final Deck deck) {
-		List<Card> hand = new LinkedList<Card>();
-		for (int i = 1; i <= CARDS_IN_HAND; i++) {
-			hand.add(deck.drawCard());
-		}
-
-		return hand;
 	}
 
 	/**
@@ -203,16 +214,8 @@ public class DefaultGameState {
 	 * @return True if the player can follow suit
 	 */
 	private boolean playerCanFollowSuit(Player player, Suit suit) {
-		// Loop through all cards of the player
-		for (Card card : hands.get(player))
-			// If the player has a class of the same suit as the provided suit
-			if (card.getSuit().equals(suit))
-				// Player can follow suit
-				return true;
-
-		// All cards have been checked but none found of provided suit, player
-		// cannot follow
-		return false;
+		Hand playerHand = hands.get(player);
+		return playerHand.hasSuit(suit);
 	}
 	
 	/**
@@ -222,16 +225,8 @@ public class DefaultGameState {
 	 * @return True if the player has a trump card
 	 */
 	private boolean playerHasTrump(Player player) {
-		// Loop through all cards of the player
-		for (Card card : hands.get(player))
-			// If the player has a class of the same suit as the trump suit
-			if (card.getSuit().equals(this.trump))
-				// Player can follow suit
-				return true;
-
-		// All cards have been checked but none found of trump suit, player
-		// has no trump cards
-		return false;
+		Hand playerHand = hands.get(player);
+		return playerHand.hasSuit(this.trump);
 	}	
 	
 	/**
@@ -245,13 +240,16 @@ public class DefaultGameState {
 	 */
 	private boolean playerCanRaiseTrump(Player player) {
 		Rank highestTrumpOnTable = getHighestTrump();
-		
 		// Loop through all cards of the player
-		for (Card card : hands.get(player))
+		for (Card card : hands.get(player).getCards()) {
 			// If the player has a class of the same suit as the trump suit
-			if (card.getSuit().equals(this.trump) && (highestTrumpOnTable == null || card.getRank().getTrumpPoints().getPoints() > highestTrumpOnTable.getTrumpPoints().getPoints()))
+			if (card.getSuit().equals(this.trump) 
+					&& (highestTrumpOnTable == null 
+					|| card.getRank().getTrumpOrder().isHigherThan(highestTrumpOnTable.getTrumpOrder()))) {
 				// Player can raise trump
 				return true;
+			}
+		}
 
 		// All cards have been checked but none found of trump suit, player
 		// has no trump cards
@@ -263,13 +261,16 @@ public class DefaultGameState {
 	 */
 	private Rank getHighestTrump() {
 		Rank highestTrumpOnTable = null;
-		
 		// Loop through the currently played cards
 		for(Card cardOnTable : this.cardsOnTable.getCards()) {
 			// If this card is a trump and higher ranked then current top ranked trump
-			if (cardOnTable.getSuit().equals(this.trump) && (highestTrumpOnTable == null || cardOnTable.getRank().getTrumpOrder().isHigherThan(highestTrumpOnTable.getTrumpOrder())))
+			if (cardOnTable.getSuit().equals(this.trump) &&
+					(highestTrumpOnTable == null ||
+					cardOnTable.getRank().getTrumpOrder().isHigherThan(highestTrumpOnTable.getTrumpOrder()))) {
 				highestTrumpOnTable = cardOnTable.getRank();
+			}
 		}
+
 		return highestTrumpOnTable;
 	}	
 
