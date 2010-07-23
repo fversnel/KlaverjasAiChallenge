@@ -65,7 +65,7 @@ public class DefaultGameState {
 		Map<Player, Hand> hands = new HashMap<Player, Hand>();
 
 		for (Player player : players) {
-			hands.put(player, new Hand(player, deck));
+			hands.put(player, new Hand(deck));
 		}
 
 		return hands;
@@ -154,7 +154,7 @@ public class DefaultGameState {
 			// If the player is not following suit
 			if(!card.getSuit().equals(leadingSuit)) {
 				// If the player cannot follow suit (!playerCanFollowSuit())
-				if(!playerCanFollowSuit(this.currentPlayer,leadingSuit)) {
+				if(!this.playerCanFollowSuit(this.currentPlayer, leadingSuit)) {
 					// If the player is playing a trump card
 					if(card.getSuit().equals(this.trump)) {
 						Rank highestTrumpOnTable = getHighestTrump();

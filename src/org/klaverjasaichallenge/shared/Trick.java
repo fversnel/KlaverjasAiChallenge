@@ -29,8 +29,6 @@ public class Trick {
 	}
 
 	public List<Card> getCards() {
-		// TODO Somehow the compiler thinks this is an unsafe operation.
-		// Can we fix this?
 		return new LinkedList<Card>(this.cards.values());
 	}
 

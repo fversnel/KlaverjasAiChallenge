@@ -4,10 +4,10 @@ package org.klaverjasaichallenge.score.test;
 import static org.junit.Assert.*;
 
 import org.junit.*;
+import org.klaverjasaichallenge.FakePlayer;
 import org.klaverjasaichallenge.score.Score;
 import org.klaverjasaichallenge.shared.Points;
 import org.klaverjasaichallenge.shared.Trick;
-import org.klaverjasaichallenge.shared.FakePlayer;
 import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.suit.*;
 import org.klaverjasaichallenge.shared.card.rank.*;
