@@ -1,4 +1,4 @@
-package/**
+/**
  * 
  */
 package org.klaverjasaichallenge;
@@ -197,7 +197,7 @@ public class DefaultGameState {
 	 */
 	public PersonalGameState getPersonalGameState(Player player) {
 		return new PersonalGameState(new
-				LinkedList<Card>(this.hands.get(player)), this.cardsOnTable,
+				LinkedList<Card>(this.hands.get(player).getCards()), this.cardsOnTable,
 				this.trump, this.leadingPlayer, this.phase);
 	}
 
