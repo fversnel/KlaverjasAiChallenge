@@ -54,7 +54,7 @@ public class Card {
 
 	public boolean equals(final Card toCompare) {
 		return this.getRank().equals(toCompare.getRank()) 
-				&& this.getSuit.equals(toCompare.getSuit());
+				&& this.getSuit().equals(toCompare.getSuit());
 	}
 
 	public String toString() {
