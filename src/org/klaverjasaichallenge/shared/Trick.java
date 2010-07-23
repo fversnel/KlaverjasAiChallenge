@@ -8,6 +8,7 @@ import java.util.HashMap;
 
 import org.klaverjasaichallenge.score.Score;
 import org.klaverjasaichallenge.shared.card.Card;
+import org.klaverjasaichallenge.shared.card.rank.Rank;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
 
 public class Trick {
@@ -27,7 +28,7 @@ public class Trick {
 		if(this.cards.size() == FIRST_ADDED_CARD) {
 			this.leadingSuit = cardPlayed.getSuit();
 		}
-	}
+	}	
 
 	public List<Card> getCards() {
 		return new LinkedList<Card>(this.cards.values());
@@ -54,4 +55,21 @@ public class Trick {
 		return score;
 	}
 
+	/**
+	 * @return
+	 */
+	private Rank getHighestTrump() {
+		Rank highestTrumpOnTable = null;
+		// Loop through the currently played cards
+		for(Card cardOnTable : this.cardsOnTable.getCards()) {
+			// If this card is a trump and higher ranked then current top ranked trump
+			if (cardOnTable.getSuit().equals(this.trump) &&
+					(highestTrumpOnTable == null ||
+					cardOnTable.getRank().getTrumpOrder().isHigherThan(highestTrumpOnTable.getTrumpOrder()))) {
+				highestTrumpOnTable = cardOnTable.getRank();
+			}
+		}
+
+		return highestTrumpOnTable;
+	}
 }
