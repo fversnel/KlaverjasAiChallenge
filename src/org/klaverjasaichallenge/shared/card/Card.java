@@ -73,6 +73,11 @@ public class Card {
 		return result;
 	}
 
+	public boolean equals(final Card toCompare) {
+		return this.getSuit().equals(toCompare.getSuit())
+				&& this.getRank().equals(toCompare.getRank());
+	}
+
 	public String toString() {
 		return this.rank + " of " + this.suit;
 	}
@@ -82,8 +87,8 @@ public class Card {
 		for(Card card : cards) {
 			List<Card> otherCards = new LinkedList<Card>(cards);
 			otherCards.remove(card);
-			for(Card cardToCompare : toCompare) {
-				if(card.isHigherThan(cardToCompare)) {
+			for(Card cardToCompare : otherCards) {
+				if(card.isHigherThan(trump, cardToCompare)) {
 					highestCard = card;
 				}
 			}

@@ -68,9 +68,9 @@ public class Round {
 	
 			// TODO Which player may go first?!
 			for(Player player : players) {
-				if(player.playOnTrump(drawnTrump)) {
-					playerAcceptedTrump = player;
-				}
+				//if(player.playOnTrump(drawnTrump)) {
+				//	playerAcceptedTrump = player;
+				//}
 			}
 		} while(playerAcceptedTrump == null);
 		
@@ -82,11 +82,11 @@ public class Round {
 			
 			// TODO Which player may go first?!
 			for(Player player : players) {
-				Card cardPlayed = player.getCard();
-				
-				// TODO Rules of playCard() implement here
-				
-				trick.addCard(player, cardPlayed);
+				//Card cardPlayed = player.getCard();
+				//
+				//// TODO Rules of playCard() implement here
+				//
+				//trick.addCard(player, cardPlayed);
 				
 			}
 		}
@@ -150,56 +150,57 @@ public class Round {
 		//		A total score will be calculated to define the winner.
 		//		actions.add(new RoundEndsAction());
 		//
-		//		return actions;
+
+		return actions;
 	}
 	
 	public void playCard(Card card) throws Exception {
-		if (this.hands.get(this.currentPlayer).drawCard(card) == null) {
-			throw new Exception("The player played an invalid card! This card"
-			+ " is not in his hand");
-		}
+		//if (this.hands.get(this.currentPlayer).drawCard(card) == null) {
+		//	throw new Exception("The player played an invalid card! This card"
+		//	+ " is not in his hand");
+		//}
 
-		// Find out current suit
-		Suit leadingSuit = cardsOnTable.getLeadingSuit();
-		
-		// If the leading player has already played a card (== first card)
-		if(leadingSuit != null) {
-			// If the player is not following suit
-			if(!card.getSuit().equals(leadingSuit)) {
-				// If the player cannot follow suit (!playerCanFollowSuit())
-				if(!this.playerCanFollowSuit(this.currentPlayer, leadingSuit)) {
-					// If the player is playing a trump card
-					if(card.getSuit().equals(this.trump)) {
-						Rank highestTrumpOnTable = getHighestTrump();
-						// If the player is not raising a trump, but is able
-						// to (playerCanRaiseTrump()), throw exception
-						if(highestTrumpOnTable != null &&
-								highestTrumpOnTable.getTrumpOrder().isHigherThan(card.getRank().getTrumpOrder())
-								&& playerCanRaiseTrump(this.currentPlayer)) {
-							throw new Exception("Player " + this.currentPlayer
-									+ " can raise the trump but is not doing it."
-									+ " Current trump: " + this.trump + ". Card played: "
-									+ card);
-						}
-					}
-					// Else - Player is not playing a trump card, but is able
-					// to (playerHasTrump(), throw exception
-					else if(playerHasTrump(this.currentPlayer)) {
-						throw new Exception("Player " + this.currentPlayer 
-								+ " has trump but is not playing it. Current trump: "
-								+ this.trump + ". Card played: " + card);
-					}
-				}
-				// Else - Player can follow suit but is not, throw exception
-				else  {
-					throw new Exception("Player " + this.currentPlayer 
-							+ " can follow suit but is not. Current suit: " 
-							+ leadingSuit + ".  Card played: " + card);
-				}
-			}
-		}
-		
-		this.cardsOnTable.addCard(this.currentPlayer, card);
+		//// Find out current suit
+		//Suit leadingSuit = cardsOnTable.getLeadingSuit();
+		//
+		//// If the leading player has already played a card (== first card)
+		//if(leadingSuit != null) {
+		//	// If the player is not following suit
+		//	if(!card.getSuit().equals(leadingSuit)) {
+		//		// If the player cannot follow suit (!playerCanFollowSuit())
+		//		if(!this.playerCanFollowSuit(this.currentPlayer, leadingSuit)) {
+		//			// If the player is playing a trump card
+		//			if(card.getSuit().equals(this.trump)) {
+		//				Rank highestTrumpOnTable = getHighestTrump();
+		//				// If the player is not raising a trump, but is able
+		//				// to (playerCanRaiseTrump()), throw exception
+		//				if(highestTrumpOnTable != null &&
+		//						highestTrumpOnTable.getTrumpOrder().isHigherThan(card.getRank().getTrumpOrder())
+		//						&& playerCanRaiseTrump(this.currentPlayer)) {
+		//					throw new Exception("Player " + this.currentPlayer
+		//							+ " can raise the trump but is not doing it."
+		//							+ " Current trump: " + this.trump + ". Card played: "
+		//							+ card);
+		//				}
+		//			}
+		//			// Else - Player is not playing a trump card, but is able
+		//			// to (playerHasTrump(), throw exception
+		//			else if(playerHasTrump(this.currentPlayer)) {
+		//				throw new Exception("Player " + this.currentPlayer 
+		//						+ " has trump but is not playing it. Current trump: "
+		//						+ this.trump + ". Card played: " + card);
+		//			}
+		//		}
+		//		// Else - Player can follow suit but is not, throw exception
+		//		else  {
+		//			throw new Exception("Player " + this.currentPlayer 
+		//					+ " can follow suit but is not. Current suit: " 
+		//					+ leadingSuit + ".  Card played: " + card);
+		//		}
+		//	}
+		//}
+		//	
+		//this.cardsOnTable.addCard(this.currentPlayer, card);
 	}
 
 	/**

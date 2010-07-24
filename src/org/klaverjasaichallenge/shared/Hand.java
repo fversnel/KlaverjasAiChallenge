@@ -55,6 +55,7 @@ public class Hand {
 	}
 
 	/**
+	 * TODO This method belongs elsewhere
 	 * This function checks whether a player can play a card of
 	 * given suit or not.
 	 * 
@@ -62,21 +63,22 @@ public class Hand {
 	 * @param suit
 	 * @return True if the player can follow suit
 	 */
-	private boolean playerCanFollowSuit(Player player, Suit suit) {
-		Hand playerHand = hands.get(player);
-		return playerHand.hasSuit(suit);
-	}
+	//private boolean playerCanFollowSuit(final Player player, final Suit suit) {
+	//	Hand playerHand = hands.get(player);
+	//	return playerHand.hasSuit(suit);
+	//}
 	
 	/**
+	 * TODO This method belongs elsewhere
 	 * This function checks whether a player can play a trump card
 	 * 
 	 * @param player
 	 * @return True if the player has a trump card
 	 */
-	private boolean playerHasTrump(Player player) {
-		Hand playerHand = hands.get(player);
-		return playerHand.hasSuit(this.trump);
-	}	
+	//private boolean playerHasTrump(Player player) {
+	//	Hand playerHand = hands.get(player);
+	//	return playerHand.hasSuit(this.trump);
+	//}	
 	
 	/**
 	 * This function checks whether a player can play a trump card
@@ -87,23 +89,23 @@ public class Hand {
 	 * 
 	 * TODO Raise trump might not be the perfect naming ...
 	 */
-	private boolean playerCanRaiseTrump(Player player) {
-		Rank highestTrumpOnTable = getHighestTrump();
-		// Loop through all cards of the player
-		for (Card card : hands.get(player).getCards()) {
-			// If the player has a class of the same suit as the trump suit
-			if (card.getSuit().equals(this.trump) 
-					&& (highestTrumpOnTable == null 
-					|| card.getRank().getTrumpOrder().isHigherThan(highestTrumpOnTable.getTrumpOrder()))) {
-				// Player can raise trump
-				return true;
-			}
-		}
+	//private boolean playerCanRaiseTrump(final Suit trump) {
+	//	Rank highestTrumpOnTable = getHighestTrump();
+	//	// Loop through all cards of the player
+	//	for (Card card : this.cards) {
+	//		// If the player has a class of the same suit as the trump suit
+	//		if (card.getSuit().equals(trump) 
+	//				&& (highestTrumpOnTable == null 
+	//				|| card.getRank().getTrumpOrder().isHigherThan(highestTrumpOnTable.getTrumpOrder()))) {
+	//			// Player can raise trump
+	//			return true;
+	//		}
+	//	}
 
-		// All cards have been checked but none found of trump suit, player
-		// has no trump cards
-		return false;
-	}
+	//	// All cards have been checked but none found of trump suit, player
+	//	// has no trump cards
+	//	return false;
+	//}
 
 	
 		

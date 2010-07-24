@@ -34,7 +34,8 @@ public class DefaultGameState {
 	private List<Round> roundsPlayed;
 
 	public DefaultGameState(List<Player> players) {
-		this.players = players;
+		// TODO Implement the order in here
+		this.players = null;
 		this.roundsPlayed = new LinkedList<Round>();
 	}
 
@@ -126,9 +127,9 @@ public class DefaultGameState {
 		
 		Round prevRound;
 		for(int currentRoundId = 0; currentRoundId < 16; currentRoundId++) {
-			Round round = new Round(this.players, startingPlayer = prevRound.getWinner());
-			round.play();
-			round.getScores();
+			//Round round = new Round(this.players, startingPlayer = prevRound.getWinner());
+			//round.play();
+			//round.getScores();
 		}
 	}
 

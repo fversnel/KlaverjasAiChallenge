@@ -31,7 +31,7 @@ public class Trick {
 	}	
 
 	public List<Card> getCards() {
-		return new LinkedList<Card>(this.cards.keys());
+		return new LinkedList<Card>(this.cards.keySet());
 	}
 
 	public Suit getLeadingSuit() {
@@ -56,19 +56,19 @@ public class Trick {
 	}
 
 	public Player getWinner(final Suit trump) {
-		Card highestCard = Card.max(trump, new LinkedList<Card>(this.cards.keys()));
+		Card highestCard = Card.max(trump, new LinkedList<Card>(this.cards.keySet()));
 		return this.cards.get(highestCard);
 	}
 
 	/**
 	 * @return
 	 */
-	private Rank getHighestTrump() {
+	private Rank getHighestTrump(final Suit trump) {
 		Rank highestTrumpOnTable = null;
 		// Loop through the currently played cards
-		for(Card cardOnTable : this.cards.keys()) {
+		for(Card cardOnTable : this.cards.keySet()) {
 			// If this card is a trump and higher ranked then current top ranked trump
-			if (cardOnTable.getSuit().equals(this.trump) &&
+			if (cardOnTable.getSuit().equals(trump) &&
 					(highestTrumpOnTable == null ||
 					cardOnTable.getRank().getTrumpOrder().isHigherThan(highestTrumpOnTable.getTrumpOrder()))) {
 				highestTrumpOnTable = cardOnTable.getRank();
