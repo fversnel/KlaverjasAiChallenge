@@ -21,7 +21,7 @@ public interface Player {
 	 * @return
 	 */
 	
-	public boolean giveCards(List<Card> cards);
+	public void giveCards(List<Card> cards);
 
 	/**
 	 * @param trump

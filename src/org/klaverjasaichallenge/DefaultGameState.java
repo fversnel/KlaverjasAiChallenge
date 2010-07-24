@@ -124,7 +124,7 @@ public class DefaultGameState {
 	 */
 	public void play() {
 		
-		Round prevRound
+		Round prevRound;
 		for(int currentRoundId = 0; currentRoundId < 16; currentRoundId++) {
 			Round round = new Round(this.players, startingPlayer = prevRound.getWinner());
 			round.play();

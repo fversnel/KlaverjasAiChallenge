@@ -38,7 +38,7 @@ public class Round {
 	public Round(List<Player> players) {
 		this.actions = this.createActions();
 		this.tricksPlayed = new LinkedList<Trick>();
-		this.hands = generateHands(players);
+		this.hands = dealCards(players);
 		this.availableTrumps = Card.getSuits();
 		this.players = players;
 	}
@@ -47,10 +47,11 @@ public class Round {
 		
 		/**
 		 * Veel plezier
+		 * Action: Give cards to players
 		 */
 		for(Player player : players) {
 			Hand playersHand = this.hands.get(player);
-			boolean playerFeelsLikeIt = player.giveCards(playersHand.getCards());
+			player.giveCards(playersHand.getCards());
 		}
 		
 		/**
@@ -67,8 +68,9 @@ public class Round {
 	
 			// TODO Which player may go first?!
 			for(Player player : players) {
-				if(player.playOnTrump(drawnTrump))
+				if(player.playOnTrump(drawnTrump)) {
 					playerAcceptedTrump = player;
+				}
 			}
 		} while(playerAcceptedTrump == null);
 		
@@ -84,22 +86,25 @@ public class Round {
 				
 				// TODO Rules of playCard() implement here
 				
-				trick.addCard(player, cardPlayed)
+				trick.addCard(player, cardPlayed);
 				
 			}
 		}
 		
+		/**
+		 * Action: Round ends
+		 * TODO Implement this action according to the pseudo code below.
+		 */
+		// Determine winner
+		// Print score
 		
-//		for(Action action : actions) {
-//			action.perform(this, null);
-//		}
 	}
 	
 	/**
 	 * This function creates a Deck object and gives the cards to the different
 	 * players so they all have a hand of 8 cards, which is returned.
 	 */
-	private Map<Player, Hand> generateHands(List<Player> players) {
+	private Map<Player, Hand> dealCards(List<Player> players) {
 		Deck deck = new Deck();
 		Map<Player, Hand> hands = new HashMap<Player, Hand>();
 
@@ -209,7 +214,5 @@ public class Round {
 		
 		return null;
 	}
-
-
 
 }
