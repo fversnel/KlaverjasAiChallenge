@@ -14,16 +14,16 @@ import org.klaverjasaichallenge.shared.card.suit.Suit;
 public class Trick {
 	private static final int FIRST_ADDED_CARD = 1;
 
-	private Map<Player, Card> cards;
+	private Map<Card, Player> cards;
 	private Suit leadingSuit;
 
 	public Trick() {
-		this.cards = new HashMap<Player, Card>();
+		this.cards = new HashMap<Card, Player>();
 		this.leadingSuit = null;
 	}
 
 	public void addCard(final Player player, final Card cardPlayed) {
-		this.cards.put(player, cardPlayed);
+		this.cards.put(cardPlayed, player);
 
 		if(this.cards.size() == FIRST_ADDED_CARD) {
 			this.leadingSuit = cardPlayed.getSuit();
@@ -31,7 +31,7 @@ public class Trick {
 	}	
 
 	public List<Card> getCards() {
-		return new LinkedList<Card>(this.cards.values());
+		return new LinkedList<Card>(this.cards.keys());
 	}
 
 	public Suit getLeadingSuit() {
@@ -55,13 +55,18 @@ public class Trick {
 		return score;
 	}
 
+	public Player getWinner(final Suit trump) {
+		Card highestCard = Card.max(trump, new LinkedList<Card>(this.cards.keys()));
+		return this.cards.get(highestCard);
+	}
+
 	/**
 	 * @return
 	 */
 	private Rank getHighestTrump() {
 		Rank highestTrumpOnTable = null;
 		// Loop through the currently played cards
-		for(Card cardOnTable : this.cardsOnTable.getCards()) {
+		for(Card cardOnTable : this.cards.values()) {
 			// If this card is a trump and higher ranked then current top ranked trump
 			if (cardOnTable.getSuit().equals(this.trump) &&
 					(highestTrumpOnTable == null ||
@@ -72,4 +77,5 @@ public class Trick {
 
 		return highestTrumpOnTable;
 	}
+
 }

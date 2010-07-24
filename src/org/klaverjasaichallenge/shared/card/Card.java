@@ -4,6 +4,7 @@
 package org.klaverjasaichallenge.shared.card;
 
 import java.util.List;
+import java.util.LinkedList;
 import java.util.ArrayList;
 
 import org.klaverjasaichallenge.shared.Points;
@@ -59,22 +60,35 @@ public class Card {
 	public boolean isHigherThan(final Suit trump, final Card card) {
 		boolean result = false;
 
-		if(this.suit.equals(trump)) {
+		if(this.suit.equals(trump) && card.getSuit().equals(trump)) {
 			result = this.getTrumpOrder().isHigherThan(card.getTrumpOrder());
-		} else {
+		} else if(this.suit.equals(trump) && !card.getSuit().equals(trump)) {
+			result = true;
+		} else if(!this.suit.equals(trump) && card.getSuit().equals(trump)) {
+			result = false;
+		} else if(!this.suit.equals(trump) && !card.getSuit().equals(trump)) {
 			result = this.getNormalOrder().isHigherThan(card.getNormalOrder());
 		}
 
 		return result;
 	}
 
-	public boolean equals(final Card toCompare) {
-		return this.getRank().equals(toCompare.getRank()) 
-				&& this.getSuit().equals(toCompare.getSuit());
-	}
-
 	public String toString() {
 		return this.rank + " of " + this.suit;
+	}
+
+	public static Card max(final Suit trump, final List<Card> cards) {
+		Card highestCard = null;
+		for(Card card : cards) {
+			List<Card> otherCards = new LinkedList<Card>(cards);
+			otherCards.remove(card);
+			for(Card cardToCompare : toCompare) {
+				if(card.isHigherThan(cardToCompare)) {
+					highestCard = card;
+				}
+			}
+		}
+		return highestCard;
 	}
 
 	public static List<Suit> getSuits() {
