@@ -66,7 +66,7 @@ public class Trick {
 	private Rank getHighestTrump() {
 		Rank highestTrumpOnTable = null;
 		// Loop through the currently played cards
-		for(Card cardOnTable : this.cards.values()) {
+		for(Card cardOnTable : this.cards.keys()) {
 			// If this card is a trump and higher ranked then current top ranked trump
 			if (cardOnTable.getSuit().equals(this.trump) &&
 					(highestTrumpOnTable == null ||
