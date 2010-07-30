@@ -21,7 +21,7 @@ public class Round {
 	private final Map<Player, Hand> hands;
 	private final List<Trick> tricksPlayed;
 	
-	private final List<Player> players;
+	private final Map<Order, Player> players;
 	
 	private final List<Suit> availableTrumps;
 	
@@ -32,10 +32,11 @@ public class Round {
 	private Player overrideCurrentPlayer;
 	private Player leadingPlayer;
 	private Player currentPlayer;
+	private Player winner = null;
 	private Trick cardsOnTable;	
 
 
-	public Round(List<Player> players) {
+	public Round(Map<Order, Player> players) {
 		this.actions = this.createActions();
 		this.tricksPlayed = new LinkedList<Trick>();
 		this.hands = dealCards(players);
@@ -49,7 +50,7 @@ public class Round {
 		 * Veel plezier
 		 * Action: Give cards to players
 		 */
-		for(Player player : players) {
+		for(Player player : players.values()) {
 			Hand playersHand = this.hands.get(player);
 			player.giveCards(playersHand.getCards());
 		}
@@ -67,7 +68,7 @@ public class Round {
 			}
 	
 			// TODO Which player may go first?!
-			for(Player player : players) {
+			for(Player player : players.values()) {
 				//if(player.playOnTrump(drawnTrump)) {
 				//	playerAcceptedTrump = player;
 				//}
@@ -81,7 +82,7 @@ public class Round {
 			Trick trick = new Trick();
 			
 			// TODO Which player may go first?!
-			for(Player player : players) {
+			for(Player player : players.values()) {
 				//Card cardPlayed = player.getCard();
 				//
 				//// TODO Rules of playCard() implement here
@@ -96,6 +97,7 @@ public class Round {
 		 * TODO Implement this action according to the pseudo code below.
 		 */
 		// Determine winner
+		this.winner = null;
 		// Print score
 		
 	}
@@ -104,11 +106,11 @@ public class Round {
 	 * This function creates a Deck object and gives the cards to the different
 	 * players so they all have a hand of 8 cards, which is returned.
 	 */
-	private Map<Player, Hand> dealCards(List<Player> players) {
+	private Map<Player, Hand> dealCards(Map<Order, Player> players) {
 		Deck deck = new Deck();
 		Map<Player, Hand> hands = new HashMap<Player, Hand>();
 
-		for (Player player : players) {
+		for (Player player : players.values()) {
 			hands.put(player, new Hand(deck));
 		}
 
@@ -214,6 +216,10 @@ public class Round {
 		}
 		
 		return null;
+	}
+
+	public Object getWinner() {
+		return this.winner;
 	}
 
 }

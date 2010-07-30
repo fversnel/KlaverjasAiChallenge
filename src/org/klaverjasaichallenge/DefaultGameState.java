@@ -33,92 +33,16 @@ public class DefaultGameState {
 	private final Map<Order, Player> players;
 	private List<Round> roundsPlayed;
 
-	public DefaultGameState(List<Player> players) {
-		// TODO Implement the order in here
-		this.players = null;
+	public DefaultGameState(List<Player> playerList) {
+		
+		// Put the players in a hashmap that is ordered
+		this.players = new HashMap<Order, Player>();
+		for(int playerId = 0; playerId < this.players.size(); playerId++) {
+			this.players.put(new Order(playerId), playerList.get(playerId));
+		}
+		
 		this.roundsPlayed = new LinkedList<Round>();
 	}
-
-//
-//
-//	/**
-//	 * @param phase
-//	 *            the phase to set
-//	 */
-//	public void setPhase(GameStatePhases phase) {
-//		this.phase = phase;
-//	}
-//
-//	/**
-//	 * @return the phase
-//	 */
-//	public GameStatePhases getPhase() {
-//		return phase;
-//	}
-//
-//	/**
-//	 * Watch out: This method changes the current player! TODO This method is
-//	 * really complex and not readable.
-//	 */
-//	public Player calculateCurrentPlayer() {
-//		if (this.overrideCurrentPlayer != null) {
-//			this.currentPlayer = this.overrideCurrentPlayer;
-//			this.overrideCurrentPlayer = null;
-//
-//			// Clear the cards currently on the table
-//			this.cardsOnTable = new Trick();
-//		} else if (this.currentPlayer != null) {
-//			int nextPlayerIndex = this.players.indexOf(currentPlayer) + 1;
-//
-//			// Start at the first player again if we had them all
-//			if (nextPlayerIndex == PLAYER_AMOUNT) {
-//				nextPlayerIndex = 0;
-//			}
-//
-//			// Print the score of the trick that was played
-//			if(this.trump != null && this.cardsOnTable != null) {
-//				System.out.println("Stock score for this trick: " 
-//						+ this.cardsOnTable.getStockScore(this.trump).getPoints());
-//				System.out.println("Roem score for this trick: " 
-//						+ this.cardsOnTable.getRoemScore(this.trump).getPoints());
-//				System.out.println("Total score for this trick: " 
-//						+ this.cardsOnTable.getTotalScore(this.trump).getPoints());
-//			}
-//
-//			this.currentPlayer = this.players.get(nextPlayerIndex);
-//		} else {
-//			this.currentPlayer = this.players.get(0);
-//		}
-//
-//		// End this phase if the player doesnt have cards anymore
-//		if (this.hands.get(this.currentPlayer).amountOfCards() == 0) {
-//			this.phase = GameStatePhases.FINISHED;
-//		}
-//
-//		return this.currentPlayer;
-//	}
-//
-//	public List<Card> getPlayerHand(Player player) {
-//		return this.hands.get(player).getCards();
-//	}
-
-
-	
-	/**
-	 * The Personal Game State is an immutable object that can be returned to the players so that
-	 * they can base their decisions on that information.
-	 * 
-	 * TODO Copy all the parameters, instead of passing them so it does not matter if the AI changes it
-	 */
-//	public PersonalGameState getPersonalGameState(Player player) {
-//		return new PersonalGameState(new
-//				LinkedList<Card>(this.hands.get(player).getCards()), this.cardsOnTable,
-//				this.trump, this.leadingPlayer, this.phase);
-//	}
-
-
-
-
 
 	/**
 	 * Just play your 16 rounds kk?!
@@ -127,9 +51,16 @@ public class DefaultGameState {
 		
 		Round prevRound;
 		for(int currentRoundId = 0; currentRoundId < 16; currentRoundId++) {
-			//Round round = new Round(this.players, startingPlayer = prevRound.getWinner());
-			//round.play();
-			//round.getScores();
+			System.out.println("- Starting round: " + currentRoundId);
+
+			Round round = new Round(this.players);
+			round.play();
+			round.getScores();
+			
+			this.roundsPlayed.add(round);
+			
+			// TODO Maybe nicer to store a list with rounds, instead of only keeping the last
+			prevRound = round;
 		}
 	}
 
