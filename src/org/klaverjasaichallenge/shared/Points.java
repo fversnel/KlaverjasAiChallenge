@@ -24,5 +24,13 @@ public class Points {
 	public static Points plus(final Points leftHandSide, final Points rightHandSide) {
 		return new Points(leftHandSide.getPoints() + rightHandSide.getPoints());
 	}
+	
+	public static boolean biggerThan(final Points leftHandSide, final Points rightHandSide) {
+		return leftHandSide.getPoints() > rightHandSide.getPoints() ? true : false;
+	}
+	
+	public String toString() {
+		return this.getPoints()+"";
+	}
 
 }

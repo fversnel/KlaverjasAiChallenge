@@ -38,21 +38,16 @@ public class Trick {
 		return this.leadingSuit;
 	}
 
-	public Points getStockScore(final Suit trump) {
+	private Points getStockScore(final Suit trump) {
 		return Score.calculateStockScore(this, trump);
 	}
 
-	public Points getRoemScore(final Suit trump) {
+	private Points getRoemScore(final Suit trump) {
 		return Score.calculateRoemScore(this, trump);
 	}
-
-	public Points getTotalScore(final Suit trump) {
-		Points score = new Points();
-
-		score = this.getStockScore(trump);
-		score = Points.plus(score, this.getRoemScore(trump));
-
-		return score;
+	
+	public Score getScore(final Suit trump) {
+		return new Score(this.getStockScore(trump),this.getRoemScore(trump));
 	}
 
 	public Player getWinner(final Suit trump) {
@@ -63,7 +58,7 @@ public class Trick {
 	/**
 	 * @return
 	 */
-	private Rank getHighestTrump(final Suit trump) {
+	public Rank getHighestTrump(final Suit trump) {
 		Rank highestTrumpOnTable = null;
 		// Loop through the currently played cards
 		for(Card cardOnTable : this.cards.keySet()) {
@@ -76,6 +71,13 @@ public class Trick {
 		}
 
 		return highestTrumpOnTable;
+	}
+	
+	public Trick clone() {
+		Trick newTrick = new Trick();
+		newTrick.cards =  new HashMap<Card, Player>(this.cards);
+		newTrick.leadingSuit = this.leadingSuit;
+		return newTrick;
 	}
 
 }

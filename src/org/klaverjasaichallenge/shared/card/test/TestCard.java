@@ -1,8 +1,6 @@
 
 package org.klaverjasaichallenge.shared.card.test;
 
-import static org.junit.Assert.*;
-
 import org.junit.*;
 import java.util.List;
 import java.util.LinkedList;

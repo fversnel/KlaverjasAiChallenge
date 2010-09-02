@@ -6,12 +6,10 @@ package org.klaverjasaichallenge;
 import java.util.List;
 import java.util.LinkedList;
 
-import nl.joostpastoor.joostklaverjasai.JoostAI;
+import nl.joostpastoor.klaverjasai.JoostAI;
+import nl.joostpastoor.stupidbutlegalai.StupidButLegalAI;
 
-import org.klaverjasaichallenge.shared.PersonalGameState.GameStatePhases;
-import org.klaverjasaichallenge.shared.Action;
 import org.klaverjasaichallenge.shared.Player;
-import org.klaverjasaichallenge.shared.card.suit.Suit;
 
 /**
  * @author Joost
@@ -25,9 +23,9 @@ public class KlaverjasAIChallenge {
 
 		List<Player> players = new LinkedList<Player>();
 		players.add(new JoostAI());
+		players.add(new StupidButLegalAI());
 		players.add(new JoostAI());
-		players.add(new JoostAI());
-		players.add(new JoostAI());
+		players.add(new StupidButLegalAI());
 		
 		for(int currentGameId = 0; currentGameId < PLAY_GAMES; currentGameId++) {	
 			System.out.println("Starting game: " + currentGameId);

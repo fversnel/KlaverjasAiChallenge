@@ -3,22 +3,13 @@
  */
 package org.klaverjasaichallenge;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
-
-import org.klaverjasaichallenge.shared.Order;
-import org.klaverjasaichallenge.shared.PersonalGameState;
 import org.klaverjasaichallenge.shared.Player;
-import org.klaverjasaichallenge.shared.Hand;
 import org.klaverjasaichallenge.shared.Points;
-import org.klaverjasaichallenge.shared.Round;
-import org.klaverjasaichallenge.shared.PersonalGameState.GameStatePhases;
-import org.klaverjasaichallenge.shared.card.Card;
-import org.klaverjasaichallenge.shared.card.rank.Rank;
-import org.klaverjasaichallenge.shared.card.suit.Suit;
 
 /**
  * Information about the current state of the Game
@@ -30,17 +21,13 @@ import org.klaverjasaichallenge.shared.card.suit.Suit;
  */
 public class DefaultGameState {
 
-	private final Map<Order, Player> players;
+	private List<Player> players;
 	private List<Round> roundsPlayed;
 
-	public DefaultGameState(List<Player> playerList) {
+	public DefaultGameState(List<Player> players) {
 		
 		// Put the players in a hashmap that is ordered
-		this.players = new HashMap<Order, Player>();
-		for(int playerId = 0; playerId < this.players.size(); playerId++) {
-			this.players.put(new Order(playerId), playerList.get(playerId));
-		}
-		
+		this.players = players;
 		this.roundsPlayed = new LinkedList<Round>();
 	}
 
@@ -49,23 +36,19 @@ public class DefaultGameState {
 	 */
 	public void play() {
 		
-		Round prevRound;
 		for(int currentRoundId = 0; currentRoundId < 16; currentRoundId++) {
-			System.out.println("- Starting round: " + currentRoundId);
+			System.out.println("- Starting round: " + currentRoundId + " with Players: " + players);
 
 			Round round = new Round(this.players);
 			round.play();
-			round.getScores();
+			//round.getScores();
 			
 			this.roundsPlayed.add(round);
 			
-			// TODO Maybe nicer to store a list with rounds, instead of only keeping the last
-			prevRound = round;
+			// Change the order of the players
+			this.players = this.moveOrderUp(this.players);
 		}
 	}
-
-
-
 
 	/**
 	 * 
@@ -80,4 +63,14 @@ public class DefaultGameState {
 		return null;
 	}	
 
+	private List<Player> moveOrderUp(List<Player> oldList) {
+		List<Player> newList = new ArrayList<Player>();
+		
+		newList.add(0,oldList.get(3));
+		newList.add(1,oldList.get(0));
+		newList.add(2,oldList.get(1));
+		newList.add(3,oldList.get(2));
+		
+		return newList;
+	}
 }

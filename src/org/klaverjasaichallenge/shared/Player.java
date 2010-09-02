@@ -4,8 +4,8 @@
 package org.klaverjasaichallenge.shared;
 
 import java.util.List;
-import java.util.Map;
 
+import org.klaverjasaichallenge.score.Score;
 import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
 
@@ -32,5 +32,13 @@ public interface Player {
 	/**
 	 * @return
 	 */
-	public Card getCard(Order order, Trick cardsOnTable);
+	public Card getCard(Trick trick, Suit trump, Order order);
+	
+	/**
+	 * Returns the trick when it has been played, so the players
+	 * know which cards have left the game.
+	 * 
+	 * @param trick
+	 */
+	public void endOfTrick(Trick trick);
 }
