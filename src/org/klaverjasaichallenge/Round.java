@@ -16,6 +16,10 @@ import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.rank.Rank;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
 
+/**
+ * TODO Refactor this class since it's responsibility seems to be to big. Look
+ * at the amount of named constants for example... way too much.
+ */
 public class Round {
 	private static final int TRICK_COUNT = 8;
 
@@ -49,6 +53,8 @@ public class Round {
 
 		/**
 		 * Veel plezier Action: Give cards to players
+		 * TODO Why is dealing cards and giving cards to players a seperate
+		 * action?
 		 */
 		for (Player player : players) {
 			Hand playersHand = this.hands.get(player);
@@ -68,10 +74,10 @@ public class Round {
 			}
 
 			for (int playerIndex = 0; playerIndex < players.size(); playerIndex++) {
-				
+
 				Player player = players.get(playerIndex);
 				Order playersOrder = new Order(playerIndex);
-				
+
 				boolean playOnTrump = player.playOnTrump(drawnTrump, playersOrder);
 				if (playOnTrump) {
 					playerAcceptedTrump = player;
@@ -81,7 +87,8 @@ public class Round {
 		} while (playerAcceptedTrump == null);
 
 		/**
-		 * Action: Trick or treat
+		 * Action: Play all tricks, when the last trick is player, the round
+		 * will be ended.
 		 */
 		for (int trickId = 0; trickId < AMOUNT_OF_TRICKS; trickId++) {
 			Trick trick = new Trick();
@@ -110,7 +117,7 @@ public class Round {
 			Player winner = trick.getWinner(drawnTrump);
 			this.tricksPlayed.add(trick);
 			System.out.println("--- Winner:  " + winner + " with " + score);
-			
+
 			// Notify player of end of trick
 			for(Player player : players) {
 				player.endOfTrick(trick);
@@ -167,7 +174,7 @@ public class Round {
 	public void playCard(Trick trick, Player player, Card card)
 			throws Exception {
 		if (this.hands.get(player).drawCard(card) == null) {
-			throw new Exception("The player played an invalid card! This card"
+			throw new VerzaakException("The player played an invalid card! This card"
 					+ " is not in his hand");
 		}
 
@@ -190,9 +197,7 @@ public class Round {
 										.isHigherThan(
 												card.getRank().getTrumpOrder())
 								&& playerCanRaiseTrump(highestTrumpOnTable, player)) {
-							throw new Exception(
-									"Player "
-											+ player
+							throw new VerzaakException( "Player " + player
 											+ " can raise the trump but is not doing it."
 											+ " Current trump: " + this.trump
 											+ ". Card played: " + card);
@@ -201,16 +206,14 @@ public class Round {
 					// Else - Player is not playing a trump card, but is able
 					// to (playerHasTrump(), throw exception
 					else if (playerHasTrump(player)) {
-						throw new Exception(
-								"Player "
-										+ player
+						throw new VerzaakException( "Player " + player
 										+ " has trump but is not playing it. Current trump: "
 										+ this.trump + ". Card played: " + card);
 					}
 				}
 				// Else - Player can follow suit but is not, throw exception
 				else {
-					throw new Exception("Player " + player
+					throw new VerzaakException("Player " + player
 							+ " can follow suit but is not. Current suit: "
 							+ leadingSuit + ".  Card played: " + card);
 				}
@@ -221,14 +224,14 @@ public class Round {
 	}
 
 	private boolean playerHasTrump(Player player) {
-		Hand hand = this.hands.get(player);		
+		Hand hand = this.hands.get(player);
 		return hand.hasSuit(this.trump);
 	}
 
 	/**
 	 * Checks whether an player can play a card that is higher then the currently highest ranked
 	 * trump played.
-	 * 
+	 *
 	 * @param highestTrumpOnTable
 	 * @param player
 	 * @return True if the player is able to, false if not
@@ -236,8 +239,8 @@ public class Round {
 	private boolean playerCanRaiseTrump(Rank highestTrumpOnTable, Player player) {
 		Hand hand = hands.get(player);
 		Rank highestTrumpOfPlayer = hand.getHighestTrump(this.trump);
-		
-		if(highestTrumpOfPlayer != null && highestTrumpOfPlayer.getTrumpOrder().isHigherThan(highestTrumpOnTable.getTrumpOrder())) 
+
+		if(highestTrumpOfPlayer != null && highestTrumpOfPlayer.getTrumpOrder().isHigherThan(highestTrumpOnTable.getTrumpOrder()))
 			return true;
 		else
 			return false;
@@ -246,28 +249,30 @@ public class Round {
 	/**
 	 * Checks whether a player has the ability to play a card of the leading
 	 * suit.
-	 * 
+	 *
 	 * @param player
 	 * @param leadingSuit
 	 * @return True when the player can follow suit, false when not
 	 */
 	private boolean playerCanFollowSuit(Player player, Suit leadingSuit) {
-		Hand hand = hands.get(player);
+		boolean result = false;
 
-		if (hand.hasSuit(leadingSuit))
-			return true;
-		else
-			return false;
+		Hand hand = hands.get(player);
+		if (hand.hasSuit(leadingSuit)) {
+			result = true;
+		}
+
+		return result;
 	}
 
 	/**
 	 * Calculates the points players have amassed this Round
 	 */
 	public Map<Player, Score> calculateRoundScores() {
-		
+
 		Score team1Score = new Score(new Points(0), new Points(0));
 		Score team2Score = new Score(new Points(0), new Points(0));
-		
+
 		int team1Wins = 0;
 		int team2Wins = 0;
 
@@ -308,7 +313,7 @@ public class Round {
 		if (team1Wins == TRICK_COUNT) {
 			team1Score = new Score(team1Score.getStockScore(),Points.plus(team1Score.getRoemScore(),Score.MARCH_POINTS));
 			System.out.println("--- Team 1 goes marching");
-		} 
+		}
 
 		Map<Player, Score> scores = new HashMap<Player, Score>();
 		scores.put(players.get(TEAM_1_PLAYER_1), team1Score);

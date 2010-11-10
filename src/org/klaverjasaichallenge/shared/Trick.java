@@ -28,7 +28,7 @@ public class Trick {
 		if(this.cards.size() == FIRST_ADDED_CARD) {
 			this.leadingSuit = cardPlayed.getSuit();
 		}
-	}	
+	}
 
 	public List<Card> getCards() {
 		return new LinkedList<Card>(this.cards.keySet());
@@ -45,7 +45,7 @@ public class Trick {
 	private Points getRoemScore(final Suit trump) {
 		return Score.calculateRoemScore(this, trump);
 	}
-	
+
 	public Score getScore(final Suit trump) {
 		return new Score(this.getStockScore(trump),this.getRoemScore(trump));
 	}
@@ -72,7 +72,7 @@ public class Trick {
 
 		return highestTrumpOnTable;
 	}
-	
+
 	public Trick clone() {
 		Trick newTrick = new Trick();
 		newTrick.cards =  new HashMap<Card, Player>(this.cards);
