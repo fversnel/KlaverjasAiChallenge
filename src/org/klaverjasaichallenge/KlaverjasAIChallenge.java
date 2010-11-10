@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.klaverjasaichallenge;
 
@@ -13,11 +13,11 @@ import org.klaverjasaichallenge.shared.Player;
 
 /**
  * @author Joost
- * 
+ *
  */
 public class KlaverjasAIChallenge {
-	
-	private final static int PLAY_GAMES = 10;
+
+	private final static int PLAY_GAMES = 1;
 
 	public static void main(String[] args) {
 
@@ -26,8 +26,8 @@ public class KlaverjasAIChallenge {
 		players.add(new StupidButLegalAI());
 		players.add(new JoostAI());
 		players.add(new StupidButLegalAI());
-		
-		for(int currentGameId = 0; currentGameId < PLAY_GAMES; currentGameId++) {	
+
+		for(int currentGameId = 0; currentGameId < PLAY_GAMES; currentGameId++) {
 			System.out.println("Starting game: " + currentGameId);
 			DefaultGameState game = new DefaultGameState(players);
 			game.play();
