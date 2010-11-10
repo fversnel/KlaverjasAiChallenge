@@ -16,6 +16,8 @@ import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.rank.Rank;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
 
+import org.klaverjasaichallenge.shared.CheatException;
+
 /**
  * TODO Refactor this class since it's responsibility seems to be to big. Look
  * at the amount of named constants for example... way too much.
@@ -125,8 +127,7 @@ public class Round {
 		}
 
 		/**
-		 * Action: Round ends TODO Implement this action according to the pseudo
-		 * code below.
+		 * Action: Round ends
 		 */
 
 		Map<Player, Score> playerScores = this.calculateRoundScores();
@@ -174,7 +175,7 @@ public class Round {
 	public void playCard(Trick trick, Player player, Card card)
 			throws Exception {
 		if (this.hands.get(player).drawCard(card) == null) {
-			throw new VerzaakException("The player played an invalid card! This card"
+			throw new CheatException("The player played an invalid card! This card"
 					+ " is not in his hand");
 		}
 
@@ -197,7 +198,7 @@ public class Round {
 										.isHigherThan(
 												card.getRank().getTrumpOrder())
 								&& playerCanRaiseTrump(highestTrumpOnTable, player)) {
-							throw new VerzaakException( "Player " + player
+							throw new CheatException( "Player " + player
 											+ " can raise the trump but is not doing it."
 											+ " Current trump: " + this.trump
 											+ ". Card played: " + card);
@@ -206,14 +207,14 @@ public class Round {
 					// Else - Player is not playing a trump card, but is able
 					// to (playerHasTrump(), throw exception
 					else if (playerHasTrump(player)) {
-						throw new VerzaakException( "Player " + player
+						throw new CheatException( "Player " + player
 										+ " has trump but is not playing it. Current trump: "
 										+ this.trump + ". Card played: " + card);
 					}
 				}
 				// Else - Player can follow suit but is not, throw exception
 				else {
-					throw new VerzaakException("Player " + player
+					throw new CheatException("Player " + player
 							+ " can follow suit but is not. Current suit: "
 							+ leadingSuit + ".  Card played: " + card);
 				}
