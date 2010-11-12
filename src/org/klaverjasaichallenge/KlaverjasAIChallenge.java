@@ -18,7 +18,7 @@ import org.klaverjasaichallenge.shared.Points;
  */
 public class KlaverjasAIChallenge {
 
-	private final static int PLAY_GAMES = 1000;
+	private final static int PLAY_GAMES = 10;
 
 	public static void main(String[] args) {
 		Points team1Points = new Points();
