@@ -24,6 +24,8 @@ public class DefaultGameState {
 
 	private Team team1;
 	private Team team2;
+	private Points team1Points;
+	private Points team2Points;
 	private List<Round> roundsPlayed;
 
 	/**
@@ -33,6 +35,8 @@ public class DefaultGameState {
 	public DefaultGameState(Team team1, Team team2) {
 		this.team1 = team1;
 		this.team2 = team2;
+		this.team1Points = new Points();
+		this.team2Points = new Points();
 		
 		this.roundsPlayed = new LinkedList<Round>();
 	}
@@ -49,26 +53,22 @@ public class DefaultGameState {
 
 			Round round = new Round(table);
 			round.play();
-			//round.getScores();
+			team1Points = Points.plus(team1Points, round.getScore(team1).getTotalScore());
+			team2Points = Points.plus(team2Points, round.getScore(team2).getTotalScore());
 
 			this.roundsPlayed.add(round);
 
 			// Change the order of the players
 			table = table.nextRound();
-		}
+		}		
 	}
-
-	/**
-	 *
-	 */
-	public Map<Player,Points> getScores() {
-		Map<Player,Points> scores = new HashMap<Player,Points>();
-
-		for(Round round : roundsPlayed) {
-
-		}
-
-		return null;
+	
+	public Points getTeam1Points() {
+		return this.team1Points;
+	}
+	
+	public Points getTeam2Points() {
+		return this.team2Points;
 	}
 
 	private List<Player> moveOrderUp(List<Player> oldList) {

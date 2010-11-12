@@ -34,6 +34,8 @@ public class Round {
 	private final List<Suit> availableTrumps;
 	
 	private Player acceptedTrump;
+	
+	private Map<Team, Score> roundScores;
 
 	private static final int MINIMUM_AMOUNT_TRUMPS_LEFT = 1;
 //	private static final int LEADING_PLAYER = 0;
@@ -52,6 +54,7 @@ public class Round {
 		this.availableTrumps = Card.getSuits();
 		this.table = table;
 		this.acceptedTrump = null;
+		this.roundScores = null;
 	}
 
 	public void play() {
@@ -144,12 +147,16 @@ public class Round {
 		 * Action: Round ends
 		 */
 
-		Map<Team, Score> teamScores = this.calculateRoundScores();
+		this.roundScores = this.calculateRoundScores();
 
 		System.out.println("--- Round Scores");
-		for(Team team : teamScores.keySet()) {
-			System.out.println(team + " scores: " + teamScores.get(team) + " points");
+		for(Team team : roundScores.keySet()) {
+			System.out.println(team + " scores: " + roundScores.get(team) + " points");
 		}
+	}
+	
+	public Score getScore(Team team) {
+		return this.roundScores.get(team);
 	}
 
 	/**
@@ -278,7 +285,7 @@ public class Round {
 	/**
 	 * Calculates the points players have amassed this Round
 	 */
-	public Map<Team, Score> calculateRoundScores() {
+	private Map<Team, Score> calculateRoundScores() {
 
 		Team teamOffensive = table.getTeamFromPlayer(this.acceptedTrump);
 		Team teamDefensive = table.getOtherTeam(acceptedTrump);
