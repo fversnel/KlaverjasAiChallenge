@@ -17,9 +17,13 @@ public class Trick {
 	private Map<Card, Player> cards;
 	private Suit leadingSuit;
 
-	public Trick() {
+	private final Suit trump;
+
+	public Trick(final Suit trump) {
 		this.cards = new HashMap<Card, Player>();
 		this.leadingSuit = null;
+
+		this.trump = trump;
 	}
 
 	public void addCard(final Player player, final Card cardPlayed) {
@@ -50,8 +54,8 @@ public class Trick {
 		return new Score(this.getStockScore(trump),this.getRoemScore(trump));
 	}
 
-	public Player getWinner(final Suit trump) {
-		Card highestCard = Card.max(trump, new LinkedList<Card>(this.cards.keySet()));
+	public Player getWinner() {
+		Card highestCard = Card.max(this.trump, new LinkedList<Card>(this.cards.keySet()));
 		return this.cards.get(highestCard);
 	}
 
@@ -63,7 +67,7 @@ public class Trick {
 		// Loop through the currently played cards
 		for(Card cardOnTable : this.cards.keySet()) {
 			// If this card is a trump and higher ranked then current top ranked trump
-			if (cardOnTable.getSuit().equals(trump) &&
+			if (cardOnTable.getSuit().equals(this.trump) &&
 					(highestTrumpOnTable == null ||
 					cardOnTable.getRank().getTrumpOrder().isHigherThan(highestTrumpOnTable.getTrumpOrder()))) {
 				highestTrumpOnTable = cardOnTable.getRank();
