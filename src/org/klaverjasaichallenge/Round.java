@@ -140,6 +140,8 @@ public class Round {
 				player.endOfTrick(trick);
 			}
 			
+			assert(drawnTrump == this.trump);
+			
 			this.table = this.table.nextTrick(winner);
 		}
 

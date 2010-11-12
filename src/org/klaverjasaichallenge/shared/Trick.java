@@ -51,7 +51,7 @@ public class Trick {
 	}
 
 	public Player getWinner(final Suit trump) {
-		Card highestCard = Card.max(trump, new LinkedList<Card>(this.cards.keySet()));
+		Card highestCard = Card.max(trump, this.leadingSuit, new LinkedList<Card>(this.cards.keySet()));
 		return this.cards.get(highestCard);
 	}
 

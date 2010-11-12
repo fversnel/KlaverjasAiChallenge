@@ -57,16 +57,34 @@ public class Card {
 		return this.rank.getRoemOrder();
 	}
 
-	public boolean isHigherThan(final Suit trump, final Card card) {
+	public boolean isHigherThan(final Suit trump, final Suit leadingSuit, final Card card) {
 		boolean result = false;
 
+		// If both are trumps
 		if(this.suit.equals(trump) && card.getSuit().equals(trump)) {
 			result = this.getTrumpOrder().isHigherThan(card.getTrumpOrder());
-		} else if(this.suit.equals(trump) && !card.getSuit().equals(trump)) {
+		} 
+		// If this card is a trump, but the card to compare it with is not
+		else if(this.suit.equals(trump) && !card.getSuit().equals(trump)) {
 			result = true;
-		} else if(!this.suit.equals(trump) && card.getSuit().equals(trump)) {
+		} 
+		// If this card is not a trump, but the card to compare it with is
+		else if(!this.suit.equals(trump) && card.getSuit().equals(trump)) {
 			result = false;
-		} else if(!this.suit.equals(trump) && !card.getSuit().equals(trump)) {
+		} 
+		// If both cards are of the leading suit
+		else if(this.suit.equals(leadingSuit) && card.getSuit().equals(leadingSuit)) {
+			result = this.getNormalOrder().isHigherThan(card.getNormalOrder());
+		}
+		// If this card is a leadingSuit, but the card to compare it with is not
+		else if(this.suit.equals(leadingSuit) && !card.getSuit().equals(leadingSuit)) {
+			result = true;
+		} 
+		// If this card is not a leadingSuit, but the card to compare it with is
+		else if(!this.suit.equals(leadingSuit) && card.getSuit().equals(leadingSuit)) {
+			result = false;
+		} 		
+		else {
 			result = this.getNormalOrder().isHigherThan(card.getNormalOrder());
 		}
 
@@ -82,16 +100,11 @@ public class Card {
 		return this.rank + " of " + this.suit;
 	}
 
-	public static Card max(final Suit trump, final List<Card> cards) {
+	public static Card max(final Suit trump, final Suit leadingSuit, final List<Card> cards) {
 		Card highestCard = null;
 		for(Card card : cards) {
-			List<Card> otherCards = new LinkedList<Card>(cards);
-			otherCards.remove(card);
-			for(Card cardToCompare : otherCards) {
-				if(card.isHigherThan(trump, cardToCompare)) {
+			if(highestCard == null || card.isHigherThan(trump, leadingSuit, highestCard)) 
 					highestCard = card;
-				}
-			}
 		}
 		return highestCard;
 	}
