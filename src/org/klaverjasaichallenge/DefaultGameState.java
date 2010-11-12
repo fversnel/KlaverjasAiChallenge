@@ -22,13 +22,18 @@ import org.klaverjasaichallenge.shared.Points;
 public class DefaultGameState {
 	private static final int MAX_ROUNDS = 16;
 
-	private List<Player> players;
+	private Team team1;
+	private Team team2;
 	private List<Round> roundsPlayed;
 
-	public DefaultGameState(List<Player> players) {
-
-		// Put the players in a hashmap that is ordered
-		this.players = players;
+	/**
+	 * @param team1
+	 * @param team2
+	 */
+	public DefaultGameState(Team team1, Team team2) {
+		this.team1 = team1;
+		this.team2 = team2;
+		
 		this.roundsPlayed = new LinkedList<Round>();
 	}
 
@@ -36,18 +41,20 @@ public class DefaultGameState {
 	 * Just play your 16 rounds kk?!
 	 */
 	public void play() {
+		
+		Table table = new Table(this.team1, this.team2);
 
 		for(int currentRoundId = 1; currentRoundId <= MAX_ROUNDS; currentRoundId++) {
-			System.out.println("- Starting round: " + currentRoundId + " with Players: " + players);
+			System.out.println("- Starting round: " + currentRoundId + " with Players: " + table.getPlayers());
 
-			Round round = new Round(this.players);
+			Round round = new Round(table);
 			round.play();
 			//round.getScores();
 
 			this.roundsPlayed.add(round);
 
 			// Change the order of the players
-			this.players = this.moveOrderUp(this.players);
+			table = table.nextRound();
 		}
 	}
 

@@ -29,6 +29,10 @@ public class Points {
 		return leftHandSide.getPoints() > rightHandSide.getPoints() ? true : false;
 	}
 	
+	public static boolean biggerThanOrEquals(final Points leftHandSide, final Points rightHandSide) {
+		return leftHandSide.getPoints() >= rightHandSide.getPoints() ? true : false;
+	}
+	
 	public String toString() {
 		return this.getPoints()+"";
 	}

@@ -49,6 +49,10 @@ public class Score {
 	public static boolean totalScorebiggerThan(final Score leftHandSide, final Score rightHandSide) {
 		return Points.biggerThan(leftHandSide.getTotalScore(), rightHandSide.getTotalScore());
 	}
+	
+	public static boolean totalScoreBiggerThanOrEquals(final Score leftHandSide, final Score rightHandSide) {
+		return Points.biggerThanOrEquals(leftHandSide.getTotalScore(), rightHandSide.getTotalScore());
+	}
 
 	public String toString() {
 		return "Score [Total: "+this.getTotalScore()+", Stock: "+ this.getStockScore() +", Roem: " + this.getRoemScore() + "]";

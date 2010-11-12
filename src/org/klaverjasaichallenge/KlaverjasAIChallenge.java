@@ -21,15 +21,17 @@ public class KlaverjasAIChallenge {
 
 	public static void main(String[] args) {
 
-		List<Player> players = new LinkedList<Player>();
-		players.add(new JoostAI());
-		players.add(new StupidButLegalAI());
-		players.add(new JoostAI());
-		players.add(new StupidButLegalAI());
+		Player player_t1_1 = new JoostAI();
+		Player player_t1_2 = new JoostAI();
+		Player player_t2_1 = new StupidButLegalAI();
+		Player player_t2_2 = new StupidButLegalAI();
 
+		Team team1 = new Team(player_t1_1, player_t1_2);
+		Team team2 = new Team(player_t2_1, player_t2_2);
+		
 		for(int currentGameId = 0; currentGameId < PLAY_GAMES; currentGameId++) {
 			System.out.println("Starting game: " + currentGameId);
-			DefaultGameState game = new DefaultGameState(players);
+			DefaultGameState game = new DefaultGameState(team1, team2);
 			game.play();
 			game.getScores();
 		}

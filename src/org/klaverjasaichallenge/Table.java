@@ -3,6 +3,7 @@
  */
 package org.klaverjasaichallenge;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Map;
@@ -54,6 +55,35 @@ public class Table {
 	public Score getScore(final Team team) {
 		return this.score.get(team);
 	}
+	
+	public List<Team> getTeams() {
+		List<Team> teams = new ArrayList<Team>();
+		for(Team team : this.score.keySet())
+			teams.add(team);
+		return teams;
+	}
+	 
+	public Team getTeamFromPlayer(Player player) {
+		for(Team team : this.score.keySet())
+			if(team.hasPlayer(player))
+				return team;
+		
+		throw new RuntimeException("Player " + player + " does not exist in any team");
+	}
+	
+	public Team getOtherTeam(Player player) {
+		for(Team team : this.score.keySet()) {
+			if(!team.hasPlayer(player)) {
+				return team;
+			}
+		}
+
+		throw new RuntimeException("Player " + player + " does not exist in any team");
+	}
+
+	public List<Player> getPlayers() {
+		return this.positions;
+	}
 
 	private Table(final Map<Team, Score> score, final List<Player> positions,
 			final Player nextPlayer, final Player roundStarter) {
@@ -92,5 +122,6 @@ public class Table {
 		positions.add(teamTwo.getSecondPlayer());
 		return positions;
 	}
+	
 
 }

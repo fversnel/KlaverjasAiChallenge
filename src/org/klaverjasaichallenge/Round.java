@@ -29,26 +29,29 @@ public class Round {
 	private final Map<Player, Hand> hands;
 	private final List<Trick> tricksPlayed;
 
-	private final List<Player> players;
+	private Table table;
 
 	private final List<Suit> availableTrumps;
+	
+	private Player acceptedTrump;
 
 	private static final int MINIMUM_AMOUNT_TRUMPS_LEFT = 1;
-	private static final int LEADING_PLAYER = 0;
-
-	private static final int TEAM_1_PLAYER_1 = 0;
-	private static final int TEAM_1_PLAYER_2 = 2;
-	private static final int TEAM_2_PLAYER_1 = 1;
-	private static final int TEAM_2_PLAYER_2 = 3;
+//	private static final int LEADING_PLAYER = 0;
+//
+//	private static final int TEAM_1_PLAYER_1 = 0;
+//	private static final int TEAM_1_PLAYER_2 = 2;
+//	private static final int TEAM_2_PLAYER_1 = 1;
+//	private static final int TEAM_2_PLAYER_2 = 3;
 
 	private Suit trump;
 	private Player winner = null;
 
-	public Round(List<Player> players) {
+	public Round(Table table) {
 		this.tricksPlayed = new LinkedList<Trick>();
-		this.hands = dealCards(players);
+		this.hands = dealCards(table);
 		this.availableTrumps = Card.getSuits();
-		this.players = players;
+		this.table = table;
+		this.acceptedTrump = null;
 	}
 
 	public void play() {
@@ -58,7 +61,7 @@ public class Round {
 		 * TODO Why is dealing cards and giving cards to players a seperate
 		 * action?
 		 */
-		for (Player player : players) {
+		for (Player player : table.getPlayers()) {
 			Hand playersHand = this.hands.get(player);
 			player.giveCards(playersHand.getCards());
 		}
@@ -66,7 +69,6 @@ public class Round {
 		/**
 		 * Action: Draw Trump
 		 */
-		Player playerAcceptedTrump = null;
 		Suit drawnTrump = null;
 		do {
 			try {
@@ -74,19 +76,27 @@ public class Round {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			
+			// TODO Force gaan na 3x
+			Table trumpTable = this.table;
+			for (int playerIndex = 0; playerIndex < 4; playerIndex++) {
 
-			for (int playerIndex = 0; playerIndex < players.size(); playerIndex++) {
-
-				Player player = players.get(playerIndex);
+				Player player = trumpTable.getActivePlayer();
+				
+				// TODO Request order from table instead 
 				Order playersOrder = new Order(playerIndex);
 
 				boolean playOnTrump = player.playOnTrump(drawnTrump, playersOrder);
 				if (playOnTrump) {
-					playerAcceptedTrump = player;
+					this.acceptedTrump = player;
 					this.trump = drawnTrump;
+					System.out.println(this.acceptedTrump + " goes on " + drawnTrump);
+					break;
 				}
+				
+				trumpTable = trumpTable.nextPlayer();
 			}
-		} while (playerAcceptedTrump == null);
+		} while (this.acceptedTrump == null);
 
 		/**
 		 * Action: Play all tricks, when the last trick is player, the round
@@ -97,8 +107,8 @@ public class Round {
 
 			System.out.println("-- Start trick " + trickId + " with trump " + trump);
 
-			for (int playerIndex = 0; playerIndex < players.size(); playerIndex++) {
-				Player currentPlayer = players.get(playerIndex);
+			for (int playerIndex = 0; playerIndex < 4; playerIndex++) {
+				Player currentPlayer = table.getActivePlayer();
 				Order playersOrder = new Order(playerIndex);
 
 				// Ask the player to return a card
@@ -113,6 +123,8 @@ public class Round {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+				
+				this.table = this.table.nextPlayer();
 			}
 
 			Score score = trick.getScore(drawnTrump);
@@ -121,37 +133,34 @@ public class Round {
 			System.out.println("--- Winner:  " + winner + " with " + score);
 
 			// Notify player of end of trick
-			for(Player player : players) {
+			for(Player player : table.getPlayers()) {
 				player.endOfTrick(trick);
 			}
+			
+			this.table = this.table.nextTrick(winner);
 		}
 
 		/**
 		 * Action: Round ends
 		 */
 
-		Map<Player, Score> playerScores = this.calculateRoundScores();
+		Map<Team, Score> teamScores = this.calculateRoundScores();
 
 		System.out.println("--- Round Scores");
-		System.out.println("Team 1 Player 1 "
-				+ playerScores.get(players.get(TEAM_1_PLAYER_1)));
-		System.out.println("Team 1 Player 2 "
-				+ playerScores.get(players.get(TEAM_1_PLAYER_2)));
-		System.out.println("Team 2 Player 1 "
-				+ playerScores.get(players.get(TEAM_2_PLAYER_1)));
-		System.out.println("Team 2 Player 2 "
-				+ playerScores.get(players.get(TEAM_2_PLAYER_2)));
+		for(Team team : teamScores.keySet()) {
+			System.out.println(team + " scores: " + teamScores.get(team) + " points");
+		}
 	}
 
 	/**
 	 * This function creates a Deck object and gives the cards to the different
 	 * players so they all have a hand of 8 cards, which is returned.
 	 */
-	private Map<Player, Hand> dealCards(List<Player> players) {
+	private Map<Player, Hand> dealCards(Table table) {
 		Deck deck = new Deck();
 		Map<Player, Hand> hands = new HashMap<Player, Hand>();
 
-		for (Player player : players) {
+		for (Player player : table.getPlayers()) {
 			hands.put(player, new Hand(deck));
 		}
 
@@ -269,60 +278,55 @@ public class Round {
 	/**
 	 * Calculates the points players have amassed this Round
 	 */
-	public Map<Player, Score> calculateRoundScores() {
+	public Map<Team, Score> calculateRoundScores() {
 
-		Score team1Score = new Score(new Points(0), new Points(0));
-		Score team2Score = new Score(new Points(0), new Points(0));
-
-		int team1Wins = 0;
-		int team2Wins = 0;
-
+		Team teamOffensive = table.getTeamFromPlayer(this.acceptedTrump);
+		Team teamDefensive = table.getOtherTeam(acceptedTrump);
+		Map<Team, Score> teamScores = new HashMap<Team, Score>();
+		for(Team team: this.table.getTeams()) {
+			teamScores.put(team, new Score());
+		}
+		
 		for (int trickId = 0; trickId < TRICK_COUNT; trickId++) {
 			Trick trick = tricksPlayed.get(trickId);
 			Player winner = trick.getWinner(trump);
-			int winnerId = players.indexOf(winner);
 			Score trickScore = trick.getScore(trump);
+			Team winningTeam = this.table.getTeamFromPlayer(winner);
 
 			// For the last trick, award extra points
 			if (trickId == TRICK_COUNT - 1)
 				trickScore = new Score(Points.plus(trickScore.getStockScore(),
 						Score.LAST_TRICK_POINTS), trickScore.getRoemScore());
-
-			if (winnerId == TEAM_1_PLAYER_1 || winnerId == TEAM_1_PLAYER_2) {
-				team1Wins++;
-				team1Score = Score.plus(team1Score, trickScore);
-			}
-			else {
-				team2Wins++;
-				team2Score = Score.plus(team2Score, trickScore);
-			}
+			
+			Score previousScore = teamScores.get(winningTeam);
+			teamScores.put(winningTeam, Score.plus(previousScore, trickScore));
 		}
 
 		// Going wet
-		if (Score.totalScorebiggerThan(team2Score,team1Score)) {
+		if (Score.totalScoreBiggerThanOrEquals(teamScores.get(teamDefensive),teamScores.get(teamOffensive))) {
 			// Winners get the roem of both teams
-			team2Score = new Score(new Points(162), new Points(Points.plus(
-					team2Score.getRoemScore(), team1Score.getRoemScore())));
+			
+			Score defensiveScore = new Score(new Points(162), new Points(Points.plus(
+					teamScores.get(teamDefensive).getRoemScore(), 
+					teamScores.get(teamOffensive).getRoemScore())));			
+			teamScores.put(teamDefensive, defensiveScore);
 
 			// The team that goes gets 0 points
-			team1Score = new Score(new Points(0), new Points(0));
+			teamScores.put(teamOffensive, new Score(new Points(0), new Points(0)));
 
-			System.out.println("--- Team 1 goes wet! OMG");
+			System.out.println("--- " + teamOffensive + " goes wet! OMG");
 		}
 
 		// Marching
-		if (team1Wins == TRICK_COUNT) {
-			team1Score = new Score(team1Score.getStockScore(),Points.plus(team1Score.getRoemScore(),Score.MARCH_POINTS));
-			System.out.println("--- Team 1 goes marching");
+	
+		if (teamScores.get(teamOffensive).getStockScore().getPoints() == 162) {			
+			Score newScore = new Score(teamScores.get(teamOffensive).getStockScore(),Points.plus(teamScores.get(teamOffensive).getRoemScore(),Score.MARCH_POINTS));
+			teamScores.put(teamOffensive, newScore);
+			System.out.println("--- " + teamOffensive + " goes marching");
+			
 		}
 
-		Map<Player, Score> scores = new HashMap<Player, Score>();
-		scores.put(players.get(TEAM_1_PLAYER_1), team1Score);
-		scores.put(players.get(TEAM_1_PLAYER_2), team1Score);
-		scores.put(players.get(TEAM_2_PLAYER_1), team2Score);
-		scores.put(players.get(TEAM_2_PLAYER_2), team2Score);
-
-		return scores;
+		return teamScores;
 	}
 
 	public Object getWinner() {
