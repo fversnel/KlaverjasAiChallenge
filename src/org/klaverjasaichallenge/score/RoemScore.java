@@ -13,7 +13,7 @@ import org.klaverjasaichallenge.shared.card.rank.*;
 class RoemScore {
 	private static final Points FOUR_JACKS = new Points(200);
 	private static final Points FOUR_CARDS_SAME_RANK = new Points(100);
-	private static final Points FOUR_CONSECUTIVE_CARDS = new Points(30);
+	private static final Points FOUR_CONSECUTIVE_CARDS = new Points(50);
 	private static final Points THREE_CONSECUTIVE_CARDS = new Points(20);
 	private static final Points STUK = new Points(20);
 
@@ -29,8 +29,7 @@ class RoemScore {
 
 		if(!trick.getCards().isEmpty()) {
 			score = Points.plus(score, calculateFourCardsSameRankScore(trick));
-			score = Points.plus(score, calculateFourConsecutiveCardsScore(trick));
-			score = Points.plus(score, calculateThreeConsecutiveCardsScore(trick));
+			score = Points.plus(score, calculateConsecutiveCardsScore(trick));
 			score = Points.plus(score, calculateStukScore(trick, trump));
 		}
 
@@ -68,52 +67,59 @@ class RoemScore {
 		return score;
 	}
 
-	private static Points calculateConsecutiveCardsScore(
-			final Trick trick, final int amountConsecutiveCards,
-			final Points consecutiveScore) {
+	/**
+	 * TODO Check for each card if it is one, two, or three ranks higher 
+	 */
+	private static Points calculateConsecutiveCardsScore(final Trick trick) {
 		Points score = new Points();
 
-		List<Order> roemOrder = new ArrayList<Order>();
-		List<Card> cards = trick.getCards();
-		Suit cardSuit = cards.get(0).getSuit();
-		for(Card card : cards) {
-			if(cardSuit.equals(card.getSuit())) {
-				roemOrder.add(card.getRoemOrder());
-			}
-		}
+		for(Card card : trick.getCards()) {
+			boolean oneRankDifferencePositive = false;
+			boolean twoRanksDifferencePositive = false;
+			boolean threeRanksDifferencePositive = false;
+			boolean oneRankDifferenceNegative = false;
+			boolean twoRanksDifferenceNegative = false;
+			boolean threeRanksDifferenceNegative = false;
 
-		if(roemOrder.size() >= amountConsecutiveCards) {
-			int consecutiveCards = 1;
-
-			Order.sort(roemOrder);
-
-			for(int currentIndex = 0; currentIndex < roemOrder.size() - 1;
-					currentIndex++) {
-				int nextIndex = currentIndex + 1;
-
-				Order currentOrder = roemOrder.get(currentIndex);
-				Order nextOrder = roemOrder.get(nextIndex);
-				Order toCompare = Order.minus(nextOrder, currentOrder);
-
-				if(toCompare.equals(CONSECUTIVE_DIFFERENCE)) {
-					consecutiveCards++;
+			for(Card otherCard : trick.getCards()) {
+				Order orderDifference = Order.minus(card.getRoemOrder(),
+						otherCard.getRoemOrder());
+				if(card.getSuit().equals(otherCard.getSuit())) {
+					if(orderDifference.equals(new Order(1))) {
+						oneRankDifferencePositive = true;
+					}
+					else if (orderDifference.equals(new Order(-1))) {
+						oneRankDifferenceNegative = true;
+					}
+					else if(orderDifference.equals(new Order(2))) { 
+						twoRanksDifferencePositive = true;
+					}
+					else if(orderDifference.equals(new Order(-2))) {
+						twoRanksDifferenceNegative = true;
+					}
+					else if(orderDifference.equals(new Order(3))) {
+						threeRanksDifferencePositive = true;
+					}
+					else if(orderDifference.equals(new Order(-3))) {
+						threeRanksDifferenceNegative = true;
+					}
 				}
 			}
 
-			if(consecutiveCards >= amountConsecutiveCards) {
-				score = consecutiveScore;
+			if ((oneRankDifferencePositive && twoRanksDifferencePositive &&
+					threeRanksDifferencePositive) ||
+				(oneRankDifferenceNegative && twoRanksDifferenceNegative &&
+				 threeRanksDifferenceNegative)) {
+				score = FOUR_CONSECUTIVE_CARDS;
+			}
+			else if((oneRankDifferencePositive && twoRanksDifferencePositive) ||
+					(oneRankDifferenceNegative && twoRanksDifferenceNegative) &&
+					Points.biggerThan(THREE_CONSECUTIVE_CARDS, score)) {
+				score = THREE_CONSECUTIVE_CARDS;
 			}
 		}
 
 		return score;
-	}
-
-	private static Points calculateThreeConsecutiveCardsScore(final Trick trick) {
-		return calculateConsecutiveCardsScore(trick, THREE_CARDS, THREE_CONSECUTIVE_CARDS);
-	}
-
-	private static Points calculateFourConsecutiveCardsScore(final Trick trick) {
-		return calculateConsecutiveCardsScore(trick, FOUR_CARDS, FOUR_CONSECUTIVE_CARDS);
 	}
 
 	private static Points calculateStukScore(final Trick trick, final Suit trump) {

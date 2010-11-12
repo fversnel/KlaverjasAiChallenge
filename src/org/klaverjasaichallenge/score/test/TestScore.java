@@ -140,6 +140,20 @@ public class TestScore {
 	}
 
 	@Test
+	public void testNoThreeConsecutiveCardsScore2() {
+		Suit trump = new Diamonds();
+		this.addCard(new Card(new Spades(), new Nine()));
+		this.addCard(new Card(new Spades(), new King()));
+		this.addCard(new Card(new Spades(), new Ten()));
+		this.addCard(new Card(new Spades(), new Queen()));
+
+		Points actual = new Points(Score.calculateRoemScore(this.testTrick, trump));
+		Points expected = new Points(0);
+
+		assertEquals(expected.getPoints(), actual.getPoints());
+	}
+
+	@Test
 	public void testStukAndThreeConsecutiveCardsScore() {
 		this.addCard(new Card(this.testTrump, new Queen()));
 		this.addCard(new Card(this.testTrump, new Seven()));

@@ -103,8 +103,9 @@ public class Card {
 	public static Card max(final Suit trump, final Suit leadingSuit, final List<Card> cards) {
 		Card highestCard = null;
 		for(Card card : cards) {
-			if(highestCard == null || card.isHigherThan(trump, leadingSuit, highestCard)) 
-					highestCard = card;
+			if(highestCard == null || card.isHigherThan(trump, leadingSuit, highestCard)) {
+				highestCard = card;
+			}
 		}
 		return highestCard;
 	}
