@@ -68,52 +68,36 @@ class RoemScore {
 	}
 
 	/**
-	 * TODO Check for each card if it is one, two, or three ranks higher 
+	 * TODO Check for each card if it is one, two, or three ranks higher
 	 */
 	private static Points calculateConsecutiveCardsScore(final Trick trick) {
 		Points score = new Points();
 
 		for(Card card : trick.getCards()) {
-			boolean oneRankDifferencePositive = false;
-			boolean twoRanksDifferencePositive = false;
-			boolean threeRanksDifferencePositive = false;
-			boolean oneRankDifferenceNegative = false;
-			boolean twoRanksDifferenceNegative = false;
-			boolean threeRanksDifferenceNegative = false;
+			boolean oneRankDifference = false;
+			boolean twoRanksDifference = false;
+			boolean threeRanksDifference = false;
 
 			for(Card otherCard : trick.getCards()) {
 				Order orderDifference = Order.minus(card.getRoemOrder(),
 						otherCard.getRoemOrder());
 				if(card.getSuit().equals(otherCard.getSuit())) {
 					if(orderDifference.equals(new Order(1))) {
-						oneRankDifferencePositive = true;
+						oneRankDifference = true;
 					}
-					else if (orderDifference.equals(new Order(-1))) {
-						oneRankDifferenceNegative = true;
-					}
-					else if(orderDifference.equals(new Order(2))) { 
-						twoRanksDifferencePositive = true;
-					}
-					else if(orderDifference.equals(new Order(-2))) {
-						twoRanksDifferenceNegative = true;
+					else if(orderDifference.equals(new Order(2))) {
+						twoRanksDifference = true;
 					}
 					else if(orderDifference.equals(new Order(3))) {
-						threeRanksDifferencePositive = true;
-					}
-					else if(orderDifference.equals(new Order(-3))) {
-						threeRanksDifferenceNegative = true;
+						threeRanksDifference = true;
 					}
 				}
 			}
 
-			if ((oneRankDifferencePositive && twoRanksDifferencePositive &&
-					threeRanksDifferencePositive) ||
-				(oneRankDifferenceNegative && twoRanksDifferenceNegative &&
-				 threeRanksDifferenceNegative)) {
+			if(oneRankDifference && twoRanksDifference && threeRanksDifference) {
 				score = FOUR_CONSECUTIVE_CARDS;
 			}
-			else if((oneRankDifferencePositive && twoRanksDifferencePositive) ||
-					(oneRankDifferenceNegative && twoRanksDifferenceNegative) &&
+			else if((oneRankDifference && twoRanksDifference) &&
 					Points.biggerThan(THREE_CONSECUTIVE_CARDS, score)) {
 				score = THREE_CONSECUTIVE_CARDS;
 			}
