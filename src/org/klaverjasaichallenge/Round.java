@@ -1,6 +1,5 @@
 package org.klaverjasaichallenge;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.LinkedList;
@@ -22,90 +21,44 @@ import org.klaverjasaichallenge.shared.CheatException;
  * TODO Refactor this class since it's responsibility seems to be to big. Look
  * at the amount of named constants for example... way too much.
  */
-public class Round {
+public class Round { 
 	private static final int TRICK_COUNT = 8;
-
-	private static final int AMOUNT_OF_TRICKS = 8;
-	private final Map<Player, Hand> hands;
-	private final List<Trick> tricksPlayed;
+	private static final int FORCED_PLAY_ON_TRUMP = 3;
 
 	private Table table;
 
+	private final Map<Team, Score> roundScores;
+	private final List<Trick> tricksPlayed;
 	private final List<Suit> availableTrumps;
-	
-	private Player acceptedTrump;
-	
-	private Map<Team, Score> roundScores;
 
-	private static final int MINIMUM_AMOUNT_TRUMPS_LEFT = 1;
-//	private static final int LEADING_PLAYER = 0;
-//
-//	private static final int TEAM_1_PLAYER_1 = 0;
-//	private static final int TEAM_1_PLAYER_2 = 2;
-//	private static final int TEAM_2_PLAYER_1 = 1;
-//	private static final int TEAM_2_PLAYER_2 = 3;
+	private Map<Player, Hand> hands;
 
+	private Player playerAcceptedTrump;
 	private Suit trump;
-	private Player winner = null;
+	private Player winner;
 
 	public Round(Table table) {
-		this.tricksPlayed = new LinkedList<Trick>();
-		this.hands = dealCards(table);
-		this.availableTrumps = Card.getSuits();
 		this.table = table;
-		this.acceptedTrump = null;
-		this.roundScores = null;
+
+		this.availableTrumps = Card.getSuits();
+		this.roundScores = new HashMap<Team, Score>();
+		this.tricksPlayed = new LinkedList<Trick>();
 	}
 
 	public void play() {
 
-		/**
-		 * Veel plezier Action: Give cards to players
-		 * TODO Why is dealing cards and giving cards to players a seperate
-		 * action?
-		 */
-		for (Player player : table.getPlayers()) {
-			Hand playersHand = this.hands.get(player);
-			player.giveCards(playersHand.getCards());
-		}
+		// Deal the cards and notify the players
+		this.hands = dealCards(table);
 
-		/**
-		 * Action: Draw Trump
-		 */
-		Suit drawnTrump = null;
-		do {
-			try {
-				drawnTrump = this.drawTrump();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
-			// TODO Force gaan na 3x
-			Table trumpTable = this.table;
-			for (int playerIndex = 0; playerIndex < 4; playerIndex++) {
-
-				Player player = trumpTable.getActivePlayer();
-				
-				// TODO Request order from table instead 
-				Order playersOrder = new Order(playerIndex);
-
-				boolean playOnTrump = player.playOnTrump(drawnTrump, playersOrder);
-				if (playOnTrump) {
-					this.acceptedTrump = player;
-					this.trump = drawnTrump;
-					System.out.println(this.acceptedTrump + " goes on " + drawnTrump);
-					break;
-				}
-				
-				trumpTable = trumpTable.nextPlayer();
-			}
-		} while (this.acceptedTrump == null);
+		// Draw Trump is the process of choosing which player plays and on which
+		// trump
+		drawTrump();
 
 		/**
 		 * Action: Play all tricks, when the last trick is player, the round
 		 * will be ended.
 		 */
-		for (int trickId = 0; trickId < AMOUNT_OF_TRICKS; trickId++) {
+		for (int trickId = 0; trickId < TRICK_COUNT; trickId++) {
 			Trick trick = new Trick();
 
 			System.out.println("-- Start trick " + trickId + " with trump " + trump);
@@ -115,33 +68,33 @@ public class Round {
 				Order playersOrder = new Order(playerIndex);
 
 				// Ask the player to return a card
-				// (Trick is cloned to avoid the AI meddling with the trick data)
-				Card cardPlayed = currentPlayer.getCard(trick.clone(), drawnTrump, playersOrder);
+				// (Trick is cloned to avoid the AI meddling with the trick
+				// data)
+				Card cardPlayed = currentPlayer.getCard(trick.clone(), this.trump, playersOrder);
 
 				System.out.println("--- " + currentPlayer + " played " + cardPlayed);
 
-				// Play the card
+				// Check if the card is valid
 				try {
 					this.playCard(trick, currentPlayer, cardPlayed);
 				} catch (Exception e) {
+					// TODO Do not print an error here, but punish!
 					e.printStackTrace();
 				}
-				
+
 				this.table = this.table.nextPlayer();
 			}
 
-			Score score = trick.getScore(drawnTrump);
-			Player winner = trick.getWinner(drawnTrump);
+			Score score = trick.getScore(this.trump);
+			Player winner = trick.getWinner(this.trump);
 			this.tricksPlayed.add(trick);
 			System.out.println("--- Winner:  " + winner + " with " + score);
 
 			// Notify player of end of trick
-			for(Player player : table.getPlayers()) {
+			for (Player player : table.getPlayers()) {
 				player.endOfTrick(trick);
 			}
-			
-			assert(drawnTrump == this.trump);
-			
+
 			this.table = this.table.nextTrick(winner);
 		}
 
@@ -149,17 +102,81 @@ public class Round {
 		 * Action: Round ends
 		 */
 
-		this.roundScores = this.calculateRoundScores();
+		this.calculateRoundScores();
 
 		System.out.println("--- Round Scores");
-		for(Team team : roundScores.keySet()) {
+		for (Team team : roundScores.keySet()) {
 			System.out.println(team + " scores: " + roundScores.get(team) + " points");
 		}
 	}
 	
+	public Object getWinner() {
+		return this.winner;
+	}	
+	
 	public Score getScore(Team team) {
 		return this.roundScores.get(team);
+	}	
+
+	/**
+	 * DrawTrump is the subprocedure of deciding who plays on which trump. At
+	 * the end of this function the object variables this.trump and
+	 * this.playerAcceptedTrump will be set.
+	 * 
+	 * TODO See if we can make this.trump and playerAcceptedTrump local
+	 * variables that only exist in play() and subprocedures of play. Maybe let
+	 * this function return an object that contains them both.
+	 */
+	private void drawTrump() {
+		Suit drawnTrump = null;
+		int amountTrumpsDrawn = 0;
+		do {
+
+			drawnTrump = this.getAvailableTrump();
+			amountTrumpsDrawn++;
+
+			Table trumpTable = this.table;
+			for (int playerIndex = 0; playerIndex < 4; playerIndex++) {
+
+				Player player = trumpTable.getActivePlayer();
+
+				// Force active player to go on this third trump
+				if (amountTrumpsDrawn == FORCED_PLAY_ON_TRUMP) {
+					this.playerAcceptedTrump = player;
+					this.trump = drawnTrump;
+					System.out.println(this.playerAcceptedTrump + " is forced to go on " + drawnTrump);
+					break;
+				}
+
+				// When the player decides he want to play on this trump
+				if (player.playOnTrump(drawnTrump, new Order(playerIndex))) {
+					this.playerAcceptedTrump = player;
+					this.trump = drawnTrump;
+					System.out.println(this.playerAcceptedTrump + " goes on " + drawnTrump);
+					break;
+				}
+
+				trumpTable = trumpTable.nextPlayer();
+			}
+
+		} while (this.playerAcceptedTrump == null);
+
+		// Asserts that this function always results in a filled
+		// playerAcceptedTrump and trump
+		assert (this.playerAcceptedTrump != null);
+		assert (this.trump != null);
 	}
+	
+
+	private Suit getAvailableTrump() {
+		final Random random = new Random(System.nanoTime());
+		final int trumpIndex = random.nextInt(availableTrumps.size());
+		final Suit chosenTrump = availableTrumps.remove(trumpIndex);
+
+		this.trump = chosenTrump;
+
+		return chosenTrump;
+	}	
 
 	/**
 	 * This function creates a Deck object and gives the cards to the different
@@ -170,31 +187,30 @@ public class Round {
 		Map<Player, Hand> hands = new HashMap<Player, Hand>();
 
 		for (Player player : table.getPlayers()) {
-			hands.put(player, new Hand(deck));
+			Hand playersHand = new Hand(deck);
+
+			// Serverside representation of the hand
+			hands.put(player, playersHand);
+
+			// Notify Player/AI of the hand
+			player.giveCards(playersHand.getCards());
 		}
 
 		return hands;
 	}
 
-	public Suit drawTrump() throws Exception {
-		if (this.availableTrumps.size() == MINIMUM_AMOUNT_TRUMPS_LEFT) {
-			throw new Exception("Maximum amount of trumps drawn.");
-		}
-
-		final Random random = new Random(System.nanoTime());
-		final int trumpIndex = random.nextInt(availableTrumps.size());
-		final Suit chosenTrump = availableTrumps.remove(trumpIndex);
-
-		this.trump = chosenTrump;
-
-		return chosenTrump;
-	}
-
-	public void playCard(Trick trick, Player player, Card card)
-			throws Exception {
+	/**
+	 * Playcard checks if the card that a player returns is indeed 
+	 * a valid card to play within this trick.
+	 * 
+	 * @param trick
+	 * @param player
+	 * @param card
+	 * @throws Exception
+	 */
+	private void playCard(Trick trick, Player player, Card card) throws CheatException {
 		if (this.hands.get(player).drawCard(card) == null) {
-			throw new CheatException("The player played an invalid card! This card"
-					+ " is not in his hand");
+			throw new CheatException("The player played an invalid card! This card" + " is not in his hand");
 		}
 
 		// Find out current suit
@@ -212,28 +228,23 @@ public class Round {
 						// If the player is not raising a trump, but is able
 						// to (playerCanRaiseTrump()), throw exception
 						if (highestTrumpOnTable != null
-								&& highestTrumpOnTable.getTrumpOrder()
-										.isHigherThan(
-												card.getRank().getTrumpOrder())
+								&& highestTrumpOnTable.getTrumpOrder().isHigherThan(card.getRank().getTrumpOrder())
 								&& playerCanRaiseTrump(highestTrumpOnTable, player)) {
-							throw new CheatException( "Player " + player
-											+ " can raise the trump but is not doing it."
-											+ " Current trump: " + this.trump
-											+ ". Card played: " + card);
+							throw new CheatException("Player " + player + " can raise the trump but is not doing it."
+									+ " Current trump: " + this.trump + ". Card played: " + card);
 						}
 					}
 					// Else - Player is not playing a trump card, but is able
 					// to (playerHasTrump(), throw exception
 					else if (playerHasTrump(player)) {
-						throw new CheatException( "Player " + player
-										+ " has trump but is not playing it. Current trump: "
-										+ this.trump + ". Card played: " + card);
+						throw new CheatException("Player " + player
+								+ " has trump but is not playing it. Current trump: " + this.trump + ". Card played: "
+								+ card);
 					}
 				}
 				// Else - Player can follow suit but is not, throw exception
 				else {
-					throw new CheatException("Player " + player
-							+ " can follow suit but is not. Current suit: "
+					throw new CheatException("Player " + player + " can follow suit but is not. Current suit: "
 							+ leadingSuit + ".  Card played: " + card);
 				}
 			}
@@ -248,9 +259,9 @@ public class Round {
 	}
 
 	/**
-	 * Checks whether an player can play a card that is higher then the currently highest ranked
-	 * trump played.
-	 *
+	 * Checks whether an player can play a card that is higher then the
+	 * currently highest ranked trump played.
+	 * 
 	 * @param highestTrumpOnTable
 	 * @param player
 	 * @return True if the player is able to, false if not
@@ -259,7 +270,8 @@ public class Round {
 		Hand hand = hands.get(player);
 		Rank highestTrumpOfPlayer = hand.getHighestTrump(this.trump);
 
-		if(highestTrumpOfPlayer != null && highestTrumpOfPlayer.getTrumpOrder().isHigherThan(highestTrumpOnTable.getTrumpOrder()))
+		if (highestTrumpOfPlayer != null
+				&& highestTrumpOfPlayer.getTrumpOrder().isHigherThan(highestTrumpOnTable.getTrumpOrder()))
 			return true;
 		else
 			return false;
@@ -268,7 +280,7 @@ public class Round {
 	/**
 	 * Checks whether a player has the ability to play a card of the leading
 	 * suit.
-	 *
+	 * 
 	 * @param player
 	 * @param leadingSuit
 	 * @return True when the player can follow suit, false when not
@@ -286,16 +298,17 @@ public class Round {
 
 	/**
 	 * Calculates the points players have amassed this Round
+	 * 
+	 * @uses roundScores
 	 */
-	private Map<Team, Score> calculateRoundScores() {
+	private void calculateRoundScores() {
 
-		Team teamOffensive = table.getTeamFromPlayer(this.acceptedTrump);
-		Team teamDefensive = table.getOtherTeam(acceptedTrump);
-		Map<Team, Score> teamScores = new HashMap<Team, Score>();
-		for(Team team: this.table.getTeams()) {
-			teamScores.put(team, new Score());
+		Team teamOffensive = table.getTeamFromPlayer(this.playerAcceptedTrump);
+		Team teamDefensive = table.getOtherTeam(playerAcceptedTrump);
+		for (Team team : this.table.getTeams()) {
+			this.roundScores.put(team, new Score());
 		}
-		
+
 		for (int trickId = 0; trickId < TRICK_COUNT; trickId++) {
 			Trick trick = tricksPlayed.get(trickId);
 			Player winner = trick.getWinner(trump);
@@ -304,41 +317,36 @@ public class Round {
 
 			// For the last trick, award extra points
 			if (trickId == TRICK_COUNT - 1)
-				trickScore = new Score(Points.plus(trickScore.getStockScore(),
-						Score.LAST_TRICK_POINTS), trickScore.getRoemScore());
-			
-			Score previousScore = teamScores.get(winningTeam);
-			teamScores.put(winningTeam, Score.plus(previousScore, trickScore));
+				trickScore = new Score(Points.plus(trickScore.getStockScore(), Score.LAST_TRICK_POINTS), trickScore
+						.getRoemScore());
+
+			Score previousScore = this.roundScores.get(winningTeam);
+			this.roundScores.put(winningTeam, Score.plus(previousScore, trickScore));
 		}
 
 		// Going wet
-		if (Score.totalScoreBiggerThanOrEquals(teamScores.get(teamDefensive),teamScores.get(teamOffensive))) {
+		if (Score
+				.totalScoreBiggerThanOrEquals(this.roundScores.get(teamDefensive), this.roundScores.get(teamOffensive))) {
 			// Winners get the roem of both teams
-			
-			Score defensiveScore = new Score(new Points(162), new Points(Points.plus(
-					teamScores.get(teamDefensive).getRoemScore(), 
-					teamScores.get(teamOffensive).getRoemScore())));			
-			teamScores.put(teamDefensive, defensiveScore);
+
+			Score defensiveScore = new Score(new Points(162), new Points(Points.plus(this.roundScores
+					.get(teamDefensive).getRoemScore(), this.roundScores.get(teamOffensive).getRoemScore())));
+			this.roundScores.put(teamDefensive, defensiveScore);
 
 			// The team that goes gets 0 points
-			teamScores.put(teamOffensive, new Score(new Points(0), new Points(0)));
+			this.roundScores.put(teamOffensive, new Score(new Points(0), new Points(0)));
 
 			System.out.println("--- " + teamOffensive + " goes wet! OMG");
 		}
 
 		// Marching
-	
-		if (teamScores.get(teamOffensive).getStockScore().getPoints() == 162) {			
-			Score newScore = new Score(teamScores.get(teamOffensive).getStockScore(),Points.plus(teamScores.get(teamOffensive).getRoemScore(),Score.MARCH_POINTS));
-			teamScores.put(teamOffensive, newScore);
+
+		if (this.roundScores.get(teamOffensive).getStockScore().getPoints() == 162) {
+			Score newScore = new Score(this.roundScores.get(teamOffensive).getStockScore(), Points.plus(
+					this.roundScores.get(teamOffensive).getRoemScore(), Score.MARCH_POINTS));
+			this.roundScores.put(teamOffensive, newScore);
 			System.out.println("--- " + teamOffensive + " goes marching");
-			
+
 		}
-
-		return teamScores;
-	}
-
-	public Object getWinner() {
-		return this.winner;
 	}
 }
