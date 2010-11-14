@@ -22,7 +22,7 @@ public class Deck {
 
 	public Deck() {
 		this.cards = this.createDeck();
-		this.shuffleDeck(cards);
+		this.shuffleDeck(this.cards);
 
 		this.logger = Logger.getLogger("KlaverjasLogger");
 		this.logger.debug(this.cards);
@@ -33,7 +33,7 @@ public class Deck {
 	}
 
 	private Stack<Card> createDeck() {
-		cards = new Stack<Card>();
+		Stack<Card> cards = new Stack<Card>();
 		for (Suit suit : Card.getSuits()) {
 			for (Rank rank : Card.getRanks()) {
 				cards.add(new Card(suit, rank));
