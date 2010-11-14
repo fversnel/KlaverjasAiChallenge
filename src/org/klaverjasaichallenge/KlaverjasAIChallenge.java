@@ -28,7 +28,7 @@ public class KlaverjasAIChallenge {
 	private final static int PLAY_GAMES = 1000;
 
 	// Define a static logger variable so that it references the
-	// Logger instance named "MyApp".
+	// Logger instance named "KlaverjasLogger".
 	static Logger logger = Logger.getLogger("KlaverjasLogger");
 
 	public static void main(String[] args) {
