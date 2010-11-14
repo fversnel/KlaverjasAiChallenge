@@ -25,7 +25,7 @@ import org.klaverjasaichallenge.shared.Points;
  */
 public class KlaverjasAIChallenge {
 
-	private final static int PLAY_GAMES = 10;
+	private final static int PLAY_GAMES = 1000;
 
 	// Define a static logger variable so that it references the
 	// Logger instance named "MyApp".
@@ -60,8 +60,11 @@ public class KlaverjasAIChallenge {
 			logger.debug(team2 + " scored " + game.getTeam2Points());
 		}
 
-		logger.info("Overall Score");
+		logger.info("Overall score for " + PLAY_GAMES + " games:");
 		logger.info(team1 + " scored " + team1Points);
 		logger.info(team2 + " scored " + team2Points);
+		logger.info("Average score per game:");
+		logger.info(team1 + " scored " + Points.divide(team1Points, new Points(PLAY_GAMES)));
+		logger.info(team2 + " scored " + Points.divide(team2Points, new Points(PLAY_GAMES)));
 	}
 }
