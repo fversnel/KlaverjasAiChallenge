@@ -26,8 +26,8 @@ public interface Player {
 	/**
 	 * Whether you play on the given trump or not.
 	 * @param trump the suit that will be used as trump this round.
-	 * @param order the number of your turn (order 1 means your the first to
-	 * determine whether you play on the trump. Order 3 means there were 2
+	 * @param order the number of your turn (order 0 means your the first to
+	 * determine whether you play on the trump. Order 2 means there were 2
 	 * players before that passed on the trump.)
 	 * @return whether you play on the trump or not.
 	 */
