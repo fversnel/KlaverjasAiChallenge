@@ -6,6 +6,9 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Random;
 
+// Import log4j classes.
+import org.apache.log4j.Logger;
+
 import org.klaverjasaichallenge.score.Score;
 import org.klaverjasaichallenge.shared.Order;
 import org.klaverjasaichallenge.shared.Player;
@@ -21,7 +24,7 @@ import org.klaverjasaichallenge.shared.CheatException;
  * TODO Refactor this class since it's responsibility seems to be to big. Look
  * at the amount of named constants for example... way too much.
  */
-public class Round { 
+public class Round {
 	private static final int TRICK_COUNT = 8;
 	private static final int FORCED_PLAY_ON_TRUMP = 3;
 
@@ -37,12 +40,16 @@ public class Round {
 	private Suit trump;
 	private Player winner;
 
+	private Logger logger;
+
 	public Round(Table table) {
 		this.table = table;
 
 		this.availableTrumps = Card.getSuits();
 		this.roundScores = new HashMap<Team, Score>();
 		this.tricksPlayed = new LinkedList<Trick>();
+
+		this.logger = Logger.getLogger("KlaverjasLogger");
 	}
 
 	public void play() {
@@ -61,7 +68,7 @@ public class Round {
 		for (int trickId = 0; trickId < TRICK_COUNT; trickId++) {
 			Trick trick = new Trick();
 
-			System.out.println("-- Start trick " + trickId + " with trump " + trump);
+			this.logger.debug("-- Start trick " + trickId + " with trump " + trump);
 
 			for (int playerIndex = 0; playerIndex < 4; playerIndex++) {
 				Player currentPlayer = table.getActivePlayer();
@@ -72,7 +79,7 @@ public class Round {
 				// data)
 				Card cardPlayed = currentPlayer.getCard(trick.clone(), this.trump, playersOrder);
 
-				System.out.println("--- " + currentPlayer + " played " + cardPlayed);
+				this.logger.debug("--- " + currentPlayer + " played " + cardPlayed);
 
 				// Check if the card is valid
 				try {
@@ -88,7 +95,7 @@ public class Round {
 			Score score = trick.getScore(this.trump);
 			Player winner = trick.getWinner(this.trump);
 			this.tricksPlayed.add(trick);
-			System.out.println("--- Winner:  " + winner + " with " + score);
+			this.logger.debug("--- Winner:  " + winner + " with " + score);
 
 			// Notify player of end of trick
 			for (Player player : table.getPlayers()) {
@@ -104,25 +111,25 @@ public class Round {
 
 		this.calculateRoundScores();
 
-		System.out.println("--- Round Scores");
+		this.logger.debug("--- Round Scores");
 		for (Team team : roundScores.keySet()) {
-			System.out.println(team + " scores: " + roundScores.get(team) + " points");
+			this.logger.debug(team + " scores: " + roundScores.get(team) + " points");
 		}
 	}
-	
+
 	public Object getWinner() {
 		return this.winner;
-	}	
-	
+	}
+
 	public Score getScore(Team team) {
 		return this.roundScores.get(team);
-	}	
+	}
 
 	/**
 	 * DrawTrump is the subprocedure of deciding who plays on which trump. At
 	 * the end of this function the object variables this.trump and
 	 * this.playerAcceptedTrump will be set.
-	 * 
+	 *
 	 * TODO See if we can make this.trump and playerAcceptedTrump local
 	 * variables that only exist in play() and subprocedures of play. Maybe let
 	 * this function return an object that contains them both.
@@ -144,7 +151,7 @@ public class Round {
 				if (amountTrumpsDrawn == FORCED_PLAY_ON_TRUMP) {
 					this.playerAcceptedTrump = player;
 					this.trump = drawnTrump;
-					System.out.println(this.playerAcceptedTrump + " is forced to go on " + drawnTrump);
+					this.logger.debug(this.playerAcceptedTrump + " is forced to go on " + drawnTrump);
 					break;
 				}
 
@@ -152,7 +159,7 @@ public class Round {
 				if (player.playOnTrump(drawnTrump, new Order(playerIndex))) {
 					this.playerAcceptedTrump = player;
 					this.trump = drawnTrump;
-					System.out.println(this.playerAcceptedTrump + " goes on " + drawnTrump);
+					this.logger.debug(this.playerAcceptedTrump + " goes on " + drawnTrump);
 					break;
 				}
 
@@ -166,7 +173,7 @@ public class Round {
 		assert (this.playerAcceptedTrump != null);
 		assert (this.trump != null);
 	}
-	
+
 
 	private Suit getAvailableTrump() {
 		final Random random = new Random(System.nanoTime());
@@ -176,7 +183,7 @@ public class Round {
 		this.trump = chosenTrump;
 
 		return chosenTrump;
-	}	
+	}
 
 	/**
 	 * This function creates a Deck object and gives the cards to the different
@@ -200,9 +207,9 @@ public class Round {
 	}
 
 	/**
-	 * Playcard checks if the card that a player returns is indeed 
+	 * Playcard checks if the card that a player returns is indeed
 	 * a valid card to play within this trick.
-	 * 
+	 *
 	 * @param trick
 	 * @param player
 	 * @param card
@@ -261,7 +268,7 @@ public class Round {
 	/**
 	 * Checks whether an player can play a card that is higher then the
 	 * currently highest ranked trump played.
-	 * 
+	 *
 	 * @param highestTrumpOnTable
 	 * @param player
 	 * @return True if the player is able to, false if not
@@ -280,7 +287,7 @@ public class Round {
 	/**
 	 * Checks whether a player has the ability to play a card of the leading
 	 * suit.
-	 * 
+	 *
 	 * @param player
 	 * @param leadingSuit
 	 * @return True when the player can follow suit, false when not
@@ -298,7 +305,7 @@ public class Round {
 
 	/**
 	 * Calculates the points players have amassed this Round
-	 * 
+	 *
 	 * @uses roundScores
 	 */
 	private void calculateRoundScores() {
@@ -336,7 +343,7 @@ public class Round {
 			// The team that goes gets 0 points
 			this.roundScores.put(teamOffensive, new Score(new Points(0), new Points(0)));
 
-			System.out.println("--- " + teamOffensive + " goes wet! OMG");
+			this.logger.debug("--- " + teamOffensive + " goes wet! OMG");
 		}
 
 		// Marching
@@ -345,7 +352,7 @@ public class Round {
 			Score newScore = new Score(this.roundScores.get(teamOffensive).getStockScore(), Points.plus(
 					this.roundScores.get(teamOffensive).getRoemScore(), Score.MARCH_POINTS));
 			this.roundScores.put(teamOffensive, newScore);
-			System.out.println("--- " + teamOffensive + " goes marching");
+			this.logger.debug("--- " + teamOffensive + " goes marching");
 
 		}
 	}

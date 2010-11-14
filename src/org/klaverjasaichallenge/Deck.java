@@ -3,9 +3,9 @@ package org.klaverjasaichallenge;
 import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
-/**
- * 
- */
+
+// Import log4j classes.
+import org.apache.log4j.Logger;
 
 import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.suit.*;
@@ -17,18 +17,21 @@ import org.klaverjasaichallenge.shared.card.rank.*;
  */
 public class Deck {
 	private Stack<Card> cards;
-	
+
+	private Logger logger;
+
 	public Deck() {
 		this.cards = this.createDeck();
 		this.shuffleDeck(cards);
-		
-		System.out.println(this.cards);
+
+		this.logger = Logger.getLogger("KlaverjasLogger");
+		this.logger.debug(this.cards);
 	}
-	
+
 	public Card drawCard() {
 		return this.cards.pop();
 	}
-	
+
 	private Stack<Card> createDeck() {
 		cards = new Stack<Card>();
 		for (Suit suit : Card.getSuits()) {
