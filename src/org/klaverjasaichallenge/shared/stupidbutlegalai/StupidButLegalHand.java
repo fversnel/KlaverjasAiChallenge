@@ -17,7 +17,7 @@ public class StupidButLegalHand {
 
 	/**
 	 * This method removes the cards from the list that the player may not
-	 * 
+	 *
 	 * @param trick
 	 * @param trump
 	 */
@@ -33,9 +33,9 @@ public class StupidButLegalHand {
 				// If its possible to play a trump card
 				if (canFollowSuit(trump)) {
 					removeCardsNotFromSuit(trump);
-					
+
 					Rank highestTrumpOnTable = this.getHighestTrump(trick.getCards(), trump);
-					
+
 					// Its possible to raise the trump, remove all lower trumps
 					if(highestTrumpOnTable != null && this.getHighestTrump(this.cards, trump).getTrumpOrder().isHigherThan(highestTrumpOnTable.getTrumpOrder())) {
 						this.removeLowerTrumpCards(highestTrumpOnTable, trump);
@@ -47,7 +47,7 @@ public class StupidButLegalHand {
 
 	private void removeLowerTrumpCards(Rank highestTrumpOnTable, Suit trump) {
 		List<Card> handCopy = new LinkedList<Card>(cards);
-		
+
 		for(Card card : handCopy)
 			if(card.getSuit().equals(trump) && highestTrumpOnTable.getTrumpOrder().isHigherThan(card.getTrumpOrder()))
 				cards.remove(card);
@@ -60,7 +60,7 @@ public class StupidButLegalHand {
 			if(card.getSuit().equals(trump) && (highestTrumpOnTable == null || card.getTrumpOrder().isHigherThan(highestTrumpOnTable.getTrumpOrder())))
 				highestTrumpOnTable = card.getRank();
 		}
-		
+
 		return highestTrumpOnTable;
 	}
 

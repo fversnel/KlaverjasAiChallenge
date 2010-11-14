@@ -31,20 +31,20 @@ public class KlaverjasAIChallenge {
 
 		Team team1 = new Team(player_t1_1, player_t1_2);
 		Team team2 = new Team(player_t2_1, player_t2_2);
-		
+
 		for(int currentGameId = 0; currentGameId < PLAY_GAMES; currentGameId++) {
 			System.out.println("Starting game: " + currentGameId);
 			DefaultGameState game = new DefaultGameState(team1, team2);
 			game.play();
-			
+
 			team1Points = Points.plus(team1Points, game.getTeam1Points());
 			team2Points = Points.plus(team2Points, game.getTeam2Points());
-			
+
 			System.out.println("Game Scores");
 			System.out.println(team1 + " scored " + game.getTeam1Points());
 			System.out.println(team2 + " scored " + game.getTeam2Points());
 		}
-		
+
 		System.out.println("Overall Score");
 		System.out.println(team1 + " scored " + team1Points);
 		System.out.println(team2 + " scored " + team2Points);
