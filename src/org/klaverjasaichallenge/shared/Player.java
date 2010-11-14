@@ -54,4 +54,6 @@ public interface Player {
 	 * @param trick
 	 */
 	public void endOfTrick(Trick trick);
+	
+	public String toString();
 }

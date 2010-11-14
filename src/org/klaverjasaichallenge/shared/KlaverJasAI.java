@@ -13,13 +13,4 @@ package org.klaverjasaichallenge.shared;
  */
 public interface KlaverJasAI extends Player {
 
-	// TODO Use this to construct the interface for the game.
-	// These are just some ideas for an interface that is provided to the
-	// AI by the game:
-	//
-	//public Points calculateRoemScore(Trick trick)
-	//public Points calculateStockScore(Trick trick)
-	//public Trick getPreviousTrick();
-	//public Trick getCurrentTrick()
-	//public Suit getTrump()
 }

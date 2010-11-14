@@ -3,9 +3,6 @@
  */
 package org.klaverjasaichallenge;
 
-import java.util.List;
-import java.util.LinkedList;
-
 // Import log4j classes.
 import org.apache.log4j.Logger;
 import org.apache.log4j.BasicConfigurator;
@@ -13,7 +10,7 @@ import org.apache.log4j.Level;
 
 // Import AI's.
 import nl.joostpastoor.klaverjasai.JoostAI;
-import nl.joostpastoor.stupidbutlegalai.StupidButLegalAI;
+import org.klaverjasaichallenge.ai.*;
 
 // Import the necessary klaverjas classes to get started.
 import org.klaverjasaichallenge.shared.Player;
@@ -41,8 +38,8 @@ public class KlaverjasAIChallenge {
 
 		Player player_t1_1 = new JoostAI();
 		Player player_t1_2 = new JoostAI();
-		Player player_t2_1 = new StupidButLegalAI();
-		Player player_t2_2 = new StupidButLegalAI();
+		Player player_t2_1 = new PipoAI();
+		Player player_t2_2 = new PipoAI();
 
 		Team team1 = new Team(player_t1_1, player_t1_2);
 		Team team2 = new Team(player_t2_1, player_t2_2);
