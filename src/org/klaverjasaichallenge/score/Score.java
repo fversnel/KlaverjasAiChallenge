@@ -30,11 +30,11 @@ public class Score {
 	}
 
 	public Points getRoemScore() {
-		return roemScore;
+		return this.roemScore;
 	}
 
 	public Points getStockScore() {
-		return stockScore;
+		return this.stockScore;
 	}
 
 	public Points getTotalScore() {
@@ -54,6 +54,7 @@ public class Score {
 		return Points.biggerThanOrEquals(leftHandSide.getTotalScore(), rightHandSide.getTotalScore());
 	}
 
+	@Override
 	public String toString() {
 		return "Score [Total: "+this.getTotalScore()+", Stock: "+ this.getStockScore() +", Roem: " + this.getRoemScore() + "]";
 	}

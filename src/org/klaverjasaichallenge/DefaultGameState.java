@@ -55,8 +55,8 @@ public class DefaultGameState {
 			round.play();
 
 			// Sum up the round score to the total score for each team this game
-			team1Points = Points.plus(team1Points, round.getScore(team1).getTotalScore());
-			team2Points = Points.plus(team2Points, round.getScore(team2).getTotalScore());
+			this.team1Points = Points.plus(this.team1Points, round.getScore(this.team1).getTotalScore());
+			this.team2Points = Points.plus(this.team2Points, round.getScore(this.team2).getTotalScore());
 
 			// Change the order of the players
 			table = table.nextRound();

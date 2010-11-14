@@ -5,7 +5,6 @@ package org.klaverjasaichallenge.shared.card;
 
 import java.util.List;
 import java.util.LinkedList;
-import java.util.ArrayList;
 
 import org.klaverjasaichallenge.shared.Points;
 import org.klaverjasaichallenge.shared.Order;
@@ -96,6 +95,7 @@ public class Card {
 				&& this.getRank().equals(toCompare.getRank());
 	}
 
+	@Override
 	public String toString() {
 		return this.rank + " of " + this.suit;
 	}
@@ -111,7 +111,7 @@ public class Card {
 	}
 
 	public static List<Suit> getSuits() {
-		List<Suit> suits = new ArrayList<Suit>();
+		List<Suit> suits = new LinkedList<Suit>();
 		suits.add(new Clubs());
 		suits.add(new Diamonds());
 		suits.add(new Hearts());
@@ -121,7 +121,7 @@ public class Card {
 	}
 
 	public static List<Rank> getRanks() {
-		List<Rank> ranks = new ArrayList<Rank>();
+		List<Rank> ranks = new LinkedList<Rank>();
 		ranks.add(new Seven());
 		ranks.add(new Eight());
 		ranks.add(new Nine());

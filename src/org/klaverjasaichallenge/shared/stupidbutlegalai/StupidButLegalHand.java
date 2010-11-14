@@ -46,11 +46,11 @@ public class StupidButLegalHand {
 	}
 
 	private void removeLowerTrumpCards(Rank highestTrumpOnTable, Suit trump) {
-		List<Card> handCopy = new LinkedList<Card>(cards);
+		List<Card> handCopy = new LinkedList<Card>(this.cards);
 
 		for(Card card : handCopy)
 			if(card.getSuit().equals(trump) && highestTrumpOnTable.getTrumpOrder().isHigherThan(card.getTrumpOrder()))
-				cards.remove(card);
+				this.cards.remove(card);
 	}
 
 	private Rank getHighestTrump(List<Card> cards, Suit trump) {
@@ -65,14 +65,14 @@ public class StupidButLegalHand {
 	}
 
 	private void removeCardsNotFromSuit(Suit suit) {
-		List<Card> cardsCopy = new LinkedList<Card>(cards);
+		List<Card> cardsCopy = new LinkedList<Card>(this.cards);
 		for (Card card : cardsCopy)
 			if (!card.getSuit().equals(suit))
-				cards.remove(card);
+				this.cards.remove(card);
 	}
 
 	private boolean canFollowSuit(Suit leadingSuit) {
-		for (Card card : cards)
+		for (Card card : this.cards)
 			if (card.getSuit().equals(leadingSuit))
 				return true;
 
@@ -80,10 +80,11 @@ public class StupidButLegalHand {
 	}
 
 	public List<Card> getCards() {
-		return cards;
+		return this.cards;
 	}
 
+	@Override
 	public StupidButLegalHand clone() {
-		return new StupidButLegalHand(new LinkedList<Card>(cards));
+		return new StupidButLegalHand(new LinkedList<Card>(this.cards));
 	}
 }

@@ -25,7 +25,7 @@ public class TestScore {
 	@Test
 	public void testStockScore() {
 		this.addCard(new Card(new Hearts(), new Seven()));
-		this.addCard(new Card(testTrump, new Jack()));
+		this.addCard(new Card(this.testTrump, new Jack()));
 		this.addCard(new Card(new Diamonds(), new Ten()));
 		this.addCard(new Card(new Spades(), new Queen()));
 

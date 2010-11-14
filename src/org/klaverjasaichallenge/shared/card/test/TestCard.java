@@ -20,7 +20,7 @@ public class TestCard {
 
 	@Test
 	public void testMax() {
-		LinkedList<Card> cardsToTest = new LinkedList<Card>();
+		List<Card> cardsToTest = new LinkedList<Card>();
 		Hearts trump = new Hearts();
 	    Suit leadingSuit = new Clubs();
 		final Card expected = new Card(trump, new Jack());
@@ -34,7 +34,7 @@ public class TestCard {
 	
 	@Test
 	public void testMax2() {
-		LinkedList<Card> cardsToTest = new LinkedList<Card>();
+		List<Card> cardsToTest = new LinkedList<Card>();
 		final Card expected = new Card(new Clubs(), new Seven());
 		Suit leadingSuit = new Spades();
 		cardsToTest.add(new Card(new Spades(), new Jack()));

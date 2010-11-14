@@ -55,7 +55,7 @@ public class Round {
 	public void play() {
 
 		// Deal the cards and notify the players
-		this.hands = dealCards(table);
+		this.hands = dealCards(this.table);
 
 		// Draw Trump is the process of choosing which player plays and on which
 		// trump
@@ -68,10 +68,10 @@ public class Round {
 		for (int trickId = 0; trickId < TRICK_COUNT; trickId++) {
 			Trick trick = new Trick();
 
-			this.logger.debug("-- Start trick " + trickId + " with trump " + trump);
+			this.logger.debug("-- Start trick " + trickId + " with trump " + this.trump);
 
 			for (int playerIndex = 0; playerIndex < 4; playerIndex++) {
-				Player currentPlayer = table.getActivePlayer();
+				Player currentPlayer = this.table.getActivePlayer();
 				Order playersOrder = new Order(playerIndex);
 
 				// Ask the player to return a card
@@ -98,7 +98,7 @@ public class Round {
 			this.logger.debug("--- Winner:  " + winner + " with " + score);
 
 			// Notify player of end of trick
-			for (Player player : table.getPlayers()) {
+			for (Player player : this.table.getPlayers()) {
 				player.endOfTrick(trick);
 			}
 
@@ -112,8 +112,8 @@ public class Round {
 		this.calculateRoundScores();
 
 		this.logger.debug("--- Round Scores");
-		for (Team team : roundScores.keySet()) {
-			this.logger.debug(team + " scores: " + roundScores.get(team) + " points");
+		for (Team team : this.roundScores.keySet()) {
+			this.logger.debug(team + " scores: " + this.roundScores.get(team) + " points");
 		}
 	}
 
@@ -177,8 +177,8 @@ public class Round {
 
 	private Suit getAvailableTrump() {
 		final Random random = new Random(System.nanoTime());
-		final int trumpIndex = random.nextInt(availableTrumps.size());
-		final Suit chosenTrump = availableTrumps.remove(trumpIndex);
+		final int trumpIndex = random.nextInt(this.availableTrumps.size());
+		final Suit chosenTrump = this.availableTrumps.remove(trumpIndex);
 
 		this.trump = chosenTrump;
 
@@ -274,14 +274,16 @@ public class Round {
 	 * @return True if the player is able to, false if not
 	 */
 	private boolean playerCanRaiseTrump(Rank highestTrumpOnTable, Player player) {
-		Hand hand = hands.get(player);
+		boolean result = false;
+		Hand hand = this.hands.get(player);
 		Rank highestTrumpOfPlayer = hand.getHighestTrump(this.trump);
 
 		if (highestTrumpOfPlayer != null
-				&& highestTrumpOfPlayer.getTrumpOrder().isHigherThan(highestTrumpOnTable.getTrumpOrder()))
-			return true;
-		else
-			return false;
+				&& highestTrumpOfPlayer.getTrumpOrder().isHigherThan(highestTrumpOnTable.getTrumpOrder())) {
+			result = true;
+		}
+		
+		return result;
 	}
 
 	/**
@@ -295,7 +297,7 @@ public class Round {
 	private boolean playerCanFollowSuit(Player player, Suit leadingSuit) {
 		boolean result = false;
 
-		Hand hand = hands.get(player);
+		Hand hand = this.hands.get(player);
 		if (hand.hasSuit(leadingSuit)) {
 			result = true;
 		}
@@ -310,16 +312,16 @@ public class Round {
 	 */
 	private void calculateRoundScores() {
 
-		Team teamOffensive = table.getTeamFromPlayer(this.playerAcceptedTrump);
-		Team teamDefensive = table.getOtherTeam(playerAcceptedTrump);
+		Team teamOffensive = this.table.getTeamFromPlayer(this.playerAcceptedTrump);
+		Team teamDefensive = this.table.getOtherTeam(this.playerAcceptedTrump);
 		for (Team team : this.table.getTeams()) {
 			this.roundScores.put(team, new Score());
 		}
 
 		for (int trickId = 0; trickId < TRICK_COUNT; trickId++) {
-			Trick trick = tricksPlayed.get(trickId);
-			Player winner = trick.getWinner(trump);
-			Score trickScore = trick.getScore(trump);
+			Trick trick = this.tricksPlayed.get(trickId);
+			Player winner = trick.getWinner(this.trump);
+			Score trickScore = trick.getScore(this.trump);
 			Team winningTeam = this.table.getTeamFromPlayer(winner);
 
 			// For the last trick, award extra points

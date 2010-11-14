@@ -18,7 +18,7 @@ public class Hand {
 
 	public boolean hasSuit(final Suit suit) {
 		boolean check = false;
-		for(Card cardInHand : cards) {
+		for(Card cardInHand : this.cards) {
 			if(cardInHand.getSuit().equals(suit)) {
 				check = true;
 			}

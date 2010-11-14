@@ -2,7 +2,6 @@
 package org.klaverjasaichallenge.score;
 
 import java.util.List;
-import java.util.ArrayList;
 import org.klaverjasaichallenge.shared.Points;
 import org.klaverjasaichallenge.shared.Trick;
 import org.klaverjasaichallenge.shared.Order;
@@ -17,10 +16,6 @@ class RoemScore {
 	private static final Points THREE_CONSECUTIVE_CARDS = new Points(20);
 	private static final Points STUK = new Points(20);
 
-	private static final int FOUR_CARDS = 4;
-	private static final int THREE_CARDS = 3;
-
-	private static final Order CONSECUTIVE_DIFFERENCE = new Order(1);
 	private static final Order FIRST_HIGH_CARD = new Order(4);
 	private static final Order JACK = new Jack().getRoemOrder();
 

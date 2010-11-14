@@ -5,7 +5,6 @@ package org.klaverjasaichallenge.shared;
 
 import java.util.List;
 
-import org.klaverjasaichallenge.score.Score;
 import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
 
@@ -55,5 +54,6 @@ public interface Player {
 	 */
 	public void endOfTrick(Trick trick);
 	
+	@Override
 	public String toString();
 }

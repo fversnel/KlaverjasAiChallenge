@@ -52,6 +52,7 @@ public abstract class Rank {
 		return this.getClass().isInstance(toCompare);
 	}
 
+	@Override
 	public String toString() {
 		return this.name;
 	}

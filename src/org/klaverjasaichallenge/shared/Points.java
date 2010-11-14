@@ -37,6 +37,7 @@ public class Points {
 		return leftHandSide.getPoints() >= rightHandSide.getPoints() ? true : false;
 	}
 
+	@Override
 	public String toString() {
 		return this.getPoints()+"";
 	}

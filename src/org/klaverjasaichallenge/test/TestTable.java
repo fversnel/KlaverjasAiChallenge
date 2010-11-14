@@ -4,8 +4,6 @@ package org.klaverjasaichallenge.test;
 import static org.junit.Assert.*;
 
 import org.junit.*;
-import java.util.List;
-import java.util.LinkedList;
 
 import org.klaverjasaichallenge.Table;
 import org.klaverjasaichallenge.Team;
@@ -30,31 +28,31 @@ public class TestTable {
 		this.playerThree = new FakePlayer();
 		this.playerFour = new FakePlayer();
 
-		this.teamOne = new Team(playerOne, playerTwo);
-		this.teamTwo = new Team(playerThree, playerFour);
+		this.teamOne = new Team(this.playerOne, this.playerTwo);
+		this.teamTwo = new Team(this.playerThree, this.playerFour);
 
-		this.table = new Table(teamOne, teamTwo);
+		this.table = new Table(this.teamOne, this.teamTwo);
 	}
 
 	@Test
 	public void testInitialActivePlayer() {
-		Player expected = playerOne;
-		Player actual = table.getActivePlayer();
+		Player expected = this.playerOne;
+		Player actual = this.table.getActivePlayer();
 
 		assertEquals(expected, actual);
 	}
 
 	@Test
 	public void testNextPlayer() {
-		Player expected = playerThree;
-		Player actual = table.nextPlayer().getActivePlayer();
+		Player expected = this.playerThree;
+		Player actual = this.table.nextPlayer().getActivePlayer();
 
 		assertEquals(expected, actual);
 	}
 
 	@Test
 	public void testNextTrick() {
-		Player expected = playerOne;
+		Player expected = this.playerOne;
 		Player actual = this.table.nextTrick(expected).getActivePlayer();
 
 		assertEquals(expected, actual);
@@ -62,9 +60,9 @@ public class TestTable {
 
 	@Test
 	public void testNextPlayerAfterNextTrick() {
-		Player winner = playerFour;
+		Player winner = this.playerFour;
 
-		Player expected = playerOne;
+		Player expected = this.playerOne;
 		Player actual = this.table.nextTrick(winner).nextPlayer().getActivePlayer();
 
 		assertEquals(expected, actual);

@@ -73,6 +73,7 @@ public class Trick {
 		return highestTrumpOnTable;
 	}
 
+	@Override
 	public Trick clone() {
 		Trick newTrick = new Trick();
 		newTrick.cards =  new HashMap<Card, Player>(this.cards);

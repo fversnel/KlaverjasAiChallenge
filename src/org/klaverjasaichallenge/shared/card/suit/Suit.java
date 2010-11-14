@@ -11,6 +11,7 @@ public abstract class Suit {
 		return this.getClass().isInstance(toCompare);
 	}
 	
+	@Override
 	public String toString() {
 		return this.name;
 	}

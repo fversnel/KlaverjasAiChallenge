@@ -28,7 +28,7 @@ public class StupidButLegalAI implements KlaverJasAI {
 		/**
 		 * Step 1: Remove Illegal Cards
 		 */
-		StupidButLegalHand roundHand = hand.clone();
+		StupidButLegalHand roundHand = this.hand.clone();
 		roundHand.removeCardsThatAreIllegal(trick, trump);
 
 		List<Card> legalCards = roundHand.getCards();
@@ -38,19 +38,19 @@ public class StupidButLegalAI implements KlaverJasAI {
 		 * Step 2: ....
 		 */
 
-		if(order.equals(FIRST)) {
+		if(order.equals(this.FIRST)) {
 
 		}
 
-		if(order.equals(SECOND)) {
+		if(order.equals(this.SECOND)) {
 
 		}
 
-		if(order.equals(THIRD)) {
+		if(order.equals(this.THIRD)) {
 
 		}
 
-		if(order.equals(FOURTH)) {
+		if(order.equals(this.FOURTH)) {
 
 		}
 
@@ -81,6 +81,7 @@ public class StupidButLegalAI implements KlaverJasAI {
 		return true;
 	}
 
+	@Override
 	public String toString() {
 		return "StupidButLegalAI (" +this.hashCode() + ")";
 	}
@@ -90,8 +91,9 @@ public class StupidButLegalAI implements KlaverJasAI {
 
 	}
 
+	@Override
 	public void endOfTrick(Trick trick) {
 		for(Card card : trick.getCards())
-			cardsPlayed.add(card);
+			this.cardsPlayed.add(card);
 	}
 }

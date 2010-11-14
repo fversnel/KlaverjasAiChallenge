@@ -18,6 +18,7 @@ public class Order implements Comparable<Order> {
 		return this.getOrder() > order.getOrder();
 	}
 
+	@Override
 	public int compareTo(Order toCompare) {
 		if(this.isHigherThan(toCompare)) {
 			return 1;
