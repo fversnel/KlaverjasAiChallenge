@@ -42,14 +42,6 @@ public class KlaverjasAIChallenge {
 		Team team1 = createTeam(AI_PACKAGE_NAME + "PipoAI");
 		Team team2 = createTeam(AI_PACKAGE_NAME + "StupidButLegalAI");
 
-		/*Player player_t1_1 = new JoostAI();
-		Player player_t1_2 = new JoostAI();
-		Player player_t2_1 = new PipoAI();
-		Player player_t2_2 = new PipoAI();
-
-		Team team1 = new Team(player_t1_1, player_t1_2);
-		Team team2 = new Team(player_t2_1, player_t2_2);*/
-
 		for(int currentGameId = 0; currentGameId < PLAY_GAMES; currentGameId++) {
 			logger.debug("Starting game: " + currentGameId);
 			DefaultGameState game = new DefaultGameState(team1, team2);
