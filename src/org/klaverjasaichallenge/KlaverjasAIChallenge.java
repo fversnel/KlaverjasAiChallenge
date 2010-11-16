@@ -13,6 +13,7 @@ import nl.joostpastoor.klaverjasai.JoostAI;
 import org.klaverjasaichallenge.ai.*;
 
 // Import the necessary klaverjas classes to get started.
+import org.klaverjasaichallenge.shared.KlaverJasAI;
 import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.Points;
 
@@ -21,28 +22,33 @@ import org.klaverjasaichallenge.shared.Points;
  *
  */
 public class KlaverjasAIChallenge {
-
-	private final static int PLAY_GAMES = 1000;
+	private final static int PLAY_GAMES = 10;
+	private final static int TEAM_SIZE = 2;
+	private final static String AI_PACKAGE_NAME = "org.klaverjasaichallenge.ai.";
 
 	// Define a static logger variable so that it references the
 	// Logger instance named "KlaverjasLogger".
 	static Logger logger = Logger.getLogger("KlaverjasLogger");
 
 	public static void main(String[] args) {
-     	// Set up a simple configuration that logs on the console.
+
+		// Set up a simple configuration that logs on the console.
      	BasicConfigurator.configure();
 		logger.setLevel(Level.INFO);
 
 		Points team1Points = new Points();
 		Points team2Points = new Points();
+		
+		Team team1 = createTeam(AI_PACKAGE_NAME + "PipoAI");
+		Team team2 = createTeam(AI_PACKAGE_NAME + "StupidButLegalAI");
 
-		Player player_t1_1 = new JoostAI();
+		/*Player player_t1_1 = new JoostAI();
 		Player player_t1_2 = new JoostAI();
 		Player player_t2_1 = new PipoAI();
 		Player player_t2_2 = new PipoAI();
 
 		Team team1 = new Team(player_t1_1, player_t1_2);
-		Team team2 = new Team(player_t2_1, player_t2_2);
+		Team team2 = new Team(player_t2_1, player_t2_2);*/
 
 		for(int currentGameId = 0; currentGameId < PLAY_GAMES; currentGameId++) {
 			logger.debug("Starting game: " + currentGameId);
@@ -63,5 +69,27 @@ public class KlaverjasAIChallenge {
 		logger.info("Average score per game:");
 		logger.info(team1 + " scored " + Points.divide(team1Points, new Points(PLAY_GAMES)));
 		logger.info(team2 + " scored " + Points.divide(team2Points, new Points(PLAY_GAMES)));
+	}
+	
+	private static Team createTeam(final String aiName) {
+		Team team = null;
+		try {			
+			for(int i = 0; i < TEAM_SIZE; i++) {
+				Class<Player> newPlayer = (Class<Player>) Class.forName(aiName);
+				try {
+					team = new Team(newPlayer.newInstance(), newPlayer.newInstance());
+				} catch (InstantiationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return team;
 	}
 }

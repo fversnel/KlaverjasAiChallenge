@@ -1,4 +1,4 @@
-package org.klaverjasaichallenge.shared.stupidbutlegalai;
+package org.klaverjasaichallenge.ai;
 
 
 import java.util.LinkedList;

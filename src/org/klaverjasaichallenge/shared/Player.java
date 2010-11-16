@@ -62,4 +62,9 @@ public interface Player {
 	 * has played.
 	 */
 
+	/**
+	 * TODO Add some easy way for an AI to know whether his teammate is
+	 * currently winning the trick.
+	 */
+
 }
