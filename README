@@ -1,0 +1,38 @@
+(Note: the following information is in english, for a dutch version of this
+document you can open the LEESMIJ file.)
+
+To write an AI for the klaverjasaichallenge, the following information might
+be useful to you:
+
+- You can check out the source code of the app using svn: svn checkout
+  http://klaverjasaichallenge.googlecode.com/svn/trunk/
+  klaverjasaichallenge-read-only
+- In package src/org/klaverjasaichallange/ai there is an example of a very
+  simple AI to get you started.
+- The AI has to implement the KlaverJasAI interface.
+- The AI may not communicate with his teammate.
+- The AI may not cheat, but if he does the application will crash with a
+  CheatException.
+- The shared package provides useful (helper) classes for your AI.
+- Currently only the Rotterdam variation of klaverjas is implemented.
+
+Some useful links on the rules of Klaverjas.
+http://nl.wikipedia.org/wiki/Klaverjassen
+http://en.wikipedia.org/wiki/Klaverjas
+
+Glossary:
+Trump = the suit to rule all others.
+Trick = 4 cards, from each player 1 card.
+Round = 8 tricks.
+Game = 16 rounds.
+Hand = the cards that are in the players hands (each player starts with 8
+cards).
+Ruleset = the ruleset that is used. Currently only the Rotterdam variation is
+used, so this class is now useless. In the future other rulesets (like the
+Amsterdam variation) might be added.
+Team = 2 cooperative players.
+CheatException = Will occur when an AI cheats. For example, by playing a card
+that's not allowed by the ruleset, or by playing a card that is not in his
+hand.
+Order = A wrapper on int, identifing (for example) the rank of a card. A higher
+order means a better rank.
