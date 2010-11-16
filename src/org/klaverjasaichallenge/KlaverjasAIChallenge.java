@@ -67,8 +67,6 @@ public class KlaverjasAIChallenge {
 			logger.info("Average score per game:");
 			logger.info(team1 + " scored " + Points.divide(team1Points, new Points(numberOfGames)));
 			logger.info(team2 + " scored " + Points.divide(team2Points, new Points(numberOfGames)));
-		} else if(args.length == 1 && args[0].equals("help")) {
-			printHelpMessage();
 		} else {
 			logger.error("You have to pass 3 program arguments in order for the system to run properly");
 			printHelpMessage();
@@ -81,8 +79,7 @@ public class KlaverjasAIChallenge {
 				"2nd argument: name of the second AI\n" +
 				"3rd argument: the number of games that will be played.\n" +
 				"The first AI will form a team with two copies of itself against " +
-				"the team given in the second argument.\n\n" +
-				"Type help to see this message again.");
+				"the team given in the second argument.");
 	}
 	
 	private static Team createTeam(final String aiName) {
