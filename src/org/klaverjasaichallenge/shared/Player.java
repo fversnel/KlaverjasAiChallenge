@@ -56,4 +56,10 @@ public interface Player {
 	
 	@Override
 	public String toString();
+
+	/**
+	 * TODO Add some easy way for an AI to check the card that his teammate
+	 * has played.
+	 */
+
 }
