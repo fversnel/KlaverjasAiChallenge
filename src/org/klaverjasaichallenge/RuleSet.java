@@ -18,7 +18,7 @@ import org.klaverjasaichallenge.shared.CheatException;
  */
 public abstract class RuleSet {
 	
-	public abstract boolean cardIsLegal(final Trick trick, final Card cardToCheck,
+	public abstract void checkCardLegitimacy(final Trick trick, final Card cardToCheck,
 			final Player player, final Hand playerHand, final Suit trump) throws CheatException;
 
 	/**

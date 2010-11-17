@@ -223,11 +223,7 @@ public class Round {
 			throw new CheatException("Player " + player + " played an invalid card! This card" + " is not in his hand");
 		}
 
-		if(this.ruleSet.cardIsLegal(trick, card, player, this.hands.get(player), trump)) {
-			trick.addCard(player, card);
-		} else {
-			throw new CheatException("Player " + player + " has cheated");
-		}
+		this.ruleSet.checkCardLegitimacy(trick, card, player, this.hands.get(player), trump);
 	}
 
 	/**

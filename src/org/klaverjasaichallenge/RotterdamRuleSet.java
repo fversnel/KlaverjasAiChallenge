@@ -21,7 +21,8 @@ public class RotterdamRuleSet extends RuleSet {
 	public RotterdamRuleSet() {
 	}
 
-	public boolean cardIsLegal(final Trick trick, final Card cardToCheck,
+	// legitimacy
+	public void checkCardLegitimacy(final Trick trick, final Card cardToCheck,
 			final Player player, final Hand playerHand, final Suit trump) throws CheatException {
 		// Find out current suit
 		Suit leadingSuit = trick.getLeadingSuit();
@@ -59,8 +60,6 @@ public class RotterdamRuleSet extends RuleSet {
 				}
 			}
 		}
-
-		return true;
 	}
 	
 	/**
