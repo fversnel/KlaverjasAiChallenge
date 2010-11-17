@@ -10,16 +10,15 @@ import java.util.Map;
 import java.util.HashMap;
 
 import org.klaverjasaichallenge.shared.Player;
-import org.klaverjasaichallenge.score.Score;
 
 public class Table {
-	private Map<Team, Score> score;
+	private List<Team> teams;
 	private List<Player> positions;
 	private Player activePlayer;
 	private Player roundStarter;
 
 	public Table(final Team teamOne, final Team teamTwo) {
-		this.score = this.initializeScore(teamOne, teamTwo);
+		this.teams = this.initializeTeams(teamOne, teamTwo);
 		this.positions = this.initializePositions(teamOne, teamTwo);
 		this.activePlayer = teamOne.getFirstPlayer();
 		this.roundStarter = this.activePlayer;
@@ -30,7 +29,7 @@ public class Table {
 	 * next to the player that just threw a card on the table.
 	 */
 	public Table nextPlayer() {
-		return new Table(this.score, this.positions, getNextPlayer(this.activePlayer), this.roundStarter);
+		return new Table(this.teams, this.positions, getNextPlayer(this.activePlayer), this.roundStarter);
 	}
 
 	/**
@@ -38,12 +37,12 @@ public class Table {
 	 * start.
 	 */
 	public Table nextTrick(final Player winner) {
-		return new Table(this.score, this.positions, winner, this.roundStarter);
+		return new Table(this.teams, this.positions, winner, this.roundStarter);
 	}
 
 	public Table nextRound() {
 		Player newRoundStarter = this.getNextPlayer(this.roundStarter);
-		Table newTable =  new Table(this.resetScore(this.score),
+		Table newTable =  new Table(this.teams,
 				this.positions, newRoundStarter, newRoundStarter);
 		return newTable;
 	}
@@ -52,42 +51,45 @@ public class Table {
 		return this.activePlayer;
 	}
 
-	public Score getScore(final Team team) {
-		return this.score.get(team);
-	}
-	
 	public List<Team> getTeams() {
-		List<Team> teams = new ArrayList<Team>();
-		for(Team team : this.score.keySet())
-			teams.add(team);
 		return teams;
 	}
 	 
-	public Team getTeamFromPlayer(Player player) {
-		for(Team team : this.score.keySet())
-			if(team.hasPlayer(player))
-				return team;
+	public Team getTeamFromPlayer(final Player player) {
+		Team selectedTeam = null;
+
+		for(Team team : this.teams) {
+			if(team.hasPlayer(player)) {
+				selectedTeam = team;
+			}
+		}
 		
-		throw new RuntimeException("Player " + player + " does not exist in any team");
+		assert(selectedTeam != null);
+
+		return selectedTeam;
 	}
 	
-	public Team getOtherTeam(Player player) {
-		for(Team team : this.score.keySet()) {
+	public Team getOtherTeam(final Player player) {
+		Team selectedTeam = null;
+
+		for(Team team : this.teams) {
 			if(!team.hasPlayer(player)) {
-				return team;
+				selectedTeam = team;
 			}
 		}
 
-		throw new RuntimeException("Player " + player + " does not exist in any team");
+		assert(selectedTeam != null);
+
+		return selectedTeam;
 	}
 
 	public List<Player> getPlayers() {
 		return this.positions;
 	}
 
-	private Table(final Map<Team, Score> score, final List<Player> positions,
+	private Table(final List<Team> teams, final List<Player> positions,
 			final Player nextPlayer, final Player roundStarter) {
-		this.score = score;
+		this.teams = teams;
 		this.positions = positions;
 		this.activePlayer = nextPlayer;
 		this.roundStarter = roundStarter;
@@ -99,19 +101,11 @@ public class Table {
 		return this.positions.get(nextPlayerIndex);
 	}
 
-	private Map<Team, Score> resetScore(final Map<Team, Score> oldScore) {
-		Map<Team, Score> newScore = new HashMap<Team, Score>();
-		for(Team team : oldScore.keySet()) {
-			newScore.put(team, new Score());
-		}
-		return newScore;
-	}
-
-	private Map<Team, Score> initializeScore(final Team teamOne, final Team teamTwo) {
-		Map<Team, Score> initScore = new HashMap<Team, Score>();
-		initScore.put(teamOne, new Score());
-		initScore.put(teamTwo, new Score());
-		return initScore;
+	private List<Team> initializeTeams(final Team teamOne, final Team teamTwo) {
+		List<Team> teams = new ArrayList<Team>();
+		teams.add(teamOne);
+		teams.add(teamTwo);
+		return teams;
 	}
 
 	private List<Player> initializePositions(final Team teamOne, final Team teamTwo) {
