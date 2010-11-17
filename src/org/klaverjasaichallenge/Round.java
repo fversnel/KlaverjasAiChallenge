@@ -224,6 +224,7 @@ public class Round {
 		}
 
 		this.ruleSet.checkCardLegitimacy(trick, card, player, this.hands.get(player), trump);
+		trick.addCard(player, card);
 	}
 
 	/**
