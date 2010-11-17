@@ -28,6 +28,8 @@
 
   <!-- The distribution file to be created -->
   <property name="distribution.file" value="${dir.distribution}/klaverjas.jar" />
+  <property name="distribution.shared.file"
+      value="${dir.distribution}/klaverjas.shared.jar" />
 
   <!-- The application's entrypoint -->
   <property name="main.class" value="org.klaverjasaichallenge.KlaverjasAIChallenge" />
@@ -99,7 +101,7 @@
 
   <target name="distribution" depends="compile" description="Creates a jar file from the class files in the 'build' directory and outputs it in the 'dist' directory">
     <mkdir dir="${dir.distribution}" />
-    <echo>Creating manifest file</echo>
+    <echo>Creating ${distribution.file}.</echo>
     <manifest file="${dir.distribution}/MANIFEST.MF">
       <attribute name="Main-Class" value="${main.class}" />
     </manifest>
@@ -108,6 +110,17 @@
           excludes="${testing.class.files}" />
     </jar>
     <delete file="${dir.distribution}/MANIFEST.MF" />
+    <echo>Creating ${distribution.shared.file} with only shared packages.</echo>
+    <jar destfile="${distribution.shared.file}" >
+      <fileset dir="${dir.build}"
+        includes="org/klaverjasaichallenge/shared/**/*.class"
+          excludes="${testing.class.files}" />
+    </jar>
+  </target>
+
+  <target name="distribution_shared" depends="compile" description="Creates a
+    jar file from the class files in the 'shared' directory and outputs it in the 'dist' directory">
+    <mkdir dir="${dir.distribution}" />
   </target>
 
   <target name="run" depends="distribution" description="Run the distribution.">
