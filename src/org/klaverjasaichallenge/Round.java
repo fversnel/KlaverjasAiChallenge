@@ -40,14 +40,17 @@ public class Round {
 	private Suit trump;
 	private Player winner;
 
+	private RuleSet ruleSet;
+
 	private Logger logger;
 
-	public Round(Table table) {
+	public Round(final Table table, final RuleSet ruleSet) {
 		this.table = table;
 
 		this.availableTrumps = Card.getSuits();
 		this.roundScores = new HashMap<Team, Score>();
 		this.tricksPlayed = new LinkedList<Trick>();
+		this.ruleSet = ruleSet;
 
 		this.logger = Logger.getLogger("KlaverjasLogger");
 	}
@@ -108,7 +111,6 @@ public class Round {
 		/**
 		 * Action: Round ends
 		 */
-
 		this.calculateRoundScores();
 
 		this.logger.debug("--- Round Scores");
@@ -215,94 +217,17 @@ public class Round {
 	 * @param card
 	 * @throws Exception
 	 */
-	private void playCard(Trick trick, Player player, Card card) throws CheatException {
+	private void playCard(final Trick trick, final Player player, 
+			final Card card) throws CheatException { 
 		if (this.hands.get(player).drawCard(card) == null) {
-			throw new CheatException("The player played an invalid card! This card" + " is not in his hand");
+			throw new CheatException("Player " + player + " played an invalid card! This card" + " is not in his hand");
 		}
 
-		// Find out current suit
-		Suit leadingSuit = trick.getLeadingSuit();
-
-		// If the leading player has already played a card (== first card)
-		if (leadingSuit != null) {
-			// If the player is not following suit
-			if (!card.getSuit().equals(leadingSuit)) {
-				// If the player cannot follow suit (!playerCanFollowSuit())
-				if (!this.playerCanFollowSuit(player, leadingSuit)) {
-					// If the player is playing a trump card
-					if (card.getSuit().equals(this.trump)) {
-						Rank highestTrumpOnTable = trick.getHighestTrump(this.trump);
-						// If the player is not raising a trump, but is able
-						// to (playerCanRaiseTrump()), throw exception
-						if (highestTrumpOnTable != null
-								&& highestTrumpOnTable.getTrumpOrder().isHigherThan(card.getRank().getTrumpOrder())
-								&& playerCanRaiseTrump(highestTrumpOnTable, player)) {
-							throw new CheatException("Player " + player + " can raise the trump but is not doing it."
-									+ " Current trump: " + this.trump + ". Card played: " + card);
-						}
-					}
-					// Else - Player is not playing a trump card, but is able
-					// to (playerHasTrump(), throw exception
-					else if (playerHasTrump(player)) {
-						throw new CheatException("Player " + player
-								+ " has trump but is not playing it. Current trump: " + this.trump + ". Card played: "
-								+ card);
-					}
-				}
-				// Else - Player can follow suit but is not, throw exception
-				else {
-					throw new CheatException("Player " + player + " can follow suit but is not. Current suit: "
-							+ leadingSuit + ".  Card played: " + card);
-				}
-			}
+		if(this.ruleSet.cardIsLegal(trick, card, player, this.hands.get(player), trump)) {
+			trick.addCard(player, card);
+		} else {
+			throw new CheatException("Player " + player + " has cheated");
 		}
-
-		trick.addCard(player, card);
-	}
-
-	private boolean playerHasTrump(Player player) {
-		Hand hand = this.hands.get(player);
-		return hand.hasSuit(this.trump);
-	}
-
-	/**
-	 * Checks whether an player can play a card that is higher then the
-	 * currently highest ranked trump played.
-	 *
-	 * @param highestTrumpOnTable
-	 * @param player
-	 * @return True if the player is able to, false if not
-	 */
-	private boolean playerCanRaiseTrump(Rank highestTrumpOnTable, Player player) {
-		boolean result = false;
-		Hand hand = this.hands.get(player);
-		Rank highestTrumpOfPlayer = hand.getHighestTrump(this.trump);
-
-		if (highestTrumpOfPlayer != null
-				&& highestTrumpOfPlayer.getTrumpOrder().isHigherThan(highestTrumpOnTable.getTrumpOrder())) {
-			result = true;
-		}
-		
-		return result;
-	}
-
-	/**
-	 * Checks whether a player has the ability to play a card of the leading
-	 * suit.
-	 *
-	 * @param player
-	 * @param leadingSuit
-	 * @return True when the player can follow suit, false when not
-	 */
-	private boolean playerCanFollowSuit(Player player, Suit leadingSuit) {
-		boolean result = false;
-
-		Hand hand = this.hands.get(player);
-		if (hand.hasSuit(leadingSuit)) {
-			result = true;
-		}
-
-		return result;
 	}
 
 	/**
@@ -311,7 +236,6 @@ public class Round {
 	 * @uses roundScores
 	 */
 	private void calculateRoundScores() {
-
 		Team teamOffensive = this.table.getTeamFromPlayer(this.playerAcceptedTrump);
 		Team teamDefensive = this.table.getOtherTeam(this.playerAcceptedTrump);
 		for (Team team : this.table.getTeams()) {

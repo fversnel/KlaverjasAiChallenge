@@ -47,10 +47,12 @@ public class KlaverjasAIChallenge {
 			
 			Team team1 = createTeam(AI_PACKAGE_NAME + firstAI);
 			Team team2 = createTeam(AI_PACKAGE_NAME + secondAI);
+
+			RuleSet rotterdamRules = new RotterdamRuleSet();
 	
 			for(int currentGameId = 0; currentGameId < numberOfGames; currentGameId++) {
 				logger.debug("Starting game: " + currentGameId);
-				DefaultGameState game = new DefaultGameState(team1, team2);
+				DefaultGameState game = new DefaultGameState(team1, team2, rotterdamRules);
 				game.play();
 	
 				team1Points = Points.plus(team1Points, game.getTeam1Points());

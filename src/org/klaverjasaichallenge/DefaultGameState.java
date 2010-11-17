@@ -19,6 +19,8 @@ public class DefaultGameState {
 	private Points team1Points;
 	private Points team2Points;
 
+	private RuleSet ruleSet;
+
 	private Logger logger;
 
 	/**
@@ -27,13 +29,15 @@ public class DefaultGameState {
 	 * @param team1
 	 * @param team2
 	 */
-	public DefaultGameState(Team team1, Team team2) {
+	public DefaultGameState(Team team1, Team team2, RuleSet ruleSet) {
 		this.team1 = team1;
 		this.team2 = team2;
 
 		// Initialize team points at 0
 		this.team1Points = new Points(0);
 		this.team2Points = new Points(0);
+
+		this.ruleSet = ruleSet;
 
 		this.logger = Logger.getLogger("KlaverjasLogger");
 	}
@@ -51,7 +55,7 @@ public class DefaultGameState {
 					"Players: " + table.getPlayers());
 
 			// Play the round
-			Round round = new Round(table);
+			Round round = new Round(table, ruleSet);
 			round.play();
 
 			// Sum up the round score to the total score for each team this game
