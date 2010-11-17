@@ -220,7 +220,8 @@ public class Round {
 	private void playCard(final Trick trick, final Player player, 
 			final Card card) throws CheatException { 
 		if (this.hands.get(player).drawCard(card) == null) {
-			throw new CheatException("Player " + player + " played an invalid card! This card" + " is not in his hand");
+			throw new CheatException("Player " + player + " played an invalid "
+					" card. The card (" + card + ") is not in his hand");
 		}
 
 		this.ruleSet.checkCardLegitimacy(trick, card, player, this.hands.get(player), trump);
