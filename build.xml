@@ -6,6 +6,9 @@
   <property name="project.name" value="KlaverjasAIChallenge" />
   <property name="creator.name" value="Joost Pastoor" />
 
+  <!-- Version numbers -->
+  <property name="shared.package.version" value="1.0" />
+
   <!-- Directories used -->
   <property name="dir.source" location="src" />
   <property name="dir.build" location="bin" />
@@ -101,7 +104,6 @@
 
   <target name="distribution" depends="compile" description="Creates a jar file from the class files in the 'build' directory and outputs it in the 'dist' directory">
     <mkdir dir="${dir.distribution}" />
-    <echo>Creating ${distribution.file}.</echo>
     <manifest file="${dir.distribution}/MANIFEST.MF">
       <attribute name="Main-Class" value="${main.class}" />
     </manifest>
@@ -110,12 +112,18 @@
           excludes="${testing.class.files}" />
     </jar>
     <delete file="${dir.distribution}/MANIFEST.MF" />
-    <echo>Creating ${distribution.shared.file} with only shared packages.</echo>
-    <jar destfile="${distribution.shared.file}" >
+
+    <manifest file="${dir.distribution}/MANIFEST.MF">
+      <attribute name="Specification-Version" value="${shared.package.version}"/>
+      <attribute name="Implementation-Version" value="${shared.package.version} ${TODAY}"/>
+    </manifest>
+    <jar destfile="${distribution.shared.file}"
+        manifest="${dir.distribution}/MANIFEST.MF">
       <fileset dir="${dir.build}"
         includes="org/klaverjasaichallenge/shared/**/*.class"
           excludes="${testing.class.files}" />
     </jar>
+    <delete file="${dir.distribution}/MANIFEST.MF" />
   </target>
 
   <target name="distribution_shared" depends="compile" description="Creates a
