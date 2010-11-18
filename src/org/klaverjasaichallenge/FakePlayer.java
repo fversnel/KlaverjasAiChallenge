@@ -26,13 +26,20 @@ public class FakePlayer implements Player {
 	}
 
 	@Override
-	public Card getCard(Trick trick, Suit trump, Order order) {
+	public Card getCard(Trick trick, Order order) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void endOfTrick(Trick trick) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void startOfRound(int leadingPlayer, Suit trump, int yourId,
+			int teamMateId, int enemy1, int enemy2) {
 		// TODO Auto-generated method stub
 		
 	}

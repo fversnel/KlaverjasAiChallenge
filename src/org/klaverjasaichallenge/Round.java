@@ -63,6 +63,10 @@ public class Round {
 		// Draw Trump is the process of choosing which player plays and on which
 		// trump
 		drawTrump();
+		
+		/**
+		 * Inform players of start of round
+		 */
 
 		/**
 		 * Action: Play all tricks, when the last trick is player, the round
@@ -80,7 +84,7 @@ public class Round {
 				// Ask the player to return a card
 				// (Trick is cloned to avoid the AI meddling with the trick
 				// data)
-				Card cardPlayed = currentPlayer.getCard(trick.clone(), this.trump, playersOrder);
+				Card cardPlayed = currentPlayer.getCard(trick.clone(), playersOrder);
 
 				this.logger.debug("--- " + currentPlayer + " played " + cardPlayed);
 
