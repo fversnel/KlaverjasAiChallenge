@@ -22,7 +22,7 @@ public class RotterdamRuleSet extends RuleSet {
 	public RotterdamRuleSet() {
 	}
 
-	// legitimacy
+	@Override
 	public void checkCardLegitimacy(final Trick trick, final Card cardToCheck,
 			final Player player, final Hand playerHand, final Suit trump) throws CheatException {
 		// Find out current suit
@@ -63,6 +63,7 @@ public class RotterdamRuleSet extends RuleSet {
 		}
 	}
 
+	@Override
 	public int getNumberOfRounds() {
 		return NUMBER_OF_ROUNDS;
 	}

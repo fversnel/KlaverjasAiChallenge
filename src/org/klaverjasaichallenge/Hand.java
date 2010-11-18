@@ -51,7 +51,7 @@ public class Hand {
 		return cardInHand;
 	}
 
-	public int amountOfCards() {
+	public int getNumberOfCards() {
 		return this.cards.size();
 	}
 
