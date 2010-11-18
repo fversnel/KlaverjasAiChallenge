@@ -32,17 +32,28 @@ public interface Player {
 	 */
 	public boolean playOnTrump(Suit trump, Order order);
 
+	
+	/**
+	 * This method is used to inform the AI of the start of a new Round
+	 * 
+	 * @param leadingPlayer The ID of the player that commits to the game
+	 * @param trump The suit that is used as trump this round.
+	 * @param yourId The ID you have in this round
+	 * @param teamMateId The ID of your teammate
+	 */
+	public void startOfRound(int leadingPlayer, Suit trump, int yourId, int teamMateId, int enemy1, int enemy2);
+	
 	/**
 	 * Play a card on the table.
+	 * 
 	 * @param trick the trick that is currently being played. This variable
 	 * can be used to request all cards that were already played in this
 	 * trick.
-	 * @param trump the suit that is used as trump this round.
 	 * @param order the number of your turn (or: how many players were before
 	 * you.)
 	 * @return the card that you will play this round.
 	 */
-	public Card getCard(Trick trick, Suit trump, Order order);
+	public Card getCard(Trick trick, Order order);
 
 	/**
 	 * Returns the trick when it has been played, so the players
@@ -53,18 +64,7 @@ public interface Player {
 	 * @param trick
 	 */
 	public void endOfTrick(Trick trick);
-	
+
 	@Override
 	public String toString();
-
-	/**
-	 * TODO Add some easy way for an AI to check the card that his teammate
-	 * has played.
-	 */
-
-	/**
-	 * TODO Add some easy way for an AI to know whether his teammate is
-	 * currently winning the trick.
-	 */
-
 }

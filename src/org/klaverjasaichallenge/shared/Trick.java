@@ -31,6 +31,12 @@ public class Trick {
 	}
 
 	public List<Card> getCards() {
+		Map<Card, Integer> cards = new HashMap<Card, Integer>();
+		
+		for(Card card : this.cards.keySet()) {
+			cards.put(card,this.cards.get(card).hashCode());
+		}
+		
 		return new LinkedList<Card>(this.cards.keySet());
 	}
 
