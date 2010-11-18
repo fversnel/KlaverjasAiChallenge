@@ -50,9 +50,9 @@ public class Table {
 	}
 
 	public List<Team> getTeams() {
-		return teams;
+		return this.teams;
 	}
-	 
+
 	public Team getTeamFromPlayer(final Player player) {
 		Team selectedTeam = null;
 
@@ -61,12 +61,12 @@ public class Table {
 				selectedTeam = team;
 			}
 		}
-		
+
 		assert(selectedTeam != null);
 
 		return selectedTeam;
 	}
-	
+
 	public Team getOtherTeam(final Player player) {
 		Team selectedTeam = null;
 
@@ -114,6 +114,6 @@ public class Table {
 		positions.add(teamTwo.getSecondPlayer());
 		return positions;
 	}
-	
+
 
 }
