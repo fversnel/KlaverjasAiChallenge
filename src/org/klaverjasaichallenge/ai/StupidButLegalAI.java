@@ -82,6 +82,5 @@ public class StupidButLegalAI implements KlaverJasAI {
 	public void startOfRound(int leadingPlayer, Suit trump, int yourId,
 			int teamMateId, int enemy1, int enemy2) {
 		this.trump = trump;
-		
 	}
 }

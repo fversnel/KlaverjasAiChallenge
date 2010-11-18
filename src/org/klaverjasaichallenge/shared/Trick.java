@@ -31,14 +31,18 @@ public class Trick {
 	}
 
 	public List<Card> getCards() {
+		return new LinkedList<Card>(this.cards.keySet());
+	}
+	
+	public Map<Card, Integer> getCardsWithPlayers() {
 		Map<Card, Integer> cards = new HashMap<Card, Integer>();
 		
 		for(Card card : this.cards.keySet()) {
 			cards.put(card,this.cards.get(card).hashCode());
 		}
 		
-		return new LinkedList<Card>(this.cards.keySet());
-	}
+		return cards;
+	}		
 
 	public Suit getLeadingSuit() {
 		return this.leadingSuit;
