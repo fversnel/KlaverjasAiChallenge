@@ -37,29 +37,33 @@ public class KlaverjasAIChallenge {
 	public static void main(String[] args) {
 		// Set up a simple configuration that logs on the console.
 		BasicConfigurator.configure();
+		// There are two levels that are currently useful:
+		// DEBUG - Displays all messages
+		// INFO - Only displays the AI battle's end results.
 		logger.setLevel(Level.INFO);
-		
+
 		if(args.length == 3){
 			String firstAI = args[0];
 			String secondAI = args[1];
 			int numberOfGames = Integer.valueOf(args[2]);
-			
+
 			if(numberOfGames <= 0) {
 				throw new RuntimeException("Number of games has to be higher than 0");
 			}
-			
+
 			Team team1 = createTeam(AI_PACKAGE_NAME + firstAI);
 			Team team2 = createTeam(AI_PACKAGE_NAME + secondAI);
 
 			play(team1, team2, numberOfGames, new RotterdamRuleSet());
-	
+
 		} else {
-			logger.error("You have to pass 3 program arguments in order for the system to run properly");
+			logger.error("You have to pass three program arguments in order " +
+					"for the system to run properly.");
 			printHelpMessage();
 		}
 	}
 
-	private static void play(final Team team1, final Team team2, 
+	private static void play(final Team team1, final Team team2,
 			final int numberOfGames, final RuleSet ruleSet) {
 		// Create a table object to coordinate the round starters
 		Table table = new Table(team1, team2);
@@ -89,7 +93,7 @@ public class KlaverjasAIChallenge {
 				logger.debug(team1 + " scored " + team1GamePoints);
 				logger.debug(team2 + " scored " + team2GamePoints);
 			}
-			
+
 			// Sum up the game score.
 			team1Points = Points.plus(team1Points, team1GamePoints);
 			team2Points = Points.plus(team2Points, team2GamePoints);
@@ -114,7 +118,7 @@ public class KlaverjasAIChallenge {
 
 	private static Team createTeam(final String aiName) {
 		Team team = null;
-		try {			
+		try {
 			for(int i = 0; i < TEAM_SIZE; i++) {
 				Class<Player> newPlayer = (Class<Player>) Class.forName(aiName);
 				try {
