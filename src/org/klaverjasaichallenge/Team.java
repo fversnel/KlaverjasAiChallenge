@@ -39,7 +39,21 @@ public class Team {
 		}
 		return result;
 	}
-	
+
+	public Player getOtherPlayer(final Player player) {
+		Player otherPlayer = null;
+
+		if(player.equals(this.playerOne)) {
+			otherPlayer = this.playerTwo;
+		} else if(player.equals(this.playerTwo)) {
+			otherPlayer = this.playerOne;
+		}
+
+		assert(otherPlayer != null);
+
+		return otherPlayer;
+	}
+
 	@Override
 	public String toString() {
 		return "Team: (" + this.playerOne + " and " + this.playerTwo + ")";

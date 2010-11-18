@@ -32,20 +32,19 @@ public interface Player {
 	 */
 	public boolean playOnTrump(Suit trump, Order order);
 
-	
 	/**
 	 * This method is used to inform the AI of the start of a new Round
-	 * 
+	 *
 	 * @param leadingPlayer The ID of the player that commits to the game
 	 * @param trump The suit that is used as trump this round.
 	 * @param yourId The ID you have in this round
 	 * @param teamMateId The ID of your teammate
 	 */
 	public void startOfRound(int leadingPlayer, Suit trump, int yourId, int teamMateId, int enemy1, int enemy2);
-	
+
 	/**
 	 * Play a card on the table.
-	 * 
+	 *
 	 * @param trick the trick that is currently being played. This variable
 	 * can be used to request all cards that were already played in this
 	 * trick.

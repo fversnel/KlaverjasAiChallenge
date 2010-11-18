@@ -27,6 +27,7 @@ import org.klaverjasaichallenge.shared.CheatException;
 public class Round {
 	private static final int TRICK_COUNT = 8;
 	private static final int FORCED_PLAY_ON_TRUMP = 3;
+	private static final int NUMBER_OF_PLAYERS = 4;
 
 	private Table table;
 
@@ -60,13 +61,8 @@ public class Round {
 		// Deal the cards and notify the players
 		this.hands = dealCards(this.table);
 
-		// Draw Trump is the process of choosing which player plays and on which
-		// trump
-		drawTrump();
-		
-		/**
-		 * Inform players of start of round
-		 */
+		this.drawTrump();
+		this.informPlayersStartOfRound();
 
 		/**
 		 * Action: Play all tricks, when the last trick is player, the round
@@ -77,7 +73,7 @@ public class Round {
 
 			this.logger.debug("-- Start trick " + trickId + " with trump " + this.trump);
 
-			for (int playerIndex = 0; playerIndex < 4; playerIndex++) {
+			for (int playerIndex = 0; playerIndex < NUMBER_OF_PLAYERS; playerIndex++) {
 				Player currentPlayer = this.table.getActivePlayer();
 				Order playersOrder = new Order(playerIndex);
 
@@ -132,7 +128,10 @@ public class Round {
 	}
 
 	/**
-	 * DrawTrump is the subprocedure of deciding who plays on which trump. At
+	 * Drawing trump is the process of choosing which player plays and on which
+	 * trump.
+	 *
+	 * Drawing trump is the subprocedure of deciding who plays on which trump. At
 	 * the end of this function the object variables this.trump and
 	 * this.playerAcceptedTrump will be set.
 	 *
@@ -180,6 +179,25 @@ public class Round {
 		assert (this.trump != null);
 	}
 
+	private void informPlayersStartOfRound() {
+		Table roundTable = this.table;
+		int leadingPlayer = this.playerAcceptedTrump.hashCode();
+		for(int playerIndex = 0; playerIndex < NUMBER_OF_PLAYERS; playerIndex++) {
+			Player currentPlayer = roundTable.getActivePlayer();
+
+			Team playerTeam = roundTable.getTeamFromPlayer(currentPlayer);
+			Team otherTeam = roundTable.getOtherTeam(currentPlayer);
+			int currentPlayerId = currentPlayer.hashCode();
+			int teamMateId = playerTeam.getOtherPlayer(currentPlayer).hashCode();
+			int enemy1Id = otherTeam.getFirstPlayer().hashCode();
+			int enemy2Id = otherTeam.getSecondPlayer().hashCode();
+
+			currentPlayer.startOfRound(leadingPlayer, this.trump,
+					currentPlayerId, teamMateId, enemy1Id, enemy2Id);
+
+			roundTable = roundTable.nextPlayer();
+		}
+	}
 
 	private Suit getAvailableTrump() {
 		final Random random = new Random(System.nanoTime());
@@ -221,8 +239,8 @@ public class Round {
 	 * @param card
 	 * @throws Exception
 	 */
-	private void playCard(final Trick trick, final Player player, 
-			final Card card) throws CheatException { 
+	private void playCard(final Trick trick, final Player player,
+			final Card card) throws CheatException {
 		if (this.hands.get(player).drawCard(card) == null) {
 			throw new CheatException("Player " + player + " played an invalid " +
 					" card. The card (" + card + ") is not in his hand");
