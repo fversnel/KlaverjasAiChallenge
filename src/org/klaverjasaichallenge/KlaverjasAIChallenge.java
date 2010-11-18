@@ -26,11 +26,17 @@ public class KlaverjasAIChallenge {
 
 	// Define a static logger variable so that it references the
 	// Logger instance named "KlaverjasLogger".
-	static Logger logger = Logger.getLogger("KlaverjasLogger");
+	private static Logger logger = Logger.getLogger("KlaverjasLogger");
+
+	private static Team team1;
+	private static Team team2;
+
+	private static Points team1Points = new Points();
+	private static Points team2Points = new Points();
 
 	public static void main(String[] args) {
 		// Set up a simple configuration that logs on the console.
-     	BasicConfigurator.configure();
+		BasicConfigurator.configure();
 		logger.setLevel(Level.INFO);
 		
 		if(args.length == 3){
@@ -42,39 +48,61 @@ public class KlaverjasAIChallenge {
 				throw new RuntimeException("Number of games has to be higher than 0");
 			}
 			
-			Points team1Points = new Points();
-			Points team2Points = new Points();
-			
 			Team team1 = createTeam(AI_PACKAGE_NAME + firstAI);
 			Team team2 = createTeam(AI_PACKAGE_NAME + secondAI);
 
-			RuleSet rotterdamRules = new RotterdamRuleSet();
+			play(team1, team2, numberOfGames, new RotterdamRuleSet());
 	
-			for(int currentGameId = 0; currentGameId < numberOfGames; currentGameId++) {
-				logger.debug("Starting game: " + currentGameId);
-				DefaultGameState game = new DefaultGameState(team1, team2, rotterdamRules);
-				game.play();
-	
-				team1Points = Points.plus(team1Points, game.getTeam1Points());
-				team2Points = Points.plus(team2Points, game.getTeam2Points());
-	
-				logger.debug("Game Scores");
-				logger.debug(team1 + " scored " + game.getTeam1Points());
-				logger.debug(team2 + " scored " + game.getTeam2Points());
-			}
-	
-			logger.info("Overall score for " + numberOfGames + " games:");
-			logger.info(team1 + " scored " + team1Points);
-			logger.info(team2 + " scored " + team2Points);
-			logger.info("Average score per game:");
-			logger.info(team1 + " scored " + Points.divide(team1Points, new Points(numberOfGames)));
-			logger.info(team2 + " scored " + Points.divide(team2Points, new Points(numberOfGames)));
 		} else {
 			logger.error("You have to pass 3 program arguments in order for the system to run properly");
 			printHelpMessage();
 		}
 	}
-	
+
+	private static void play(final Team team1, final Team team2, 
+			final int numberOfGames, final RuleSet ruleSet) {
+		// Create a table object to coordinate the round starters
+		Table table = new Table(team1, team2);
+
+		for(int currentGameId = 1; currentGameId <= numberOfGames; currentGameId++) {
+			logger.debug("Starting game: " + currentGameId);
+
+			Points team1GamePoints = new Points();
+			Points team2GamePoints = new Points();
+
+			for(int currentRoundId = 1; currentRoundId <= ruleSet.getNumberOfRounds(); currentRoundId++) {
+				logger.debug("- Starting round: " + currentRoundId + " with " +
+						"Players: " + table.getPlayers());
+
+				// Play the round
+				Round round = new Round(table, ruleSet);
+				round.play();
+
+				// Sum up the round score to the total score for each team this game
+				team1GamePoints = Points.plus(team1GamePoints, round.getScore(team1).getTotalScore());
+				team2GamePoints = Points.plus(team2GamePoints, round.getScore(team2).getTotalScore());
+
+				// Change the order of the players
+				table = table.nextRound();
+
+				logger.debug("Game scores:");
+				logger.debug(team1 + " scored " + team1GamePoints);
+				logger.debug(team2 + " scored " + team2GamePoints);
+			}
+			
+			// Sum up the game score.
+			team1Points = Points.plus(team1Points, team1GamePoints);
+			team2Points = Points.plus(team2Points, team2GamePoints);
+		}
+
+		logger.info("Overall score for " + numberOfGames + " games:");
+		logger.info(team1 + " scored " + team1Points);
+		logger.info(team2 + " scored " + team2Points);
+		logger.info("Average score per game:");
+		logger.info(team1 + " scored " + Points.divide(team1Points, new Points(numberOfGames)));
+		logger.info(team2 + " scored " + Points.divide(team2Points, new Points(numberOfGames)));
+	}
+
 	private static void printHelpMessage() {
 		System.out.println("The program takes these arguments:\n" +
 				"1st argument: name of the first AI\n"+
@@ -83,7 +111,7 @@ public class KlaverjasAIChallenge {
 				"The first AI will form a team with two copies of itself against " +
 				"the team given in the second argument.");
 	}
-	
+
 	private static Team createTeam(final String aiName) {
 		Team team = null;
 		try {			

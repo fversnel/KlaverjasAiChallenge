@@ -21,6 +21,8 @@ public abstract class RuleSet {
 	public abstract void checkCardLegitimacy(final Trick trick, final Card cardToCheck,
 			final Player player, final Hand playerHand, final Suit trump) throws CheatException;
 
+	public abstract int getNumberOfRounds();
+
 	/**
 	 * Checks whether a player has the ability to play a card of some suit
 	 *

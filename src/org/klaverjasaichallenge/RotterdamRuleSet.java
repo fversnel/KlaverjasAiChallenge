@@ -17,6 +17,7 @@ import org.klaverjasaichallenge.shared.CheatException;
  *
  */
 public class RotterdamRuleSet extends RuleSet {
+	private static final int NUMBER_OF_ROUNDS = 16;
 
 	public RotterdamRuleSet() {
 	}
@@ -60,6 +61,10 @@ public class RotterdamRuleSet extends RuleSet {
 				}
 			}
 		}
+	}
+
+	public int getNumberOfRounds() {
+		return NUMBER_OF_ROUNDS;
 	}
 	
 	/**
