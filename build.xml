@@ -7,7 +7,7 @@
   <property name="creator.name" value="Joost Pastoor" />
 
   <!-- Version numbers -->
-  <property name="shared.package.version" value="1.0" />
+  <property name="shared.package.version" value="1.1" />
 
   <!-- Directories used -->
   <property name="dir.source" location="src" />
