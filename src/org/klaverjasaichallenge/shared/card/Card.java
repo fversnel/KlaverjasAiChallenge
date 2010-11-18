@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.klaverjasaichallenge.shared.card;
 
@@ -57,35 +57,41 @@ public class Card {
 	}
 
 	public boolean isHigherThan(final Suit trump, final Suit leadingSuit, final Card card) {
-		boolean result = false;
+		Boolean result = null;
+
+		Suit cardSuit = card.getSuit();
 
 		// If both are trumps
-		if(this.suit.equals(trump) && card.getSuit().equals(trump)) {
+		if(this.suit.equals(trump) && cardSuit.equals(trump)) {
 			result = this.getTrumpOrder().isHigherThan(card.getTrumpOrder());
-		} 
+		}
 		// If this card is a trump, but the card to compare it with is not
-		else if(this.suit.equals(trump) && !card.getSuit().equals(trump)) {
+		else if(this.suit.equals(trump) && !cardSuit.equals(trump)) {
 			result = true;
-		} 
+		}
 		// If this card is not a trump, but the card to compare it with is
-		else if(!this.suit.equals(trump) && card.getSuit().equals(trump)) {
+		else if(!this.suit.equals(trump) && cardSuit.equals(trump)) {
 			result = false;
-		} 
+		}
 		// If both cards are of the leading suit
-		else if(this.suit.equals(leadingSuit) && card.getSuit().equals(leadingSuit)) {
+		else if(this.suit.equals(leadingSuit) && cardSuit.equals(leadingSuit)) {
 			result = this.getNormalOrder().isHigherThan(card.getNormalOrder());
 		}
 		// If this card is a leadingSuit, but the card to compare it with is not
-		else if(this.suit.equals(leadingSuit) && !card.getSuit().equals(leadingSuit)) {
+		else if(this.suit.equals(leadingSuit) && !cardSuit.equals(leadingSuit)) {
 			result = true;
-		} 
-		// If this card is not a leadingSuit, but the card to compare it with is
-		else if(!this.suit.equals(leadingSuit) && card.getSuit().equals(leadingSuit)) {
-			result = false;
-		} 		
-		else {
-			result = this.getNormalOrder().isHigherThan(card.getNormalOrder());
 		}
+		// If this card is not a leadingSuit, but the card to compare it with is
+		else if(!this.suit.equals(leadingSuit) && cardSuit.equals(leadingSuit)) {
+			result = false;
+		}
+		// If both cards are not of leading suit comparing doesn't matter
+		// anymore so it will return false.
+		else if (!this.suit.equals(leadingSuit) && !cardSuit.equals(leadingSuit)) {
+			result = false;
+		}
+
+		assert(result != null);
 
 		return result;
 	}
