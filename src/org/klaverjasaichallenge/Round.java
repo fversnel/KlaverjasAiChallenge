@@ -33,7 +33,6 @@ public class Round {
 
 	private final Map<Team, Score> roundScores;
 	private final List<Trick> tricksPlayed;
-	private final List<Suit> availableTrumps;
 
 	private Map<Player, Hand> hands;
 
@@ -48,7 +47,6 @@ public class Round {
 	public Round(final Table table, final RuleSet ruleSet) {
 		this.table = table;
 
-		this.availableTrumps = Card.getSuits();
 		this.roundScores = new HashMap<Team, Score>();
 		this.tricksPlayed = new LinkedList<Trick>();
 		this.ruleSet = ruleSet;
@@ -128,6 +126,27 @@ public class Round {
 	}
 
 	/**
+	 * This function creates a Deck object and gives the cards to the different
+	 * players so they all have a hand of 8 cards, which is returned.
+	 */
+	private Map<Player, Hand> dealCards(Table table) {
+		Deck deck = new Deck();
+		Map<Player, Hand> hands = new HashMap<Player, Hand>();
+
+		for (Player player : table.getPlayers()) {
+			Hand playersHand = new Hand(deck);
+
+			// Serverside representation of the hand
+			hands.put(player, playersHand);
+
+			// Notify Player/AI of the hand
+			player.giveCards(playersHand.getCards());
+		}
+
+		return hands;
+	}
+
+	/**
 	 * Drawing trump is the process of choosing which player plays and on which
 	 * trump.
 	 *
@@ -143,8 +162,10 @@ public class Round {
 		Suit drawnTrump = null;
 		int amountTrumpsDrawn = 0;
 		do {
+			List<Suit> availableTrumps = Card.getSuits();
+			drawnTrump = this.getRandomTrump(availableTrumps);
+			availableTrumps.remove(drawnTrump);
 
-			drawnTrump = this.getAvailableTrump();
 			amountTrumpsDrawn++;
 
 			Table trumpTable = this.table;
@@ -152,19 +173,19 @@ public class Round {
 
 				Player player = trumpTable.getActivePlayer();
 
-				// Force active player to go on this third trump
-				if (amountTrumpsDrawn == FORCED_PLAY_ON_TRUMP) {
-					this.playerAcceptedTrump = player;
-					this.trump = drawnTrump;
-					this.logger.debug(this.playerAcceptedTrump + " is forced to go on " + drawnTrump);
-					break;
-				}
-
 				// When the player decides he want to play on this trump
-				if (player.playOnTrump(drawnTrump, new Order(playerIndex))) {
+				// After three tries force active player to go on this third trump
+				if (player.playOnTrump(drawnTrump, new Order(playerIndex)) ||
+						amountTrumpsDrawn == FORCED_PLAY_ON_TRUMP) {
 					this.playerAcceptedTrump = player;
 					this.trump = drawnTrump;
-					this.logger.debug(this.playerAcceptedTrump + " goes on " + drawnTrump);
+					if(amountTrumpsDrawn == FORCED_PLAY_ON_TRUMP) {
+						this.logger.debug(this.playerAcceptedTrump + " is " +
+								"forced to go on" + drawnTrump);
+					} else {
+						this.logger.debug(this.playerAcceptedTrump + " goes on " +
+								drawnTrump);
+					}
 					break;
 				}
 
@@ -177,6 +198,12 @@ public class Round {
 		// playerAcceptedTrump and trump
 		assert (this.playerAcceptedTrump != null);
 		assert (this.trump != null);
+	}
+
+	private Suit getRandomTrump(final List<Suit> availableTrumps) {
+		final Random random = new Random(System.nanoTime());
+		final int trumpIndex = random.nextInt(availableTrumps.size());
+		return availableTrumps.get(trumpIndex);
 	}
 
 	private void informPlayersStartOfRound() {
@@ -197,37 +224,6 @@ public class Round {
 
 			roundTable = roundTable.nextPlayer();
 		}
-	}
-
-	private Suit getAvailableTrump() {
-		final Random random = new Random(System.nanoTime());
-		final int trumpIndex = random.nextInt(this.availableTrumps.size());
-		final Suit chosenTrump = this.availableTrumps.remove(trumpIndex);
-
-		this.trump = chosenTrump;
-
-		return chosenTrump;
-	}
-
-	/**
-	 * This function creates a Deck object and gives the cards to the different
-	 * players so they all have a hand of 8 cards, which is returned.
-	 */
-	private Map<Player, Hand> dealCards(Table table) {
-		Deck deck = new Deck();
-		Map<Player, Hand> hands = new HashMap<Player, Hand>();
-
-		for (Player player : table.getPlayers()) {
-			Hand playersHand = new Hand(deck);
-
-			// Serverside representation of the hand
-			hands.put(player, playersHand);
-
-			// Notify Player/AI of the hand
-			player.giveCards(playersHand.getCards());
-		}
-
-		return hands;
 	}
 
 	/**
