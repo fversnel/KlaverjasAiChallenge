@@ -116,7 +116,7 @@ public class Card {
 			}
 		}
 
-		if(card.size() > 0) {
+		if(cards.size() > 0) {
 			assert(highestCard != null);
 		}
 
