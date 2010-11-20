@@ -108,6 +108,9 @@ public class Card {
 		return this.rank + " of " + this.suit;
 	}
 
+	/**
+	 * Return null if no cards are given.
+	 */
 	public static Card max(final Suit trump, final Suit leadingSuit, final List<Card> cards) {
 		Card highestCard = null;
 		for(Card card : cards) {
