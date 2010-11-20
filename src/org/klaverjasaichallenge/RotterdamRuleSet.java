@@ -9,7 +9,6 @@ import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.rank.Rank;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
 
-import org.klaverjasaichallenge.shared.CheatException;
 
 /**
  * @author Joost

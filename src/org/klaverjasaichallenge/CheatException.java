@@ -1,4 +1,4 @@
-package org.klaverjasaichallenge.shared;
+package org.klaverjasaichallenge;
 
 public class CheatException extends Exception {
 

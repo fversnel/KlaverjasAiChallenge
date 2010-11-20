@@ -17,7 +17,6 @@ import org.klaverjasaichallenge.shared.Trick;
 import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
 
-import org.klaverjasaichallenge.shared.CheatException;
 
 /**
  * TODO Refactor this class since it's responsibility seems to be to big.
