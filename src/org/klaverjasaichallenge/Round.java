@@ -21,70 +21,58 @@ import org.klaverjasaichallenge.shared.card.suit.Suit;
 import org.klaverjasaichallenge.shared.CheatException;
 
 /**
- * TODO Refactor this class since it's responsibility seems to be to big. Look
- * at the amount of named constants for example... way too much.
+ * TODO Refactor this class since it's responsibility seems to be to big.
  */
 public class Round {
 	private static final int TRICK_COUNT = 8;
 	private static final int FORCED_PLAY_ON_TRUMP = 3;
-	private static final int NUMBER_OF_PLAYERS = 4;
+	private static final int PLAYER_COUNT = 4;
 
 	private Table table;
-
-	private final Map<Team, Score> roundScores;
-	private final List<Trick> tricksPlayed;
-
-	private Map<Player, Hand> hands;
-
+	private final RuleSet ruleSet;
+	private Map<Team, Score> roundScores;
 	private Player playerAcceptedTrump;
-	private Suit trump;
-	private Player winner;
 
-	private RuleSet ruleSet;
-
-	private Logger logger;
+	private final Logger logger;
 
 	public Round(final Table table, final RuleSet ruleSet) {
 		this.table = table;
-
-		this.roundScores = new HashMap<Team, Score>();
-		this.tricksPlayed = new LinkedList<Trick>();
 		this.ruleSet = ruleSet;
+		this.roundScores = this.initializeRoundScores(this.table.getTeams());
+		this.playerAcceptedTrump = null;
 
 		this.logger = Logger.getLogger("KlaverjasLogger");
 	}
 
 	public void play() {
-
-		// Deal the cards and notify the players
-		this.hands = dealCards(this.table);
-
-		this.drawTrump();
-		this.informPlayersStartOfRound();
+		final Map<Player, Hand> hands = dealCards(this.table.getPlayers());
+		final Suit trump = this.drawTrump();
+		this.informPlayersStartOfRound(trump);
 
 		/**
 		 * Action: Play all tricks, when the last trick is player, the round
 		 * will be ended.
 		 */
+		final List<Trick> tricksPlayed = new LinkedList<Trick>();
 		for (int trickId = 0; trickId < TRICK_COUNT; trickId++) {
-			Trick trick = new Trick();
+			final Trick trick = new Trick();
 
-			this.logger.debug("-- Start trick " + trickId + " with trump " + this.trump);
+			this.logger.debug("-- Start trick " + trickId + " with trump " + trump);
 
-			for (int playerIndex = 0; playerIndex < NUMBER_OF_PLAYERS; playerIndex++) {
-				Player currentPlayer = this.table.getActivePlayer();
-				Order playersOrder = new Order(playerIndex);
+			for (int playerIndex = 0; playerIndex < PLAYER_COUNT; playerIndex++) {
+				final Player currentPlayer = this.table.getActivePlayer();
+				final Order playersOrder = new Order(playerIndex);
 
 				// Ask the player to return a card
 				// (Trick is cloned to avoid the AI meddling with the trick
 				// data)
-				Card cardPlayed = currentPlayer.getCard(trick.clone(), playersOrder);
+				final Card cardPlayed = currentPlayer.getCard(trick.clone(), playersOrder);
 
 				this.logger.debug("--- " + currentPlayer + " played " + cardPlayed);
 
 				// Check if the card is valid
 				try {
-					this.playCard(trick, currentPlayer, cardPlayed);
+					this.playCard(trick, currentPlayer, cardPlayed, hands, trump);
 				} catch (Exception e) {
 					// TODO Do not print an error here, but punish!
 					e.printStackTrace();
@@ -93,9 +81,9 @@ public class Round {
 				this.table = this.table.nextPlayer();
 			}
 
-			Score score = trick.getScore(this.trump);
-			Player winner = trick.getWinner(this.trump);
-			this.tricksPlayed.add(trick);
+			final Score score = trick.getScore(trump);
+			final Player winner = trick.getWinner(trump);
+			tricksPlayed.add(trick);
 			this.logger.debug("--- Winner:  " + winner + " with " + score);
 
 			// Notify player of end of trick
@@ -109,19 +97,16 @@ public class Round {
 		/**
 		 * Action: Round ends
 		 */
-		this.calculateRoundScores();
+		this.roundScores = this.calculateRoundScores(tricksPlayed, trump);
 
 		this.logger.debug("--- Round Scores");
 		for (Team team : this.roundScores.keySet()) {
 			this.logger.debug(team + " scores: " + this.roundScores.get(team) + " points");
 		}
+
 	}
 
-	public Object getWinner() {
-		return this.winner;
-	}
-
-	public Score getScore(Team team) {
+	public Score getScore(final Team team) {
 		return this.roundScores.get(team);
 	}
 
@@ -129,12 +114,14 @@ public class Round {
 	 * This function creates a Deck object and gives the cards to the different
 	 * players so they all have a hand of 8 cards, which is returned.
 	 */
-	private Map<Player, Hand> dealCards(Table table) {
-		Deck deck = new Deck();
-		Map<Player, Hand> hands = new HashMap<Player, Hand>();
+	private Map<Player, Hand> dealCards(final List<Player> players) {
+		assert(players.size() == PLAYER_COUNT);
 
-		for (Player player : table.getPlayers()) {
-			Hand playersHand = new Hand(deck);
+		final Deck deck = new Deck();
+		final Map<Player, Hand> hands = new HashMap<Player, Hand>();
+
+		for(final Player player : players) {
+			final Hand playersHand = new Hand(deck);
 
 			// Serverside representation of the hand
 			hands.put(player, playersHand);
@@ -158,27 +145,26 @@ public class Round {
 	 * variables that only exist in play() and subprocedures of play. Maybe let
 	 * this function return an object that contains them both.
 	 */
-	private void drawTrump() {
+	private Suit drawTrump() {
 		Suit drawnTrump = null;
 		int amountTrumpsDrawn = 0;
+		final List<Suit> availableTrumps = Card.getSuits();
 		do {
-			List<Suit> availableTrumps = Card.getSuits();
 			drawnTrump = this.getRandomTrump(availableTrumps);
 			availableTrumps.remove(drawnTrump);
 
 			amountTrumpsDrawn++;
 
 			Table trumpTable = this.table;
-			for (int playerIndex = 0; playerIndex < 4; playerIndex++) {
-
-				Player player = trumpTable.getActivePlayer();
+			for (int playerIndex = 0; playerIndex < PLAYER_COUNT; playerIndex++) {
+				final Player player = trumpTable.getActivePlayer();
 
 				// When the player decides he want to play on this trump
 				// After three tries force active player to go on this third trump
 				if (player.playOnTrump(drawnTrump, new Order(playerIndex)) ||
 						amountTrumpsDrawn == FORCED_PLAY_ON_TRUMP) {
 					this.playerAcceptedTrump = player;
-					this.trump = drawnTrump;
+
 					if(amountTrumpsDrawn == FORCED_PLAY_ON_TRUMP) {
 						this.logger.debug(this.playerAcceptedTrump + " is " +
 								"forced to go on" + drawnTrump);
@@ -186,6 +172,7 @@ public class Round {
 						this.logger.debug(this.playerAcceptedTrump + " goes on " +
 								drawnTrump);
 					}
+
 					break;
 				}
 
@@ -197,7 +184,9 @@ public class Round {
 		// Asserts that this function always results in a filled
 		// playerAcceptedTrump and trump
 		assert (this.playerAcceptedTrump != null);
-		assert (this.trump != null);
+		assert (drawnTrump != null);
+
+		return drawnTrump;
 	}
 
 	private Suit getRandomTrump(final List<Suit> availableTrumps) {
@@ -206,20 +195,20 @@ public class Round {
 		return availableTrumps.get(trumpIndex);
 	}
 
-	private void informPlayersStartOfRound() {
+	private void informPlayersStartOfRound(final Suit trump) {
 		Table roundTable = this.table;
-		int leadingPlayer = this.playerAcceptedTrump.hashCode();
-		for(int playerIndex = 0; playerIndex < NUMBER_OF_PLAYERS; playerIndex++) {
-			Player currentPlayer = roundTable.getActivePlayer();
+		final int leadingPlayer = this.playerAcceptedTrump.hashCode();
+		for(int playerIndex = 0; playerIndex < PLAYER_COUNT; playerIndex++) {
+			final Player currentPlayer = roundTable.getActivePlayer();
 
-			Team playerTeam = roundTable.getTeamFromPlayer(currentPlayer);
-			Team otherTeam = roundTable.getOtherTeam(currentPlayer);
-			int currentPlayerId = currentPlayer.hashCode();
-			int teamMateId = playerTeam.getOtherPlayer(currentPlayer).hashCode();
-			int enemy1Id = otherTeam.getFirstPlayer().hashCode();
-			int enemy2Id = otherTeam.getSecondPlayer().hashCode();
+			final Team playerTeam = roundTable.getTeamFromPlayer(currentPlayer);
+			final Team otherTeam = roundTable.getOtherTeam(currentPlayer);
+			final int currentPlayerId = currentPlayer.hashCode();
+			final int teamMateId = playerTeam.getOtherPlayer(currentPlayer).hashCode();
+			final int enemy1Id = otherTeam.getFirstPlayer().hashCode();
+			final int enemy2Id = otherTeam.getSecondPlayer().hashCode();
 
-			currentPlayer.startOfRound(leadingPlayer, this.trump,
+			currentPlayer.startOfRound(leadingPlayer, trump,
 					currentPlayerId, teamMateId, enemy1Id, enemy2Id);
 
 			roundTable = roundTable.nextPlayer();
@@ -236,13 +225,13 @@ public class Round {
 	 * @throws Exception
 	 */
 	private void playCard(final Trick trick, final Player player,
-			final Card card) throws CheatException {
-		if (this.hands.get(player).drawCard(card) == null) {
+			final Card card, final Map<Player, Hand> hands, final Suit trump) throws CheatException {
+		if (hands.get(player).drawCard(card) == null) {
 			throw new CheatException("Player " + player + " played an invalid " +
 					" card. The card (" + card + ") is not in his hand");
 		}
 
-		this.ruleSet.checkCardLegitimacy(trick, card, player, this.hands.get(player), trump);
+		this.ruleSet.checkCardLegitimacy(trick, card, player, hands.get(player), trump);
 		trick.addCard(player, card);
 	}
 
@@ -251,51 +240,63 @@ public class Round {
 	 *
 	 * @uses roundScores
 	 */
-	private void calculateRoundScores() {
-		Team teamOffensive = this.table.getTeamFromPlayer(this.playerAcceptedTrump);
-		Team teamDefensive = this.table.getOtherTeam(this.playerAcceptedTrump);
-		for (Team team : this.table.getTeams()) {
-			this.roundScores.put(team, new Score());
-		}
+	private Map<Team, Score> calculateRoundScores(final List<Trick> tricks, final Suit trump) {
+		assert(tricks.size() == TRICK_COUNT);
 
-		for (int trickId = 0; trickId < TRICK_COUNT; trickId++) {
-			Trick trick = this.tricksPlayed.get(trickId);
-			Player winner = trick.getWinner(this.trump);
-			Score trickScore = trick.getScore(this.trump);
-			Team winningTeam = this.table.getTeamFromPlayer(winner);
+		final Team teamOffensive = this.table.getTeamFromPlayer(this.playerAcceptedTrump);
+		final Team teamDefensive = this.table.getOtherTeam(this.playerAcceptedTrump);
+		final Map<Team, Score> roundScores = this.initializeRoundScores(this.table.getTeams());
+
+		for(int trickId = 0; trickId < TRICK_COUNT; trickId++) {
+			final Trick trick = tricks.get(trickId);
+			final Player winner = trick.getWinner(trump);
+			final Team winningTeam = this.table.getTeamFromPlayer(winner);
+			Score trickScore = trick.getScore(trump);
 
 			// For the last trick, award extra points
-			if (trickId == TRICK_COUNT - 1)
+			if(trickId == TRICK_COUNT - 1) {
 				trickScore = new Score(Points.plus(trickScore.getStockScore(), Score.LAST_TRICK_POINTS), trickScore
 						.getRoemScore());
+			}
 
-			Score previousScore = this.roundScores.get(winningTeam);
-			this.roundScores.put(winningTeam, Score.plus(previousScore, trickScore));
+			final Score previousScore = roundScores.get(winningTeam);
+			roundScores.put(winningTeam, Score.plus(previousScore, trickScore));
 		}
 
 		// Going wet
-		if (Score
-				.totalScoreBiggerThanOrEquals(this.roundScores.get(teamDefensive), this.roundScores.get(teamOffensive))) {
+		if(Score
+				.totalScoreBiggerThanOrEquals(roundScores.get(teamDefensive), roundScores.get(teamOffensive))) {
 			// Winners get the roem of both teams
 
-			Score defensiveScore = new Score(new Points(162), new Points(Points.plus(this.roundScores
-					.get(teamDefensive).getRoemScore(), this.roundScores.get(teamOffensive).getRoemScore())));
-			this.roundScores.put(teamDefensive, defensiveScore);
+			final Score defensiveScore = new Score(new Points(162), new Points(Points.plus(roundScores
+					.get(teamDefensive).getRoemScore(), roundScores.get(teamOffensive).getRoemScore())));
+			roundScores.put(teamDefensive, defensiveScore);
 
 			// The team that goes gets 0 points
-			this.roundScores.put(teamOffensive, new Score(new Points(0), new Points(0)));
+			roundScores.put(teamOffensive, new Score(new Points(0), new Points(0)));
 
 			this.logger.debug("--- " + teamOffensive + " goes wet! OMG");
 		}
 
 		// Marching
-
-		if (this.roundScores.get(teamOffensive).getStockScore().getPoints() == 162) {
-			Score newScore = new Score(this.roundScores.get(teamOffensive).getStockScore(), Points.plus(
-					this.roundScores.get(teamOffensive).getRoemScore(), Score.MARCH_POINTS));
-			this.roundScores.put(teamOffensive, newScore);
+		if (roundScores.get(teamOffensive).getStockScore().getPoints() == 162) {
+			final Score newScore = new Score(roundScores.get(teamOffensive).getStockScore(), Points.plus(
+					roundScores.get(teamOffensive).getRoemScore(), Score.MARCH_POINTS));
+			roundScores.put(teamOffensive, newScore);
 			this.logger.debug("--- " + teamOffensive + " goes marching");
 
 		}
+
+		return roundScores;
 	}
+
+	private Map<Team, Score> initializeRoundScores(final List<Team> teams) {
+		final Map<Team, Score> roundScores = new HashMap<Team, Score>();
+		for (final Team team : teams) {
+			roundScores.put(team, new Score());
+		}
+
+		return roundScores;
+	}
+
 }
