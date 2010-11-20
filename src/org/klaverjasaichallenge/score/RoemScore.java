@@ -34,14 +34,14 @@ class RoemScore {
 	private static Points calculateFourCardsSameRankScore(final Trick trick) {
 		Points score = new Points();
 
-		List<Card> cards = trick.getCards();
-		Card firstCard = cards.get(0);
-		Rank cardRank = firstCard.getRank();
-		Order cardOrder = firstCard.getRoemOrder();
+		final List<Card> cards = trick.getCards();
+		final Card firstCard = cards.get(0);
+		final Rank cardRank = firstCard.getRank();
+		final Order cardOrder = firstCard.getRoemOrder();
 		if(cardOrder.isHigherOrSameAs(FIRST_HIGH_CARD)) {
 			boolean test = true;
 			for(Card card : cards) {
-				Rank currentCardRank = card.getRank();
+				final Rank currentCardRank = card.getRank();
 				if(!(currentCardRank.equals(cardRank))) {
 					test = false;
 				}
@@ -68,13 +68,13 @@ class RoemScore {
 	private static Points calculateConsecutiveCardsScore(final Trick trick) {
 		Points score = new Points();
 
-		for(Card card : trick.getCards()) {
+		for(final Card card : trick.getCards()) {
 			boolean oneRankDifference = false;
 			boolean twoRanksDifference = false;
 			boolean threeRanksDifference = false;
 
-			for(Card otherCard : trick.getCards()) {
-				Order orderDifference = Order.minus(card.getRoemOrder(),
+			for(final Card otherCard : trick.getCards()) {
+				final Order orderDifference = Order.minus(card.getRoemOrder(),
 						otherCard.getRoemOrder());
 				if(card.getSuit().equals(otherCard.getSuit())) {
 					if(orderDifference.equals(new Order(1))) {
@@ -106,9 +106,9 @@ class RoemScore {
 
 		boolean queen = false;
 		boolean king = false;
-		for(Card trickCard : trick.getCards()) {
-			Suit cardSuit = trickCard.getSuit();
-			Rank cardRank = trickCard.getRank();
+		for(final Card trickCard : trick.getCards()) {
+			final Suit cardSuit = trickCard.getSuit();
+			final Rank cardRank = trickCard.getRank();
 			if(cardSuit.equals(trump)) {
 				if(cardRank instanceof Queen) {
 					queen = true;

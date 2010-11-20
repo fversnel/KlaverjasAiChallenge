@@ -16,16 +16,18 @@ public class Score {
 		this.roemScore = new Points();
 	}
 
-	public Score(Points stockScore, Points roemScore) {
+	public Score(final Points stockScore, final Points roemScore) {
 		this.stockScore = stockScore;
 		this.roemScore = roemScore;
 	}
 
-	public static Points calculateStockScore(Trick trick, Suit trump) {
+	public static Points calculateStockScore(final Trick trick,
+			final Suit trump) {
 		return StockScore.calculateScore(trick, trump);
 	}
 
-	public static Points calculateRoemScore(Trick trick, Suit trump) {
+	public static Points calculateRoemScore(final Trick trick,
+			final Suit trump) {
 		return RoemScore.calculateScore(trick, trump);
 	}
 
@@ -43,16 +45,21 @@ public class Score {
 
 
 	public static Score plus(final Score leftScore, final Score rightScore) {
-		return new Score(Points.plus(leftScore.getStockScore(),rightScore.getStockScore()), Points.plus(leftScore.getRoemScore(),rightScore.getRoemScore()));
+		return new
+			Score(Points.plus(leftScore.getStockScore(),rightScore.getStockScore()),
+					Points.plus(leftScore.getRoemScore(),rightScore.getRoemScore()));
 	}
 
-	public static boolean totalScorebiggerThan(final Score leftHandSide, final Score rightHandSide) {
-		return Points.biggerThan(leftHandSide.getTotalScore(), rightHandSide.getTotalScore());
+	public static boolean totalScorebiggerThan(final Score leftHandSide, final
+			Score rightHandSide) {
+		return Points.biggerThan(leftHandSide.getTotalScore(),
+				rightHandSide.getTotalScore());
 	}
-	
-	public static boolean totalScoreBiggerThanOrEquals(final Score leftHandSide, final Score rightHandSide) {
-		return Points.biggerThanOrEquals(leftHandSide.getTotalScore(), rightHandSide.getTotalScore());
-	}
+
+	public static boolean totalScoreBiggerThanOrEquals(final Score
+			leftHandSide, final Score rightHandSide) { return
+		Points.biggerThanOrEquals(leftHandSide.getTotalScore(),
+				rightHandSide.getTotalScore()); }
 
 	@Override
 	public String toString() {

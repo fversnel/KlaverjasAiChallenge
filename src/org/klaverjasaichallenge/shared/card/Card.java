@@ -25,13 +25,15 @@ public class Card {
 	}
 
 	public Points getPoints(final Suit trump) {
-		Points points = new Points();
+		Points points = null;
 
 		if(this.suit.equals(trump)) {
 			points = this.rank.getTrumpPoints();
 		} else {
 			points = this.rank.getNormalPoints();
 		}
+
+		assert(points != null);
 
 		return points;
 	}
@@ -59,7 +61,7 @@ public class Card {
 	public boolean isHigherThan(final Suit trump, final Suit leadingSuit, final Card card) {
 		Boolean result = null;
 
-		Suit cardSuit = card.getSuit();
+		final Suit cardSuit = card.getSuit();
 
 		// If both are trumps
 		if(this.suit.equals(trump) && cardSuit.equals(trump)) {
@@ -113,11 +115,16 @@ public class Card {
 				highestCard = card;
 			}
 		}
+
+		if(card.size() > 0) {
+			assert(highestCard != null);
+		}
+
 		return highestCard;
 	}
 
 	public static List<Suit> getSuits() {
-		List<Suit> suits = new LinkedList<Suit>();
+		final List<Suit> suits = new LinkedList<Suit>();
 		suits.add(new Clubs());
 		suits.add(new Diamonds());
 		suits.add(new Hearts());
@@ -127,7 +134,7 @@ public class Card {
 	}
 
 	public static List<Rank> getRanks() {
-		List<Rank> ranks = new LinkedList<Rank>();
+		final List<Rank> ranks = new LinkedList<Rank>();
 		ranks.add(new Seven());
 		ranks.add(new Eight());
 		ranks.add(new Nine());

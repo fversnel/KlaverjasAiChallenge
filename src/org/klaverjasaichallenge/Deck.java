@@ -16,9 +16,9 @@ import org.klaverjasaichallenge.shared.card.rank.*;
  *
  */
 public class Deck {
-	private Stack<Card> cards;
+	private final Stack<Card> cards;
 
-	private Logger logger;
+	private final Logger logger;
 
 	public Deck() {
 		this.cards = this.createDeck();
@@ -33,16 +33,17 @@ public class Deck {
 	}
 
 	private Stack<Card> createDeck() {
-		Stack<Card> cards = new Stack<Card>();
-		for (Suit suit : Card.getSuits()) {
-			for (Rank rank : Card.getRanks()) {
+		final Stack<Card> cards = new Stack<Card>();
+		for(final Suit suit : Card.getSuits()) {
+			for(final Rank rank : Card.getRanks()) {
 				cards.add(new Card(suit, rank));
 			}
 		}
+
 		return cards;
 	}
 
-	private void shuffleDeck(List<Card> cards) {
+	private void shuffleDeck(final List<Card> cards) {
 		Collections.shuffle(cards);
 	}
 }

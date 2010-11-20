@@ -28,9 +28,6 @@ public class KlaverjasAIChallenge {
 	// Logger instance named "KlaverjasLogger".
 	private static Logger logger = Logger.getLogger("KlaverjasLogger");
 
-	private static Team team1;
-	private static Team team2;
-
 	private static Points team1Points = new Points();
 	private static Points team2Points = new Points();
 

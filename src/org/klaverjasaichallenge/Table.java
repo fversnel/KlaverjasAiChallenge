@@ -10,10 +10,10 @@ import java.util.LinkedList;
 import org.klaverjasaichallenge.shared.Player;
 
 public class Table {
-	private List<Team> teams;
-	private List<Player> positions;
-	private Player activePlayer;
-	private Player roundStarter;
+	private final List<Team> teams;
+	private final List<Player> positions;
+	private final Player activePlayer;
+	private final Player roundStarter;
 
 	public Table(final Team teamOne, final Team teamTwo) {
 		this.teams = this.initializeTeams(teamOne, teamTwo);
@@ -94,20 +94,20 @@ public class Table {
 	}
 
 	private Player getNextPlayer(final Player currentPlayer) {
-		int currentPlayerIndex = this.positions.indexOf(currentPlayer);
-		int nextPlayerIndex = (currentPlayerIndex + 1) % this.positions.size();
+		final int currentPlayerIndex = this.positions.indexOf(currentPlayer);
+		final int nextPlayerIndex = (currentPlayerIndex + 1) % this.positions.size();
 		return this.positions.get(nextPlayerIndex);
 	}
 
 	private List<Team> initializeTeams(final Team teamOne, final Team teamTwo) {
-		List<Team> teams = new ArrayList<Team>();
+		final List<Team> teams = new ArrayList<Team>();
 		teams.add(teamOne);
 		teams.add(teamTwo);
 		return teams;
 	}
 
 	private List<Player> initializePositions(final Team teamOne, final Team teamTwo) {
-		List<Player> positions =  new LinkedList<Player>();
+		final List<Player> positions =  new LinkedList<Player>();
 		positions.add(teamOne.getFirstPlayer());
 		positions.add(teamTwo.getFirstPlayer());
 		positions.add(teamOne.getSecondPlayer());

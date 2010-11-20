@@ -11,8 +11,8 @@ class StockScore {
 	public static Points calculateScore(final Trick trick, final Suit trump) {
 		Points totalPoints = new Points();
 
-		for(Card card : trick.getCards()) {
-			Points cardPoints = card.getPoints(trump);
+		for(final Card card : trick.getCards()) {
+			final Points cardPoints = card.getPoints(trump);
 			totalPoints = Points.plus(totalPoints, cardPoints);
 		}
 

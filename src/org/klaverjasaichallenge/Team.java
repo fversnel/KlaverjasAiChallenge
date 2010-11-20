@@ -9,8 +9,8 @@ import java.util.List;
 import org.klaverjasaichallenge.shared.Player;
 
 public class Team {
-	private Player playerOne;
-	private Player playerTwo;
+	private final Player playerOne;
+	private final Player playerTwo;
 
 	public Team(final Player playerOne, final Player playerTwo) {
 		this.playerOne = playerOne;
@@ -18,7 +18,7 @@ public class Team {
 	}
 
 	public List<Player> getPlayers() {
-		List<Player> players = new ArrayList<Player>();
+		final List<Player> players = new ArrayList<Player>();
 		players.add(this.playerOne);
 		players.add(this.playerTwo);
 		return players;
