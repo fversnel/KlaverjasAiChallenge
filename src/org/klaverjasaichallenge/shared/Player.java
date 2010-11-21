@@ -39,8 +39,11 @@ public interface Player {
 	 * @param trump The suit that is used as trump this round.
 	 * @param yourId The ID you have in this round
 	 * @param teamMateId The ID of your teammate
+	 * @param enemy1Id The ID of one of your enemies
+	 * @param enemy2Id The ID of the other enemy
 	 */
-	public void startOfRound(int leadingPlayer, Suit trump, int yourId, int teamMateId, int enemy1, int enemy2);
+	public void startOfRound(int leadingPlayer, Suit trump, int yourId, 
+			int teamMateId, int enemy1Id, int enemy2Id);
 
 	/**
 	 * Play a card on the table.

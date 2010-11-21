@@ -4,6 +4,8 @@
 package org.klaverjasaichallenge;
 
 // Import log4j classes.
+import java.lang.reflect.Field;
+
 import org.apache.log4j.Logger;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
@@ -23,21 +25,17 @@ import org.klaverjasaichallenge.shared.Points;
 public class KlaverjasAIChallenge {
 	private final static int TEAM_SIZE = 2;
 	private final static String AI_PACKAGE_NAME = "org.klaverjasaichallenge.ai.";
-
+	
 	// Define a static logger variable so that it references the
 	// Logger instance named "KlaverjasLogger".
-	private static Logger logger = Logger.getLogger("KlaverjasLogger");
+	private final static Logger logger = Logger.getLogger("KlaverjasLogger");
 
 	private static Points team1Points = new Points();
 	private static Points team2Points = new Points();
 
 	public static void main(String[] args) {
-		// Set up a simple configuration that logs on the console.
-		BasicConfigurator.configure();
-		// There are two levels that are currently useful:
-		// DEBUG - Displays all messages
-		// INFO - Only displays the AI battle's end results.
-		logger.setLevel(Level.INFO);
+		initializeLogger(Level.INFO);
+		System.setSecurityManager(initializeSecurityManager());
 
 		if(args.length == 3){
 			String firstAI = args[0];
@@ -102,6 +100,19 @@ public class KlaverjasAIChallenge {
 		logger.info("Average score per game:");
 		logger.info(team1 + " scored " + Points.divide(team1Points, new Points(numberOfGames)));
 		logger.info(team2 + " scored " + Points.divide(team2Points, new Points(numberOfGames)));
+	}
+	
+	private static void initializeLogger(Level level) {
+		// Set up a simple configuration that logs on the console.
+		BasicConfigurator.configure();
+		// There are two levels that are currently useful:
+		// DEBUG - Displays all messages
+		// INFO - Only displays the AI battle's end results.
+		logger.setLevel(level);
+	}
+	
+	private static SecurityManager initializeSecurityManager() {
+		return new SecurityManager();
 	}
 
 	private static void printHelpMessage() {

@@ -43,7 +43,7 @@ public class Points {
 
 	@Override
 	public String toString() {
-		return this.getPoints()+"";
+		return Integer.toString(this.getPoints());
 	}
 
 }

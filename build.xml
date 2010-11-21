@@ -122,6 +122,9 @@
       <fileset dir="${dir.build}"
         includes="org/klaverjasaichallenge/shared/**/*.class"
           excludes="${testing.class.files}" />
+      <fileset dir="${dir.source}"
+        includes="org/klaverjasaichallenge/shared/**/*.java"
+          excludes="${testing.java.files}" />
     </jar>
     <delete file="${dir.distribution}/MANIFEST.MF" />
   </target>
