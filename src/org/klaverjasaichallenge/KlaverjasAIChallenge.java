@@ -25,7 +25,7 @@ import org.klaverjasaichallenge.shared.Points;
 public class KlaverjasAIChallenge {
 	private final static int TEAM_SIZE = 2;
 	private final static String AI_PACKAGE_NAME = "org.klaverjasaichallenge.ai.";
-	
+
 	// Define a static logger variable so that it references the
 	// Logger instance named "KlaverjasLogger".
 	private final static Logger logger = Logger.getLogger("KlaverjasLogger");
@@ -101,7 +101,7 @@ public class KlaverjasAIChallenge {
 		logger.info(team1 + " scored " + Points.divide(team1Points, new Points(numberOfGames)));
 		logger.info(team2 + " scored " + Points.divide(team2Points, new Points(numberOfGames)));
 	}
-	
+
 	private static void initializeLogger(Level level) {
 		// Set up a simple configuration that logs on the console.
 		BasicConfigurator.configure();
@@ -110,7 +110,7 @@ public class KlaverjasAIChallenge {
 		// INFO - Only displays the AI battle's end results.
 		logger.setLevel(level);
 	}
-	
+
 	private static SecurityManager initializeSecurityManager() {
 		return new SecurityManager();
 	}

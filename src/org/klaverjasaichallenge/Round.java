@@ -52,10 +52,10 @@ public class Round {
 		 * will be ended.
 		 */
 		final List<Trick> tricksPlayed = new LinkedList<Trick>();
-		for (int trickId = 0; trickId < TRICK_COUNT; trickId++) {
+		for (int trickId = 1; trickId <= TRICK_COUNT; trickId++) {
 			final Trick trick = new Trick();
 
-			this.logger.debug("-- Start trick " + trickId + " with trump " + trump);
+			this.logger.debug("-- Starting trick " + trickId + " with trump " + trump);
 
 			for (int playerIndex = 0; playerIndex < PLAYER_COUNT; playerIndex++) {
 				final Player currentPlayer = this.table.getActivePlayer();
