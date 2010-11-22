@@ -129,11 +129,6 @@
     <delete file="${dir.distribution}/MANIFEST.MF" />
   </target>
 
-  <target name="distribution_shared" depends="compile" description="Creates a
-    jar file from the class files in the 'shared' directory and outputs it in the 'dist' directory">
-    <mkdir dir="${dir.distribution}" />
-  </target>
-
   <target name="run" depends="distribution" description="Run the distribution.">
     <java classname="${main.class}" fork="true" >
       <arg value="StupidButLegalAI"/>
