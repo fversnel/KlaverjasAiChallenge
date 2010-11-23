@@ -85,8 +85,8 @@ public class KlaverjasAIChallenge {
 				table = table.nextRound();
 
 				logger.debug("Game scores:");
-				logger.debug(team1 + " scored " + team1GamePoints);
-				logger.debug(team2 + " scored " + team2GamePoints);
+				logger.debug(team1 + " scored " + team1GamePoints + " points.");
+				logger.debug(team2 + " scored " + team2GamePoints + " points.");
 			}
 
 			// Sum up the game score.
@@ -95,11 +95,11 @@ public class KlaverjasAIChallenge {
 		}
 
 		logger.info("Overall score for " + numberOfGames + " games:");
-		logger.info(team1 + " scored " + team1Points);
-		logger.info(team2 + " scored " + team2Points);
+		logger.info(team1 + " scored " + team1Points + " points.");
+		logger.info(team2 + " scored " + team2Points + " points.");
 		logger.info("Average score per game:");
-		logger.info(team1 + " scored " + Points.divide(team1Points, new Points(numberOfGames)));
-		logger.info(team2 + " scored " + Points.divide(team2Points, new Points(numberOfGames)));
+		logger.info(team1 + " scored " + Points.divide(team1Points, new Points(numberOfGames)) + " points.");
+		logger.info(team2 + " scored " + Points.divide(team2Points, new Points(numberOfGames)) + " points.");
 	}
 
 	private static void initializeLogger(Level level) {
