@@ -33,25 +33,15 @@ public class Team {
 	}
 
 	public boolean hasPlayer(final Player player) {
-		boolean result = false;
-		if(player.equals(this.playerOne) || player.equals(this.playerTwo)) {
-			result = true;
-		}
-		return result;
+		return player.equals(this.playerOne) || player.equals(this.playerTwo);
 	}
 
 	public Player getOtherPlayer(final Player player) {
-		Player otherPlayer = null;
-
 		if(player.equals(this.playerOne)) {
-			otherPlayer = this.playerTwo;
-		} else if(player.equals(this.playerTwo)) {
-			otherPlayer = this.playerOne;
+			return this.playerTwo;
 		}
 
-		assert(otherPlayer != null);
-
-		return otherPlayer;
+		return this.playerOne;
 	}
 
 	@Override
