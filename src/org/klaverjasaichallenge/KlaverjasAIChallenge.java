@@ -17,6 +17,7 @@ import org.klaverjasaichallenge.ai.*;
 // Import the necessary klaverjas classes to get started.
 import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.Points;
+import org.klaverjasaichallenge.score.Score;
 
 /**
  * @author Joost
@@ -30,11 +31,11 @@ public class KlaverjasAIChallenge {
 	// Logger instance named "KlaverjasLogger".
 	private final static Logger logger = Logger.getLogger("KlaverjasLogger");
 
-	private static Points team1Points = new Points();
-	private static Points team2Points = new Points();
+	private static Score team1Score = new Score();
+	private static Score team2Score = new Score();
 
 	public static void main(String[] args) {
-		initializeLogger(Level.INFO);
+		initializeLogger(Level.DEBUG);
 		System.setSecurityManager(initializeSecurityManager());
 
 		if(args.length == 3){
@@ -66,8 +67,8 @@ public class KlaverjasAIChallenge {
 		for(int currentGameId = 1; currentGameId <= numberOfGames; currentGameId++) {
 			logger.debug("Starting game: " + currentGameId);
 
-			Points team1GamePoints = new Points();
-			Points team2GamePoints = new Points();
+			Score team1GameScore = new Score();
+			Score team2GameScore = new Score();
 
 			for(int currentRoundId = 1; currentRoundId <= ruleSet.getNumberOfRounds(); currentRoundId++) {
 				logger.debug("- Starting round: " + currentRoundId + " with " +
@@ -78,28 +79,32 @@ public class KlaverjasAIChallenge {
 				round.play();
 
 				// Sum up the round score to the total score for each team this game
-				team1GamePoints = Points.plus(team1GamePoints, round.getScore(team1).getTotalScore());
-				team2GamePoints = Points.plus(team2GamePoints, round.getScore(team2).getTotalScore());
+				team1GameScore = Score.plus(team1GameScore, round.getScore(team1));
+				team2GameScore = Score.plus(team2GameScore, round.getScore(team2));
 
 				// Change the order of the players
 				table = table.nextRound();
 
 				logger.debug("Game scores:");
-				logger.debug(team1 + " scored " + team1GamePoints + " points.");
-				logger.debug(team2 + " scored " + team2GamePoints + " points.");
+				logger.debug(team1 + " scored " + team1GameScore + " points.");
+				logger.debug(team2 + " scored " + team2GameScore + " points.");
 			}
 
 			// Sum up the game score.
-			team1Points = Points.plus(team1Points, team1GamePoints);
-			team2Points = Points.plus(team2Points, team2GamePoints);
+			team1Score = Score.plus(team1Score, team1GameScore);
+			team2Score = Score.plus(team2Score, team2GameScore);
 		}
 
 		logger.info("Overall score for " + numberOfGames + " games:");
-		logger.info(team1 + " scored " + team1Points + " points.");
-		logger.info(team2 + " scored " + team2Points + " points.");
+		logger.info(team1 + " scored " + team1Score + " points.");
+		logger.info(team2 + " scored " + team2Score + " points.");
 		logger.info("Average score per game:");
-		logger.info(team1 + " scored " + Points.divide(team1Points, new Points(numberOfGames)) + " points.");
-		logger.info(team2 + " scored " + Points.divide(team2Points, new Points(numberOfGames)) + " points.");
+		logger.info(team1 + " scored " +
+				Points.divide(team1Score.getTotalScore(), new
+					Points(numberOfGames)) + " points.");
+		logger.info(team2 + " scored " +
+				Points.divide(team2Score.getTotalScore(), new
+					Points(numberOfGames)) + " points.");
 	}
 
 	private static void initializeLogger(Level level) {
