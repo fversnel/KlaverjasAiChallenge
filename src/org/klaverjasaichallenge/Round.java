@@ -254,7 +254,7 @@ public class Round {
 			// For the last trick, award extra points
 			if(trickId == TRICK_COUNT - 1) {
 				trickScore = new Score(Points.plus(trickScore.getStockScore(), Score.LAST_TRICK_POINTS), trickScore
-						.getRoemScore());
+						.getRoemScore(), false);
 			}
 
 			final Score previousScore = roundScores.get(winningTeam);
@@ -267,11 +267,11 @@ public class Round {
 			// Winners get the roem of both teams
 
 			final Score defensiveScore = new Score(new Points(162), new Points(Points.plus(roundScores
-					.get(teamDefensive).getRoemScore(), roundScores.get(teamOffensive).getRoemScore())));
+					.get(teamDefensive).getRoemScore(), roundScores.get(teamOffensive).getRoemScore())), false);
 			roundScores.put(teamDefensive, defensiveScore);
 
 			// The team that goes gets 0 points
-			roundScores.put(teamOffensive, new Score(new Points(0), new Points(0)));
+			roundScores.put(teamOffensive, new Score(new Points(0), new Points(0), true));
 
 			this.logger.debug("--- " + teamOffensive + " goes wet! OMG");
 		}
@@ -279,7 +279,7 @@ public class Round {
 		// Marching
 		if (roundScores.get(teamOffensive).getStockScore().getPoints() == 162) {
 			final Score newScore = new Score(roundScores.get(teamOffensive).getStockScore(), Points.plus(
-					roundScores.get(teamOffensive).getRoemScore(), Score.MARCH_POINTS));
+					roundScores.get(teamOffensive).getRoemScore(), Score.MARCH_POINTS), false);
 			roundScores.put(teamOffensive, newScore);
 			this.logger.debug("--- " + teamOffensive + " goes marching");
 
