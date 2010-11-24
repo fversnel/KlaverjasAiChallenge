@@ -126,6 +126,31 @@ public class Card {
 		return highestCard;
 	}
 
+	public static Card highestTrump(final Suit trump, final List<Card> cards) {
+		Card highestCard = null;
+
+		for(Card card : cards) {
+			Suit cardSuit = card.getSuit();
+			if(highestCard == null || (cardSuit.equals(trump) &&
+					card.getTrumpOrder().isHigherThan(highestCard.getTrumpOrder()))) {
+				highestCard = card;
+			}
+		}
+
+		return highestCard;
+	}
+
+	public static boolean hasSuit(final Suit suit, final List<Card> cards) {
+		boolean check = false;
+		for(Card card : cards) {
+			if(card.getSuit().equals(suit)) {
+				check = true;
+			}
+		}
+
+		return check;
+	}
+
 	public static List<Suit> getSuits() {
 		final List<Suit> suits = new LinkedList<Suit>();
 		suits.add(new Clubs());

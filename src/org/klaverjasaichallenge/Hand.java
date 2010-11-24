@@ -16,32 +16,6 @@ public class Hand {
 		this.cards = this.drawHand(deck);
 	}
 
-	public boolean hasSuit(final Suit suit) {
-		boolean check = false;
-		for(Card cardInHand : this.cards) {
-			if(cardInHand.getSuit().equals(suit)) {
-				check = true;
-			}
-		}
-
-		return check;
-	}
-	
-	public Rank getHighestTrump(final Suit trump) {
-		Rank highestTrump = null;
-		// Loop through the currently played cards
-		for(Card card : this.cards) {
-			// If this card is a trump and higher ranked then current top ranked trump
-			if (card.getSuit().equals(trump) &&
-					(highestTrump == null ||
-							card.getRank().getTrumpOrder().isHigherThan(highestTrump.getTrumpOrder()))) {
-				highestTrump = card.getRank();
-			}
-		}
-
-		return highestTrump;
-	}	
-
 	public Card drawCard(final Card card) {
 		Card cardInHand = null;
 		if(this.cards.remove(card)) {
@@ -67,5 +41,5 @@ public class Hand {
 
 		return hand;
 	}
-		
+
 }

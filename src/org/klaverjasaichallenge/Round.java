@@ -229,8 +229,11 @@ public class Round {
 					" card. The card (" + card + ") is not in his hand");
 		}
 
-		this.ruleSet.checkCardLegitimacy(trick, card, player, hands.get(player), trump);
-		trick.addCard(player, card);
+		if(this.ruleSet.isLegalCard(trick, card, player, hands.get(player).getCards(), trump)) {
+			trick.addCard(player, card);
+		} else {
+			throw new CheatException("Player " + player + " cheated.");
+		}
 	}
 
 	/**

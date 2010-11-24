@@ -1,7 +1,9 @@
 /**
- * 
+ *
  */
 package org.klaverjasaichallenge;
+
+import java.util.List;
 
 import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.Trick;
@@ -14,9 +16,9 @@ import org.klaverjasaichallenge.shared.card.suit.Suit;
  *
  */
 public abstract class RuleSet {
-	
-	public abstract void checkCardLegitimacy(final Trick trick, final Card cardToCheck,
-			final Player player, final Hand playerHand, final Suit trump) throws CheatException;
+
+	public abstract boolean isLegalCard(final Trick trick, final Card cardToCheck,
+			final Player player, final List<Card> playerHand, final Suit trump);
 
 	public abstract int getNumberOfRounds();
 
@@ -27,9 +29,9 @@ public abstract class RuleSet {
 	 * @param leadingSuit
 	 * @return true when the player can follow suit, false when not
 	 */
-	protected boolean playerCanFollowSuit(final Hand playerHand, 
+	protected boolean playerCanFollowSuit(final List<Card> playerHand,
 			final Suit suitToCheck) {
-		return playerHand.hasSuit(suitToCheck);
+		return Card.hasSuit(suitToCheck, playerHand);
 	}
-	
+
 }
