@@ -28,8 +28,7 @@ Game = 16 rounds.
 Hand = the cards that are in the players hands (each player starts with 8
 cards).
 Ruleset = the ruleset that is used. Currently only the Rotterdam variation is
-used, so this class is now useless. In the future other rulesets (like the
-Amsterdam variation) might be added.
+implemented. In the future the Amsterdam variation could also be implemented.
 Team = 2 cooperative players.
 CheatException = Will occur when an AI cheats. For example, by playing a card
 that's not allowed by the ruleset, or by playing a card that is not in his

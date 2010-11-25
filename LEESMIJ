@@ -31,10 +31,8 @@ Rank = de kaartwaarde (heer, vrouw, tien etc.)
 Suit = de kaartkleur (schoppen, ruiten etc.)
 Hand = de kaarten die de speler in z'n hand heeft (aan het begin van een Round
 zijn dat er 8.)
-Ruleset = de spelregelset die gebruikt wordt. Op dit moment wordt deze klasse
-niet gebruikt. In de toekomst wordt wellicht gebruik gemaakt van verschillende
-rulesets (zoals amsterdams klaverjassen en rotterdams klaverjassen) maar op
-het moment is alleen rotterdams klaverjassen geimplementeerd.
+Ruleset = de spelregelset die gebruikt wordt (Rotterdams, Amsterdams). Op dit
+moment is alleen Rotterdams klaverjassen geimplementeerd.
 Team = 2 spelers die samenwerken. Zij zitten altijd tegenover elkaar en zullen
 nooit achter elkaar aan de beurt zijn.
 CheatException = Zal optreden als je verzaakt.
