@@ -82,7 +82,7 @@ public class RotterdamRuleSet extends RuleSet {
 	private boolean playerCanRaiseTrump(final Rank highestTrumpOnTable,
 			final List<Card> playerHand, final Suit trump) {
 		boolean result = false;
-		final Rank highestTrumpOfPlayer = Card.highestTrump(trump, playerHand).getRank();
+		final Card highestTrumpOfPlayer = Card.highestTrump(trump, playerHand);
 
 		if (highestTrumpOfPlayer != null &&
 				highestTrumpOfPlayer.getTrumpOrder().isHigherThan(highestTrumpOnTable.getTrumpOrder())) {
