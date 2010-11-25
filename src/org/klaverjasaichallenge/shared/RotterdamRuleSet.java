@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.klaverjasaichallenge;
+package org.klaverjasaichallenge.shared;
 
 import java.util.List;
 
@@ -41,33 +41,26 @@ public class RotterdamRuleSet extends RuleSet {
 			if (!cardToCheck.getSuit().equals(leadingSuit)) {
 				// If the player cannot follow suit (!playerCanFollowSuit())
 				if (!this.playerCanFollowSuit(playerHand, leadingSuit)) {
-					// If the player is playing a trump card
+					// If the player is playing a trump card:
 					if (cardToCheck.getSuit().equals(trump)) {
 						Rank highestTrumpOnTable = trick.getHighestTrump(trump);
 						// If the player is not raising a trump, but is able
-						// to (playerCanRaiseTrump()), throw exception
+						// to (playerCanRaiseTrump()).
 						if (highestTrumpOnTable != null
 								&& highestTrumpOnTable.getTrumpOrder().isHigherThan(cardToCheck.getRank().getTrumpOrder())
 								&& playerCanRaiseTrump(highestTrumpOnTable, playerHand, trump)) {
 							result = false;
-							logger.info("Player " + player + " can raise the trump but is not doing it."
-									+ " Current trump: " + trump + ". Card played: " + cardToCheck);
 						}
 					}
 					// Else - Player is not playing a trump card, but is able
-					// to (playerHasTrump(), throw exception
+					// to (playerHasTrump()).
 					else if (playerCanFollowSuit(playerHand, trump)) {
 						result = false;
-						logger.info("Player " + player
-								+ " has trump but is not playing it. Current trump: " + trump + ". Card played: "
-								+ cardToCheck);
 					}
 				}
-				// Else - Player can follow suit but is not, throw exception
+				// Else - Player can follow suit but is not.
 				else {
 					result = false;
-					logger.info("Player " + player + " can follow suit but is not. Current suit: "
-							+ leadingSuit + ".  Card played: " + cardToCheck);
 				}
 			}
 		}

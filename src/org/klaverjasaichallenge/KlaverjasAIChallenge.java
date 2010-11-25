@@ -4,8 +4,6 @@
 package org.klaverjasaichallenge;
 
 // Import log4j classes.
-import java.lang.reflect.Field;
-
 import org.apache.log4j.Logger;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
@@ -18,6 +16,8 @@ import org.klaverjasaichallenge.ai.*;
 import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.Points;
 import org.klaverjasaichallenge.score.Score;
+import org.klaverjasaichallenge.shared.RuleSet;
+import org.klaverjasaichallenge.shared.RotterdamRuleSet;
 
 /**
  * @author Joost

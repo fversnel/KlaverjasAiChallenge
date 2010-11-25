@@ -7,6 +7,7 @@ import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.Trick;
 import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
+import org.klaverjasaichallenge.shared.RuleSet;
 
 public class FakePlayer implements Player {
 
@@ -14,9 +15,13 @@ public class FakePlayer implements Player {
 	}
 
 	@Override
+	public void giveRuleSet(final RuleSet ruleSet) {
+	}
+
+	@Override
 	public void giveCards(List<Card> cards) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -34,13 +39,13 @@ public class FakePlayer implements Player {
 	@Override
 	public void endOfTrick(Trick trick) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void startOfRound(int leadingPlayer, Suit trump, int yourId,
 			int teamMateId, int enemy1, int enemy2) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

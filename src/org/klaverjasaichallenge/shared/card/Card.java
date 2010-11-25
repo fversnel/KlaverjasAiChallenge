@@ -25,17 +25,11 @@ public class Card {
 	}
 
 	public Points getPoints(final Suit trump) {
-		Points points = null;
-
 		if(this.suit.equals(trump)) {
-			points = this.rank.getTrumpPoints();
-		} else {
-			points = this.rank.getNormalPoints();
+			return this.rank.getTrumpPoints();
 		}
 
-		assert(points != null);
-
-		return points;
+		return this.rank.getNormalPoints();
 	}
 
 	public Suit getSuit() {
@@ -131,8 +125,9 @@ public class Card {
 
 		for(Card card : cards) {
 			Suit cardSuit = card.getSuit();
-			if(highestCard == null || (cardSuit.equals(trump) &&
-					card.getTrumpOrder().isHigherThan(highestCard.getTrumpOrder()))) {
+			if((highestCard == null && cardSuit.equals(trump)) ||
+					(cardSuit.equals(trump) &&
+					 card.getTrumpOrder().isHigherThan(highestCard.getTrumpOrder()))) {
 				highestCard = card;
 			}
 		}
@@ -142,6 +137,7 @@ public class Card {
 
 	public static boolean hasSuit(final Suit suit, final List<Card> cards) {
 		boolean check = false;
+
 		for(Card card : cards) {
 			if(card.getSuit().equals(suit)) {
 				check = true;

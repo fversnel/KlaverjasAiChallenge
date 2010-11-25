@@ -16,7 +16,14 @@ import org.klaverjasaichallenge.shared.card.suit.Suit;
 public interface Player {
 
 	/**
-	 * Give the player his 8 cards, this is the first thing that will happen in
+	 * The first thing in a game of klaverjas is determining the ruleset of a
+	 * game. The AI can use this ruleSet to determine his legal cards for each
+	 * trick.
+	 */
+	public void giveRuleSet(final RuleSet ruleSet);
+
+	/**
+	 * Give the player his 8 cards, this is the second thing that will happen in
 	 * a game of Klaverjas.
 	 * @param cards
 	 */
@@ -42,7 +49,7 @@ public interface Player {
 	 * @param enemy1Id The ID of one of your enemies
 	 * @param enemy2Id The ID of the other enemy
 	 */
-	public void startOfRound(int leadingPlayer, Suit trump, int yourId, 
+	public void startOfRound(int leadingPlayer, Suit trump, int yourId,
 			int teamMateId, int enemy1Id, int enemy2Id);
 
 	/**

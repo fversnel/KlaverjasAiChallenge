@@ -16,6 +16,7 @@ import org.klaverjasaichallenge.shared.Points;
 import org.klaverjasaichallenge.shared.Trick;
 import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
+import org.klaverjasaichallenge.shared.RuleSet;
 
 
 /**
@@ -43,6 +44,7 @@ public class Round {
 	}
 
 	public void play() {
+		this.informPlayersOfRuleSet(this.table.getPlayers());
 		final Map<Player, Hand> hands = dealCards(this.table.getPlayers());
 		final Suit trump = this.drawTrump();
 		this.informPlayersStartOfRound(trump);
@@ -191,6 +193,14 @@ public class Round {
 		final Random random = new Random(System.nanoTime());
 		final int trumpIndex = random.nextInt(availableTrumps.size());
 		return availableTrumps.get(trumpIndex);
+	}
+
+	private void informPlayersOfRuleSet(final List<Player> players) {
+		assert(players.size() == PLAYER_COUNT);
+
+		for(final Player player : players) {
+			player.giveRuleSet(this.ruleSet);
+		}
 	}
 
 	private void informPlayersStartOfRound(final Suit trump) {

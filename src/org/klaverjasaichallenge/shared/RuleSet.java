@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.klaverjasaichallenge;
+package org.klaverjasaichallenge.shared;
 
 import java.util.List;
 
