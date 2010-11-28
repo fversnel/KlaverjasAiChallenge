@@ -5,6 +5,8 @@ import org.klaverjasaichallenge.shared.Trick;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
 
 public class Score {
+	private static final int FULL_TRICK = 4;
+
 	private final Points stockScore;
 	private final Points roemScore;
 
@@ -32,20 +34,19 @@ public class Score {
 		}
 	}
 
+	public Score(final Trick trick, final Suit trump) {
+		assert(trick.numberOfCards() == FULL_TRICK) : "Score cannot be calculated for " +
+				"a trick that is not finished. Trick contains " + trick.numberOfCards() +
+				", but should contain: " + FULL_TRICK + " cards.";
+
+		this.stockScore = StockScore.calculateScore(trick, trump);
+		this.roemScore = RoemScore.calculateScore(trick, trump);
+	}
+
 	private Score(final Points stockScore, final Points roemScore, final int wets) {
 		this.stockScore = stockScore;
 		this.roemScore = roemScore;
 		this.wets = wets;
-	}
-
-	public static Points calculateStockScore(final Trick trick,
-			final Suit trump) {
-		return StockScore.calculateScore(trick, trump);
-	}
-
-	public static Points calculateRoemScore(final Trick trick,
-			final Suit trump) {
-		return RoemScore.calculateScore(trick, trump);
 	}
 
 	public Points getRoemScore() {
@@ -89,4 +90,5 @@ public class Score {
 			this.getStockScore() +", Roem: " + this.getRoemScore() +
 			", Wets: " + this.getWets() + "]";
 	}
+
 }

@@ -22,11 +22,9 @@ class RoemScore {
 	public static Points calculateScore(final Trick trick, final Suit trump) {
 		Points score = new Points();
 
-		if(!trick.getCards().isEmpty()) {
-			score = Points.plus(score, calculateFourCardsSameRankScore(trick));
-			score = Points.plus(score, calculateConsecutiveCardsScore(trick));
-			score = Points.plus(score, calculateStukScore(trick, trump));
-		}
+		score = Points.plus(score, calculateFourCardsSameRankScore(trick));
+		score = Points.plus(score, calculateConsecutiveCardsScore(trick));
+		score = Points.plus(score, calculateStukScore(trick, trump));
 
 		return score;
 	}
@@ -39,18 +37,16 @@ class RoemScore {
 		final Rank cardRank = firstCard.getRank();
 		final Order cardOrder = firstCard.getRoemOrder();
 		if(cardOrder.isHigherOrSameAs(FIRST_HIGH_CARD)) {
-			boolean test = true;
-			for(Card card : cards) {
-				final Rank currentCardRank = card.getRank();
+			boolean fourCardsSameRank = true;
+
+			for(Card currentCard : cards) {
+				final Rank currentCardRank = currentCard.getRank();
 				if(!(currentCardRank.equals(cardRank))) {
-					test = false;
+					fourCardsSameRank = false;
 				}
 			}
 
-			if(test) {
-				// TODO This can be refactored by using polymorphism.
-				// Perhaps some points can be assigned to a specific rank or
-				// card.
+			if(fourCardsSameRank) {
 				if(cardOrder.equals(JACK)) {
 					score = FOUR_JACKS;
 				} else {
@@ -62,9 +58,6 @@ class RoemScore {
 		return score;
 	}
 
-	/**
-	 * TODO Check for each card if it is one, two, or three ranks higher
-	 */
 	private static Points calculateConsecutiveCardsScore(final Trick trick) {
 		Points score = new Points();
 

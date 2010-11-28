@@ -13,6 +13,7 @@ import org.klaverjasaichallenge.shared.card.suit.Suit;
 
 public class Trick {
 	private static final int FIRST_ADDED_CARD = 1;
+	private static final int TOTAL_CARDS = 4;
 
 	private Map<Card, Player> cards;
 	private Suit leadingSuit;
@@ -30,10 +31,15 @@ public class Trick {
 		}
 
 		assert(this.leadingSuit != null);
+		assert(this.numberOfCards() <= TOTAL_CARDS) : "Trick cannot contain more than " + TOTAL_CARDS + ".";
 	}
 
 	public List<Card> getCards() {
 		return new LinkedList<Card>(this.cards.keySet());
+	}
+
+	public int numberOfCards() {
+		return this.cards.size();
 	}
 
 	public Map<Card, Integer> getCardsWithPlayers() {
@@ -53,16 +59,8 @@ public class Trick {
 		return this.leadingSuit;
 	}
 
-	private Points getStockScore(final Suit trump) {
-		return Score.calculateStockScore(this, trump);
-	}
-
-	private Points getRoemScore(final Suit trump) {
-		return Score.calculateRoemScore(this, trump);
-	}
-
 	public Score getScore(final Suit trump) {
-		return new Score(this.getStockScore(trump),this.getRoemScore(trump));
+		return new Score(this, trump);
 	}
 
 	public Player getWinner(final Suit trump) {

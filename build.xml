@@ -131,6 +131,9 @@
 
   <target name="run" depends="distribution" description="Run the distribution.">
     <java classname="${main.class}" fork="true" >
+      <!-- Enable assertions -->
+      <jvmarg value ="-ea"/>
+
       <arg value="StupidButLegalAI"/>
       <arg value="PipoAI"/>
       <arg value="10"/>

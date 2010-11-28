@@ -183,8 +183,9 @@ public class Round {
 
 		// Asserts that this function always results in a filled
 		// playerAcceptedTrump and trump
-		assert (this.playerAcceptedTrump != null);
-		assert (drawnTrump != null);
+		assert (this.playerAcceptedTrump != null) : "None of the players has " +
+				"accepted the trump.";
+		assert (drawnTrump != null) : "There is no trump drawn.";
 
 		return drawnTrump;
 	}

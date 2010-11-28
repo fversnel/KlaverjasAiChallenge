@@ -16,6 +16,8 @@ import org.klaverjasaichallenge.shared.card.rank.*;
  *
  */
 public class Deck {
+	private final int TOTAL_NUMBER_OF_CARDS = 32;
+
 	private final Stack<Card> cards;
 
 	private final Logger logger;
@@ -29,6 +31,8 @@ public class Deck {
 	}
 
 	public Card drawCard() {
+		assert(!this.cards.isEmpty()) : "You can't draw cards from an " +
+										 "empty deck.";
 		return this.cards.pop();
 	}
 
@@ -39,6 +43,10 @@ public class Deck {
 				cards.add(new Card(suit, rank));
 			}
 		}
+
+		assert(cards.size() == TOTAL_NUMBER_OF_CARDS) : "The deck contains " +
+				cards.size() + " cards, but should contain "
+				+ TOTAL_NUMBER_OF_CARDS + " cards.";
 
 		return cards;
 	}
