@@ -55,7 +55,7 @@ public class Round {
 		 */
 		final List<Trick> tricksPlayed = new LinkedList<Trick>();
 		for (int trickId = 1; trickId <= TRICK_COUNT; trickId++) {
-			final Trick trick = new Trick();
+			final Trick trick = new Trick(trump);
 
 			this.logger.debug("-- Starting trick " + trickId + " with trump " + trump);
 
@@ -81,8 +81,8 @@ public class Round {
 				this.table = this.table.nextPlayer();
 			}
 
-			final Score score = trick.getScore(trump);
-			final Player winner = trick.getWinner(trump);
+			final Score score = trick.getScore();
+			final Player winner = trick.getWinner();
 			tricksPlayed.add(trick);
 			this.logger.debug("--- Winner:  " + winner + " with " + score);
 
@@ -159,7 +159,7 @@ public class Round {
 			for (int playerIndex = 0; playerIndex < PLAYER_COUNT; playerIndex++) {
 				final Player player = trumpTable.getActivePlayer();
 
-				// When the player decides he want to play on this trump
+				// When the player decides he wants to play on this trump
 				// After three tries force active player to go on this third trump
 				if (player.playOnTrump(drawnTrump, new Order(playerIndex)) ||
 						amountTrumpsDrawn == FORCED_PLAY_ON_TRUMP) {
@@ -240,7 +240,7 @@ public class Round {
 					" card. The card (" + card + ") is not in his hand");
 		}
 
-		if(this.ruleSet.isLegalCard(trick, card, player, hands.get(player).getCards(), trump)) {
+		if(this.ruleSet.isLegalCard(trick, card, hands.get(player).getCards())) {
 			trick.addCard(player, card);
 		} else {
 			throw new CheatException("Player " + player + " cheated.");
@@ -261,9 +261,9 @@ public class Round {
 
 		for(int trickId = 0; trickId < TRICK_COUNT; trickId++) {
 			final Trick trick = tricks.get(trickId);
-			final Player winner = trick.getWinner(trump);
+			final Player winner = trick.getWinner();
 			final Team winningTeam = this.table.getTeamFromPlayer(winner);
-			Score trickScore = trick.getScore(trump);
+			Score trickScore = trick.getScore();
 
 			// For the last trick, award extra points
 			if(trickId == TRICK_COUNT - 1) {

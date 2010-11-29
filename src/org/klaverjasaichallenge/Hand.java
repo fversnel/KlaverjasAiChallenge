@@ -39,7 +39,7 @@ public class Hand {
 			hand.add(deck.drawCard());
 		}
 
-		assert(hand.size() == CARDS_IN_HAND) : "A hand contains " +
+		assert(hand.size() == CARDS_IN_HAND) : "Hand contains " +
 				hand.size() + " cards, but should contain "
 				+ CARDS_IN_HAND + " cards.";
 

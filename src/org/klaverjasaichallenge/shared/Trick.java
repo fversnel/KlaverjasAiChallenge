@@ -16,10 +16,12 @@ public class Trick {
 	private static final int TOTAL_CARDS = 4;
 
 	private Map<Card, Player> cards;
+	private Suit trump;
 	private Suit leadingSuit;
 
-	public Trick() {
+	public Trick(final Suit trump) {
 		this.cards = new HashMap<Card, Player>();
+		this.trump = trump;
 		this.leadingSuit = null;
 	}
 
@@ -52,6 +54,10 @@ public class Trick {
 		return cards;
 	}
 
+	public Suit getTrump() {
+		return this.trump;
+	}
+
 	/**
 	 * Returns null if the trick has no cards.
 	 */
@@ -59,19 +65,19 @@ public class Trick {
 		return this.leadingSuit;
 	}
 
-	public Score getScore(final Suit trump) {
-		return new Score(this, trump);
+	public Score getScore() {
+		return new Score(this, this.trump);
 	}
 
-	public Player getWinner(final Suit trump) {
-		final Card highestCard = Card.max(trump, this.leadingSuit, new LinkedList<Card>(this.cards.keySet()));
+	public Player getWinner() {
+		final Card highestCard = Card.max(this.trump, this.leadingSuit, new LinkedList<Card>(this.cards.keySet()));
 		return this.cards.get(highestCard);
 	}
 
 	/**
-	 * @return
+	 * @return returns null if there is no trump on the table.
 	 */
-	public Rank getHighestTrump(final Suit trump) {
+	public Rank getHighestTrump() {
 		Rank highestTrumpOnTable = null;
 		// Loop through the currently played cards
 		for(final Card cardOnTable : this.cards.keySet()) {
@@ -88,7 +94,7 @@ public class Trick {
 
 	@Override
 	public Trick clone() {
-		Trick newTrick = new Trick();
+		Trick newTrick = new Trick(this.trump);
 		newTrick.cards =  new HashMap<Card, Player>(this.cards);
 		newTrick.leadingSuit = this.leadingSuit;
 		return newTrick;

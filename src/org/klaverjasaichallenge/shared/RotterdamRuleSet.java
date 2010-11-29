@@ -27,6 +27,15 @@ public class RotterdamRuleSet extends RuleSet {
 		this.logger = Logger.getLogger("KlaverjasLogger");
 	}
 
+	public boolean isLegalCard(final Trick trick, final Card cardToCheck,
+			final List<Card> playerHand) {
+		return this.isLegalCard(trick, cardToCheck, null, playerHand, trick.getTrump());
+	}
+
+	/**
+	 * The player object is now useless here.
+	 */
+	@Deprecated
 	@Override
 	public boolean isLegalCard(final Trick trick, final Card cardToCheck,
 			final Player player, final List<Card> playerHand, final Suit trump) {
@@ -43,7 +52,7 @@ public class RotterdamRuleSet extends RuleSet {
 				if (!this.playerCanFollowSuit(playerHand, leadingSuit)) {
 					// If the player is playing a trump card:
 					if (cardToCheck.getSuit().equals(trump)) {
-						Rank highestTrumpOnTable = trick.getHighestTrump(trump);
+						Rank highestTrumpOnTable = trick.getHighestTrump();
 						// If the player is not raising a trump, but is able
 						// to (playerCanRaiseTrump()).
 						if (highestTrumpOnTable != null
