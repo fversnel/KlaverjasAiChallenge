@@ -19,7 +19,7 @@ public class TestScore {
 	@Before
 	public void setUp() {
 		this.testTrump = new Hearts();
-		this.testTrick = new Trick();
+		this.testTrick = new Trick(testTrump);
 	}
 
 	@Test
@@ -29,7 +29,7 @@ public class TestScore {
 		this.addCard(new Card(new Diamonds(), new Ten()));
 		this.addCard(new Card(new Spades(), new Queen()));
 
-		Points actual = new Score(this.testTrick, this.testTrump).getStockScore();
+		Points actual = new Score(this.testTrick).getStockScore();
 		Points expected = new Points(33);
 
 		assertEquals(expected.getPoints(), actual.getPoints());
@@ -42,7 +42,7 @@ public class TestScore {
 		this.addCard(new Card(new Diamonds(), new Ten()));
 		this.addCard(new Card(this.testTrump, new King()));
 
-		Points actual = new Score(this.testTrick, this.testTrump).getRoemScore();
+		Points actual = new Score(this.testTrick).getRoemScore();
 		Points expected = new Points(20);
 
 		assertEquals(expected.getPoints(), actual.getPoints());
@@ -55,7 +55,7 @@ public class TestScore {
 		this.addCard(new Card(this.testTrump, new Jack()));
 		this.addCard(new Card(new Spades(), new Eight()));
 
-		Points actual = new Score(this.testTrick, this.testTrump).getRoemScore();
+		Points actual = new Score(this.testTrick).getRoemScore();
 		Points expected = new Points(0);
 
 		assertEquals(expected.getPoints(), actual.getPoints());
@@ -68,7 +68,7 @@ public class TestScore {
 		this.addCard(new Card(new Diamonds(), new Jack()));
 		this.addCard(new Card(new Spades(), new Jack()));
 
-		Points actual = new Score(this.testTrick, this.testTrump).getRoemScore();
+		Points actual = new Score(this.testTrick).getRoemScore();
 		Points expected = new Points(200);
 
 		assertEquals(expected.getPoints(), actual.getPoints());
@@ -81,7 +81,7 @@ public class TestScore {
 		this.addCard(new Card(new Diamonds(), new Queen()));
 		this.addCard(new Card(new Spades(), new Queen()));
 
-		Points actual = new Score(this.testTrick, this.testTrump).getRoemScore();
+		Points actual = new Score(this.testTrick).getRoemScore();
 		Points expected = new Points(100);
 
 		assertEquals(expected.getPoints(), actual.getPoints());
@@ -94,7 +94,7 @@ public class TestScore {
 		this.addCard(new Card(new Diamonds(), new Queen()));
 		this.addCard(new Card(new Spades(), new Ten()));
 
-		Points actual = new Score(this.testTrick, this.testTrump).getRoemScore();
+		Points actual = new Score(this.testTrick).getRoemScore();
 		Points expected = new Points(0);
 
 		assertEquals(expected.getPoints(), actual.getPoints());
@@ -107,7 +107,7 @@ public class TestScore {
 		this.addCard(new Card(new Clubs(), new Jack()));
 		this.addCard(new Card(new Clubs(), new Nine()));
 
-		Points actual = new Score(this.testTrick, this.testTrump).getRoemScore();
+		Points actual = new Score(this.testTrick).getRoemScore();
 		Points expected = new Points(50);
 
 		assertEquals(expected.getPoints(), actual.getPoints());
@@ -120,7 +120,7 @@ public class TestScore {
 		this.addCard(new Card(new Hearts(), new Jack()));
 		this.addCard(new Card(new Hearts(), new Nine()));
 
-		Points actual = new Score(this.testTrick, this.testTrump).getRoemScore();
+		Points actual = new Score(this.testTrick).getRoemScore();
 		Points expected = new Points(20);
 
 		assertEquals(expected.getPoints(), actual.getPoints());
@@ -133,7 +133,7 @@ public class TestScore {
 		this.addCard(new Card(new Hearts(), new Jack()));
 		this.addCard(new Card(new Hearts(), new Nine()));
 
-		Points actual = new Score(this.testTrick, this.testTrump).getRoemScore();
+		Points actual = new Score(this.testTrick).getRoemScore();
 		Points expected = new Points(0);
 
 		assertEquals(expected.getPoints(), actual.getPoints());
@@ -147,7 +147,7 @@ public class TestScore {
 		this.addCard(new Card(new Spades(), new Ten()));
 		this.addCard(new Card(new Spades(), new Queen()));
 
-		Points actual = new Score(this.testTrick, this.testTrump).getRoemScore();
+		Points actual = new Score(this.testTrick).getRoemScore();
 		Points expected = new Points(0);
 
 		assertEquals(expected.getPoints(), actual.getPoints());
@@ -160,7 +160,7 @@ public class TestScore {
 		this.addCard(new Card(this.testTrump, new Jack()));
 		this.addCard(new Card(this.testTrump, new King()));
 
-		Points actual = new Score(this.testTrick, this.testTrump).getRoemScore();
+		Points actual = new Score(this.testTrick).getRoemScore();
 		Points expected = new Points(40);
 
 		assertEquals(expected.getPoints(), actual.getPoints());
@@ -172,7 +172,7 @@ public class TestScore {
 		this.addCard(new Card(this.testTrump, new Nine()));
 		this.addCard(new Card(this.testTrump, new Eight()));
 
-		Points actual = new Score(this.testTrick, this.testTrump).getRoemScore();
+		Points actual = new Score(this.testTrick).getRoemScore();
 		Points expected = new Points(20);
 
 		assertEquals(expected.getPoints(), actual.getPoints());
@@ -185,7 +185,7 @@ public class TestScore {
 		this.addCard(new Card(this.testTrump, new Jack()));
 		this.addCard(new Card(this.testTrump, new King()));
 
-		Points actual = new Score(this.testTrick, this.testTrump).getRoemScore();
+		Points actual = new Score(this.testTrick).getRoemScore();
 		Points expected = new Points(70);
 
 		assertEquals(expected.getPoints(), actual.getPoints());

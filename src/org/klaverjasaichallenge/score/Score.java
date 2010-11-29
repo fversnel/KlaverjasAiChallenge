@@ -34,13 +34,13 @@ public class Score {
 		}
 	}
 
-	public Score(final Trick trick, final Suit trump) {
+	public Score(final Trick trick) {
 		assert(trick.numberOfCards() == FULL_TRICK) : "Score cannot be calculated for " +
 				"a trick that is not finished. Trick contains " + trick.numberOfCards() +
 				", but should contain: " + FULL_TRICK + " cards.";
 
-		this.stockScore = StockScore.calculateScore(trick, trump);
-		this.roemScore = RoemScore.calculateScore(trick, trump);
+		this.stockScore = StockScore.calculateScore(trick);
+		this.roemScore = RoemScore.calculateScore(trick);
 	}
 
 	private Score(final Points stockScore, final Points roemScore, final int wets) {

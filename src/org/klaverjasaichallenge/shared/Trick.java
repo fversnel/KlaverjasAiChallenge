@@ -66,7 +66,7 @@ public class Trick {
 	}
 
 	public Score getScore() {
-		return new Score(this, this.trump);
+		return new Score(this);
 	}
 
 	public Player getWinner() {

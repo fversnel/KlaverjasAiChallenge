@@ -19,8 +19,9 @@ class RoemScore {
 	private static final Order FIRST_HIGH_CARD = new Order(4);
 	private static final Order JACK = new Jack().getRoemOrder();
 
-	public static Points calculateScore(final Trick trick, final Suit trump) {
+	public static Points calculateScore(final Trick trick) {
 		Points score = new Points();
+		Suit trump = trick.getTrump();
 
 		score = Points.plus(score, calculateFourCardsSameRankScore(trick));
 		score = Points.plus(score, calculateConsecutiveCardsScore(trick));
