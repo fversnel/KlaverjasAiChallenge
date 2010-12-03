@@ -54,24 +54,20 @@ public class Table {
 	}
 
 	public Team getTeamFromPlayer(final Player player) {
-		Team selectedTeam = null;
-
-		for(Team team : this.teams) {
-			if(team.hasPlayer(player)) {
-				selectedTeam = team;
-			}
-		}
-
-		assert(selectedTeam != null);
-
-		return selectedTeam;
+		return this.getTeam(player, false);
 	}
 
 	public Team getOtherTeam(final Player player) {
+		return this.getTeam(player, true);
+	}
+
+	private Team getTeam(final Player player, final boolean otherTeam) {
 		Team selectedTeam = null;
 
 		for(Team team : this.teams) {
-			if(!team.hasPlayer(player)) {
+			if(team.hasPlayer(player) && !otherTeam) {
+				selectedTeam = team;
+			} else if (!team.hasPlayer(player) && otherTeam) {
 				selectedTeam = team;
 			}
 		}
