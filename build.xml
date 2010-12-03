@@ -134,7 +134,7 @@
       <!-- Enable assertions -->
       <jvmarg value ="-ea"/>
 
-      <arg value="StupidButLegalAI"/>
+      <arg value="JoostAI"/>
       <arg value="PipoAI"/>
       <arg value="10"/>
       <classpath>
