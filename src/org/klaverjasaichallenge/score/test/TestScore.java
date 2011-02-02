@@ -2,10 +2,11 @@
 package org.klaverjasaichallenge.score.test;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 import org.junit.*;
-import org.klaverjasaichallenge.FakePlayer;
 import org.klaverjasaichallenge.score.Score;
+import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.Points;
 import org.klaverjasaichallenge.shared.Trick;
 import org.klaverjasaichallenge.shared.card.Card;
@@ -192,7 +193,7 @@ public class TestScore {
 	}
 
 	private void addCard(final Card card) {
-		this.testTrick.addCard(new FakePlayer(), card);
+		this.testTrick.addCard(mock(Player.class), card);
 	}
 
 }
