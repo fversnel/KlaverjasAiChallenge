@@ -2,13 +2,13 @@
 package org.klaverjasaichallenge.test;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 import org.junit.*;
 
 import org.klaverjasaichallenge.Table;
 import org.klaverjasaichallenge.Team;
 import org.klaverjasaichallenge.shared.Player;
-import org.klaverjasaichallenge.FakePlayer;
 
 public class TestTable {
 	private Player playerOne;
@@ -23,10 +23,10 @@ public class TestTable {
 
 	@Before
 	public void setUp() {
-		this.playerOne = new FakePlayer();
-		this.playerTwo = new FakePlayer();
-		this.playerThree = new FakePlayer();
-		this.playerFour = new FakePlayer();
+		this.playerOne = mock(Player.class);
+		this.playerTwo = mock(Player.class);
+		this.playerThree = mock(Player.class);
+		this.playerFour = mock(Player.class);
 
 		this.teamOne = new Team(this.playerOne, this.playerTwo);
 		this.teamTwo = new Team(this.playerThree, this.playerFour);
