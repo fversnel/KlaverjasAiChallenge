@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.klaverjasaichallenge;
+package org.klaverjasaichallenge.server;
 
 import java.util.ArrayList;
 import java.util.List;

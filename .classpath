@@ -9,5 +9,6 @@
 	<classpathentry kind="lib" path="lib/KlaverjasJoostAI.jar"/>
 	<classpathentry kind="lib" path="lib/log4j-1.2.16.jar"/>
 	<classpathentry kind="lib" path="lib/PipoAI.jar"/>
+	<classpathentry kind="lib" path="lib/mockito-all-1.8.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

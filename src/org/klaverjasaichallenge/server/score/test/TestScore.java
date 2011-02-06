@@ -1,14 +1,14 @@
 
-package org.klaverjasaichallenge.score.test;
+package org.klaverjasaichallenge.server.score.test;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import org.junit.*;
-import org.klaverjasaichallenge.score.Score;
+import org.klaverjasaichallenge.server.Trick;
+import org.klaverjasaichallenge.server.score.Score;
 import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.Points;
-import org.klaverjasaichallenge.shared.Trick;
 import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.suit.*;
 import org.klaverjasaichallenge.shared.card.rank.*;
@@ -20,7 +20,7 @@ public class TestScore {
 	@Before
 	public void setUp() {
 		this.testTrump = new Hearts();
-		this.testTrick = new Trick(testTrump);
+		this.testTrick = new Trick(this.testTrump);
 	}
 
 	@Test
@@ -142,7 +142,6 @@ public class TestScore {
 
 	@Test
 	public void testNoThreeConsecutiveCardsScore2() {
-		Suit trump = new Diamonds();
 		this.addCard(new Card(new Spades(), new Nine()));
 		this.addCard(new Card(new Spades(), new King()));
 		this.addCard(new Card(new Spades(), new Ten()));

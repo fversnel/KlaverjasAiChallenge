@@ -1,11 +1,9 @@
-package org.klaverjasaichallenge;
+package org.klaverjasaichallenge.server;
 
 import java.util.List;
 import java.util.LinkedList;
 
 import org.klaverjasaichallenge.shared.card.Card;
-import org.klaverjasaichallenge.shared.card.rank.Rank;
-import org.klaverjasaichallenge.shared.card.suit.Suit;
 
 public class Hand {
 	private static final int CARDS_IN_HAND = 8;

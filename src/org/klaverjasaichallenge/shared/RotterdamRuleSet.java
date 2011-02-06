@@ -7,8 +7,8 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.Trick;
+import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.rank.Rank;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
@@ -21,12 +21,23 @@ import org.klaverjasaichallenge.shared.card.suit.Suit;
 public class RotterdamRuleSet extends RuleSet {
 	private static final int NUMBER_OF_ROUNDS = 16;
 
-	private final Logger logger;
-
 	public RotterdamRuleSet() {
-		this.logger = Logger.getLogger("KlaverjasLogger");
+	}
+	
+	@Override
+	public boolean isLegalCard(final org.klaverjasaichallenge.server.Trick trick, final Card cardToCheck,
+			final List<Card> playerHand) {
+		return this.isLegalCard(new Trick(trick), cardToCheck, null, playerHand, trick.getTrump());
+	}
+	
+	@Override
+	@Deprecated
+	public boolean isLegalCard(final org.klaverjasaichallenge.server.Trick trick, final Card cardToCheck,
+			final Player player, final List<Card> playerHand, final Suit trump) {
+		return this.isLegalCard(new Trick(trick), cardToCheck, null, playerHand, trick.getTrump());
 	}
 
+	@Override
 	public boolean isLegalCard(final Trick trick, final Card cardToCheck,
 			final List<Card> playerHand) {
 		return this.isLegalCard(trick, cardToCheck, null, playerHand, trick.getTrump());

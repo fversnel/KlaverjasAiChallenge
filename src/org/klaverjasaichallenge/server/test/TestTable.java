@@ -1,13 +1,13 @@
 
-package org.klaverjasaichallenge.test;
+package org.klaverjasaichallenge.server.test;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import org.junit.*;
 
-import org.klaverjasaichallenge.Table;
-import org.klaverjasaichallenge.Team;
+import org.klaverjasaichallenge.server.Table;
+import org.klaverjasaichallenge.server.Team;
 import org.klaverjasaichallenge.shared.Player;
 
 public class TestTable {

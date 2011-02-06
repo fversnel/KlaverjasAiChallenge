@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.klaverjasaichallenge;
+package org.klaverjasaichallenge.server;
 
 // Import log4j classes.
 import org.apache.log4j.Logger;
@@ -13,11 +13,11 @@ import nl.joostpastoor.klaverjasai.JoostAI;
 import org.klaverjasaichallenge.ai.*;
 
 // Import the necessary klaverjas classes to get started.
+import org.klaverjasaichallenge.server.score.Score;
 import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.Points;
-import org.klaverjasaichallenge.score.Score;
-import org.klaverjasaichallenge.shared.RuleSet;
 import org.klaverjasaichallenge.shared.RotterdamRuleSet;
+import org.klaverjasaichallenge.shared.RuleSet;
 
 /**
  * @author Joost

@@ -1,4 +1,4 @@
-package org.klaverjasaichallenge;
+package org.klaverjasaichallenge.server;
 
 import java.util.Collections;
 import java.util.List;
@@ -16,7 +16,7 @@ import org.klaverjasaichallenge.shared.card.rank.*;
  *
  */
 public class Deck {
-	private final int TOTAL_NUMBER_OF_CARDS = 32;
+	private static final int TOTAL_NUMBER_OF_CARDS = 32;
 
 	private final Stack<Card> cards;
 

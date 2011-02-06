@@ -4,12 +4,12 @@ package org.klaverjasaichallenge.ai;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.klaverjasaichallenge.shared.Trick;
 import org.klaverjasaichallenge.shared.KlaverJasAI;
 import org.klaverjasaichallenge.shared.Order;
-import org.klaverjasaichallenge.shared.Trick;
+import org.klaverjasaichallenge.shared.RuleSet;
 import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
-import org.klaverjasaichallenge.shared.RuleSet;
 
 
 public class StupidButLegalAI implements KlaverJasAI {
@@ -17,8 +17,6 @@ public class StupidButLegalAI implements KlaverJasAI {
 	private RuleSet ruleSet;
 	private StupidButLegalHand hand;
 	private List<Card> cardsPlayed;
-	private Suit trump;
-
 	@Override
 	public void giveRuleSet(final RuleSet ruleSet) {
 		this.ruleSet = ruleSet;
@@ -30,7 +28,7 @@ public class StupidButLegalAI implements KlaverJasAI {
 		/**
 		 * Step 1: Remove Illegal Cards
 		 */
-		List<Card> legalCards = this.hand.getLegalCards(this.ruleSet, trick, this, this.trump);
+		List<Card> legalCards = this.hand.getLegalCards(this.ruleSet, trick);
 		List<Card> allCards = this.hand.getCards();
 
 		/**
@@ -69,6 +67,5 @@ public class StupidButLegalAI implements KlaverJasAI {
 	@Override
 	public void startOfRound(int leadingPlayer, Suit trump, int yourId,
 			int teamMateId, int enemy1, int enemy2) {
-		this.trump = trump;
 	}
 }

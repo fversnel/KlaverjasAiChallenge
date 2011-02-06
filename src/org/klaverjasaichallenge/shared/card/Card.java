@@ -6,8 +6,8 @@ package org.klaverjasaichallenge.shared.card;
 import java.util.List;
 import java.util.LinkedList;
 
-import org.klaverjasaichallenge.shared.Points;
 import org.klaverjasaichallenge.shared.Order;
+import org.klaverjasaichallenge.shared.Points;
 import org.klaverjasaichallenge.shared.card.rank.*;
 import org.klaverjasaichallenge.shared.card.suit.*;
 
@@ -120,6 +120,9 @@ public class Card {
 		return highestCard;
 	}
 
+	/**
+	 * @return returns null if there is no trump.
+	 */
 	public static Card highestTrump(final Suit trump, final List<Card> cards) {
 		Card highestCard = null;
 

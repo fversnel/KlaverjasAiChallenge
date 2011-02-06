@@ -5,8 +5,8 @@ package org.klaverjasaichallenge.shared;
 
 import java.util.List;
 
-import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.Trick;
+import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
 
@@ -16,11 +16,19 @@ import org.klaverjasaichallenge.shared.card.suit.Suit;
  *
  */
 public abstract class RuleSet {
-
+	
 	public abstract boolean isLegalCard(final Trick trick, final Card cardToCheck,
 			final List<Card> playerHand);
 
+	@Deprecated
 	public abstract boolean isLegalCard(final Trick trick, final Card cardToCheck,
+			final Player player, final List<Card> playerHand, final Suit trump);
+
+	public abstract boolean isLegalCard(final org.klaverjasaichallenge.server.Trick trick, final Card cardToCheck,
+			final List<Card> playerHand);
+
+	@Deprecated
+	public abstract boolean isLegalCard(final org.klaverjasaichallenge.server.Trick trick, final Card cardToCheck,
 			final Player player, final List<Card> playerHand, final Suit trump);
 
 	public abstract int getNumberOfRounds();

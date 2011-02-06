@@ -1,4 +1,4 @@
-package org.klaverjasaichallenge;
+package org.klaverjasaichallenge.server;
 
 import java.util.HashMap;
 import java.util.List;
@@ -9,14 +9,13 @@ import java.util.Random;
 // Import log4j classes.
 import org.apache.log4j.Logger;
 
-import org.klaverjasaichallenge.score.Score;
+import org.klaverjasaichallenge.server.score.Score;
 import org.klaverjasaichallenge.shared.Order;
 import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.Points;
-import org.klaverjasaichallenge.shared.Trick;
+import org.klaverjasaichallenge.shared.RuleSet;
 import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
-import org.klaverjasaichallenge.shared.RuleSet;
 
 
 /**
@@ -66,13 +65,14 @@ public class Round {
 				// Ask the player to return a card
 				// (Trick is cloned to avoid the AI meddling with the trick
 				// data)
-				final Card cardPlayed = currentPlayer.getCard(trick.clone(), playersOrder);
+				final Card cardPlayed = currentPlayer.getCard(
+						new org.klaverjasaichallenge.shared.Trick(trick), playersOrder);
 
 				this.logger.debug("--- " + currentPlayer + " played " + cardPlayed);
 
 				// Check if the card is valid
 				try {
-					this.playCard(trick, currentPlayer, cardPlayed, hands, trump);
+					this.playCard(trick, currentPlayer, cardPlayed, hands);
 				} catch (Exception e) {
 					// TODO Do not print an error here, but punish!
 					e.printStackTrace();
@@ -88,7 +88,7 @@ public class Round {
 
 			// Notify player of end of trick
 			for (Player player : this.table.getPlayers()) {
-				player.endOfTrick(trick);
+				player.endOfTrick(new org.klaverjasaichallenge.shared.Trick(trick));
 			}
 
 			this.table = this.table.nextTrick(winner);
@@ -97,7 +97,7 @@ public class Round {
 		/**
 		 * Action: Round ends
 		 */
-		this.roundScores = this.calculateRoundScores(tricksPlayed, trump);
+		this.roundScores = this.calculateRoundScores(tricksPlayed);
 
 		this.logger.debug("--- Round Scores");
 		for (Team team : this.roundScores.keySet()) {
@@ -234,10 +234,10 @@ public class Round {
 	 * @throws Exception
 	 */
 	private void playCard(final Trick trick, final Player player,
-			final Card card, final Map<Player, Hand> hands, final Suit trump) throws CheatException {
+			final Card card, final Map<Player, Hand> hands) throws CheatException {
 		if (hands.get(player).drawCard(card) == null) {
 			throw new CheatException("Player " + player + " played an invalid " +
-					" card. The card (" + card + ") is not in his hand");
+					" card. The card (" + card + ") is not in his hand.");
 		}
 
 		if(this.ruleSet.isLegalCard(trick, card, hands.get(player).getCards())) {
@@ -252,7 +252,7 @@ public class Round {
 	 *
 	 * @uses roundScores
 	 */
-	private Map<Team, Score> calculateRoundScores(final List<Trick> tricks, final Suit trump) {
+	private Map<Team, Score> calculateRoundScores(final List<Trick> tricks) {
 		assert(tricks.size() == TRICK_COUNT);
 
 		final Team teamOffensive = this.table.getTeamFromPlayer(this.playerAcceptedTrump);

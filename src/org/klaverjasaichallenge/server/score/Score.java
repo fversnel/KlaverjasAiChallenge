@@ -1,8 +1,7 @@
-package org.klaverjasaichallenge.score;
+package org.klaverjasaichallenge.server.score;
 
+import org.klaverjasaichallenge.server.Trick;
 import org.klaverjasaichallenge.shared.Points;
-import org.klaverjasaichallenge.shared.Trick;
-import org.klaverjasaichallenge.shared.card.suit.Suit;
 
 public class Score {
 	private static final int FULL_TRICK = 4;

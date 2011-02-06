@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.klaverjasaichallenge;
+package org.klaverjasaichallenge.server;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +15,11 @@ public class Table {
 	private final Player activePlayer;
 	private final Player roundStarter;
 
+	/**
+	 * TODO Make the table iterable.
+	 * @param teamOne
+	 * @param teamTwo
+	 */
 	public Table(final Team teamOne, final Team teamTwo) {
 		this.teams = this.initializeTeams(teamOne, teamTwo);
 		this.positions = this.initializePositions(teamOne, teamTwo);
