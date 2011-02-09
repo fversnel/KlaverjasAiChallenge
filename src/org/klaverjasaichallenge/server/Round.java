@@ -20,6 +20,7 @@ import org.klaverjasaichallenge.shared.card.suit.Suit;
 
 /**
  * TODO Refactor this class since it's responsibility seems to be to big.
+ * It's also not very unit-testable.
  */
 public class Round {
 	private static final int TRICK_COUNT = 8;
@@ -43,71 +44,31 @@ public class Round {
 	}
 
 	public void play() {
+		// Play the round
 		this.informPlayersOfRuleSet(this.table.getPlayers());
 		final Map<Player, Hand> hands = dealCards(this.table.getPlayers());
 		final Suit trump = this.drawTrump();
 		this.informPlayersStartOfRound(trump);
-
-		/**
-		 * Action: Play all tricks, when the last trick is player, the round
-		 * will be ended.
-		 */
-		final List<Trick> tricksPlayed = new LinkedList<Trick>();
-		for (int trickId = 1; trickId <= TRICK_COUNT; trickId++) {
-			final Trick trick = new Trick(trump);
-
-			this.logger.debug("-- Starting trick " + trickId + " with trump " + trump);
-
-			for (int playerIndex = 0; playerIndex < PLAYER_COUNT; playerIndex++) {
-				final Player currentPlayer = this.table.getActivePlayer();
-				final Order playersOrder = new Order(playerIndex);
-
-				// Ask the player to return a card
-				// (Trick is cloned to avoid the AI meddling with the trick
-				// data)
-				final Card cardPlayed = currentPlayer.getCard(
-						new org.klaverjasaichallenge.shared.Trick(trick), playersOrder);
-
-				this.logger.debug("--- " + currentPlayer + " played " + cardPlayed);
-
-				// Check if the card is valid
-				try {
-					this.playCard(trick, currentPlayer, cardPlayed, hands);
-				} catch (Exception e) {
-					// TODO Do not print an error here, but punish!
-					e.printStackTrace();
-				}
-
-				this.table = this.table.nextPlayer();
-			}
-
-			final Score score = trick.getScore();
-			final Player winner = trick.getWinner();
-			tricksPlayed.add(trick);
-			this.logger.debug("--- Winner:  " + winner + " with " + score);
-
-			// Notify player of end of trick
-			for (Player player : this.table.getPlayers()) {
-				player.endOfTrick(new org.klaverjasaichallenge.shared.Trick(trick));
-			}
-
-			this.table = this.table.nextTrick(winner);
-		}
-
-		/**
-		 * Action: Round ends
-		 */
+		List<Trick> tricksPlayed = this.playTricks(trump, hands);
 		this.roundScores = this.calculateRoundScores(tricksPlayed);
 
+		// Log round scores
 		this.logger.debug("--- Round Scores");
 		for (Team team : this.roundScores.keySet()) {
 			this.logger.debug(team + " scores: " + this.roundScores.get(team) + " points");
 		}
-
 	}
 
 	public Score getScore(final Team team) {
 		return this.roundScores.get(team);
+	}
+
+	private void informPlayersOfRuleSet(final List<Player> players) {
+		assert(players.size() == PLAYER_COUNT);
+
+		for(final Player player : players) {
+			player.giveRuleSet(this.ruleSet);
+		}
 	}
 
 	/**
@@ -196,14 +157,6 @@ public class Round {
 		return availableTrumps.get(trumpIndex);
 	}
 
-	private void informPlayersOfRuleSet(final List<Player> players) {
-		assert(players.size() == PLAYER_COUNT);
-
-		for(final Player player : players) {
-			player.giveRuleSet(this.ruleSet);
-		}
-	}
-
 	private void informPlayersStartOfRound(final Suit trump) {
 		Table roundTable = this.table;
 		final int leadingPlayer = this.playerAcceptedTrump.hashCode();
@@ -222,6 +175,58 @@ public class Round {
 
 			roundTable = roundTable.nextPlayer();
 		}
+	}
+
+	private List<Trick> playTricks(final Suit trump, final Map<Player, Hand> hands) {
+		/**
+		 * Action: Play all tricks, when the last trick is player, the round
+		 * will be ended.
+		 */
+		final List<Trick> tricksPlayed = new LinkedList<Trick>();
+		for (int trickId = 1; trickId <= TRICK_COUNT; trickId++) {
+			final Trick trick = new Trick(trump);
+
+			this.logger.debug("-- Starting trick " + trickId + " with trump " + trump);
+
+			for (int playerIndex = 0; playerIndex < PLAYER_COUNT; playerIndex++) {
+				final Player currentPlayer = this.table.getActivePlayer();
+				final Order playersOrder = new Order(playerIndex);
+
+				// Ask the player to return a card
+				// (Trick is cloned to avoid the AI meddling with the trick
+				// data)
+				final Card cardPlayed = currentPlayer.getCard(
+						new org.klaverjasaichallenge.shared.Trick(trick), playersOrder);
+
+				this.logger.debug("--- " + currentPlayer + " played " + cardPlayed);
+
+				// Check if the card is valid
+				try {
+					this.playCard(trick, currentPlayer, cardPlayed, hands);
+				} catch (Exception e) {
+					// TODO Please refactor this into a nice custom exception.
+					// TODO Do not print an error here, but punish!
+					e.printStackTrace();
+				}
+
+				this.table = this.table.nextPlayer();
+			}
+
+			final Score score = trick.getScore();
+			final Player winner = trick.getWinner();
+			tricksPlayed.add(trick);
+			this.logger.debug("--- Winner:  " + winner + " with " + score);
+
+			// Notify player of end of trick
+			for (Player player : this.table.getPlayers()) {
+				player.endOfTrick(new org.klaverjasaichallenge.shared.Trick(trick));
+			}
+
+			this.table = this.table.nextTrick(winner);
+
+		}
+
+		return tricksPlayed;
 	}
 
 	/**

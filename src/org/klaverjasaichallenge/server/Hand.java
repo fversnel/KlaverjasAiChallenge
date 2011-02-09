@@ -14,6 +14,10 @@ public class Hand {
 		this.cards = this.drawHand(deck);
 	}
 
+	/**
+	 * @return null if card is not in hand, otherwise return the requested
+	 * card.
+	 */
 	public Card drawCard(final Card card) {
 		Card cardInHand = null;
 		if(this.cards.remove(card)) {
