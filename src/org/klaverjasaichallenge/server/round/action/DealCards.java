@@ -2,9 +2,7 @@ package org.klaverjasaichallenge.server.round.action;
 
 import org.klaverjasaichallenge.server.round.Deck;
 import org.klaverjasaichallenge.server.round.Hand;
-import org.klaverjasaichallenge.server.round.RoundResult;
 import org.klaverjasaichallenge.shared.Player;
-import org.klaverjasaichallenge.shared.RuleSet;
 
 class DealCards extends RoundAction {
 
@@ -17,11 +15,11 @@ class DealCards extends RoundAction {
 		final Deck deck = new Deck();
 
 		for(final Player currentPlayer : this.roundData.getPlayers()) {
-			roundData.putPlayersHand(currentPlayer,
+			this.roundData.putPlayersHand(currentPlayer,
 					this.dealHand(deck, currentPlayer));
 		}
 
-		return new DrawTrump(roundData);
+		return new DrawTrump(this.roundData);
 	}
 
 	private Hand dealHand(final Deck deck, final Player player) {

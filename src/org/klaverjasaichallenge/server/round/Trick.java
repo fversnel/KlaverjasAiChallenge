@@ -14,7 +14,7 @@ import org.klaverjasaichallenge.shared.card.rank.Rank;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
 
 public class Trick {
-	public static final int TRICK_COUNT = 8;
+	public static final int COUNT = 8;
 
 	private static final int FIRST_ADDED_CARD = 1;
 	private static final int TOTAL_CARDS = 4;

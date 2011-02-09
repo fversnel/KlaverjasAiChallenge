@@ -1,9 +1,6 @@
 package org.klaverjasaichallenge.server.round.action;
 
-import org.klaverjasaichallenge.server.Table;
-import org.klaverjasaichallenge.server.round.RoundResult;
 import org.klaverjasaichallenge.shared.Player;
-import org.klaverjasaichallenge.shared.RuleSet;
 
 class InformPlayersRuleSet extends RoundAction {
 

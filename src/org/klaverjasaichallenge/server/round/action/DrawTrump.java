@@ -3,17 +3,25 @@ package org.klaverjasaichallenge.server.round.action;
 import java.util.List;
 import java.util.Random;
 
+// Import log4j classes.
+import org.apache.log4j.Logger;
+
 import org.klaverjasaichallenge.server.Table;
-import org.klaverjasaichallenge.server.round.RoundResult;
 import org.klaverjasaichallenge.shared.Player;
-import org.klaverjasaichallenge.shared.RuleSet;
 import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
+import org.klaverjasaichallenge.shared.Order;
 
 class DrawTrump extends RoundAction {
+	private static final int FORCED_PLAY_ON_TRUMP = 3;
+	private static final int PLAYER_COUNT = 4;
+
+	private final Logger logger;
 
 	public DrawTrump(final RoundData roundData) {
 		super(roundData);
+
+		this.logger = Logger.getLogger("KlaverjasLogger");
 	}
 
 	/**
@@ -24,58 +32,55 @@ class DrawTrump extends RoundAction {
 	 * the end of this function the object variables this.trump and
 	 * this.trumpPlayer will be set.
 	 *
-	 * TODO See if we can make this.trump and trumpPlayer local
-	 * variables that only exist in play() and subprocedures of play. Maybe let
-	 * this function return an object that contains them both.
 	 */
 	@Override
 	public RoundAction execute() {
-		//Suit trumpDrawn = null;
-		//int amountTrumpsDrawn = 0;
-		//boolean trumpPlayer = false;
-		//final List<Suit> availableTrumps = Card.getSuits();
-		//do {
-		//	trumpDrawn = this.getRandomTrump(availableTrumps);
-		//	availableTrumps.remove(trumpDrawn);
+		int amountTrumpsDrawn = 0;
+		Suit trumpDrawn = null;
+		Player trumpPlayer = null;
+		final List<Suit> availableTrumps = Card.getSuits();
+		do {
+			trumpDrawn = this.getRandomTrump(availableTrumps);
+			availableTrumps.remove(trumpDrawn);
 
-		//	amountTrumpsDrawn++;
+			amountTrumpsDrawn++;
 
-		//	Table trumpTable = this.table;
-		//	for (int playerIndex = 0; playerIndex < PLAYER_COUNT; playerIndex++) {
-		//		final Player player = trumpTable.getActivePlayer();
+			Table trumpTable = this.roundData.getTable();
+			for (int playerIndex = 0; playerIndex < PLAYER_COUNT; playerIndex++) {
+				final Player player = trumpTable.getActivePlayer();
 
-		//		// When the player decides he wants to play on this trump
-		//		// After three tries force active player to go on this third trump
-		//		if (player.playOnTrump(trumpDrawn, new Order(playerIndex)) ||
-		//				amountTrumpsDrawn == FORCED_PLAY_ON_TRUMP) {
-		//			trumpPlayer = player;
+				// When the player decides he wants to play on this trump
+				// After three tries force active player to go on this third trump
+				if (player.playOnTrump(trumpDrawn, new Order(playerIndex)) ||
+						amountTrumpsDrawn == FORCED_PLAY_ON_TRUMP) {
+					trumpPlayer = player;
 
-		//			if(amountTrumpsDrawn == FORCED_PLAY_ON_TRUMP) {
-		//				this.logger.debug(this.trumpPlayer + " is " +
-		//						"forced to go on" + trumpDrawn);
-		//			} else {
-		//				this.logger.debug(this.trumpPlayer + " goes on " +
-		//						trumpDrawn);
-		//			}
+					if(amountTrumpsDrawn == FORCED_PLAY_ON_TRUMP) {
+						this.logger.debug(trumpPlayer + " is " +
+								"forced to go on" + trumpDrawn);
+					} else {
+						this.logger.debug(trumpPlayer + " goes on " +
+								trumpDrawn);
+					}
 
-		//			break;
-		//		}
+					break;
+				}
 
-		//		trumpTable = trumpTable.nextPlayer();
-		//	}
+				trumpTable = trumpTable.nextPlayer();
+			}
 
-		//} while (trumpPlayer == null);
+		} while (trumpPlayer == null);
 
-		//// Asserts that this function always results in a filled
-		//// trumpPlayer and trump
-		//assert (trumpPlayer != null) : "None of the players has " +
-		//		"accepted the trump.";
-		//assert (trumpDrawn != null) : "There is no trump drawn.";
+		// Asserts that this function always results in a filled
+		// trumpPlayer and trump
+		assert (trumpDrawn != null) : "There is no trump drawn.";
+		assert (trumpPlayer != null) : "None of the players has " +
+				"accepted the trump.";
 
-		// TODO Execute the next Action.
-		// Create a new Action with (this.table, this.ruleSet, trump,
-		// trumpPlayer)
-		return null;
+		this.roundData.setTrump(trumpDrawn);
+		this.roundData.setTrumpPlayer(trumpPlayer);
+
+		return new InformPlayersRoundStart(this.roundData);
 	}
 
 	private Suit getRandomTrump(final List<Suit> availableTrumps) {
