@@ -13,11 +13,6 @@ import org.klaverjasaichallenge.shared.card.rank.*;
 
 public class TestCard {
 
-	@Before
-	public void setUp() {
-
-	}
-
 	@Test
 	public void testMax() {
 		List<Card> cardsToTest = new LinkedList<Card>();
@@ -31,7 +26,7 @@ public class TestCard {
 		final Card actual = Card.max(trump, leadingSuit, cardsToTest);
 		assertEquals(expected,actual);
 	}
-	
+
 	@Test
 	public void testMax2() {
 		List<Card> cardsToTest = new LinkedList<Card>();
@@ -43,13 +38,13 @@ public class TestCard {
 		cardsToTest.add(expected);
 		final Card actual = Card.max(new Clubs(),leadingSuit, cardsToTest);
 		assertEquals(expected,actual);
-	}	
-	
+	}
+
 	@Test
 	public void testHigherThan() {
 		final Card card1 = new Card(new Hearts(), new Jack());
 		final Card card2 = new Card(new Hearts(), new Ten());
 		assertTrue(card1.isHigherThan(new Hearts(), new Spades(), card2));
-	}		
+	}
 
 }

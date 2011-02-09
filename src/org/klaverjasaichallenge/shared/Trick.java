@@ -9,9 +9,9 @@ import org.klaverjasaichallenge.shared.card.rank.Rank;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
 
 public class Trick {
-	org.klaverjasaichallenge.server.Trick serverSideTrick;
+	org.klaverjasaichallenge.server.round.Trick serverSideTrick;
 	
-	public Trick(org.klaverjasaichallenge.server.Trick serverSideTrick) {
+	public Trick(org.klaverjasaichallenge.server.round.Trick serverSideTrick) {
 		this.serverSideTrick = serverSideTrick;
 	}
 	

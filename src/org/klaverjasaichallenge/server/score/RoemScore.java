@@ -3,7 +3,7 @@ package org.klaverjasaichallenge.server.score;
 
 import java.util.List;
 
-import org.klaverjasaichallenge.server.Trick;
+import org.klaverjasaichallenge.server.round.Trick;
 import org.klaverjasaichallenge.shared.Order;
 import org.klaverjasaichallenge.shared.Points;
 import org.klaverjasaichallenge.shared.card.Card;

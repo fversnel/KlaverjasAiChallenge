@@ -1,4 +1,4 @@
-package org.klaverjasaichallenge.server;
+package org.klaverjasaichallenge.server.round;
 
 import java.util.List;
 import java.util.LinkedList;

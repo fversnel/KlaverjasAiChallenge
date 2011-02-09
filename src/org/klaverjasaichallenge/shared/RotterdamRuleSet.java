@@ -5,8 +5,6 @@ package org.klaverjasaichallenge.shared;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
 import org.klaverjasaichallenge.shared.Trick;
 import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.card.Card;
@@ -25,14 +23,14 @@ public class RotterdamRuleSet extends RuleSet {
 	}
 	
 	@Override
-	public boolean isLegalCard(final org.klaverjasaichallenge.server.Trick trick, final Card cardToCheck,
+	public boolean isLegalCard(final org.klaverjasaichallenge.server.round.Trick trick, final Card cardToCheck,
 			final List<Card> playerHand) {
 		return this.isLegalCard(new Trick(trick), cardToCheck, null, playerHand, trick.getTrump());
 	}
 	
 	@Override
 	@Deprecated
-	public boolean isLegalCard(final org.klaverjasaichallenge.server.Trick trick, final Card cardToCheck,
+	public boolean isLegalCard(final org.klaverjasaichallenge.server.round.Trick trick, final Card cardToCheck,
 			final Player player, final List<Card> playerHand, final Suit trump) {
 		return this.isLegalCard(new Trick(trick), cardToCheck, null, playerHand, trick.getTrump());
 	}

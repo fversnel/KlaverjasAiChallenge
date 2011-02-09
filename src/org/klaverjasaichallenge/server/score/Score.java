@@ -1,6 +1,6 @@
 package org.klaverjasaichallenge.server.score;
 
-import org.klaverjasaichallenge.server.Trick;
+import org.klaverjasaichallenge.server.round.Trick;
 import org.klaverjasaichallenge.shared.Points;
 
 public class Score {

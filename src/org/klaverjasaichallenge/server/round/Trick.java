@@ -1,5 +1,5 @@
 
-package org.klaverjasaichallenge.server;
+package org.klaverjasaichallenge.server.round;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +14,8 @@ import org.klaverjasaichallenge.shared.card.rank.Rank;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
 
 public class Trick {
+	public static final int TRICK_COUNT = 8;
+
 	private static final int FIRST_ADDED_CARD = 1;
 	private static final int TOTAL_CARDS = 4;
 
@@ -55,7 +57,7 @@ public class Trick {
 	}
 
 	/**
-	 * Returns null if the trick has no cards.
+	 * @return null if the trick has no cards.
 	 */
 	public Suit getLeadingSuit() {
 		return this.leadingSuit;
@@ -65,22 +67,27 @@ public class Trick {
 		return new Score(this);
 	}
 
+	/**
+	 * @return null if there is no card played yet.
+	 */
 	public Player getWinner() {
+		assert(!this.cards.keySet().isEmpty()) : "If no cards are played yet, no winner can be determined yet.";
+
 		final Card highestCard = Card.max(this.trump, this.leadingSuit, new LinkedList<Card>(this.cards.keySet()));
 		return this.cards.get(highestCard);
 	}
 
 	/**
-	 * @return returns null if there is no trump on the table.
+	 * @return the highest trump or null if there is no trump on the table.
 	 */
 	public Rank getHighestTrump() {
 		Card highestTrumpCard = Card.highestTrump(this.trump,
 				new ArrayList<Card>(this.cards.keySet()));
-				
+
 		if(highestTrumpCard != null) {
 			return highestTrumpCard.getRank();
 		}
-		
+
 		return null;
 	}
 

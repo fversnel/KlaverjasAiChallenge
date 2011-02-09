@@ -14,6 +14,7 @@ import org.klaverjasaichallenge.ai.*;
 
 // Import the necessary klaverjas classes to get started.
 import org.klaverjasaichallenge.server.score.Score;
+import org.klaverjasaichallenge.server.round.Round;
 import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.Points;
 import org.klaverjasaichallenge.shared.RotterdamRuleSet;

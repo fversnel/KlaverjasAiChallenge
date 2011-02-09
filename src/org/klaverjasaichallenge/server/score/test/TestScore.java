@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import org.junit.*;
-import org.klaverjasaichallenge.server.Trick;
+import org.klaverjasaichallenge.server.round.Trick;
 import org.klaverjasaichallenge.server.score.Score;
 import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.Points;

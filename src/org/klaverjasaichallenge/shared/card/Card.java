@@ -102,19 +102,15 @@ public class Card {
 		return this.rank + " of " + this.suit;
 	}
 
-	/**
-	 * Return null if no cards are given.
-	 */
 	public static Card max(final Suit trump, final Suit leadingSuit, final List<Card> cards) {
-		Card highestCard = null;
+		assert(!cards.isEmpty()) : "Cannot determine the maximum on a stack of 0 cards.";
+
+		Card highestCard = cards.get(0);
+
 		for(Card card : cards) {
-			if(highestCard == null || card.isHigherThan(trump, leadingSuit, highestCard)) {
+			if(card.isHigherThan(trump, leadingSuit, highestCard)) {
 				highestCard = card;
 			}
-		}
-
-		if(cards.size() > 0) {
-			assert(highestCard != null);
 		}
 
 		return highestCard;

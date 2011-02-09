@@ -1,4 +1,4 @@
-package org.klaverjasaichallenge.server;
+package org.klaverjasaichallenge.server.round;
 
 public class CheatException extends Exception {
 

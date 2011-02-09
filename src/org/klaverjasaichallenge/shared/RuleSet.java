@@ -24,11 +24,11 @@ public abstract class RuleSet {
 	public abstract boolean isLegalCard(final Trick trick, final Card cardToCheck,
 			final Player player, final List<Card> playerHand, final Suit trump);
 
-	public abstract boolean isLegalCard(final org.klaverjasaichallenge.server.Trick trick, final Card cardToCheck,
+	public abstract boolean isLegalCard(final org.klaverjasaichallenge.server.round.Trick trick, final Card cardToCheck,
 			final List<Card> playerHand);
 
 	@Deprecated
-	public abstract boolean isLegalCard(final org.klaverjasaichallenge.server.Trick trick, final Card cardToCheck,
+	public abstract boolean isLegalCard(final org.klaverjasaichallenge.server.round.Trick trick, final Card cardToCheck,
 			final Player player, final List<Card> playerHand, final Suit trump);
 
 	public abstract int getNumberOfRounds();
