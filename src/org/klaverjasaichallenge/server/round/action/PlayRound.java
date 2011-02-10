@@ -15,7 +15,6 @@ import org.klaverjasaichallenge.server.score.Score;
 import org.klaverjasaichallenge.shared.RuleSet;
 
 class PlayRound extends RoundAction {
-	// TODO This should be placed somewhere else, perhaps in the Player class.
 	private final static int PLAYER_COUNT = 4;
 
 	private final Logger logger;
@@ -37,7 +36,8 @@ class PlayRound extends RoundAction {
 		Table table = this.roundData.getTable();
 		for (int trickId = 1; trickId <= Trick.COUNT; trickId++) {
 			final Suit trump = this.roundData.getTrump();
-			final Trick trick = new Trick(trump);
+			final boolean isLastTrick = (trickId == Trick.COUNT);
+			final Trick trick = new Trick(trump, isLastTrick);
 
 			this.playTrick(table, trick, trickId);
 			this.roundData.addPlayedTrick(trick);

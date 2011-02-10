@@ -14,13 +14,15 @@ import org.klaverjasaichallenge.shared.card.suit.*;
 import org.klaverjasaichallenge.shared.card.rank.*;
 
 public class TestScore {
+	private static final boolean IS_LAST_TRICK = false;
+
 	private Suit testTrump;
 	private Trick testTrick;
 
 	@Before
 	public void setUp() {
 		this.testTrump = new Hearts();
-		this.testTrick = new Trick(this.testTrump);
+		this.testTrick = new Trick(this.testTrump, IS_LAST_TRICK);
 	}
 
 	@Test

@@ -29,6 +29,7 @@ public class RoundData {
 
 		this.playersHands = new HashMap<Player, Hand>();
 		this.tricksPlayed = new LinkedList<Trick>();
+		this.roundScores = this.initializeRoundScores(table.getTeams());
 	}
 
 	public Table getTable() {
@@ -83,18 +84,25 @@ public class RoundData {
 		this.tricksPlayed.add(playedTrick);
 	}
 
-	/**
-	 * TODO Refactor this like addPlayedTrick
-	 */
-	public void addRoundScores(final Map<Team, Score> roundScores) {
-		this.roundScores = roundScores;
+	public void addRoundScore(final Team team, final Score teamScore) {
+		this.roundScores.put(team, teamScore);
 	}
 
-	/**
-	 * TODO Refactor this like addPlayedTrick
-	 */
+	public Score getRoundScore(final Team team) {
+		return this.roundScores.get(team);
+	}
+
 	public Map<Team, Score> getRoundScores() {
 		return this.roundScores;
+	}
+
+	private Map<Team, Score> initializeRoundScores(final List<Team> teams) {
+		final Map<Team, Score> roundScores = new HashMap<Team, Score>();
+		for (final Team team : teams) {
+			roundScores.put(team, new Score());
+		}
+
+		return roundScores;
 	}
 
 }

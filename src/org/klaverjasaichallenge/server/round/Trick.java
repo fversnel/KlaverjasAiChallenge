@@ -9,6 +9,7 @@ import java.util.HashMap;
 
 import org.klaverjasaichallenge.server.score.Score;
 import org.klaverjasaichallenge.shared.Player;
+import org.klaverjasaichallenge.shared.Points;
 import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.rank.Rank;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
@@ -16,17 +17,22 @@ import org.klaverjasaichallenge.shared.card.suit.Suit;
 public class Trick {
 	public static final int COUNT = 8;
 
+	private final static Points LAST_TRICK_POINTS = new Points(10);
+
 	private static final int FIRST_ADDED_CARD = 1;
 	private static final int TOTAL_CARDS = 4;
 
-	private Map<Card, Player> cards;
-	private Suit trump;
+	private final Map<Card, Player> cards;
+	private final Suit trump;
+
+	private final boolean isLastTrick;
+
 	private Suit leadingSuit;
 
-	public Trick(final Suit trump) {
+	public Trick(final Suit trump, final boolean isLastTrick) {
 		this.cards = new HashMap<Card, Player>();
 		this.trump = trump;
-		this.leadingSuit = null;
+		this.isLastTrick = isLastTrick;
 	}
 
 	public void addCard(final Player player, final Card cardPlayed) {
@@ -64,7 +70,14 @@ public class Trick {
 	}
 
 	public Score getScore() {
-		return new Score(this);
+		Score score = new Score(this);
+
+		if(isLastTrick) {
+			score = new Score(Points.plus(score.getStockScore(),
+						LAST_TRICK_POINTS), score.getRoemScore());
+		}
+
+		return score;
 	}
 
 	/**
@@ -89,14 +102,6 @@ public class Trick {
 		}
 
 		return null;
-	}
-
-	@Override
-	public Trick clone() {
-		Trick newTrick = new Trick(this.trump);
-		newTrick.cards =  new HashMap<Card, Player>(this.cards);
-		newTrick.leadingSuit = this.leadingSuit;
-		return newTrick;
 	}
 
 }

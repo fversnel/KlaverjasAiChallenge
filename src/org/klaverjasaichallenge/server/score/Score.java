@@ -6,7 +6,6 @@ import org.klaverjasaichallenge.shared.Points;
 public class Score {
 	public static final Points MAXIMUM_STOCK_SCORE = new Points(162);
 	public final static Points MARCH_POINTS = new Points(100);
-	public final static Points LAST_TRICK_POINTS = new Points(10);
 
 	private static final int FULL_TRICK = 4;
 
