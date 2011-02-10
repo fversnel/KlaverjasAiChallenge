@@ -26,7 +26,7 @@ public class Deck {
 		this.cards = this.createDeck();
 		this.shuffleDeck(this.cards);
 
-		this.logger = Logger.getLogger("KlaverjasLogger");
+		this.logger = Logger.getLogger(Deck.class);
 		this.logger.debug(this.cards);
 	}
 

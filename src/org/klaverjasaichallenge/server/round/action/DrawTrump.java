@@ -21,7 +21,7 @@ class DrawTrump extends RoundAction {
 	public DrawTrump(final RoundData roundData) {
 		super(roundData);
 
-		this.logger = Logger.getLogger("KlaverjasLogger");
+		this.logger = Logger.getLogger(DrawTrump.class);
 	}
 
 	/**

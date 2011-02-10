@@ -20,7 +20,7 @@ class CalculateScore extends RoundAction {
 	public CalculateScore(final RoundData roundData) {
 		super(roundData);
 
-		this.logger = Logger.getLogger("KlaverjasLogger");
+		this.logger = Logger.getLogger(CalculateScore.class);
 	}
 
 	/**

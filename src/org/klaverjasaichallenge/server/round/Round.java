@@ -21,7 +21,7 @@ public class Round {
 	public Round(final Table table, final RuleSet ruleSet) {
 		this.roundData = this.initializeRound(table, ruleSet);
 
-		this.logger = Logger.getLogger("KlaverjasLogger");
+		this.logger = Logger.getLogger(Round.class);
 	}
 
 	public void play() {

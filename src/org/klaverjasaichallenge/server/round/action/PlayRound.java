@@ -23,7 +23,7 @@ class PlayRound extends RoundAction {
 	public PlayRound(final RoundData roundData) {
 		super(roundData);
 
-		this.logger = Logger.getLogger("KlaverjasLogger");
+		this.logger = Logger.getLogger(PlayRound.class);
 	}
 
 	@Override

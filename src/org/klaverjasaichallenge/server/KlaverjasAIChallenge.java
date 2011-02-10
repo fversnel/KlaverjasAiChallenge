@@ -28,9 +28,7 @@ public class KlaverjasAIChallenge {
 	private final static int TEAM_SIZE = 2;
 	private final static String AI_PACKAGE_NAME = "org.klaverjasaichallenge.ai.";
 
-	// Define a static logger variable so that it references the
-	// Logger instance named "KlaverjasLogger".
-	private final static Logger logger = Logger.getLogger("KlaverjasLogger");
+	private final static Logger logger = Logger.getLogger(KlaverjasAIChallenge.class);
 
 	private static Score team1Score = new Score();
 	private static Score team2Score = new Score();
