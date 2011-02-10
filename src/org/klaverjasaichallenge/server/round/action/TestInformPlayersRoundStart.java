@@ -1,7 +1,6 @@
 package org.klaverjasaichallenge.server.round.action;
 
 import static org.mockito.Mockito.*;
-import static org.junit.Assert.*;
 
 import org.junit.*;
 
@@ -9,9 +8,8 @@ import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
 
 public class TestInformPlayersRoundStart {
-	private SampleRoundData testData;
-
-	private RoundAction informPlayersRoundStart;
+	private SampleRoundData 
+	testData;
 
 	@Before
 	public void setUp() {

@@ -6,19 +6,22 @@ import java.util.Map;
 import java.util.HashMap;
 
 import org.klaverjasaichallenge.server.Table;
+import org.klaverjasaichallenge.server.Team;
+import org.klaverjasaichallenge.server.score.Score;
 import org.klaverjasaichallenge.server.round.Hand;
 import org.klaverjasaichallenge.server.round.Trick;
 import org.klaverjasaichallenge.shared.RuleSet;
 import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
 
-class RoundData {
+public class RoundData {
 	private Table table;
-	private RuleSet ruleSet;
+	private final RuleSet ruleSet;
 	private Map<Player, Hand> playersHands;
 	private Suit trump;
 	private Player trumpPlayer;
 	private List<Trick> tricksPlayed;
+	private Map<Team, Score> roundScores;
 
 	public RoundData(final Table table, final RuleSet ruleSet) {
 		this.table = table;
@@ -78,6 +81,20 @@ class RoundData {
 
 	public void addPlayedTrick(final Trick playedTrick) {
 		this.tricksPlayed.add(playedTrick);
+	}
+
+	/**
+	 * TODO Refactor this like addPlayedTrick
+	 */
+	public void addRoundScores(final Map<Team, Score> roundScores) {
+		this.roundScores = roundScores;
+	}
+
+	/**
+	 * TODO Refactor this like addPlayedTrick
+	 */
+	public Map<Team, Score> getRoundScores() {
+		return this.roundScores;
 	}
 
 }

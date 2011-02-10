@@ -13,6 +13,8 @@ import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.Points;
 
 class CalculateScore extends RoundAction {
+	private static final int LAST_TRICK_ID = Trick.COUNT - 1;
+
 	private final Logger logger;
 
 	public CalculateScore(final RoundData roundData) {
@@ -24,7 +26,6 @@ class CalculateScore extends RoundAction {
 	/**
 	 * Calculates the points players have amassed this Round
 	 *
-	 * @uses roundScores
 	 */
 	@Override
 	public RoundAction execute() {
@@ -45,7 +46,7 @@ class CalculateScore extends RoundAction {
 			Score trickScore = trick.getScore();
 
 			// For the last trick, award extra points
-			if(trickId == Trick.COUNT - 1) {
+			if(trickId == LAST_TRICK_ID) {
 				trickScore = new Score(Points.plus(trickScore.getStockScore(), Score.LAST_TRICK_POINTS), trickScore
 						.getRoemScore(), false);
 			}
@@ -64,13 +65,13 @@ class CalculateScore extends RoundAction {
 			roundScores.put(teamDefensive, defensiveScore);
 
 			// The team that goes gets 0 points
-			roundScores.put(teamOffensive, new Score(new Points(0), new Points(0), true));
+			roundScores.put(teamOffensive, new Score(new Points(), new Points(), true));
 
 			this.logger.debug("--- " + teamOffensive + " goes wet! OMG");
 		}
 
 		// Marching
-		if (roundScores.get(teamOffensive).getStockScore().getPoints() == 162) {
+		if (roundScores.get(teamOffensive).getStockScore().equals(Score.MAXIMUM_SCORE)) {
 			final Score newScore = new Score(roundScores.get(teamOffensive).getStockScore(), Points.plus(
 					roundScores.get(teamOffensive).getRoemScore(), Score.MARCH_POINTS), false);
 			roundScores.put(teamOffensive, newScore);
@@ -78,7 +79,7 @@ class CalculateScore extends RoundAction {
 
 		}
 
-		// TODO Add Scores to the RoundData
+		this.roundData.addRoundScores(roundScores);
 
 		return null;
 	}

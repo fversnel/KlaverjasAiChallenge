@@ -4,6 +4,8 @@ import org.klaverjasaichallenge.server.round.Trick;
 import org.klaverjasaichallenge.shared.Points;
 
 public class Score {
+	public static final Points MAXIMUM_SCORE = new Points(162);
+
 	private static final int FULL_TRICK = 4;
 
 	private final Points stockScore;

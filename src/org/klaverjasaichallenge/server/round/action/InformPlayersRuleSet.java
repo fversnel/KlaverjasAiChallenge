@@ -2,7 +2,7 @@ package org.klaverjasaichallenge.server.round.action;
 
 import org.klaverjasaichallenge.shared.Player;
 
-class InformPlayersRuleSet extends RoundAction {
+public class InformPlayersRuleSet extends RoundAction {
 
 	public InformPlayersRuleSet(final RoundData roundData) {
 		super(roundData);

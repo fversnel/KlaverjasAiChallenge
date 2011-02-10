@@ -7,13 +7,11 @@ import org.junit.*;
 public class TestDrawTrump {
 	private RoundData testData;
 	
-	private RoundAction drawTrump;
-	
 	@Before
 	public void setUp() {
 		this.testData = new SampleRoundData().getRoundData();
 		
-		RoundAction drawTrump = new DrawTrump(testData);
+		RoundAction drawTrump = new DrawTrump(this.testData);
 		drawTrump.execute();
 	}
 	

@@ -28,7 +28,7 @@ public class Points {
 	public static Points sub(final Points leftHandSide, final Points rightHandSide) {
 		return new Points(leftHandSide.getPoints() - rightHandSide.getPoints());
 	}
-	
+
 	public static Points divide(final Points leftHandSide, final Points rightHandSide) {
 		return new Points(leftHandSide.getPoints() / rightHandSide.getPoints());
 	}
@@ -39,6 +39,10 @@ public class Points {
 
 	public static boolean biggerThanOrEquals(final Points leftHandSide, final Points rightHandSide) {
 		return leftHandSide.getPoints() >= rightHandSide.getPoints() ? true : false;
+	}
+
+	public boolean equals(Points points) {
+		return this.points == points.getPoints();
 	}
 
 	@Override

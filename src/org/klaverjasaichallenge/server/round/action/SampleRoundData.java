@@ -1,9 +1,10 @@
 package org.klaverjasaichallenge.server.round.action;
 
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 import java.util.List;
 
+import org.klaverjasaichallenge.ai.StupidButLegalAI;
 import org.klaverjasaichallenge.server.Table;
 import org.klaverjasaichallenge.server.Team;
 import org.klaverjasaichallenge.shared.Player;
@@ -22,10 +23,10 @@ class SampleRoundData {
 	private RoundData roundData;
 
 	public SampleRoundData() {
-		this.playerOne = mock(Player.class);
-		this.playerTwo = mock(Player.class);
-		this.playerThree = mock(Player.class);
-		this.playerFour = mock(Player.class);
+		this.playerOne = spy(new StupidButLegalAI());
+		this.playerTwo = spy(new StupidButLegalAI());
+		this.playerThree = spy(new StupidButLegalAI());
+		this.playerFour = spy(new StupidButLegalAI());
 
 		this.teamOne = new Team(getPlayerOne(), getPlayerThree());
 		this.teamTwo = new Team(getPlayerTwo(), getPlayerFour());
@@ -83,7 +84,7 @@ class SampleRoundData {
 	public Team getTeamTwo() {
 		return this.teamTwo;
 	}
-	
+
 	public List<Player> getPlayers() {
 		return this.roundData.getPlayers();
 	}
