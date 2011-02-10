@@ -4,7 +4,9 @@ import org.klaverjasaichallenge.server.round.Trick;
 import org.klaverjasaichallenge.shared.Points;
 
 public class Score {
-	public static final Points MAXIMUM_SCORE = new Points(162);
+	public static final Points MAXIMUM_STOCK_SCORE = new Points(162);
+	public final static Points MARCH_POINTS = new Points(100);
+	public final static Points LAST_TRICK_POINTS = new Points(10);
 
 	private static final int FULL_TRICK = 4;
 
@@ -12,9 +14,6 @@ public class Score {
 	private final Points roemScore;
 
 	private int wets = 0;
-
-	public final static Points MARCH_POINTS = new Points(100);
-	public final static Points LAST_TRICK_POINTS = new Points(10);
 
 	public Score() {
 		this.stockScore = new Points();
@@ -26,15 +25,6 @@ public class Score {
 		this.roemScore = roemScore;
 	}
 
-	public Score(final Points stockScore, final Points roemScore, final boolean wet) {
-		this.stockScore = stockScore;
-		this.roemScore = roemScore;
-
-		if(wet) {
-			this.wets++;
-		}
-	}
-
 	public Score(final Trick trick) {
 		assert(trick.numberOfCards() == FULL_TRICK) : "Score cannot be calculated for " +
 				"a trick that is not finished. Trick contains " + trick.numberOfCards() +
@@ -42,12 +32,6 @@ public class Score {
 
 		this.stockScore = StockScore.calculateScore(trick);
 		this.roemScore = RoemScore.calculateScore(trick);
-	}
-
-	private Score(final Points stockScore, final Points roemScore, final int wets) {
-		this.stockScore = stockScore;
-		this.roemScore = roemScore;
-		this.wets = wets;
 	}
 
 	public Points getRoemScore() {
@@ -62,15 +46,20 @@ public class Score {
 		return Points.plus(getRoemScore(), getStockScore());
 	}
 
+	public void incrementWets() {
+		this.wets++;
+	}
+
 	public int getWets() {
 		return this.wets;
 	}
 
 	public static Score plus(final Score leftScore, final Score rightScore) {
-		return new
-			Score(Points.plus(leftScore.getStockScore(),rightScore.getStockScore()),
-					Points.plus(leftScore.getRoemScore(),rightScore.getRoemScore()),
-					leftScore.getWets() + rightScore.getWets());
+		Score newScore = new Score(
+				Points.plus(leftScore.getStockScore(),rightScore.getStockScore()),
+				Points.plus(leftScore.getRoemScore(),rightScore.getRoemScore()));
+		newScore.wets = leftScore.wets + rightScore.wets;
+		return newScore;
 	}
 
 	public static boolean totalScorebiggerThan(final Score leftHandSide, final
