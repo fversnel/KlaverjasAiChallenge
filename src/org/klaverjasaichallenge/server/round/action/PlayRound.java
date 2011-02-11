@@ -35,19 +35,23 @@ class PlayRound extends RoundAction {
 	private void playTricks() {
 		Table table = this.roundData.getTable();
 		for (int trickId = 1; trickId <= Trick.COUNT; trickId++) {
-			final Suit trump = this.roundData.getTrump();
-			final boolean isLastTrick = (trickId == Trick.COUNT);
-			final Trick trick = new Trick(trump, isLastTrick);
+			Trick trick = this.createNewTrick(trickId);
 
 			this.playTrick(table, trick, trickId);
 			this.roundData.addPlayedTrick(trick);
 			this.notifyPlayersEndTrick(table, trick);
 
-			final Score score = trick.getScore();
-			final Player winner = trick.getWinner();
-			this.logger.debug("--- Winner:  " + winner + " with " + score);
+			this.logger.debug("--- Winner:  " + trick.getWinner() + " with " +
+					trick.getScore());
+
 			table = table.nextTrick(winner);
 		}
+	}
+
+	private Trick createNewTrick(final int trickId) {
+		final Suit trump = this.roundData.getTrump();
+		final boolean isLastTrick = (trickId == Trick.COUNT);
+		return new Trick(trump, isLastTrick);
 	}
 
 	private void playTrick(Table table, final Trick trick, final int trickId) {
