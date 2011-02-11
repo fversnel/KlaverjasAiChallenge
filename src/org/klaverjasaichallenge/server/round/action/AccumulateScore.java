@@ -35,7 +35,7 @@ class AccumulateScore extends RoundAction {
 		this.teamDefensive = table.getOtherTeam(trumpPlayer);
 		this.teamDefensiveScore = this.roundData.getRoundScore(teamDefensive);
 
-		this.logger = Logger.getLogger(CalculateScore.class);
+		this.logger = Logger.getLogger(AccumulateScore.class);
 	}
 
 	/**

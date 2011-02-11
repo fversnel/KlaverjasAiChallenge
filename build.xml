@@ -43,7 +43,8 @@
   <!-- Project class path -->
   <path id="project.class.path">
     <fileset dir="lib">
-      <include name="**/*.jar"/>
+      <include name="*.jar"/>
+      <include name="ai/*.jar"/>
     </fileset>
   </path>
 

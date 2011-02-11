@@ -41,7 +41,8 @@ class PlayRound extends RoundAction {
 			this.roundData.addPlayedTrick(trick);
 			this.notifyPlayersEndTrick(table, trick);
 
-			this.logger.debug("--- Winner:  " + trick.getWinner() + " with " +
+			final Player winner = trick.getWinner();
+			this.logger.debug("--- Winner:  " + winner + " with " +
 					trick.getScore());
 
 			table = table.nextTrick(winner);

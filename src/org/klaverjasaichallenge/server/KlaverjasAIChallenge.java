@@ -9,7 +9,6 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
 
 // Import AI's.
-import nl.joostpastoor.klaverjasai.JoostAI;
 import org.klaverjasaichallenge.ai.*;
 
 // Import the necessary klaverjas classes to get started.
