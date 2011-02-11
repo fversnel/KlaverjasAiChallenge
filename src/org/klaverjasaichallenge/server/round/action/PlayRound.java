@@ -29,7 +29,7 @@ class PlayRound extends RoundAction {
 	public RoundAction execute() {
 		this.playTricks();
 
-		return new CalculateScore(this.roundData);
+		return new AccumulateScore(this.roundData);
 	}
 
 	private void playTricks() {
