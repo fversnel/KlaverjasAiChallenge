@@ -37,6 +37,10 @@ class SampleRoundData {
 		this.roundData = new RoundData(table, rotterdamRuleSet);
 	}
 
+	public Table getTable() {
+		return this.roundData.getTable();
+	}
+
 	public void setPlayerOne(Player playerOne) {
 		this.playerOne = playerOne;
 	}
@@ -83,10 +87,6 @@ class SampleRoundData {
 
 	public Team getTeamTwo() {
 		return this.teamTwo;
-	}
-
-	public List<Player> getPlayers() {
-		return this.roundData.getPlayers();
 	}
 
 	public RoundData getRoundData() {

@@ -8,7 +8,7 @@ import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
 
 public class TestInformPlayersRoundStart {
-	private SampleRoundData 
+	private SampleRoundData
 	testData;
 
 	@Before
@@ -17,14 +17,14 @@ public class TestInformPlayersRoundStart {
 
 		RoundData roundData = this.testData.getRoundData();
 		roundData.setTrump(mock(Suit.class));
-		roundData.setTrumpPlayer(roundData.getActivePlayer());
+		roundData.setTrumpPlayer(this.testData.getPlayerOne());
 		RoundAction informPlayersRoundStart = new InformPlayersRoundStart(roundData);
 		informPlayersRoundStart.execute();
 	}
 
 	@Test
 	public void verifyStartOfRoundIndication() {
-		for(Player player : this.testData.getPlayers()) {
+		for(final Player player : this.testData.getTable()) {
 			verify(player).startOfRound(anyInt(), any(Suit.class),
 					anyInt(), anyInt(), anyInt(), anyInt());
 		}

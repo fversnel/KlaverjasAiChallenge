@@ -13,8 +13,8 @@ class InformPlayersRoundStart extends RoundAction {
 	@Override
 	public RoundAction execute() {
 		final int trumpPlayerId = this.roundData.getTrumpPlayer().hashCode();
-		for(Player currentPlayer : this.roundData.getPlayers()) {
-			Table roundTable = this.roundData.getTable();
+		Table roundTable = this.roundData.getTable();
+		for(Player currentPlayer : roundTable) {
 			final Team playerTeam = roundTable.getTeamFromPlayer(currentPlayer);
 			final Team otherTeam = roundTable.getOtherTeam(currentPlayer);
 			final int currentPlayerId = currentPlayer.hashCode();
@@ -24,8 +24,6 @@ class InformPlayersRoundStart extends RoundAction {
 
 			currentPlayer.startOfRound(trumpPlayerId, this.roundData.getTrump(),
 					currentPlayerId, teamMateId, enemy1Id, enemy2Id);
-
-			this.roundData.nextPlayer();
 		}
 
 		return new PlayRound(this.roundData);

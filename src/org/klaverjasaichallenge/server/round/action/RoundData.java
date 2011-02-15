@@ -36,14 +36,6 @@ public class RoundData {
 		return this.table;
 	}
 
-	public void nextPlayer() {
-		this.table = this.table.nextPlayer();
-	}
-
-	public Player getActivePlayer() {
-		return this.table.getActivePlayer();
-	}
-
 	public Suit getTrump() {
 		return this.trump;
 	}
@@ -62,10 +54,6 @@ public class RoundData {
 
 	public RuleSet getRuleSet() {
 		return this.ruleSet;
-	}
-
-	public List<Player> getPlayers() {
-		return this.table.getPlayers();
 	}
 
 	public Hand getPlayersHand(final Player player) {

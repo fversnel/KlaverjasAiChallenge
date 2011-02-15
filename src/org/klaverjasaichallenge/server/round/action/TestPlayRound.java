@@ -19,7 +19,7 @@ public class TestPlayRound {
 
 		RoundData roundData = this.testData.getRoundData();
 		roundData.setTrump(mock(Suit.class));
-		roundData.setTrumpPlayer(roundData.getActivePlayer());
+		roundData.setTrumpPlayer(this.testData.getPlayerOne());
 
 		new InformPlayersRuleSet(roundData).execute();
 		new DealCards(roundData).execute();
@@ -30,7 +30,7 @@ public class TestPlayRound {
 
 	@Test
 	public void verifyGetCard() {
-		for(Player player : this.testData.getPlayers()) {
+		for(final Player player : this.testData.getTable()) {
 			verify(player, times(Trick.COUNT)).getCard(any(Trick.class),
 					any(Order.class));
 		}
@@ -38,7 +38,7 @@ public class TestPlayRound {
 
 	@Test
 	public void verifyEndOfTrick() {
-		for(Player player : this.testData.getPlayers()) {
+		for(final Player player : this.testData.getTable()) {
 			verify(player, times(Trick.COUNT)).endOfTrick(any(Trick.class));
 		}
 	}

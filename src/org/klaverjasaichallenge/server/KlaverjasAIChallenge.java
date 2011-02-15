@@ -70,7 +70,7 @@ public class KlaverjasAIChallenge {
 
 			for(int currentRoundId = 1; currentRoundId <= ruleSet.getNumberOfRounds(); currentRoundId++) {
 				logger.debug("- Starting round: " + currentRoundId + " with " +
-						"Players: " + table.getPlayers());
+						"Players: " + table);
 
 				// Play the round
 				Round round = new Round(table, ruleSet);
@@ -81,7 +81,7 @@ public class KlaverjasAIChallenge {
 				team2GameScore = Score.plus(team2GameScore, round.getScore(team2));
 
 				// Change the order of the players
-				table = table.nextRound();
+				table.nextRound();
 
 				logger.debug("Game scores:");
 				logger.debug(team1 + " scored " + team1GameScore + " points.");

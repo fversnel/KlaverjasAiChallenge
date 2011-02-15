@@ -6,52 +6,44 @@ package org.klaverjasaichallenge.server;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.LinkedList;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import org.klaverjasaichallenge.shared.Player;
+import org.klaverjasaichallenge.shared.Order;
 
-public class Table {
+public class Table implements Iterable<Player> {
 	private final List<Team> teams;
-	private final List<Player> positions;
-	private final Player activePlayer;
-	private final Player roundStarter;
+	private final List<Player> playerPositions;
 
-	/**
-	 * TODO Make the table iterable.
-	 * @param teamOne
-	 * @param teamTwo
-	 */
+	private Player roundStarter;
+	private Player trickStarter;
+
 	public Table(final Team teamOne, final Team teamTwo) {
 		this.teams = this.initializeTeams(teamOne, teamTwo);
-		this.positions = this.initializePositions(teamOne, teamTwo);
-		this.activePlayer = teamOne.getFirstPlayer();
-		this.roundStarter = this.activePlayer;
+		this.playerPositions = this.initializePlayerPositions(teamOne, teamTwo);
+
+		this.roundStarter = teamOne.getFirstPlayer();
+		this.trickStarter = roundStarter;
 	}
 
-	/**
-	 * When playing a trick, this method provides you with the player sitting
-	 * next to the player that just threw a card on the table.
-	 */
-	public Table nextPlayer() {
-		return new Table(this.teams, this.positions, getNextPlayer(this.activePlayer), this.roundStarter);
+	public Iterator<Player> iterator() {
+		return new PlayerIterator(this.playerPositions,
+				this.trickStarter);
 	}
 
 	/**
 	 * In the next trick, the winner of the previous trick is allowed to
 	 * start.
 	 */
-	public Table nextTrick(final Player winner) {
-		return new Table(this.teams, this.positions, winner, this.roundStarter);
+	public void nextTrick(final Player winner) {
+		this.trickStarter = winner;
 	}
 
-	public Table nextRound() {
-		Player newRoundStarter = this.getNextPlayer(this.roundStarter);
-		Table newTable =  new Table(this.teams,
-				this.positions, newRoundStarter, newRoundStarter);
-		return newTable;
-	}
-
-	public Player getActivePlayer() {
-		return this.activePlayer;
+	public void nextRound() {
+		this.roundStarter = new PlayerIterator(this.playerPositions, this.roundStarter).
+				getNextPlayer(this.roundStarter);
+		this.trickStarter = this.roundStarter;
 	}
 
 	public List<Team> getTeams() {
@@ -66,6 +58,19 @@ public class Table {
 		return this.getTeam(player, true);
 	}
 
+	public String toString() {
+		String newString = new String();
+		for(Player player : this) {
+			newString = newString + player + "\n";
+		}
+		return newString;
+	}
+
+	/**
+	 * @param player the team the player is in.
+	 * @param otherTeam indicates whether the opposite team (which the player
+	 * is not in) will be returned.
+	 */
 	private Team getTeam(final Player player, final boolean otherTeam) {
 		Team selectedTeam = null;
 
@@ -82,24 +87,6 @@ public class Table {
 		return selectedTeam;
 	}
 
-	public List<Player> getPlayers() {
-		return this.positions;
-	}
-
-	private Table(final List<Team> teams, final List<Player> positions,
-			final Player nextPlayer, final Player roundStarter) {
-		this.teams = teams;
-		this.positions = positions;
-		this.activePlayer = nextPlayer;
-		this.roundStarter = roundStarter;
-	}
-
-	private Player getNextPlayer(final Player currentPlayer) {
-		final int currentPlayerIndex = this.positions.indexOf(currentPlayer);
-		final int nextPlayerIndex = (currentPlayerIndex + 1) % this.positions.size();
-		return this.positions.get(nextPlayerIndex);
-	}
-
 	private List<Team> initializeTeams(final Team teamOne, final Team teamTwo) {
 		final List<Team> teams = new ArrayList<Team>();
 		teams.add(teamOne);
@@ -107,7 +94,7 @@ public class Table {
 		return teams;
 	}
 
-	private List<Player> initializePositions(final Team teamOne, final Team teamTwo) {
+	private List<Player> initializePlayerPositions(final Team teamOne, final Team teamTwo) {
 		final List<Player> positions =  new LinkedList<Player>();
 		positions.add(teamOne.getFirstPlayer());
 		positions.add(teamTwo.getFirstPlayer());
@@ -116,5 +103,49 @@ public class Table {
 		return positions;
 	}
 
+	private class PlayerIterator implements Iterator {
+		private final int playerCount;
+		private int playerIteration;
+
+		private final List<Player> playerPositions;
+		private Player activePlayer;
+
+		public PlayerIterator(final List<Player> playerPositions, final Player activePlayer) {
+			assert(playerPositions.contains(activePlayer)) : "The table does not contain the currently active player.";
+
+			this.activePlayer = activePlayer;
+			this.playerPositions = playerPositions;
+
+			this.playerCount = this.playerPositions.size();
+			this.playerIteration = 0;
+		}
+
+		public Player next() {
+			if(playerIteration == playerCount) {
+				throw new NoSuchElementException();
+			}
+
+			final Player currentPlayer = this.activePlayer;
+			this.activePlayer = this.getNextPlayer(this.activePlayer);
+			playerIteration++;
+
+			return currentPlayer;
+		}
+
+		public boolean hasNext() {
+			return playerIteration < playerCount;
+		}
+
+		public void remove() {
+			this.playerPositions.remove(this.activePlayer);
+		}
+
+		public Player getNextPlayer(final Player currentPlayer) {
+			final int currentPlayerIndex = this.playerPositions.indexOf(currentPlayer);
+			final int nextPlayerIndex = (currentPlayerIndex + 1) % this.playerCount;
+			return this.playerPositions.get(nextPlayerIndex);
+		}
+
+	}
 
 }

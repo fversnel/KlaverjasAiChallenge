@@ -42,10 +42,10 @@ class PlayRound extends RoundAction {
 			this.notifyPlayersEndTrick(table, trick);
 
 			final Player winner = trick.getWinner();
+			table.nextTrick(winner);
+
 			this.logger.debug("--- Winner:  " + winner + " with " +
 					trick.getScore());
-
-			table = table.nextTrick(winner);
 		}
 	}
 
@@ -58,13 +58,12 @@ class PlayRound extends RoundAction {
 	private void playTrick(Table table, final Trick trick, final int trickId) {
 		this.logger.debug("-- Starting trick " + trickId + " with trump " + trick.getTrump());
 
-		for (int playerIndex = 0; playerIndex < PLAYER_COUNT; playerIndex++) {
-			final Player currentPlayer = table.getActivePlayer();
-			final Order playersOrder = new Order(playerIndex);
-
+		int playerIndex = 0;
+		for(final Player currentPlayer : table) {
 			// Ask the player to return a card
 			final Card cardPlayed = currentPlayer.getCard(
-					new org.klaverjasaichallenge.shared.Trick(trick), playersOrder);
+					new org.klaverjasaichallenge.shared.Trick(trick),
+					new Order(playerIndex));
 			// Check if the card is valid
 			try {
 				this.playCard(trick, currentPlayer, cardPlayed);
@@ -75,7 +74,7 @@ class PlayRound extends RoundAction {
 
 			this.logger.debug("--- " + currentPlayer + " played " + cardPlayed);
 
-			table = table.nextPlayer();
+			playerIndex++;
 		}
 	}
 
@@ -105,7 +104,7 @@ class PlayRound extends RoundAction {
 	}
 
 	private void notifyPlayersEndTrick(final Table table, final Trick trick) {
-		for (Player player : table.getPlayers()) {
+		for (final Player player : table) {
 			player.endOfTrick(new org.klaverjasaichallenge.shared.Trick(trick));
 		}
 	}

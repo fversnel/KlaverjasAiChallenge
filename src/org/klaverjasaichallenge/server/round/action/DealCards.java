@@ -14,7 +14,7 @@ class DealCards extends RoundAction {
 	public RoundAction execute() {
 		final Deck deck = new Deck();
 
-		for(final Player currentPlayer : this.roundData.getPlayers()) {
+		for(final Player currentPlayer : this.roundData.getTable()) {
 			this.roundData.putPlayersHand(currentPlayer,
 					this.dealHand(deck, currentPlayer));
 		}

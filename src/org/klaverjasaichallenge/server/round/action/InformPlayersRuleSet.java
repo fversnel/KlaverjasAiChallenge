@@ -10,7 +10,7 @@ public class InformPlayersRuleSet extends RoundAction {
 
 	@Override
 	public RoundAction execute() {
-		for(final Player player : this.roundData.getPlayers()) {
+		for(final Player player : this.roundData.getTable()) {
 			player.giveRuleSet(this.roundData.getRuleSet());
 		}
 
