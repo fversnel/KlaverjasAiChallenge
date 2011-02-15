@@ -15,8 +15,6 @@ import org.klaverjasaichallenge.server.score.Score;
 import org.klaverjasaichallenge.shared.RuleSet;
 
 class PlayRound extends RoundAction {
-	private final static int PLAYER_COUNT = 4;
-
 	private final Logger logger;
 
 	public PlayRound(final RoundData roundData) {

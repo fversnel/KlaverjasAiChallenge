@@ -12,91 +12,89 @@ import org.klaverjasaichallenge.server.score.Score;
 import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.Points;
 
+/**
+ * Accumulates the score players have amassed this Round.
+ */
 class AccumulateScore extends RoundAction {
 	private static final RoundAction NO_NEXT_ACTION = null;
 
-	private final Team teamOffensive;
-	private final Team teamDefensive;
+	private final Table table;
+	private final Player trumpPlayer;
 
 	private final Logger logger;
 
 	public AccumulateScore(final RoundData roundData) {
 		super(roundData);
 
-		final Player trumpPlayer = this.roundData.getTrumpPlayer();
-		final Table table = this.roundData.getTable();
-
-		this.teamOffensive = table.getTeamFromPlayer(trumpPlayer);
-		this.teamDefensive = table.getOtherTeam(trumpPlayer);
+		this.table = this.roundData.getTable();
+		this.trumpPlayer = this.roundData.getTrumpPlayer();
 
 		this.logger = Logger.getLogger(AccumulateScore.class);
 	}
 
-	/**
-	 * Accumulates the points players have amassed this Round.
-	 */
 	@Override
 	public RoundAction execute() {
-		this.accumlateTrickScores();
-
-		Score teamOffensiveScore = this.roundData.getRoundScore(teamOffensive);
-		Score teamDefensiveScore = this.roundData.getRoundScore(teamDefensive);
-		if(Score.isWet(teamOffensiveScore, teamDefensiveScore)) {
-			this.accumlateWetScores();
-		} else if(Score.isMarching(teamOffensiveScore)) {
-			this.accumlateMarchScore();
+		List<Team> teams = this.table.getTeams();
+		for(final Team team : teams) {
+			Score teamScore = this.accumlateTrickScore(team);
+			teamScore = this.accumlateWetScore(team, teamScore);
+			teamScore = this.accumlateMarchScore(team, teamScore);
+			this.roundData.addRoundScore(team, teamScore);
 		}
 
 		return NO_NEXT_ACTION;
 	}
 
-	private void accumlateTrickScores() {
-		Table table = this.roundData.getTable();
-
+	private Score accumlateTrickScore(final Team team) {
+		Score roundScore = new Score();
 		List<Trick> playedTricks = this.roundData.getTricksPlayed();
 		for(Trick playedTrick : playedTricks) {
 			final Player winningPlayer = playedTrick.getWinner();
 			final Team winningTeam = table.getTeamFromPlayer(winningPlayer);
 
-			final Score trickScore = playedTrick.getScore();
-			final Score previousTrickScores = this.roundData.getRoundScore(winningTeam);
-			final Score newScore = Score.plus(previousTrickScores, trickScore);
-
-			this.roundData.addRoundScore(winningTeam, newScore);
+			if(team.equals(winningTeam)) {
+				final Score trickScore = playedTrick.getScore();
+				roundScore = Score.plus(roundScore, trickScore);
+			}
 		}
+
+		return roundScore;
 	}
 
-	private void accumlateWetScores() {
-		// DEBUG OUTPUT:
-		System.out.println("Team offensive score: " + this.roundData.getRoundScore(teamOffensive));
-		System.out.println("Team defensive score: " + this.roundData.getRoundScore(teamDefensive));
+	private Score accumlateWetScore(final Team team, final Score teamScore) {
+		Score newTeamScore = teamScore;
 
-		// The winning team gets the roem of both teams as well as the
-		// maximum stock score.
-		Score teamDefensiveScore = this.roundData.getRoundScore(this.teamDefensive);
-		Score teamOffensiveScore = this.roundData.getRoundScore(this.teamOffensive);
-		teamDefensiveScore = new Score(Score.MAXIMUM_STOCK_SCORE,
-				new Points(Points.plus(teamDefensiveScore.getRoemScore(),
-						teamOffensiveScore.getRoemScore())));
-		this.roundData.addRoundScore(teamDefensive, teamDefensiveScore);
+		Team otherTeam = table.getOtherTeam(team);
+		Score otherTeamScore = this.roundData.getRoundScore(otherTeam);
+		// If the other team gets wet:
+		if(otherTeam.hasPlayer(this.trumpPlayer) && Score.isWet(otherTeamScore, teamScore)) {
+			// The winning team gets the roem of both teams as well as the
+			// maximum stock score.
+			newTeamScore = new Score(Score.MAXIMUM_STOCK_SCORE,
+					new Points(Points.plus(teamScore.getRoemScore(),
+							otherTeamScore.getRoemScore())));
+		}
+		// If we get wet:
+		else if(team.hasPlayer(this.trumpPlayer) && Score.isWet(teamScore, otherTeamScore)) {
+			newTeamScore = new Score();
+			newTeamScore.incrementWets();
 
-		// The team that played the trump get no points at all.
-		teamOffensiveScore = new Score(new Points(), new Points());
-		// What they do get though, is an extra wet count :).
-		teamOffensiveScore.incrementWets();
-		// Finally, add the score the RoundData object.
-		this.roundData.addRoundScore(teamOffensive, teamOffensiveScore);
+			this.logger.debug("--- " + team + " goes wet! OMG!!!");
+		}
 
-		this.logger.debug("--- " + teamOffensive + " goes wet! OMG!!!");
+		return teamScore;
 	}
 
-	private void accumlateMarchScore() {
-		Score teamOffensiveScore = this.roundData.getRoundScore(teamOffensive);
-		teamOffensiveScore = new Score(teamOffensiveScore.getStockScore(), Points.plus(
-					teamOffensiveScore.getRoemScore(), Score.MARCH_POINTS));
-		this.roundData.addRoundScore(teamOffensive, teamOffensiveScore);
+	private Score accumlateMarchScore(final Team team, final Score teamScore) {
+		Score newScore = teamScore;
+		if(team.hasPlayer(this.trumpPlayer) && Score.isMarching(teamScore)) {
+			newScore = new Score(teamScore.getStockScore(), Points.plus(
+						teamScore.getRoemScore(), Score.MARCH_POINTS));
 
-		this.logger.debug("--- " + teamOffensive + " goes marching.");
+			this.logger.debug("--- " + team + " goes marching.");
+		}
+
+		return newScore;
 	}
 
 }

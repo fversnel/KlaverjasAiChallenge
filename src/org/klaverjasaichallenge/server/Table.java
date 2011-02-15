@@ -54,6 +54,20 @@ public class Table implements Iterable<Player> {
 		return this.getTeam(player, false);
 	}
 
+	public Team getOtherTeam(final Team team) {
+		Team result = null;
+
+		for(final Team otherTeam : this.teams) {
+			if(!team.equals(otherTeam)) {
+				result = otherTeam;
+			}
+		}
+
+		assert(result != null) : "Could not find other team.";
+
+		return result;
+	}
+
 	public Team getOtherTeam(final Player player) {
 		return this.getTeam(player, true);
 	}
