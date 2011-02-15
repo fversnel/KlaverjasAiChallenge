@@ -72,7 +72,7 @@ public class Trick {
 	public Score getScore() {
 		Score score = new Score(this);
 
-		if(isLastTrick) {
+		if(this.isLastTrick) {
 			score = new Score(Points.plus(score.getStockScore(),
 						LAST_TRICK_POINTS), score.getRoemScore());
 		}
