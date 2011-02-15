@@ -71,8 +71,8 @@ class AccumulateScore extends RoundAction {
 			// The winning team gets the roem of both teams as well as the
 			// maximum stock score.
 			newTeamScore = new Score(Score.MAXIMUM_STOCK_SCORE,
-					new Points(Points.plus(teamScore.getRoemScore(),
-							otherTeamScore.getRoemScore())));
+					Points.plus(teamScore.getRoemScore(),
+							otherTeamScore.getRoemScore()));
 		}
 		// If we get wet:
 		else if(team.hasPlayer(this.trumpPlayer) && Score.isWet(teamScore, otherTeamScore)) {
