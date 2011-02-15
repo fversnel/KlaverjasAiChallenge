@@ -77,7 +77,7 @@ public class Score {
 		return (Score.totalScoreBiggerThanOrEquals(defensiveScore, offensiveScore));
 	}
 
-	public static boolean isMarching(Score offensiveScore, Score defensiveScore) {
+	public static boolean isMarching(Score offensiveScore) {
 		return (offensiveScore.getStockScore().equals(Score.MAXIMUM_STOCK_SCORE));
 	}
 

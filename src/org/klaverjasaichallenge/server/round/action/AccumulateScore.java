@@ -16,10 +16,7 @@ class AccumulateScore extends RoundAction {
 	private static final RoundAction NO_NEXT_ACTION = null;
 
 	private final Team teamOffensive;
-	private Score teamOffensiveScore;
-
 	private final Team teamDefensive;
-	private Score teamDefensiveScore;
 
 	private final Logger logger;
 
@@ -30,10 +27,7 @@ class AccumulateScore extends RoundAction {
 		final Table table = this.roundData.getTable();
 
 		this.teamOffensive = table.getTeamFromPlayer(trumpPlayer);
-		this.teamOffensiveScore = this.roundData.getRoundScore(teamOffensive);
-
 		this.teamDefensive = table.getOtherTeam(trumpPlayer);
-		this.teamDefensiveScore = this.roundData.getRoundScore(teamDefensive);
 
 		this.logger = Logger.getLogger(AccumulateScore.class);
 	}
@@ -44,9 +38,12 @@ class AccumulateScore extends RoundAction {
 	@Override
 	public RoundAction execute() {
 		this.accumlateTrickScores();
+
+		Score teamOffensiveScore = this.roundData.getRoundScore(teamOffensive);
+		Score teamDefensiveScore = this.roundData.getRoundScore(teamDefensive);
 		if(Score.isWet(teamOffensiveScore, teamDefensiveScore)) {
 			this.accumlateWetScores();
-		} else if(Score.isMarching(teamOffensiveScore, teamDefensiveScore)) {
+		} else if(Score.isMarching(teamOffensiveScore)) {
 			this.accumlateMarchScore();
 		}
 
@@ -58,8 +55,8 @@ class AccumulateScore extends RoundAction {
 
 		List<Trick> playedTricks = this.roundData.getTricksPlayed();
 		for(Trick playedTrick : playedTricks) {
-			final Player winner = playedTrick.getWinner();
-			final Team winningTeam = table.getTeamFromPlayer(winner);
+			final Player winningPlayer = playedTrick.getWinner();
+			final Team winningTeam = table.getTeamFromPlayer(winningPlayer);
 
 			final Score trickScore = playedTrick.getScore();
 			final Score previousTrickScores = this.roundData.getRoundScore(winningTeam);
@@ -70,8 +67,14 @@ class AccumulateScore extends RoundAction {
 	}
 
 	private void accumlateWetScores() {
-		// The winning team get the roem of both teams as well as the
+		// DEBUG OUTPUT:
+		System.out.println("Team offensive score: " + this.roundData.getRoundScore(teamOffensive));
+		System.out.println("Team defensive score: " + this.roundData.getRoundScore(teamDefensive));
+
+		// The winning team gets the roem of both teams as well as the
 		// maximum stock score.
+		Score teamDefensiveScore = this.roundData.getRoundScore(this.teamDefensive);
+		Score teamOffensiveScore = this.roundData.getRoundScore(this.teamOffensive);
 		teamDefensiveScore = new Score(Score.MAXIMUM_STOCK_SCORE,
 				new Points(Points.plus(teamDefensiveScore.getRoemScore(),
 						teamOffensiveScore.getRoemScore())));
@@ -88,6 +91,7 @@ class AccumulateScore extends RoundAction {
 	}
 
 	private void accumlateMarchScore() {
+		Score teamOffensiveScore = this.roundData.getRoundScore(teamOffensive);
 		teamOffensiveScore = new Score(teamOffensiveScore.getStockScore(), Points.plus(
 					teamOffensiveScore.getRoemScore(), Score.MARCH_POINTS));
 		this.roundData.addRoundScore(teamOffensive, teamOffensiveScore);
