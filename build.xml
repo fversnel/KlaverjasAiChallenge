@@ -35,7 +35,7 @@
       value="${dir.distribution}/klaverjas.shared.jar" />
 
   <!-- The application's entrypoint -->
-  <property name="main.class" value="org.klaverjasaichallenge.server.KlaverjasAIChallenge" />
+  <property name="main.class" value="org.klaverjasaichallenge.server.Main" />
 
    <!-- Dependency checking related properties -->
   <property name="dependency.check.closure" value="true" />

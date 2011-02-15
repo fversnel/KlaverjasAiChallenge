@@ -23,11 +23,11 @@ import org.klaverjasaichallenge.shared.RuleSet;
  * @author Joost
  *
  */
-public class KlaverjasAIChallenge {
+public class Main {
 	private final static int TEAM_SIZE = 2;
 	private final static String AI_PACKAGE_NAME = "org.klaverjasaichallenge.ai.";
 
-	private final static Logger logger = Logger.getLogger(KlaverjasAIChallenge.class);
+	private final static Logger logger = Logger.getLogger(Main.class.getName());
 
 	private static Score team1Score = new Score();
 	private static Score team2Score = new Score();
@@ -135,16 +135,16 @@ public class KlaverjasAIChallenge {
 				try {
 					team = new Team(newPlayer.newInstance(), newPlayer.newInstance());
 				} catch (InstantiationException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					logger.error("Unable to instantiate AI " + aiName, e);
+					throw new RuntimeException();
 				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					logger.error("Illegal access to " + aiName, e);
+					throw new RuntimeException();
 				}
 			}
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("AI " + aiName + " not found", e);
+			throw new RuntimeException();
 		}
 		return team;
 	}
