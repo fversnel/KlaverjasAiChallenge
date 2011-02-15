@@ -14,16 +14,14 @@ public abstract class Rank {
 	protected final Points trumpPoints;
 
 	public Rank(final String name, final Order normalOrder, final Order
-			trumpOrder, final Order roemOrder, final Points normalPoints, 
+			trumpOrder, final Order roemOrder, final Points normalPoints,
 			final Points trumpPoints) {
 		this.name = name;
 
-		// TODO Make this an object
 		this.normalOrder = normalOrder;
 		this.trumpOrder = trumpOrder;
 		this.roemOrder = roemOrder;
 
-		// TODO Make this an object
 		this.normalPoints = normalPoints;
 		this.trumpPoints = trumpPoints;
 	}

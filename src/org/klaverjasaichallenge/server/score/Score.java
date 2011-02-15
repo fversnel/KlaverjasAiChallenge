@@ -12,8 +12,6 @@ public class Score {
 	private final Points stockScore;
 	private final Points roemScore;
 
-	private int wets = 0;
-
 	public Score() {
 		this.stockScore = new Points();
 		this.roemScore = new Points();
@@ -45,19 +43,10 @@ public class Score {
 		return Points.plus(getRoemScore(), getStockScore());
 	}
 
-	public void incrementWets() {
-		this.wets++;
-	}
-
-	public int getWets() {
-		return this.wets;
-	}
-
 	public static Score plus(final Score leftScore, final Score rightScore) {
 		Score newScore = new Score(
 				Points.plus(leftScore.getStockScore(),rightScore.getStockScore()),
 				Points.plus(leftScore.getRoemScore(),rightScore.getRoemScore()));
-		newScore.wets = leftScore.wets + rightScore.wets;
 		return newScore;
 	}
 
@@ -84,8 +73,7 @@ public class Score {
 	@Override
 	public String toString() {
 		return "Score [Total: "+this.getTotalScore()+", Stock: " +
-			this.getStockScore() +", Roem: " + this.getRoemScore() +
-			", Wets: " + this.getWets() + "]";
+			this.getStockScore() +", Roem: " + this.getRoemScore() + "]";
 	}
 
 }

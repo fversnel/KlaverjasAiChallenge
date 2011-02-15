@@ -77,7 +77,6 @@ public class AccumulateScore extends RoundAction {
 		// If we get wet:
 		else if(team.hasPlayer(this.trumpPlayer) && Score.isWet(teamScore, otherTeamScore)) {
 			newTeamScore = new Score();
-			newTeamScore.incrementWets();
 
 			this.logger.debug("--- " + team + " goes wet! OMG!!!");
 		}

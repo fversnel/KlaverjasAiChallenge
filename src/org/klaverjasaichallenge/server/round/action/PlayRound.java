@@ -66,8 +66,8 @@ public class PlayRound extends RoundAction {
 			try {
 				this.playCard(trick, currentPlayer, cardPlayed);
 			} catch (CheatException cheatException) {
-				// TODO Do not print an error here, but punish!
-				this.logger.info(cheatException.getMessage());
+				this.logger.error(cheatException.getMessage());
+				throw new RuntimeException();
 			}
 
 			this.logger.debug("--- " + currentPlayer + " played " + cardPlayed);
