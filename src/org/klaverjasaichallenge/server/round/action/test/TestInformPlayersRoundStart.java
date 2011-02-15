@@ -1,9 +1,10 @@
-package org.klaverjasaichallenge.server.round.action;
+package org.klaverjasaichallenge.server.round.action.test;
 
 import static org.mockito.Mockito.*;
 
 import org.junit.*;
 
+import org.klaverjasaichallenge.server.round.action.*;
 import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
 

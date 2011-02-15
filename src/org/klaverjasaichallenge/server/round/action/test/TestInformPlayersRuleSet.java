@@ -1,8 +1,9 @@
-package org.klaverjasaichallenge.server.round.action;
+package org.klaverjasaichallenge.server.round.action.test;
 
 import org.junit.*;
 import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.RuleSet;
+import org.klaverjasaichallenge.server.round.action.*;
 
 import static org.mockito.Mockito.*;
 

@@ -1,4 +1,3 @@
-
 package org.klaverjasaichallenge.shared.card.test;
 
 import static org.junit.Assert.*;

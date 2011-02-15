@@ -4,7 +4,7 @@ import org.klaverjasaichallenge.server.Table;
 import org.klaverjasaichallenge.server.Team;
 import org.klaverjasaichallenge.shared.Player;
 
-class InformPlayersRoundStart extends RoundAction {
+public class InformPlayersRoundStart extends RoundAction {
 
 	public InformPlayersRoundStart(final RoundData roundData) {
 		super(roundData);

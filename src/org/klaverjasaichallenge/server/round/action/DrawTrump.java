@@ -12,7 +12,7 @@ import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
 import org.klaverjasaichallenge.shared.Order;
 
-class DrawTrump extends RoundAction {
+public class DrawTrump extends RoundAction {
 	private static final int FORCED_PLAY_ON_TRUMP = 1;
 
 	private final Logger logger;

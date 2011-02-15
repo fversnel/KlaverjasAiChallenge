@@ -1,4 +1,4 @@
-package org.klaverjasaichallenge.server.round.action;
+package org.klaverjasaichallenge.server.round.action.test;
 
 import static org.mockito.Mockito.*;
 
@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.klaverjasaichallenge.ai.StupidButLegalAI;
 import org.klaverjasaichallenge.server.Table;
+import org.klaverjasaichallenge.server.round.action.*;
 import org.klaverjasaichallenge.server.Team;
 import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.RotterdamRuleSet;

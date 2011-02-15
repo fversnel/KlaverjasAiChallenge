@@ -4,7 +4,7 @@ import org.klaverjasaichallenge.server.round.Deck;
 import org.klaverjasaichallenge.server.round.Hand;
 import org.klaverjasaichallenge.shared.Player;
 
-class DealCards extends RoundAction {
+public class DealCards extends RoundAction {
 
 	public DealCards(final RoundData roundData) {
 		super(roundData);

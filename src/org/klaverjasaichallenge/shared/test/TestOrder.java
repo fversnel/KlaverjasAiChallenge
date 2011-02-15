@@ -1,4 +1,3 @@
-
 package org.klaverjasaichallenge.shared.test;
 
 import static org.junit.Assert.*;
@@ -21,7 +20,7 @@ public class TestOrder {
 
 		Order.sort(actualOrders);
 
-		int actual = actualOrders.get(0).getOrder();	
+		int actual = actualOrders.get(0).getOrder();
 		int expected = 1;
 		assertEquals(expected, actual);
 

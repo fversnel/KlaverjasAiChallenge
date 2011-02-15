@@ -1,4 +1,4 @@
-package org.klaverjasaichallenge.server.round.action;
+package org.klaverjasaichallenge.server.round.action.test;
 
 import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
@@ -9,6 +9,7 @@ import org.klaverjasaichallenge.shared.Trick;
 import org.klaverjasaichallenge.shared.Order;
 import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
+import org.klaverjasaichallenge.server.round.action.*;
 
 public class TestPlayRound {
 	private SampleRoundData testData;

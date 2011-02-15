@@ -14,7 +14,7 @@ import org.klaverjasaichallenge.server.Table;
 import org.klaverjasaichallenge.server.score.Score;
 import org.klaverjasaichallenge.shared.RuleSet;
 
-class PlayRound extends RoundAction {
+public class PlayRound extends RoundAction {
 	private final Logger logger;
 
 	public PlayRound(final RoundData roundData) {

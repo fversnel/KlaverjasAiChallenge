@@ -15,7 +15,7 @@ import org.klaverjasaichallenge.shared.Points;
 /**
  * Accumulates the score players have amassed this Round.
  */
-class AccumulateScore extends RoundAction {
+public class AccumulateScore extends RoundAction {
 	private static final RoundAction NO_NEXT_ACTION = null;
 
 	private final Table table;

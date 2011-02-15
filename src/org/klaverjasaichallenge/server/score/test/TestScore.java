@@ -1,4 +1,3 @@
-
 package org.klaverjasaichallenge.server.score.test;
 
 import static org.junit.Assert.*;
