@@ -1,12 +1,12 @@
 package org.klaverjasaichallenge.shared;
 
 public class Points {
-	private static final int DEFAULT_AMOUNT_POINTS = 0;
+	private static final int DEFAULT_POINTS = 0;
 
 	private int points;
 
 	public Points() {
-		this.points = DEFAULT_AMOUNT_POINTS;
+		this.points = DEFAULT_POINTS;
 	}
 
 	public Points(final int points) {
@@ -43,7 +43,7 @@ public class Points {
 
 	@Override
 	public String toString() {
-		return Integer.toString(this.getPoints());
+		return Integer.toString(this.getPoints()) + " points";
 	}
 
 }

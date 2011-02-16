@@ -44,10 +44,9 @@ public class Score {
 	}
 
 	public static Score plus(final Score leftScore, final Score rightScore) {
-		Score newScore = new Score(
+		return new Score(
 				Points.plus(leftScore.getStockScore(),rightScore.getStockScore()),
 				Points.plus(leftScore.getRoemScore(),rightScore.getRoemScore()));
-		return newScore;
 	}
 
 	public static boolean totalScorebiggerThan(final Score leftHandSide, final

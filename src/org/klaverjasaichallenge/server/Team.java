@@ -1,6 +1,3 @@
-/**
- *
- */
 package org.klaverjasaichallenge.server;
 
 import java.util.ArrayList;

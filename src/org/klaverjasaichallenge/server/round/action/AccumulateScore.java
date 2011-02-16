@@ -35,14 +35,26 @@ public class AccumulateScore extends RoundAction {
 	@Override
 	public RoundAction execute() {
 		List<Team> teams = this.table.getTeams();
+		this.accumlateTrickScores(teams);
+		this.determineRoundScores(teams);
+
+		return NO_NEXT_ACTION;
+	}
+
+	private void accumlateTrickScores(final List<Team> teams) {
 		for(final Team team : teams) {
 			Score teamScore = this.accumlateTrickScore(team);
+			this.roundData.addRoundScore(team, teamScore);
+		}
+	}
+
+	private void determineRoundScores(final List<Team> teams) {
+		for(final Team team : teams) {
+			Score teamScore = this.roundData.getRoundScore(team);
 			teamScore = this.accumlateWetScore(team, teamScore);
 			teamScore = this.accumlateMarchScore(team, teamScore);
 			this.roundData.addRoundScore(team, teamScore);
 		}
-
-		return NO_NEXT_ACTION;
 	}
 
 	private Score accumlateTrickScore(final Team team) {
@@ -85,16 +97,16 @@ public class AccumulateScore extends RoundAction {
 	}
 
 	private Score accumlateMarchScore(final Team team, final Score teamScore) {
-		Score newScore = teamScore;
+		Score newTeamScore = teamScore;
 
 		if(team.hasPlayer(this.trumpPlayer) && Score.isMarching(teamScore)) {
-			newScore = new Score(teamScore.getStockScore(), Points.plus(
+			newTeamScore = new Score(teamScore.getStockScore(), Points.plus(
 						teamScore.getRoemScore(), Score.MARCH_POINTS));
 
 			this.logger.debug("--- " + team + " goes marching.");
 		}
 
-		return newScore;
+		return newTeamScore;
 	}
 
 }

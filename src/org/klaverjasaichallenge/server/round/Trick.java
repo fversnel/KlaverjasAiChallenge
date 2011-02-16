@@ -36,6 +36,9 @@ public class Trick {
 	}
 
 	public void addCard(final Player player, final Card cardPlayed) {
+		assert(this.cards.get(player) == null) : player + "is not allowed to play a card in this trick, " +
+				"because he already did.";
+
 		this.cards.put(cardPlayed, player);
 
 		if(this.cards.size() == FIRST_ADDED_CARD) {
@@ -84,7 +87,8 @@ public class Trick {
 	 * @return null if there is no card played yet.
 	 */
 	public Player getWinner() {
-		assert(!this.cards.keySet().isEmpty()) : "If no cards are played yet, no winner can be determined yet.";
+		assert(this.cards.keySet().size() == TOTAL_CARDS) : "Cannot determine a winner " +
+												   "if a trick is not fully played yet.";
 
 		final Card highestCard = Card.max(this.trump, this.leadingSuit, new LinkedList<Card>(this.cards.keySet()));
 		return this.cards.get(highestCard);

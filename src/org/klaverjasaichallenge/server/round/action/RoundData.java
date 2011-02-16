@@ -36,6 +36,10 @@ public class RoundData {
 		return this.table;
 	}
 
+	public List<Team> getTeams() {
+		return this.table.getTeams();
+	}
+
 	public Suit getTrump() {
 		return this.trump;
 	}

@@ -10,20 +10,21 @@ import org.klaverjasaichallenge.shared.Order;
 import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
 import org.klaverjasaichallenge.server.round.action.*;
+import org.klaverjasaichallenge.server.score.Score;
+import org.klaverjasaichallenge.shared.Points;
+import org.klaverjasaichallenge.server.Team;
 
-/**
- * TODO Implement tests for accumulating scores.
- */
 public class TestAccumulateScore {
 	private SampleRoundData testData;
+	private RoundData roundData;
 
 	@Before
 	public void setUp() {
 		this.testData = new SampleRoundData();
 
-		RoundData roundData = this.testData.getRoundData();
-		roundData.setTrump(mock(Suit.class));
-		roundData.setTrumpPlayer(this.testData.getPlayerOne());
+		this.roundData = this.testData.getRoundData();
+		this.roundData.setTrump(mock(Suit.class));
+		this.roundData.setTrumpPlayer(this.testData.getPlayerOne());
 
 		new InformPlayersRuleSet(roundData).execute();
 		new DealCards(roundData).execute();
@@ -33,12 +34,16 @@ public class TestAccumulateScore {
 		accumulateScore.execute();
 	}
 
-	/**
-	 * TODO Implement test.
-	 */
 	@Test
-	public void testMarching() {
+	public void testScoreBothTeams() {
+		Score scoreBothTeams = new Score();
+		for(final Team team : this.roundData.getTeams()) {
+			Score teamScore = this.roundData.getRoundScore(team);
+			scoreBothTeams = Score.plus(scoreBothTeams, teamScore);
+		}
 
+		Points stockScoreBothTeams = scoreBothTeams.getStockScore();
+		assertTrue(stockScoreBothTeams.equals(Score.MAXIMUM_STOCK_SCORE));
 	}
 
 }
