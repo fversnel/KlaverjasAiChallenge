@@ -81,11 +81,12 @@ public class AccumulateScore extends RoundAction {
 			this.logger.debug("--- " + team + " goes wet! OMG!!!");
 		}
 
-		return teamScore;
+		return newTeamScore;
 	}
 
 	private Score accumlateMarchScore(final Team team, final Score teamScore) {
 		Score newScore = teamScore;
+
 		if(team.hasPlayer(this.trumpPlayer) && Score.isMarching(teamScore)) {
 			newScore = new Score(teamScore.getStockScore(), Points.plus(
 						teamScore.getRoemScore(), Score.MARCH_POINTS));
