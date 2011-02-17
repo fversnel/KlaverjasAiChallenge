@@ -135,8 +135,8 @@
       <!-- Enable assertions -->
       <jvmarg value ="-ea"/>
 
-      <arg value="JoostAI"/>
-      <arg value="PipoAI"/>
+      <arg value="org.klaverjasaichallenge.ai.JoostAI"/>
+      <arg value="org.klaverjasaichallenge.ai.PipoAI"/>
       <arg value="10"/>
       <classpath>
         <path refid="project.class.path" />

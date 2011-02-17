@@ -1,3 +1,6 @@
+/**
+ *
+ */
 package org.klaverjasaichallenge.shared.card;
 
 import java.util.List;

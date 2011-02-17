@@ -22,11 +22,10 @@ class RoemScore {
 
 	public static Points calculateScore(final Trick trick) {
 		Points score = new Points();
-		Suit trump = trick.getTrump();
 
 		score = Points.plus(score, calculateFourCardsSameRankScore(trick));
 		score = Points.plus(score, calculateConsecutiveCardsScore(trick));
-		score = Points.plus(score, calculateStukScore(trick, trump));
+		score = Points.plus(score, calculateStukScore(trick, trick.getTrump()));
 
 		return score;
 	}

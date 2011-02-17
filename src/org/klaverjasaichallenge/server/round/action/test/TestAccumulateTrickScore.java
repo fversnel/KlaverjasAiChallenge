@@ -13,8 +13,9 @@ import org.klaverjasaichallenge.server.round.action.*;
 import org.klaverjasaichallenge.server.score.Score;
 import org.klaverjasaichallenge.shared.Points;
 import org.klaverjasaichallenge.server.Team;
+import org.klaverjasaichallenge.shared.card.suit.*;
 
-public class TestAccumulateScore {
+public class TestAccumulateTrickScore {
 	private SampleRoundData testData;
 	private RoundData roundData;
 
@@ -23,14 +24,14 @@ public class TestAccumulateScore {
 		this.testData = new SampleRoundData();
 
 		this.roundData = this.testData.getRoundData();
-		this.roundData.setTrump(mock(Suit.class));
+		this.roundData.setTrump(new Hearts());
 		this.roundData.setTrumpPlayer(this.testData.getPlayerOne());
 
 		new InformPlayersRuleSet(roundData).execute();
 		new DealCards(roundData).execute();
 		new PlayRound(roundData).execute();
 
-		RoundAction accumulateScore = new AccumulateScore(roundData);
+		RoundAction accumulateScore = new AccumulateTrickScore(roundData);
 		accumulateScore.execute();
 	}
 
@@ -39,6 +40,7 @@ public class TestAccumulateScore {
 		Score scoreBothTeams = new Score();
 		for(final Team team : this.roundData.getTeams()) {
 			Score teamScore = this.roundData.getRoundScore(team);
+			System.out.println(team + " " +teamScore);
 			scoreBothTeams = Score.plus(scoreBothTeams, teamScore);
 		}
 

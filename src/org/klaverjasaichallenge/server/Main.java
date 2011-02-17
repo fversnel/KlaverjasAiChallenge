@@ -8,9 +8,6 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
 
-// Import AI's.
-import org.klaverjasaichallenge.ai.*;
-
 // Import the necessary klaverjas classes to get started.
 import org.klaverjasaichallenge.server.score.Score;
 import org.klaverjasaichallenge.server.round.Round;
@@ -20,12 +17,11 @@ import org.klaverjasaichallenge.shared.RotterdamRuleSet;
 import org.klaverjasaichallenge.shared.RuleSet;
 
 /**
- * @author Joost
  *
+ * @author Joost
  */
 public class Main {
 	private final static int TEAM_SIZE = 2;
-	private final static String AI_PACKAGE_NAME = "org.klaverjasaichallenge.ai.";
 
 	private final static Logger logger = Logger.getLogger(Main.class.getName());
 
@@ -34,19 +30,20 @@ public class Main {
 
 	public static void main(String[] args) {
 		initializeLogger(Level.DEBUG);
-		System.setSecurityManager(initializeSecurityManager());
+
+		System.setSecurityManager(new SecurityManager());
 
 		if(args.length == 3){
-			String firstAI = args[0];
-			String secondAI = args[1];
-			int numberOfGames = Integer.valueOf(args[2]);
+			final String firstAI = args[0];
+			final String secondAI = args[1];
+			final int numberOfGames = Integer.valueOf(args[2]);
 
 			if(numberOfGames <= 0) {
 				throw new RuntimeException("Number of games has to be higher than 0");
 			}
 
-			Team team1 = createTeam(AI_PACKAGE_NAME + firstAI);
-			Team team2 = createTeam(AI_PACKAGE_NAME + secondAI);
+			final Team team1 = createTeam(firstAI);
+			final Team team2 = createTeam(secondAI);
 
 			play(team1, team2, numberOfGames, new RotterdamRuleSet());
 
@@ -114,10 +111,6 @@ public class Main {
 		logger.setLevel(level);
 	}
 
-	private static SecurityManager initializeSecurityManager() {
-		return new SecurityManager();
-	}
-
 	private static void printHelpMessage() {
 		System.out.println("The program takes these arguments:\n" +
 				"1st argument: name of the first AI\n"+
@@ -132,20 +125,20 @@ public class Main {
 		try {
 			for(int i = 0; i < TEAM_SIZE; i++) {
 				Class<Player> newPlayer = (Class<Player>) Class.forName(aiName);
-				try {
-					team = new Team(newPlayer.newInstance(), newPlayer.newInstance());
-				} catch (InstantiationException e) {
-					logger.error("Unable to instantiate AI " + aiName, e);
-					throw new RuntimeException();
-				} catch (IllegalAccessException e) {
-					logger.error("Illegal access to " + aiName, e);
-					throw new RuntimeException();
-				}
+				team = new Team(newPlayer.newInstance(), newPlayer.newInstance());
 			}
+		} catch (InstantiationException e) {
+			logger.error("Unable to instantiate AI " + aiName, e);
+			throw new RuntimeException();
+		} catch (IllegalAccessException e) {
+			logger.error("Illegal access to " + aiName, e);
+			throw new RuntimeException();
 		} catch (ClassNotFoundException e) {
 			logger.error("AI " + aiName + " not found", e);
 			throw new RuntimeException();
 		}
+
 		return team;
 	}
+
 }

@@ -36,9 +36,6 @@ public class Trick {
 	}
 
 	public void addCard(final Player player, final Card cardPlayed) {
-		assert(this.cards.get(player) == null) : player + "is not allowed to play a card in this trick, " +
-				"because he already did.";
-
 		this.cards.put(cardPlayed, player);
 
 		if(this.cards.size() == FIRST_ADDED_CARD) {
@@ -101,11 +98,12 @@ public class Trick {
 		Card highestTrumpCard = Card.highestTrump(this.trump,
 				new ArrayList<Card>(this.cards.keySet()));
 
+		Rank highestTrump = null;
 		if(highestTrumpCard != null) {
-			return highestTrumpCard.getRank();
+			highestTrump = highestTrumpCard.getRank();
 		}
 
-		return null;
+		return highestTrump;
 	}
 
 }

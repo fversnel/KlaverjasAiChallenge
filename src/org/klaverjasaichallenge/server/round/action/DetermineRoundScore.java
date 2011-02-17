@@ -15,7 +15,7 @@ import org.klaverjasaichallenge.shared.Points;
 /**
  * Accumulates the score players have amassed this Round.
  */
-public class AccumulateScore extends RoundAction {
+public class DetermineRoundScore extends RoundAction {
 	private static final RoundAction NO_NEXT_ACTION = null;
 
 	private final Table table;
@@ -23,57 +23,29 @@ public class AccumulateScore extends RoundAction {
 
 	private final Logger logger;
 
-	public AccumulateScore(final RoundData roundData) {
+	public DetermineRoundScore(final RoundData roundData) {
 		super(roundData);
 
 		this.table = this.roundData.getTable();
 		this.trumpPlayer = this.roundData.getTrumpPlayer();
 
-		this.logger = Logger.getLogger(AccumulateScore.class);
+		this.logger = Logger.getLogger(this.getClass());
 	}
 
 	@Override
 	public RoundAction execute() {
 		List<Team> teams = this.table.getTeams();
-		this.accumlateTrickScores(teams);
-		this.determineRoundScores(teams);
+		for(final Team team : teams) {
+			Score teamScore = this.roundData.getRoundScore(team);
+			teamScore = this.determineWetScore(team, teamScore);
+			teamScore = this.accumlateMarchScore(team, teamScore);
+			this.roundData.addRoundScore(team, teamScore);
+		}
 
 		return NO_NEXT_ACTION;
 	}
 
-	private void accumlateTrickScores(final List<Team> teams) {
-		for(final Team team : teams) {
-			Score teamScore = this.accumlateTrickScore(team);
-			this.roundData.addRoundScore(team, teamScore);
-		}
-	}
-
-	private void determineRoundScores(final List<Team> teams) {
-		for(final Team team : teams) {
-			Score teamScore = this.roundData.getRoundScore(team);
-			teamScore = this.accumlateWetScore(team, teamScore);
-			teamScore = this.accumlateMarchScore(team, teamScore);
-			this.roundData.addRoundScore(team, teamScore);
-		}
-	}
-
-	private Score accumlateTrickScore(final Team team) {
-		Score roundScore = new Score();
-		List<Trick> playedTricks = this.roundData.getTricksPlayed();
-		for(Trick playedTrick : playedTricks) {
-			final Player winningPlayer = playedTrick.getWinner();
-			final Team winningTeam = table.getTeamFromPlayer(winningPlayer);
-
-			if(team.equals(winningTeam)) {
-				final Score trickScore = playedTrick.getScore();
-				roundScore = Score.plus(roundScore, trickScore);
-			}
-		}
-
-		return roundScore;
-	}
-
-	private Score accumlateWetScore(final Team team, final Score teamScore) {
+	private Score determineWetScore(final Team team, final Score teamScore) {
 		Score newTeamScore = teamScore;
 
 		Team otherTeam = table.getOtherTeam(team);
