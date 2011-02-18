@@ -11,6 +11,10 @@ import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
 import org.klaverjasaichallenge.shared.Order;
 
+/**
+ * Drawing trump is the process of choosing which player plays and on which
+ * trump.
+ */
 public class DrawTrump extends RoundAction {
 	private static final int FORCED_PLAY_ON_TRUMP = 1;
 
@@ -23,13 +27,7 @@ public class DrawTrump extends RoundAction {
 		this(roundData, Card.getSuits());
 	}
 
-	/**
-	 * Drawing trump is the process of choosing which player plays and on which
-	 * trump.
-	 */
 	public RoundAction execute() {
-		RoundAction nexAction = new DrawTrump(this.roundData, this.availableTrumps);
-
 		int playerIndex = 0;
 		for(Player player : this.roundData.getTable()) {
 			// Start the round if the player wants to go on the trump.
@@ -41,13 +39,13 @@ public class DrawTrump extends RoundAction {
 				this.logger.debug(player + " goes on " +
 						this.trumpDrawn);
 
-				nexAction = new InformPlayersRoundStart(this.roundData);
+				return new InformPlayersRoundStart(this.roundData);
 			}
 
 			playerIndex++;
 		}
 
-		return nexAction;
+		return new DrawTrump(this.roundData, this.availableTrumps);
 	}
 
 	private DrawTrump(final RoundData roundData, final List<Suit> availableTrumps) {
