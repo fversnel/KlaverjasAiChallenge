@@ -9,8 +9,7 @@ import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
 
 public class TestInformPlayersRoundStart {
-	private SampleRoundData
-	testData;
+	private SampleRoundData testData;
 
 	@Before
 	public void setUp() {
