@@ -1,13 +1,10 @@
 package org.klaverjasaichallenge.server.round.action;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.klaverjasaichallenge.server.Table;
 import org.klaverjasaichallenge.server.Team;
-import org.klaverjasaichallenge.server.round.Trick;
 import org.klaverjasaichallenge.server.score.Score;
 import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.Points;
@@ -48,7 +45,7 @@ public class DetermineRoundScore extends RoundAction {
 	private Score determineWetScore(final Team team, final Score teamScore) {
 		Score newTeamScore = teamScore;
 
-		Team otherTeam = table.getOtherTeam(team);
+		Team otherTeam = this.table.getOtherTeam(team);
 		Score otherTeamScore = this.roundData.getRoundScore(otherTeam);
 		// If the other team gets wet:
 		if(otherTeam.hasPlayer(this.trumpPlayer) && Score.isWet(otherTeamScore, teamScore)) {

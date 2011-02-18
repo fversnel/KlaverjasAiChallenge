@@ -11,7 +11,6 @@ import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.Order;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
 import org.klaverjasaichallenge.server.Table;
-import org.klaverjasaichallenge.server.score.Score;
 import org.klaverjasaichallenge.shared.RuleSet;
 
 public class PlayRound extends RoundAction {

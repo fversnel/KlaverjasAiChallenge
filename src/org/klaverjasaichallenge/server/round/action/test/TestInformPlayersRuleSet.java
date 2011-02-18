@@ -16,9 +16,8 @@ public class TestInformPlayersRuleSet {
 	}
 
 	/**
-	 * Verify that on each player the method giveRuleSet() is called.
-	 *
- 	 * TODO Method reference needs a link statement. Find out how this works.
+	 * Verify that on each player the method {@link Player#giveRuleSet(RuleSet)} 
+	 * is called.
 	 */
 	@Test
 	public void verifyGiveRuleSet() {

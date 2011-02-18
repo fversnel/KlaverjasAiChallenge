@@ -10,7 +10,6 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import org.klaverjasaichallenge.shared.Player;
-import org.klaverjasaichallenge.shared.Order;
 
 public class Table implements Iterable<Player> {
 	private final List<Team> teams;
@@ -24,12 +23,12 @@ public class Table implements Iterable<Player> {
 		this.playerPositions = this.initializePlayerPositions(teamOne, teamTwo);
 
 		this.roundStarter = teamOne.getFirstPlayer();
-		this.trickStarter = roundStarter;
+		this.trickStarter = this.roundStarter;
 	}
 
+	@Override
 	public Iterator<Player> iterator() {
-		return new PlayerIterator(this.playerPositions,
-				this.trickStarter);
+		return new PlayerIterator(this.trickStarter);
 	}
 
 	/**
@@ -41,7 +40,7 @@ public class Table implements Iterable<Player> {
 	}
 
 	public void nextRound() {
-		this.roundStarter = new PlayerIterator(this.playerPositions, this.roundStarter).
+		this.roundStarter = new PlayerIterator(this.roundStarter).
 				getNextPlayer(this.roundStarter);
 		this.trickStarter = this.roundStarter;
 	}
@@ -72,6 +71,7 @@ public class Table implements Iterable<Player> {
 		return this.getTeam(player, true);
 	}
 
+	@Override
 	public String toString() {
 		String newString = new String();
 		for(Player player : this) {
@@ -117,47 +117,46 @@ public class Table implements Iterable<Player> {
 		return positions;
 	}
 
-	private class PlayerIterator implements Iterator {
+	private class PlayerIterator implements Iterator<Player> {
 		private final int playerCount;
 		private int playerIteration;
 
-		private final List<Player> playerPositions;
 		private Player activePlayer;
 
-		public PlayerIterator(final List<Player> playerPositions, final Player activePlayer) {
-			assert(playerPositions.contains(activePlayer)) : "The table does not contain the currently active player.";
-
+		public PlayerIterator(final Player activePlayer) {
 			this.activePlayer = activePlayer;
-			this.playerPositions = playerPositions;
 
-			this.playerCount = this.playerPositions.size();
+			this.playerCount = Table.this.playerPositions.size();
 			this.playerIteration = 0;
 		}
 
+		@Override
 		public Player next() {
-			if(playerIteration == playerCount) {
+			if(this.playerIteration == this.playerCount) {
 				throw new NoSuchElementException();
 			}
 
 			final Player currentPlayer = this.activePlayer;
 			this.activePlayer = this.getNextPlayer(this.activePlayer);
-			playerIteration++;
+			this.playerIteration++;
 
 			return currentPlayer;
 		}
 
+		@Override
 		public boolean hasNext() {
-			return playerIteration < playerCount;
+			return this.playerIteration < this.playerCount;
 		}
 
+		@Override
 		public void remove() {
-			this.playerPositions.remove(this.activePlayer);
+			Table.this.playerPositions.remove(this.activePlayer);
 		}
 
 		public Player getNextPlayer(final Player currentPlayer) {
-			final int currentPlayerIndex = this.playerPositions.indexOf(currentPlayer);
+			final int currentPlayerIndex = Table.this.playerPositions.indexOf(currentPlayer);
 			final int nextPlayerIndex = (currentPlayerIndex + 1) % this.playerCount;
-			return this.playerPositions.get(nextPlayerIndex);
+			return Table.this.playerPositions.get(nextPlayerIndex);
 		}
 
 	}

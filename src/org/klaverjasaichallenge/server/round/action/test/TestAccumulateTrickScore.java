@@ -1,14 +1,9 @@
 package org.klaverjasaichallenge.server.round.action.test;
 
-import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
 
 import org.junit.*;
 
-import org.klaverjasaichallenge.shared.Trick;
-import org.klaverjasaichallenge.shared.Order;
-import org.klaverjasaichallenge.shared.Player;
-import org.klaverjasaichallenge.shared.card.suit.Suit;
 import org.klaverjasaichallenge.server.round.action.*;
 import org.klaverjasaichallenge.server.score.Score;
 import org.klaverjasaichallenge.shared.Points;
@@ -24,14 +19,13 @@ public class TestAccumulateTrickScore {
 		this.testData = new SampleRoundData();
 
 		this.roundData = this.testData.getRoundData();
-		this.roundData.setTrump(new Hearts());
-		this.roundData.setTrumpPlayer(this.testData.getPlayerOne());
+		this.roundData.setTrump(this.testData.getPlayerOne(), new Hearts());
 
-		new InformPlayersRuleSet(roundData).execute();
-		new DealCards(roundData).execute();
-		new PlayRound(roundData).execute();
+		new InformPlayersRuleSet(this.roundData).execute();
+		new DealCards(this.roundData).execute();
+		new PlayRound(this.roundData).execute();
 
-		RoundAction accumulateScore = new AccumulateTrickScore(roundData);
+		RoundAction accumulateScore = new AccumulateTrickScore(this.roundData);
 		accumulateScore.execute();
 	}
 

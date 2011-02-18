@@ -17,8 +17,8 @@ public class TestInformPlayersRoundStart {
 		this.testData = new SampleRoundData();
 
 		RoundData roundData = this.testData.getRoundData();
-		roundData.setTrump(mock(Suit.class));
-		roundData.setTrumpPlayer(this.testData.getPlayerOne());
+		roundData.setTrump(this.testData.getPlayerOne(), mock(Suit.class));
+
 		RoundAction informPlayersRoundStart = new InformPlayersRoundStart(roundData);
 		informPlayersRoundStart.execute();
 	}

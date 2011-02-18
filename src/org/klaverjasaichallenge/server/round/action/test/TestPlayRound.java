@@ -19,8 +19,7 @@ public class TestPlayRound {
 		this.testData = new SampleRoundData();
 
 		RoundData roundData = this.testData.getRoundData();
-		roundData.setTrump(mock(Suit.class));
-		roundData.setTrumpPlayer(this.testData.getPlayerOne());
+		roundData.setTrump(this.testData.getPlayerOne(), mock(Suit.class));
 
 		new InformPlayersRuleSet(roundData).execute();
 		new DealCards(roundData).execute();

@@ -44,12 +44,9 @@ public class RoundData {
 		return this.trump;
 	}
 
-	public void setTrump(final Suit trump) {
-		this.trump = trump;
-	}
-
-	public void setTrumpPlayer(final Player trumpPlayer) {
+	public void setTrump(final Player trumpPlayer, final Suit trump) {
 		this.trumpPlayer = trumpPlayer;
+		this.trump = trump;
 	}
 
 	public Player getTrumpPlayer() {
