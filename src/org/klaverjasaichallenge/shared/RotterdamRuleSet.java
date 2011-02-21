@@ -17,17 +17,13 @@ import org.klaverjasaichallenge.shared.card.suit.Suit;
 public class RotterdamRuleSet extends RuleSet {
 	private static final int NUMBER_OF_ROUNDS = 16;
 
-	@Override
-	public boolean isLegalCard(final org.klaverjasaichallenge.server.round.Trick trick, final Card cardToCheck,
-			final List<Card> playerHand) {
-		return this.isLegalCard(new Trick(trick), cardToCheck, playerHand);
-	}
-
 	/**
 	 * @trick the trick on which the {@link cardToCheck} should be played.
 	 * @cardToCheck the card to be played.
 	 * @playerHand all cards that are currently in the player's hand,
 	 * including {@link cardToCheck}.
+	 *
+	 * @since 1.3
 	 */
 	@Override
 	public boolean isLegalCard(final Trick trick, final Card cardToCheck,
@@ -60,6 +56,16 @@ public class RotterdamRuleSet extends RuleSet {
 	@Override
 	public int getNumberOfRounds() {
 		return NUMBER_OF_ROUNDS;
+	}
+
+	/**
+	 * @since 1.2
+	 */
+	@Override
+	@Deprecated
+	public boolean isLegalCard(final Trick trick, final Card cardToCheck,
+			final Player player, final List<Card> playerHand, final Suit trump) {
+		return this.isLegalCard(trick, cardToCheck, playerHand);
 	}
 
 	protected boolean playsTrumpRight(final Trick trick,
