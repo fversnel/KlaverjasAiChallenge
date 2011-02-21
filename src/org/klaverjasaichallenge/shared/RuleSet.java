@@ -19,9 +19,6 @@ public abstract class RuleSet {
 	public abstract boolean isLegalCard(final Trick trick, final Card cardToCheck,
 			final List<Card> playerHand);
 
-	public abstract boolean isLegalCard(final org.klaverjasaichallenge.server.round.Trick trick, final Card cardToCheck,
-			final List<Card> playerHand);
-
 	public abstract int getNumberOfRounds();
 
 	/**
