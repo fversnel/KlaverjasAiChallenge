@@ -34,7 +34,7 @@ public class TestRotterdamRuleSet {
 		cardsInHand.add(cardToPlay);
 		cardsInHand.add(new Card(new Hearts(), new Jack()));
 
-		assertFalse(ruleSet.isLegalCard(trick, cardToPlay, cardsInHand));
+		assertFalse(this.ruleSet.isLegalCard(trick, cardToPlay, cardsInHand));
 	}
 
 	@Test
@@ -48,7 +48,7 @@ public class TestRotterdamRuleSet {
 		cardsInHand.add(cardToPlay);
 		cardsInHand.add(new Card(new Hearts(), new Jack()));
 
-		assertFalse(ruleSet.isLegalCard(trick, cardToPlay, cardsInHand));
+		assertFalse(this.ruleSet.isLegalCard(trick, cardToPlay, cardsInHand));
 	}
 
 	@Test
@@ -63,7 +63,7 @@ public class TestRotterdamRuleSet {
 		cardsInHand.add(new Card(new Diamonds(), new Jack()));
 		cardsInHand.add(new Card(new Diamonds(), new Ace()));
 
-		assertTrue(ruleSet.isLegalCard(trick, cardToPlay, cardsInHand));
+		assertTrue(this.ruleSet.isLegalCard(trick, cardToPlay, cardsInHand));
 	}
 
 	private Trick createMockTrick(final Suit leadingSuit, final Suit trump,
