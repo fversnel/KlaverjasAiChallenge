@@ -27,6 +27,7 @@ public class DrawTrump extends RoundAction {
 		this(roundData, Card.getSuits());
 	}
 
+	@Override
 	public RoundAction execute() {
 		int playerIndex = 0;
 		for(Player player : this.roundData.getTable()) {
@@ -52,11 +53,11 @@ public class DrawTrump extends RoundAction {
 		super(roundData);
 
 		this.availableTrumps = availableTrumps;
-		this.trumpDrawn = this.getRandomTrump();
+		Collections.shuffle(this.availableTrumps);
+		this.trumpDrawn = this.getAvailableTrump();
 	}
 
-	private Suit getRandomTrump() {
-		Collections.shuffle(this.availableTrumps);
+	private Suit getAvailableTrump() {
 		return this.availableTrumps.remove(0);
 	}
 

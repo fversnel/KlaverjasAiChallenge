@@ -1,5 +1,8 @@
 package org.klaverjasaichallenge.server.round.action.test;
 
+import java.util.List;
+
+import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
 import org.junit.*;
 
@@ -7,22 +10,29 @@ import org.klaverjasaichallenge.server.round.action.*;
 import org.klaverjasaichallenge.shared.Player;
 
 public class TestDealCards {
-	private SampleRoundData testData;
+	private RoundData roundData;
+
+	private RoundAction dealCardsAction;
 
 	@Before
 	public void setUp() {
-		this.testData = new SampleRoundData();
+		this.roundData = new SampleRoundData().getRoundData();
+
+		this.dealCardsAction = new DealCards(this.roundData);
+		this.dealCardsAction.execute();
 	}
 
 	@Test
 	public void testHandsExists() {
-		RoundData roundData = this.testData.getRoundData();
+		for(final Player player : this.roundData.getTable()) {
+			assertNotNull(this.roundData.getPlayersHand(player));
+		}
+	}
 
-		RoundAction dealCardsAction = new DealCards(roundData);
-		dealCardsAction.execute();
-
-		for(final Player player : roundData.getTable()) {
-			assertNotNull(roundData.getPlayersHand(player));
+	@Test
+	public void verifyGiveCards() {
+		for(final Player player : this.roundData.getTable()) {
+			verify(player).giveCards(any(List.class));
 		}
 	}
 

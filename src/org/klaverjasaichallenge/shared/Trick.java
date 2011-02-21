@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.klaverjasaichallenge.shared.card.Card;
-import org.klaverjasaichallenge.shared.card.rank.Rank;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
 
 public class Trick {
@@ -41,8 +40,12 @@ public class Trick {
 		return clientSideCards;
 	}
 
-	public Rank getHighestTrump() {
+	public Card getHighestTrump() {
 		return this.serverSideTrick.getHighestTrump();
+	}
+	
+	public Card getHighestCard() {
+		return this.serverSideTrick.getHighestCard();
 	}
 
 }

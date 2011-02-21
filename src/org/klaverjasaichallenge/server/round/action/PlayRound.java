@@ -1,5 +1,7 @@
 package org.klaverjasaichallenge.server.round.action;
 
+import java.util.List;
+
 // Import log4j classes.
 import org.apache.log4j.Logger;
 
@@ -24,12 +26,6 @@ public class PlayRound extends RoundAction {
 
 	@Override
 	public RoundAction execute() {
-		this.playTricks();
-
-		return new AccumulateTrickScore(this.roundData);
-	}
-
-	private void playTricks() {
 		Table table = this.roundData.getTable();
 		for (int trickId = 1; trickId <= Trick.COUNT; trickId++) {
 			Trick trick = this.createNewTrick(trickId);
@@ -44,6 +40,8 @@ public class PlayRound extends RoundAction {
 			this.logger.debug("--- Winner:  " + winner + " with " +
 					trick.getScore());
 		}
+
+		return new AccumulateTrickScore(this.roundData);
 	}
 
 	private Trick createNewTrick(final int trickId) {
@@ -86,17 +84,16 @@ public class PlayRound extends RoundAction {
 	 */
 	private void playCard(final Trick trick, final Player player,
 			final Card card) throws CheatException {
-		Hand playersHand = this.roundData.getPlayersHand(player);
-		if (playersHand.drawCard(card) == null) {
-			throw new CheatException("Player " + player + " played an invalid " +
-					" card. The card (" + card + ") is not in his hand.");
-		}
+		final Hand playersHand = this.roundData.getPlayersHand(player);
+		final List<Card> playersCards = playersHand.getCards();
 
 		RuleSet ruleSet = this.roundData.getRuleSet();
-		if(ruleSet.isLegalCard(trick, card, playersHand.getCards())) {
+		if(ruleSet.isLegalCard(trick, card, playersCards) &&
+				playersHand.drawCard(card) != null) {
 			trick.addCard(player, card);
 		} else {
-			throw new CheatException("Player " + player + " cheated.");
+			throw new CheatException("Player " + player + " cheated " +
+					"with " + card + " and hand " + playersHand.getCards());
 		}
 	}
 

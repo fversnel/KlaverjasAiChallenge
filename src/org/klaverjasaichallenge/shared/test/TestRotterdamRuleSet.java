@@ -1,0 +1,52 @@
+package org.klaverjasaichallenge.shared.test;
+
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
+
+import java.util.List;
+import java.util.LinkedList;
+
+import org.junit.*;
+
+import org.klaverjasaichallenge.shared.Trick;
+import org.klaverjasaichallenge.shared.RuleSet;
+import org.klaverjasaichallenge.shared.RotterdamRuleSet;
+import org.klaverjasaichallenge.shared.card.*;
+import org.klaverjasaichallenge.shared.card.suit.*;
+import org.klaverjasaichallenge.shared.card.rank.*;
+
+public class TestRotterdamRuleSet {
+	RuleSet ruleSet;
+
+	@Before
+	public void setUp() {
+		this.ruleSet = new RotterdamRuleSet();
+	}
+
+	@Test
+	public void testIfUnderTrumping() {
+		Card trickCard = new Card(new Hearts(), new Queen());
+		Trick trick = this.createMockTrick(new Hearts(), new Hearts(),
+				trickCard, trickCard);
+
+		Card cardToPlay = new Card(new Hearts(), new Seven());
+		List<Card> cardsInHand = new LinkedList<Card>();
+		cardsInHand.add(cardToPlay);
+		cardsInHand.add(new Card(new Hearts(), new Jack()));
+
+		assertFalse(ruleSet.isLegalCard(trick, cardToPlay, cardsInHand));
+	}
+
+	private Trick createMockTrick(final Suit leadingSuit, final Suit trump,
+			final Card highestCard, final Card highestTrump) {
+		Trick trick = mock(Trick.class);
+		when(trick.getLeadingSuit()).thenReturn(leadingSuit);
+		when(trick.getTrump()).thenReturn(trump);
+
+		when(trick.getHighestCard()).thenReturn(highestCard);
+		when(trick.getHighestTrump()).thenReturn(highestTrump);
+
+		return trick;
+	}
+
+}

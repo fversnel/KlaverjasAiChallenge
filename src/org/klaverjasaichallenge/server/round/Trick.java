@@ -1,7 +1,6 @@
 
 package org.klaverjasaichallenge.server.round;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Map;
@@ -11,7 +10,6 @@ import org.klaverjasaichallenge.server.score.Score;
 import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.Points;
 import org.klaverjasaichallenge.shared.card.Card;
-import org.klaverjasaichallenge.shared.card.rank.Rank;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
 
 public class Trick {
@@ -87,23 +85,22 @@ public class Trick {
 		assert(this.cards.keySet().size() == TOTAL_CARDS) : "Cannot determine a winner " +
 												   "if a trick is not fully played yet.";
 
-		final Card highestCard = Card.max(this.trump, this.leadingSuit, new LinkedList<Card>(this.cards.keySet()));
+		final Card highestCard = Card.max(this.trump, this.leadingSuit, new
+				LinkedList<Card>(this.cards.keySet()));
 		return this.cards.get(highestCard);
 	}
 
 	/**
 	 * @return the highest trump or null if there is no trump on the table.
 	 */
-	public Rank getHighestTrump() {
-		Card highestTrumpCard = Card.highestTrump(this.trump,
-				new ArrayList<Card>(this.cards.keySet()));
+	public Card getHighestTrump() {
+		return Card.highestTrump(this.trump,
+				new LinkedList<Card>(this.cards.keySet()));
+	}
 
-		Rank highestTrump = null;
-		if(highestTrumpCard != null) {
-			highestTrump = highestTrumpCard.getRank();
-		}
-
-		return highestTrump;
+	public Card getHighestCard() {
+		return Card.max(this.trump, this.leadingSuit, new
+				LinkedList<Card>(this.cards.keySet()));
 	}
 
 }
