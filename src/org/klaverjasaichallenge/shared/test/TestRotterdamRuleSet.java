@@ -24,12 +24,26 @@ public class TestRotterdamRuleSet {
 	}
 
 	@Test
-	public void testIfUnderTrumping() {
+	public void testIfPlayerCanUnderTrump() {
 		Card trickCard = new Card(new Hearts(), new Queen());
 		Trick trick = this.createMockTrick(new Hearts(), new Hearts(),
 				trickCard, trickCard);
 
 		Card cardToPlay = new Card(new Hearts(), new Seven());
+		List<Card> cardsInHand = new LinkedList<Card>();
+		cardsInHand.add(cardToPlay);
+		cardsInHand.add(new Card(new Hearts(), new Jack()));
+
+		assertFalse(ruleSet.isLegalCard(trick, cardToPlay, cardsInHand));
+	}
+
+	@Test
+	public void testIfPlayerFollowsLeadingSuit() {
+		Card trickCard = new Card(new Hearts(), new Queen());
+		Trick trick = this.createMockTrick(new Hearts(), new Spades(),
+				trickCard, null);
+
+		Card cardToPlay = new Card(new Spades(), new Seven());
 		List<Card> cardsInHand = new LinkedList<Card>();
 		cardsInHand.add(cardToPlay);
 		cardsInHand.add(new Card(new Hearts(), new Jack()));
