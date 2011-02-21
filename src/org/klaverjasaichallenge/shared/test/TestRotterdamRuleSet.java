@@ -51,6 +51,21 @@ public class TestRotterdamRuleSet {
 		assertFalse(ruleSet.isLegalCard(trick, cardToPlay, cardsInHand));
 	}
 
+	@Test
+	public void testIfPlayerCanPlayAnyCard() {
+		Card trickCard = new Card(new Hearts(), new Queen());
+		Trick trick = this.createMockTrick(new Hearts(), new Spades(),
+				trickCard, null);
+
+		Card cardToPlay = new Card(new Spades(), new Queen());
+		List<Card> cardsInHand = new LinkedList<Card>();
+		cardsInHand.add(cardToPlay);
+		cardsInHand.add(new Card(new Diamonds(), new Jack()));
+		cardsInHand.add(new Card(new Diamonds(), new Ace()));
+
+		assertTrue(ruleSet.isLegalCard(trick, cardToPlay, cardsInHand));
+	}
+
 	private Trick createMockTrick(final Suit leadingSuit, final Suit trump,
 			final Card highestCard, final Card highestTrump) {
 		Trick trick = mock(Trick.class);
