@@ -59,8 +59,6 @@ public class RotterdamRuleSet extends RuleSet {
 	}
 
 	/**
-	 * @deprecated too many arguments, only trick, cardToCheck and playerHand
-	 * are needed.
 	 * @since 1.2
 	 */
 	@Override
@@ -92,14 +90,16 @@ public class RotterdamRuleSet extends RuleSet {
 	private boolean playerCanOverTrump(final Trick trick,
 			final List<Card> playerHand) {
 		boolean result = true;
+
 		final Card highestTrumpTrick = trick.getHighestTrump();
 
-		if(highestTrumpTrick != null) {
-			final Suit trump = trick.getTrump();
-			final Suit leadingSuit = trick.getLeadingSuit();
-			final Card highestTrumpPlayer = Card.highestTrump(trump, playerHand);
-			result = highestTrumpPlayer != null &&
-				highestTrumpPlayer.isHigherThan(trump, leadingSuit, highestTrumpTrick);
+		final Suit trump = trick.getTrump();
+		final Suit leadingSuit = trick.getLeadingSuit();
+		final Card highestTrumpPlayer = Card.highestTrump(trump, playerHand);
+
+		if(highestTrumpTrick != null && highestTrumpPlayer != null) {
+			result = highestTrumpPlayer.isHigherThan(trump, leadingSuit,
+					highestTrumpTrick);
 		}
 
 		return result;

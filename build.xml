@@ -136,7 +136,7 @@
       <jvmarg value ="-ea"/>
 
       <arg value="org.klaverjasaichallenge.ai.PipoAI"/>
-      <arg value="org.klaverjasaichallenge.ai.JoostAI"/>
+      <arg value="org.klaverjasaichallenge.ai.StupidButLegalAI"/>
       <arg value="10"/>
       <classpath>
         <path refid="project.class.path" />

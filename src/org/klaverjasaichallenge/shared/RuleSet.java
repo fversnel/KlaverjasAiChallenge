@@ -17,9 +17,17 @@ import org.klaverjasaichallenge.shared.card.suit.Suit;
  */
 public abstract class RuleSet {
 
+	/**
+	 * @since 1.3
+	 */
 	public abstract boolean isLegalCard(final Trick trick, final Card cardToCheck,
 			final List<Card> playerHand);
 
+	/**
+	 * @deprecated too many arguments, only trick, cardToCheck and playerHand
+	 * are needed.
+	 * @since 1.2
+	 */
 	@Deprecated
 	public abstract boolean isLegalCard(final Trick trick, final Card cardToCheck,
 			final Player player, final List<Card> playerHand, final Suit trump);
