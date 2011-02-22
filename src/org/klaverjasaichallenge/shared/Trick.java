@@ -9,11 +9,11 @@ import org.klaverjasaichallenge.shared.card.suit.Suit;
 
 public class Trick {
 	public final static int COUNT =
-		org.klaverjasaichallenge.server.round.Trick.COUNT;
+		org.klaverjasaichallenge.engine.round.Trick.COUNT;
 
-	private org.klaverjasaichallenge.server.round.Trick serverSideTrick;
+	private org.klaverjasaichallenge.engine.round.Trick serverSideTrick;
 
-	public Trick(org.klaverjasaichallenge.server.round.Trick serverSideTrick) {
+	public Trick(org.klaverjasaichallenge.engine.round.Trick serverSideTrick) {
 		this.serverSideTrick = serverSideTrick;
 	}
 
