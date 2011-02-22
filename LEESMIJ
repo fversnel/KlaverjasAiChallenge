@@ -1,28 +1,32 @@
 (Note: the following information is in dutch, for an english version of this
-readme document you can open the README file.)
+document open the README file.)
 
-Wat betreft het schrijven van een klaverjas AI voor de klaverjasaichallenge
-app (website: http://code.google.com/p/klaverjasaichallenge/), hier wat
-nuttige informatie:
+KlaverjasAIChallenge is een game engine voor het spel klaverjas die het
+mogelijk maakt om verschillende AI's (Kunstmatige intelligentie) tegen elkaar
+te laten klaverjassen.
 
-- Je kunt de source code uitchecken door middel van svn: svn checkout
-  http://klaverjasaichallenge.googlecode.com/svn/trunk/
-klaverjasaichallenge-read-only
-- In de package src/org/klaverjasaichallange/ai staat een voorbeeld AI, zodat
-  je een kunt zien hoe het een beetje werkt.
-- De AI moet de KlaverJasAI interface implementeren.
-- De AI mag niet met z'n teammate communiceren over welke kaarten hij heeft etc.
-- De AI mag niet valsspelen, als ie dit wel doet dan zal de applicatie crashen
-  met een CheatException.
-- Alle AI's moeten worden gecompileerd als jar file en vervolgens in de lib
+Hier volgt nuttige informatie tot het programmeren van een Klaverjas AI:
+- Source code van het project kan uitgecheckt worden met Mercurial dmv het
+  volgende command:
+  hg clone https://klaverjasaichallenge.googlecode.com/hg/ klaverjasaichallenge
+- In de package src/org/klaverjasaichallange/ai staat een voorbeeld AI, om te
+  laten zien hoe een AI geimplementeerd zou kunnen worden.
+- De AI moet de KlaverJasAI interface implementeren (te vinden in de shared
+  package). 
+- De AI mag niet met z'n teammate communiceren over welke kaarten hij heeft
+  enzovoort.
+- De AI mag niet valsspelen, als dit wel gebeurt zal de engine crashen
+  met eend RuntimeException.
+- Alle AI's moeten worden gecompileerd als jar file en vervolgens in de lib/ai
   directory geplaatst worden.
-- De package shared bevat alle klassen die je in je AI mag gebruiken.
+- De package shared bevat alle klassen die je in je AI mag gebruiken. Deze
+  kan afzonderlijk van de rest van de klaverjas engine gecompileerd worden.
+  Ant zal dit standaard doen als onderdeel van de 'distribution' task.
 
-Nog wat handige links:
-http://nl.wikipedia.org/wiki/Klaverjassen
-http://en.wikipedia.org/wiki/Klaverjas
+Nog wat handige links over de spelregels van het Klaverjassen:
+- http://nl.wikipedia.org/wiki/Klaverjassen
 
-En een woordenlijst:
+Een begrippenlijst die van toepassing is op het spel:
 Trump = troef.
 Trick = slag. oftewel 4 kaarten, van iedere speler 1.
 Round = ronde. oftewel 8 tricks (slagen)

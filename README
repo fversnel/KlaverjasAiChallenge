@@ -1,24 +1,24 @@
 (Note: the following information is in english, for a dutch version of this
 document you can open the LEESMIJ file.)
 
+KlaverjasAIChallenge is a game engine for the dutch card game Klaverjas that
+lets AI's compete against each other in games of Klaverjas.
+
 To write an AI for the klaverjasaichallenge, the following information might
 be useful to you:
-
-- You can check out the source code of the app using svn: svn checkout
-  http://klaverjasaichallenge.googlecode.com/svn/trunk/
-  klaverjasaichallenge-read-only
+- Source code can be checked out using Mercurial:
+  hg clone https://klaverjasaichallenge.googlecode.com/hg/ klaverjasaichallenge
 - In package src/org/klaverjasaichallange/ai there is an example of a very
   simple AI to get you started.
 - The AI has to implement the KlaverJasAI interface.
 - The AI may not communicate with his teammate.
 - The AI may not cheat, but if he does the application will crash with a
-  CheatException.
+  RuntimeException.
 - The shared package provides useful (helper) classes for your AI.
 - Currently only the Rotterdam variation of klaverjas is implemented.
 
-Some useful links on the rules of Klaverjas.
-http://nl.wikipedia.org/wiki/Klaverjassen
-http://en.wikipedia.org/wiki/Klaverjas
+Some useful links on the rules of Klaverjas:
+- http://en.wikipedia.org/wiki/Klaverjas
 
 Glossary:
 Trump = the suit to rule all others.
