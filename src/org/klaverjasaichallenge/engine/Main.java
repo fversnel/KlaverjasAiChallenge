@@ -129,13 +129,13 @@ public class Main {
 			}
 		} catch (InstantiationException e) {
 			logger.error("Unable to instantiate AI " + aiName, e);
-			throw new RuntimeException();
+			throw new RuntimeException(e);
 		} catch (IllegalAccessException e) {
 			logger.error("Illegal access to " + aiName, e);
-			throw new RuntimeException();
+			throw new RuntimeException(e);
 		} catch (ClassNotFoundException e) {
 			logger.error("AI " + aiName + " not found", e);
-			throw new RuntimeException();
+			throw new RuntimeException(e);
 		}
 
 		return team;

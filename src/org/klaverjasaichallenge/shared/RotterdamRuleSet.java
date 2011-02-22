@@ -59,6 +59,8 @@ public class RotterdamRuleSet extends RuleSet {
 	}
 
 	/**
+	 * @deprecated too many arguments, only trick, cardToCheck and playerHand
+	 * are needed.
 	 * @since 1.2
 	 */
 	@Override
@@ -68,7 +70,7 @@ public class RotterdamRuleSet extends RuleSet {
 		return this.isLegalCard(trick, cardToCheck, playerHand);
 	}
 
-	protected boolean playsTrumpRight(final Trick trick,
+	private boolean playsTrumpRight(final Trick trick,
 			final List<Card> playerHand, final Card cardToCheck) {
 		boolean result = true;
 		final Suit trump = trick.getTrump();

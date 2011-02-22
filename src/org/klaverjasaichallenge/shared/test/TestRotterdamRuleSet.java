@@ -52,6 +52,21 @@ public class TestRotterdamRuleSet {
 	}
 
 	@Test
+	public void testIfPlayerHasToTrump() {
+		Card trickCard = new Card(new Hearts(), new Queen());
+		Trick trick = this.createMockTrick(new Hearts(), new Spades(),
+				trickCard, null);
+
+		Card cardToPlay = new Card(new Diamonds(), new Seven());
+		List<Card> cardsInHand = new LinkedList<Card>();
+		cardsInHand.add(cardToPlay);
+		cardsInHand.add(new Card(new Spades(), new Eight()));
+		cardsInHand.add(new Card(new Diamonds(), new Jack()));
+
+		assertFalse(this.ruleSet.isLegalCard(trick, cardToPlay, cardsInHand));
+	}
+
+	@Test
 	public void testIfPlayerCanPlayAnyCard() {
 		Card trickCard = new Card(new Hearts(), new Queen());
 		Trick trick = this.createMockTrick(new Hearts(), new Spades(),

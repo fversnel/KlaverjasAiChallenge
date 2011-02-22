@@ -59,12 +59,11 @@ public class PlayRound extends RoundAction {
 			final Card cardPlayed = currentPlayer.getCard(
 					new org.klaverjasaichallenge.shared.Trick(trick),
 					new Order(playerIndex));
-			// Check if the card is valid
 			try {
+				// Check if the card is valid
 				this.playCard(trick, currentPlayer, cardPlayed);
 			} catch (CheatException cheatException) {
-				this.logger.error(cheatException.getMessage());
-				throw new RuntimeException();
+				throw new RuntimeException(cheatException);
 			}
 
 			this.logger.debug("--- " + currentPlayer + " played " + cardPlayed);
