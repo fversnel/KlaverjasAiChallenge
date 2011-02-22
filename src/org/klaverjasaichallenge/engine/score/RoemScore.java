@@ -18,7 +18,7 @@ class RoemScore {
 	private static final Points STUK = new Points(20);
 
 	private static final Order FIRST_HIGH_CARD = new Order(4);
-	private static final Order JACK = new Jack().getRoemOrder();
+	private static final Order JACK_ORDER = new Jack().getRoemOrder();
 
 	public static Points calculateScore(final Trick trick) {
 		Points score = new Points();
@@ -48,7 +48,7 @@ class RoemScore {
 			}
 
 			if(fourCardsSameRank) {
-				if(cardOrder.equals(JACK)) {
+				if(cardOrder.equals(JACK_ORDER)) {
 					score = FOUR_JACKS;
 				} else {
 					score = FOUR_CARDS_SAME_RANK;
@@ -104,9 +104,9 @@ class RoemScore {
 			final Suit cardSuit = trickCard.getSuit();
 			final Rank cardRank = trickCard.getRank();
 			if(cardSuit.equals(trump)) {
-				if(cardRank instanceof Queen) {
+				if(cardRank.equals(new Queen())) {
 					queen = true;
-				} else if(cardRank instanceof King) {
+				} else if(cardRank.equals(new King())) {
 					king = true;
 				}
 			}

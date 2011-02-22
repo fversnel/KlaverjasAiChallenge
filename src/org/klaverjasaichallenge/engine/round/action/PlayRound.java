@@ -89,7 +89,7 @@ public class PlayRound extends RoundAction {
 		RuleSet ruleSet = this.roundData.getRuleSet();
 		if(ruleSet.isLegalCard(new org.klaverjasaichallenge.shared.Trick(trick),
 					card, playersCards)
-				&& playersHand.drawCard(card) != null) {
+				&& playersHand.drawCard(card)) {
 			trick.addCard(player, card);
 		} else {
 			throw new CheatException("Player " + player + " cheated " +

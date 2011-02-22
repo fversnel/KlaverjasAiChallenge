@@ -15,16 +15,11 @@ public class Hand {
 	}
 
 	/**
-	 * @return null if card is not in hand, otherwise return the requested
-	 * card.
+	 * @return true if the card was in is hand; false if it was not. If the
+	 * card was in his hand, it has been removed.
 	 */
-	public Card drawCard(final Card card) {
-		Card cardInHand = null;
-		if(this.cards.remove(card)) {
-			cardInHand = card;
-		}
-
-		return cardInHand;
+	public boolean drawCard(final Card card) {
+		return this.cards.remove(card);
 	}
 
 	public int getNumberOfCards() {
