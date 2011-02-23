@@ -15,7 +15,7 @@ import org.klaverjasaichallenge.shared.Order;
  * Drawing trump is the process of choosing which player plays and on which
  * trump.
  *
- * @author Joost Patoor
+ * @author Joost Pastoor
  * @author Frank Versnel
  */
 public class DrawTrump extends RoundAction {
