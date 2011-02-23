@@ -15,6 +15,10 @@ import org.klaverjasaichallenge.shared.card.*;
 import org.klaverjasaichallenge.shared.card.suit.*;
 import org.klaverjasaichallenge.shared.card.rank.*;
 
+/**
+ *
+ * @author Frank Versnel
+ */
 public class TestRotterdamRuleSet {
 	RuleSet ruleSet;
 

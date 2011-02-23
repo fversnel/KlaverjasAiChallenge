@@ -1,5 +1,9 @@
 package org.klaverjasaichallenge.shared.card.suit;
 
+/**
+ *
+ * @author Frank Versnel
+ */
 public abstract class Suit {
 	protected final String name;
 
@@ -10,7 +14,7 @@ public abstract class Suit {
 	public boolean equals(Suit toCompare) {
 		return this.getClass().isInstance(toCompare);
 	}
-	
+
 	@Override
 	public String toString() {
 		return this.name;

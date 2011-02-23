@@ -14,6 +14,10 @@ import org.klaverjasaichallenge.shared.RuleSet;
 import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
 
+/**
+ *
+ * @author Frank Versnel
+ */
 public class RoundData {
 	private Table table;
 	private final RuleSet ruleSet;

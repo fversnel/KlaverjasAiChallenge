@@ -8,6 +8,10 @@ import java.util.LinkedList;
 
 import org.klaverjasaichallenge.shared.Order;
 
+/**
+ *
+ * @author Frank Versnel
+ */
 public class TestOrder {
 
 	@Test

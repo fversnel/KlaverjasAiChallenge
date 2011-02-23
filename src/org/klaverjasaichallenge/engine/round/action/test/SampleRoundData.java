@@ -10,6 +10,10 @@ import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.RotterdamRuleSet;
 import org.klaverjasaichallenge.shared.RuleSet;
 
+/**
+ *
+ * @author Frank Versnel
+ */
 class SampleRoundData {
 	private Player playerOne;
 	private Player playerTwo;

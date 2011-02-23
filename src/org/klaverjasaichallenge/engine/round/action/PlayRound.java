@@ -15,6 +15,11 @@ import org.klaverjasaichallenge.shared.Order;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
 import org.klaverjasaichallenge.shared.RuleSet;
 
+/**
+ *
+ * @author Joost Pastoor
+ * @author Frank Versnel
+ */
 public class PlayRound extends RoundAction {
 	private final Logger logger;
 
@@ -73,13 +78,10 @@ public class PlayRound extends RoundAction {
 	}
 
 	/**
-	 * Playcard checks if the card that a player returns is indeed
+	 * Checks if the card that a player returns is indeed
 	 * a valid card to play within this trick.
 	 *
-	 * @param trick
-	 * @param player
-	 * @param card
-	 * @throws Exception
+	 * @throws CheatException thrown when the player cheats.
 	 */
 	private void playCard(final Trick trick, final Player player,
 			final Card card) throws CheatException {

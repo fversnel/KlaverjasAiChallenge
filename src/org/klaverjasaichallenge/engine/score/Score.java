@@ -3,6 +3,10 @@ package org.klaverjasaichallenge.engine.score;
 import org.klaverjasaichallenge.engine.round.Trick;
 import org.klaverjasaichallenge.shared.Points;
 
+/**
+ *
+ * @author Frank Versnel
+ */
 public class Score {
 	public static final Points MAXIMUM_STOCK_SCORE = new Points(162);
 	public static final Points MARCH_POINTS = new Points(100);

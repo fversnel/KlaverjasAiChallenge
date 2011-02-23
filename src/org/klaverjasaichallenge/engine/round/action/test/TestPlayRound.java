@@ -11,6 +11,10 @@ import org.klaverjasaichallenge.shared.Order;
 import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
 
+/**
+ *
+ * @author Frank Versnel
+ */
 public class TestPlayRound {
 	private SampleRoundData testData;
 

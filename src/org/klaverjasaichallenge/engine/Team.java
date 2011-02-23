@@ -5,6 +5,11 @@ import java.util.List;
 
 import org.klaverjasaichallenge.shared.Player;
 
+/**
+ *
+ * @author Joost Pastoor
+ * @author Frank Versnel
+ */
 public class Team {
 	private final Player playerOne;
 	private final Player playerTwo;

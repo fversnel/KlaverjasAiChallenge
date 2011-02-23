@@ -6,6 +6,10 @@ import org.junit.*;
 
 import org.klaverjasaichallenge.engine.round.action.*;
 
+/**
+ *
+ * @author Frank Versnel
+ */
 public class TestDrawTrump {
 	private RoundData testData;
 

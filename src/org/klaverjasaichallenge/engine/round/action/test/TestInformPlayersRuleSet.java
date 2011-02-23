@@ -7,6 +7,10 @@ import org.klaverjasaichallenge.shared.RuleSet;
 
 import static org.mockito.Mockito.*;
 
+/**
+ *
+ * @author Frank Versnel
+ */
 public class TestInformPlayersRuleSet {
 	private SampleRoundData testData;
 
@@ -16,7 +20,7 @@ public class TestInformPlayersRuleSet {
 	}
 
 	/**
-	 * Verify that on each player the method {@link Player#giveRuleSet(RuleSet)} 
+	 * Verify that on each player the method {@link Player#giveRuleSet(RuleSet)}
 	 * is called.
 	 */
 	@Test

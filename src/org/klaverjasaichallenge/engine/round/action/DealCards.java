@@ -4,6 +4,11 @@ import org.klaverjasaichallenge.engine.round.Deck;
 import org.klaverjasaichallenge.engine.round.Hand;
 import org.klaverjasaichallenge.shared.Player;
 
+/**
+ *
+ * @author Joost Pastoor
+ * @author Frank Versnel
+ */
 public class DealCards extends RoundAction {
 
 	public DealCards(final RoundData roundData) {

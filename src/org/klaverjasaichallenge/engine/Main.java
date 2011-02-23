@@ -18,7 +18,8 @@ import org.klaverjasaichallenge.shared.RuleSet;
 
 /**
  *
- * @author Joost
+ * @author Joost Pastoor
+ * @author Frank Versnel
  */
 public class Main {
 	private final static int TEAM_SIZE = 2;

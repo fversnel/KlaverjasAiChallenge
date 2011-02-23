@@ -12,6 +12,11 @@ import org.klaverjasaichallenge.shared.Points;
 import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
 
+/**
+ *
+ * @author Joost Pastoor
+ * @author Frank Versnel
+ */
 public class Trick {
 	public static final int COUNT = 8;
 

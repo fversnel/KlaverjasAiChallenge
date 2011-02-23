@@ -12,6 +12,10 @@ import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.suit.*;
 import org.klaverjasaichallenge.shared.card.rank.*;
 
+/**
+ *
+ * @author Frank Versnel
+ */
 public class TestScore {
 	private static final boolean IS_LAST_TRICK = false;
 

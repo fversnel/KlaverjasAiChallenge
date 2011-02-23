@@ -1,5 +1,9 @@
 package org.klaverjasaichallenge.engine.round.action;
 
+/**
+ *
+ * @author Frank Versnel
+ */
 public abstract class RoundAction {
 	protected final RoundData roundData;
 

@@ -12,8 +12,9 @@ import org.klaverjasaichallenge.shared.card.suit.*;
 import org.klaverjasaichallenge.shared.card.rank.*;
 
 /**
- * @author Joost Pastoor and Frank Versnel
  *
+ * @author Joost Pastoor
+ * @author Frank Versnel
  */
 public class Deck {
 	private static final int TOTAL_NUMBER_OF_CARDS = 32;

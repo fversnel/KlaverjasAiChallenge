@@ -10,6 +10,10 @@ import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.suit.*;
 import org.klaverjasaichallenge.shared.card.rank.*;
 
+/**
+ *
+ * @author Frank Versnel
+ */
 public class TestCard {
 
 	@Test

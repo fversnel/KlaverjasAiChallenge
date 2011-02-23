@@ -10,6 +10,9 @@ import org.klaverjasaichallenge.shared.Player;
 
 /**
  * Accumulates the score players have amassed this Round.
+ *
+ * @author Joost Pastoor
+ * @author Frank Versnel
  */
 public class AccumulateTrickScore extends RoundAction {
 	private final Table table;

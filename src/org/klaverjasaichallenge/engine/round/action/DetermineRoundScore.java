@@ -10,7 +10,8 @@ import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.Points;
 
 /**
- * Accumulates the score players have amassed this Round.
+ * Determines whether the teams have gone wet or gone marching and gives each
+ * team the appropriate score.
  */
 public class DetermineRoundScore extends RoundAction {
 	private static final RoundAction NO_NEXT_ACTION = null;
@@ -35,7 +36,7 @@ public class DetermineRoundScore extends RoundAction {
 		for(final Team team : teams) {
 			Score teamScore = this.roundData.getRoundScore(team);
 			teamScore = this.determineWetScore(team, teamScore);
-			teamScore = this.accumlateMarchScore(team, teamScore);
+			teamScore = this.determineMarchScore(team, teamScore);
 			this.roundData.addRoundScore(team, teamScore);
 		}
 
@@ -65,7 +66,7 @@ public class DetermineRoundScore extends RoundAction {
 		return newTeamScore;
 	}
 
-	private Score accumlateMarchScore(final Team team, final Score teamScore) {
+	private Score determineMarchScore(final Team team, final Score teamScore) {
 		Score newTeamScore = teamScore;
 
 		if(team.hasPlayer(this.trumpPlayer) && Score.isMarching(teamScore)) {

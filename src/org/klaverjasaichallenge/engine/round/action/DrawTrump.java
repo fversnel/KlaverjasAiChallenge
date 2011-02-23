@@ -14,6 +14,9 @@ import org.klaverjasaichallenge.shared.Order;
 /**
  * Drawing trump is the process of choosing which player plays and on which
  * trump.
+ *
+ * @author Joost Patoor
+ * @author Frank Versnel
  */
 public class DrawTrump extends RoundAction {
 	private static final int FORCED_PLAY_ON_TRUMP = 1;

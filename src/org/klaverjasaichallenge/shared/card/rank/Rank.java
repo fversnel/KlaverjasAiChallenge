@@ -3,6 +3,10 @@ package org.klaverjasaichallenge.shared.card.rank;
 import org.klaverjasaichallenge.shared.Order;
 import org.klaverjasaichallenge.shared.Points;
 
+/**
+ *
+ * @author Frank Versnel
+ */
 public abstract class Rank {
 	protected final String name;
 

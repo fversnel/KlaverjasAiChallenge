@@ -3,17 +3,21 @@ package org.klaverjasaichallenge.shared;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ *
+ * @author Frank Versnel
+ */
 public class Order implements Comparable<Order> {
 	private final int order;
-	
+
 	public Order(final int order) {
 		this.order = order;
 	}
-	
+
 	public int getOrder() {
 		return this.order;
 	}
-	
+
 	public boolean isHigherThan(final Order order) {
 		return this.getOrder() > order.getOrder();
 	}

@@ -9,6 +9,10 @@ import org.junit.*;
 import org.klaverjasaichallenge.engine.round.action.*;
 import org.klaverjasaichallenge.shared.Player;
 
+/**
+ *
+ * @author Frank Versnel
+ */
 public class TestDealCards {
 	private RoundData roundData;
 

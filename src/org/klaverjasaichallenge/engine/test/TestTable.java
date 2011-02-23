@@ -9,6 +9,10 @@ import org.klaverjasaichallenge.engine.Table;
 import org.klaverjasaichallenge.engine.Team;
 import org.klaverjasaichallenge.shared.Player;
 
+/**
+ *
+ * @author Frank Versnel
+ */
 public class TestTable {
 	private Player playerOne;
 	private Player playerTwo;

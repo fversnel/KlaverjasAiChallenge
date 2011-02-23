@@ -11,20 +11,12 @@ import org.klaverjasaichallenge.shared.card.suit.Suit;
 
 
 /**
- * @author Joost
  *
+ * @author Frank Versnel
  */
 public class RotterdamRuleSet extends RuleSet {
 	private static final int NUMBER_OF_ROUNDS = 16;
 
-	/**
-	 * @trick the trick on which the {@link cardToCheck} should be played.
-	 * @cardToCheck the card to be played.
-	 * @playerHand all cards that are currently in the player's hand,
-	 * including {@link cardToCheck}.
-	 *
-	 * @since 1.3
-	 */
 	@Override
 	public boolean isLegalCard(final Trick trick, final Card cardToCheck,
 			final List<Card> playerHand) {
@@ -58,9 +50,6 @@ public class RotterdamRuleSet extends RuleSet {
 		return NUMBER_OF_ROUNDS;
 	}
 
-	/**
-	 * @since 1.2
-	 */
 	@Override
 	@Deprecated
 	public boolean isLegalCard(final Trick trick, final Card cardToCheck,

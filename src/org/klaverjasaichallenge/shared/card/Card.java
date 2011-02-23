@@ -14,7 +14,8 @@ import org.klaverjasaichallenge.shared.card.suit.*;
 /**
  * TODO Make Suit and Rank enums.
  *
- * @author Joost
+ * @author Joost Pastoor
+ * @author Frank Versnel
  */
 public class Card {
 	private final Suit suit;

@@ -6,6 +6,10 @@ import org.klaverjasaichallenge.shared.Points;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
 import org.klaverjasaichallenge.shared.card.Card;
 
+/**
+ *
+ * @author Frank Versnel
+ */
 class StockScore {
 
 	public static Points calculateScore(final Trick trick) {

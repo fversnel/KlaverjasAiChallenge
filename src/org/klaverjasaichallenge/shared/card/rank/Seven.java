@@ -3,6 +3,10 @@ package org.klaverjasaichallenge.shared.card.rank;
 import org.klaverjasaichallenge.shared.Order;
 import org.klaverjasaichallenge.shared.Points;
 
+/**
+ *
+ * @author Frank Versnel
+ */
 public class Seven extends Rank {
 	private static final String NAME = "Seven";
 

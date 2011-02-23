@@ -10,6 +10,10 @@ import org.klaverjasaichallenge.engine.score.Score;
 import org.klaverjasaichallenge.shared.Points;
 import org.klaverjasaichallenge.shared.card.suit.*;
 
+/**
+ *
+ * @author Frank Versnel
+ */
 public class TestAccumulateTrickScore {
 	private SampleRoundData testData;
 	private RoundData roundData;

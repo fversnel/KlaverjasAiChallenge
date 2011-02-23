@@ -11,6 +11,10 @@ import java.util.NoSuchElementException;
 
 import org.klaverjasaichallenge.shared.Player;
 
+/**
+ *
+ * @author Frank Versnel
+ */
 public class Table implements Iterable<Player> {
 	private final List<Team> teams;
 	private final List<Player> playerPositions;

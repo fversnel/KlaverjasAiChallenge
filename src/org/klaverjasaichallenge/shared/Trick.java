@@ -7,6 +7,11 @@ import java.util.Map;
 import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
 
+/**
+ *
+ * @author Joost Pastoor
+ * @author Frank Versnel
+ */
 public class Trick {
 	public final static int COUNT =
 		org.klaverjasaichallenge.engine.round.Trick.COUNT;
@@ -43,7 +48,7 @@ public class Trick {
 	public Card getHighestTrump() {
 		return this.serverSideTrick.getHighestTrump();
 	}
-	
+
 	public Card getHighestCard() {
 		return this.serverSideTrick.getHighestCard();
 	}

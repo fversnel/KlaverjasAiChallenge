@@ -1,5 +1,9 @@
 package org.klaverjasaichallenge.shared;
 
+/**
+ *
+ * @author Frank Versnel
+ */
 public class Points {
 	private static final int DEFAULT_POINTS = 0;
 

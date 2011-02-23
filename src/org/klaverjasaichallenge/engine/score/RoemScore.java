@@ -10,6 +10,10 @@ import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
 import org.klaverjasaichallenge.shared.card.rank.*;
 
+/**
+ *
+ * @author Frank Versnel
+ */
 class RoemScore {
 	private static final Points FOUR_JACKS = new Points(200);
 	private static final Points FOUR_CARDS_SAME_RANK = new Points(100);

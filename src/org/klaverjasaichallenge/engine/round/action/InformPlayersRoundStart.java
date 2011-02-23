@@ -4,6 +4,11 @@ import org.klaverjasaichallenge.engine.Table;
 import org.klaverjasaichallenge.engine.Team;
 import org.klaverjasaichallenge.shared.Player;
 
+/**
+ *
+ * @author Joost Pastoor
+ * @author Frank Versnel
+ */
 public class InformPlayersRoundStart extends RoundAction {
 
 	public InformPlayersRoundStart(final RoundData roundData) {
@@ -17,6 +22,7 @@ public class InformPlayersRoundStart extends RoundAction {
 		for(Player currentPlayer : roundTable) {
 			final Team playerTeam = roundTable.getTeamFromPlayer(currentPlayer);
 			final Team otherTeam = roundTable.getOtherTeam(currentPlayer);
+
 			final int currentPlayerId = currentPlayer.hashCode();
 			final int teamMateId = playerTeam.getOtherPlayer(currentPlayer).hashCode();
 			final int enemy1Id = otherTeam.getFirstPlayer().hashCode();

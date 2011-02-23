@@ -8,6 +8,10 @@ import org.klaverjasaichallenge.engine.round.action.*;
 import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
 
+/**
+ *
+ * @author Frank Versnel
+ */
 public class TestInformPlayersRoundStart {
 	private SampleRoundData testData;
 

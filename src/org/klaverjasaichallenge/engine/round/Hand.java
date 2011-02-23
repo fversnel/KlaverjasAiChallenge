@@ -5,6 +5,11 @@ import java.util.LinkedList;
 
 import org.klaverjasaichallenge.shared.card.Card;
 
+/**
+ *
+ * @author Joost Pastoor
+ * @author Frank Versnel
+ */
 public class Hand {
 	private static final int CARDS_IN_HAND = 8;
 
@@ -15,7 +20,7 @@ public class Hand {
 	}
 
 	/**
-	 * @return true if the card was in is hand; false if it was not. If the
+	 * @return true if the card was in his hand; false if it was not. If the
 	 * card was in his hand, it has been removed.
 	 */
 	public boolean drawCard(final Card card) {

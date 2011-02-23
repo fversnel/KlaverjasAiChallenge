@@ -1,10 +1,10 @@
 package org.klaverjasaichallenge.engine.round;
 
+/**
+ *
+ * @author Frank Versnel
+ */
 public class CheatException extends Exception {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 8848488827586328310L;
 
 	public CheatException (final String message) {

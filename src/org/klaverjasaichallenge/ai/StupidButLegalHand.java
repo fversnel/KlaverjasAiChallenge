@@ -7,6 +7,11 @@ import org.klaverjasaichallenge.shared.Trick;
 import org.klaverjasaichallenge.shared.RuleSet;
 import org.klaverjasaichallenge.shared.card.Card;
 
+/**
+ *
+ * @author Joost Pastoor
+ * @author Frank Versnel
+ */
 public class StupidButLegalHand {
 	private List<Card> cards;
 
@@ -16,13 +21,12 @@ public class StupidButLegalHand {
 
 	/**
 	 * This method removes the cards from the list that the player may not
+	 * play during this {@link Trick}.
 	 *
-	 * @param trick
+	 * @param trick the current trick.
 	 */
 	public List<Card> getLegalCards(final RuleSet ruleSet, final Trick
 			trick) {
-		// Copy the list of cards to prevent a concurrent modification
-		// exception.
 		List<Card> legalCards =  new LinkedList<Card>();
 		for(final Card card : this.cards) {
 			if(ruleSet.isLegalCard(trick, card, this.cards)) {
