@@ -1,7 +1,7 @@
 Changes in v1.3:
 - Complete re-design of the Klaverjas engine. A round is now executed as a
   series of actions. Each action is defined in a seperate class.
-- Re-implementation of the Rotterdam rules. Undertrumping is now impossible.
+- Re-implementation of the Rotterdam ruleset. Undertrumping is now impossible.
 - Added the notion of an engine-side Trick and a shared Trick. The shared
-  Trick interfaces the engine Trick for all players, providing them only the
-  information that they need.
+  Trick interfaces the engine Trick for all players, providing them only with
+  the information that they need.
