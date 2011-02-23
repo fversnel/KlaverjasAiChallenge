@@ -12,6 +12,9 @@ import org.klaverjasaichallenge.shared.Points;
 /**
  * Determines whether the teams have gone wet or gone marching and gives each
  * team the appropriate score.
+ *
+ * @author Joost Pastoor
+ * @author Frank Versnel
  */
 public class DetermineRoundScore extends RoundAction {
 	private static final RoundAction NO_NEXT_ACTION = null;
