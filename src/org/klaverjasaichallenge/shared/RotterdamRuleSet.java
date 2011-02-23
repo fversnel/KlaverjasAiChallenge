@@ -50,13 +50,6 @@ public class RotterdamRuleSet extends RuleSet {
 		return NUMBER_OF_ROUNDS;
 	}
 
-	@Override
-	@Deprecated
-	public boolean isLegalCard(final Trick trick, final Card cardToCheck,
-			final Player player, final List<Card> playerHand, final Suit trump) {
-		return this.isLegalCard(trick, cardToCheck, playerHand);
-	}
-
 	private boolean playsTrumpRight(final Trick trick,
 			final List<Card> playerHand, final Card cardToCheck) {
 		boolean result = true;
