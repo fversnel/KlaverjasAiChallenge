@@ -6,3 +6,4 @@ log/
 dist/
 *.swp
 *.orig
+glob:lib/ai/
