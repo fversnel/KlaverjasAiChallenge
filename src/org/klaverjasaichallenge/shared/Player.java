@@ -18,9 +18,9 @@ import org.klaverjasaichallenge.shared.card.suit.Suit;
 public interface Player {
 
 	/**
-	 * The first thing in a game of Klaverjas is informing which ruleset is
-	 * used (Rotterdams, Amsterdams). The AI can use this ruleSet to determine
-	 * his legal cards for each trick.
+	 * The first thing in a game of Klaverjas is informing which {@link
+	 * RuleSet} is used (Rotterdams, Amsterdams). The AI can use this ruleset
+	 * to determine his legal cards for each trick.
 	 */
 	public void giveRuleSet(final RuleSet ruleSet);
 
@@ -35,10 +35,11 @@ public interface Player {
 	/**
 	 * Whether you play on the given trump or not.
 	 *
-	 * @param trump the suit that will be used as trump this round.
-	 * @param order the number of your turn (order 0 means your the first to
-	 * determine whether you play on the trump. Order 2 means there were 2
-	 * players before that passed on the trump.)
+	 * @param trump the {@link Suit} that will be used as trump this round.
+	 * @param order the number of your turn ({@link Order} 0 means your the
+	 * first to determine whether you play on the trump. {@link Order} 2 means
+	 * there were two {@link Player}'s before that passed on the trump.)
+	 *
 	 * @return whether you play on the trump or not.
 	 */
 	public boolean playOnTrump(Suit trump, Order order);
@@ -46,38 +47,41 @@ public interface Player {
 	/**
 	 * Informs about the fact that a round is going to start.
 	 *
-	 * @param leadingPlayer The ID of the player that commits to the game
-	 * @param trump The suit that is used as trump this round.
-	 * @param yourId The ID you have in this round
-	 * @param teamMateId The ID of your teammate
-	 * @param enemy1Id The ID of one of your enemies
-	 * @param enemy2Id The ID of the other enemy
+	 * @param leadingPlayer the ID of the player that commits to the game.
+	 * @param trump the {@link Suit} that is used as trump this round.
+	 * @param yourId the ID you have in this round.
+	 * @param teamMateId the ID of your teammate.
+	 * @param enemy1Id the ID of one of your enemies.
+	 * @param enemy2Id the ID of the other enemy.
 	 */
 	public void startOfRound(int leadingPlayer, Suit trump, int yourId,
 			int teamMateId, int enemy1Id, int enemy2Id);
 
 	/**
-	 * Play a card on the table.
+	 * Play a {@link Card} on the table.
 	 *
-	 * @param trick the trick that is currently being played. This variable
+	 * @param trick the {@link Trick} that is currently being played. This variable
 	 * can be used to request all cards that were already played in this
 	 * trick.
 	 * @param order the number of your turn (or: how many players were before
 	 * you.)
-	 * @return the card that you will play this round.
+	 * @return the {@link Card} that you will play this round.
 	 */
 	public Card getCard(Trick trick, Order order);
 
 	/**
-	 * Returns the trick when it has been played, so the players
-	 * know which cards have left the game.
-	 * This is useful information since your the player will then know all cards
-	 * that have been played in the most recently played trick.
+	 * Returns the {@link Trick} when it has been played, so the players know
+	 * which cards have left the game.  This is useful information since the
+	 * player will know all cards that have been played in the recently played
+	 * trick.
 	 *
-	 * @param trick
+	 * @param trick the {@link Trick} that has just been played.
 	 */
 	public void endOfTrick(Trick trick);
 
+	/**
+	 * Give yourself a nice name.
+	 */
 	@Override
 	public String toString();
 
