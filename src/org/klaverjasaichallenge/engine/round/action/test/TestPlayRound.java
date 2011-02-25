@@ -35,8 +35,7 @@ public class TestPlayRound {
 	@Test
 	public void verifyGetCard() {
 		for(final Player player : this.testData.getTable()) {
-			verify(player, times(Trick.COUNT)).getCard(any(Trick.class),
-					any(Order.class));
+			verify(player, times(Trick.COUNT)).getCard(any(Trick.class));
 		}
 	}
 

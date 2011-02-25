@@ -58,12 +58,10 @@ public class PlayRound extends RoundAction {
 	private void playTrick(Table table, final Trick trick, final int trickId) {
 		this.logger.debug("-- Starting trick " + trickId + " with trump " + trick.getTrump());
 
-		int playerIndex = 0;
 		for(final Player currentPlayer : table) {
 			// Ask the player to return a card
 			final Card cardPlayed = currentPlayer.getCard(
-					new org.klaverjasaichallenge.shared.Trick(trick),
-					new Order(playerIndex));
+					new org.klaverjasaichallenge.shared.Trick(trick));
 			try {
 				// Check if the card is valid
 				this.playCard(trick, currentPlayer, cardPlayed);
@@ -72,8 +70,6 @@ public class PlayRound extends RoundAction {
 			}
 
 			this.logger.debug("--- " + currentPlayer + " played " + cardPlayed);
-
-			playerIndex++;
 		}
 	}
 

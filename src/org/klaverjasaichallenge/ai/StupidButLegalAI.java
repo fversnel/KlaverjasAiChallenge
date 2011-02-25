@@ -26,7 +26,7 @@ public class StupidButLegalAI implements KlaverJasAI {
 	}
 
 	@Override
-	public Card getCard(Trick trick, Order order) {
+	public Card getCard(Trick trick) {
 
 		List<Card> legalCards = this.hand.getLegalCards(this.ruleSet, trick);
 		List<Card> allCards = this.hand.getCards();

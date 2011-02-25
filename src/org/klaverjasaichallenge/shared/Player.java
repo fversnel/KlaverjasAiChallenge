@@ -63,11 +63,9 @@ public interface Player {
 	 * @param trick the {@link Trick} that is currently being played. This variable
 	 * can be used to request all cards that were already played in this
 	 * trick.
-	 * @param order the number of your turn (or: how many players were before
-	 * you.)
 	 * @return the {@link Card} that you will play this round.
 	 */
-	public Card getCard(Trick trick, Order order);
+	public Card getCard(Trick trick);
 
 	/**
 	 * Returns the {@link Trick} when it has been played, so the players know
