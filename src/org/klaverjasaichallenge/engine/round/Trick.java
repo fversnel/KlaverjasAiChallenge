@@ -61,6 +61,20 @@ public class Trick {
 		return this.cards;
 	}
 
+	public Card getCardFromPlayer(final int playerId) {
+		Card playerCard = null;
+
+		for(final Card card : this.cards.keySet()) {
+			Player player = this.cards.get(card);
+
+			if(player != null && player.hashCode() == playerId) {
+				playerCard = card;
+			}
+		}
+
+		return playerCard;
+	}
+
 	public Suit getTrump() {
 		return this.trump;
 	}
