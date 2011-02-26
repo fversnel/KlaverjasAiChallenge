@@ -34,15 +34,12 @@ public class Trick {
 		return this.serverSideTrick.getLeadingSuit();
 	}
 
-	public Map<Card, Integer> getCardsWithPlayers() {
-		final Map<Card, Player> serverSideCards = this.serverSideTrick.getCardsWithPlayers();
-
-		final Map<Card, Integer> clientSideCards = new HashMap<Card, Integer>();
-		for(final Card card : serverSideCards.keySet()) {
-			clientSideCards.put(card, serverSideCards.get(card).hashCode());
-		}
-
-		return clientSideCards;
+	/**
+	 * @return the card of the requested player or null if he didn't play
+	 * anything.
+	 */
+	public getCardFromPlayer(final int playerId) {
+		return this.serverSideTrick.getCardFromPlayer(playerId);
 	}
 
 	public Card getHighestTrump() {
