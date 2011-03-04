@@ -5,7 +5,6 @@ package org.klaverjasaichallenge.shared;
 
 import java.util.List;
 
-import org.klaverjasaichallenge.shared.Trick;
 import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.suit.Suit;
 
@@ -14,7 +13,7 @@ import org.klaverjasaichallenge.shared.card.suit.Suit;
  *
  * @author Frank Versnel
  */
-public class RotterdamRuleSet extends RuleSet {
+public class RotterdamRuleSet implements RuleSet {
 	private static final int NUMBER_OF_ROUNDS = 16;
 
 	@Override
@@ -71,7 +70,7 @@ public class RotterdamRuleSet extends RuleSet {
 
 	private boolean playerCanOverTrump(final Trick trick,
 			final List<Card> playerHand) {
-		boolean result = true;
+		boolean result = false;
 
 		final Card highestTrumpTrick = trick.getHighestTrump();
 
