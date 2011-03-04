@@ -23,9 +23,9 @@
   <property name="compilation.includeAntRuntime" value="false" />
 
   <!-- Testing related properties -->
-  <property name="testing.formatter.type" value="plain" />
+  <property name="testing.formatter.type" value="brief" />
   <property name="testing.printsummary" value="yes" />
-  <property name="testing.haltonfailure" value="no" />
+  <property name="testing.haltonfailure" value="yes" />
   <property name="testing.java.files" value="**/*Test*.java" />
   <property name="testing.class.files" value="**/*Test*.class" />
 
@@ -95,9 +95,9 @@
         <path refid="project.class.path" />
       </classpath>
 
-      <batchtest fork="yes" todir="${dir.logfiles}">
-        <fileset dir="${dir.source}">
-          <include name="${testing.java.files}" />
+      <batchtest todir="${dir.logfiles}">
+        <fileset dir="${dir.build}">
+          <include name="${testing.class.files}" />
         </fileset>
       </batchtest>
     </junit>
