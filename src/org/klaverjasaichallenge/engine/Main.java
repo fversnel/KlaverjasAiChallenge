@@ -11,7 +11,7 @@ import org.apache.log4j.Level;
 // Import the necessary klaverjas classes to get started.
 import org.klaverjasaichallenge.engine.round.Round;
 import org.klaverjasaichallenge.engine.score.Score;
-import org.klaverjasaichallenge.shared.Player;
+import org.klaverjasaichallenge.shared.KlaverJasAI;
 import org.klaverjasaichallenge.shared.Points;
 import org.klaverjasaichallenge.shared.RotterdamRuleSet;
 import org.klaverjasaichallenge.shared.RuleSet;
@@ -125,7 +125,7 @@ public class Main {
 		Team team = null;
 		try {
 			for(int i = 0; i < TEAM_SIZE; i++) {
-				Class<Player> newPlayer = (Class<Player>) Class.forName(aiName);
+				Class<KlaverJasAI> newPlayer = (Class<KlaverJasAI>) Class.forName(aiName);
 				team = new Team(newPlayer.newInstance(), newPlayer.newInstance());
 			}
 		} catch (InstantiationException e) {
