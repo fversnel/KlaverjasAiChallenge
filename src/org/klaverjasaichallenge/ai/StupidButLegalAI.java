@@ -8,7 +8,7 @@ import org.klaverjasaichallenge.shared.KlaverJasAI;
 import org.klaverjasaichallenge.shared.Order;
 import org.klaverjasaichallenge.shared.RuleSet;
 import org.klaverjasaichallenge.shared.card.Card;
-import org.klaverjasaichallenge.shared.card.suit.Suit;
+import org.klaverjasaichallenge.shared.card.Suit;
 
 /**
  *
@@ -46,7 +46,7 @@ public class StupidButLegalAI implements KlaverJasAI {
 	}
 
 	@Override
-	public boolean playOnTrump(Suit suit, Order order) {
+	public boolean playOnTrump(Suit trump, Order order) {
 		return true;
 	}
 

@@ -11,9 +11,8 @@ import org.klaverjasaichallenge.engine.round.Hand;
 import org.klaverjasaichallenge.engine.round.Trick;
 import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.card.Card;
-import org.klaverjasaichallenge.shared.Order;
-import org.klaverjasaichallenge.shared.card.suit.Suit;
 import org.klaverjasaichallenge.shared.RuleSet;
+import org.klaverjasaichallenge.shared.card.Suit;
 
 /**
  *

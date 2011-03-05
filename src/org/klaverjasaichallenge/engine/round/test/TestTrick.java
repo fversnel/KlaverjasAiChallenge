@@ -8,8 +8,8 @@ import org.junit.*;
 import org.klaverjasaichallenge.engine.round.Trick;
 import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.card.Card;
-import org.klaverjasaichallenge.shared.card.suit.*;
-import org.klaverjasaichallenge.shared.card.rank.*;
+import org.klaverjasaichallenge.shared.card.Rank;
+import org.klaverjasaichallenge.shared.card.Suit;
 
 /**
  *
@@ -22,12 +22,12 @@ public class TestTrick {
 	@Before
 	public void setUp() {
 		this.testPlayer = mock(Player.class);
-		this.testTrick = new Trick(new Hearts(), false);
+		this.testTrick = new Trick(Suit.HEARTS, false);
 	}
 
 	@Test
 	public void testGetCardFromPlayer() {
-		Card expected = new Card(new Hearts(), new Seven());
+		Card expected = new Card(Suit.HEARTS, Rank.SEVEN);
 		this.testTrick.addCard(this.testPlayer, expected);
 
 		Card actual =

@@ -8,8 +8,8 @@ import org.apache.log4j.Logger;
 
 import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.card.Card;
-import org.klaverjasaichallenge.shared.card.suit.Suit;
 import org.klaverjasaichallenge.shared.Order;
+import org.klaverjasaichallenge.shared.card.Suit;
 
 /**
  * Drawing trump is the process of choosing which player plays and on which

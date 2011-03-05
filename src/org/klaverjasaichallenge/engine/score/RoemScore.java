@@ -7,8 +7,8 @@ import org.klaverjasaichallenge.engine.round.Trick;
 import org.klaverjasaichallenge.shared.Order;
 import org.klaverjasaichallenge.shared.Points;
 import org.klaverjasaichallenge.shared.card.Card;
-import org.klaverjasaichallenge.shared.card.suit.Suit;
-import org.klaverjasaichallenge.shared.card.rank.*;
+import org.klaverjasaichallenge.shared.card.Rank;
+import org.klaverjasaichallenge.shared.card.Suit;
 
 /**
  *
@@ -22,7 +22,7 @@ class RoemScore {
 	private static final Points STUK = new Points(20);
 
 	private static final Order FIRST_HIGH_CARD = new Order(4);
-	private static final Order JACK_ORDER = new Jack().getRoemOrder();
+	private static final Order JACK_ORDER = Rank.JACK.getRoemOrder();
 
 	public static Points calculateScore(final Trick trick) {
 		Points score = new Points();
@@ -108,9 +108,9 @@ class RoemScore {
 			final Suit cardSuit = trickCard.getSuit();
 			final Rank cardRank = trickCard.getRank();
 			if(cardSuit.equals(trump)) {
-				if(cardRank.equals(new Queen())) {
+				if(cardRank.equals(Rank.QUEEN)) {
 					queen = true;
-				} else if(cardRank.equals(new King())) {
+				} else if(cardRank.equals(Rank.KING)) {
 					king = true;
 				}
 			}

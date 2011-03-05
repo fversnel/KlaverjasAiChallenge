@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.LinkedList;
 
 import org.klaverjasaichallenge.shared.card.Card;
-import org.klaverjasaichallenge.shared.card.suit.*;
-import org.klaverjasaichallenge.shared.card.rank.*;
+import org.klaverjasaichallenge.shared.card.Rank;
+import org.klaverjasaichallenge.shared.card.Suit;
 
 /**
  *
@@ -19,13 +19,13 @@ public class TestCard {
 	@Test
 	public void testMax() {
 		List<Card> cardsToTest = new LinkedList<Card>();
-		Hearts trump = new Hearts();
-	    Suit leadingSuit = new Clubs();
-		final Card expected = new Card(trump, new Jack());
-		cardsToTest.add(new Card(new Clubs(), new Ace()));
+		Suit trump = Suit.HEARTS;
+		Suit leadingSuit = Suit.CLUBS;
+		final Card expected = new Card(trump, Rank.JACK);
+		cardsToTest.add(new Card(Suit.CLUBS, Rank.ACE));
 		cardsToTest.add(expected);
-		cardsToTest.add(new Card(new Diamonds(), new Jack()));
-		cardsToTest.add(new Card(trump, new Ten()));
+		cardsToTest.add(new Card(Suit.DIAMONDS, Rank.JACK));
+		cardsToTest.add(new Card(trump, Rank.TEN));
 		final Card actual = Card.max(trump, leadingSuit, cardsToTest);
 		assertEquals(expected,actual);
 	}
@@ -33,21 +33,21 @@ public class TestCard {
 	@Test
 	public void testMax2() {
 		List<Card> cardsToTest = new LinkedList<Card>();
-		final Card expected = new Card(new Clubs(), new Seven());
-		Suit leadingSuit = new Spades();
-		cardsToTest.add(new Card(new Spades(), new Jack()));
-		cardsToTest.add(new Card(new Spades(), new Queen()));
-		cardsToTest.add(new Card(new Spades(), new King()));
+		final Card expected = new Card(Suit.CLUBS, Rank.SEVEN);
+		Suit leadingSuit = Suit.SPADES;
+		cardsToTest.add(new Card(Suit.SPADES, Rank.JACK));
+		cardsToTest.add(new Card(Suit.SPADES, Rank.QUEEN));
+		cardsToTest.add(new Card(Suit.SPADES, Rank.KING));
 		cardsToTest.add(expected);
-		final Card actual = Card.max(new Clubs(),leadingSuit, cardsToTest);
+		final Card actual = Card.max(Suit.CLUBS,leadingSuit, cardsToTest);
 		assertEquals(expected,actual);
 	}
 
 	@Test
 	public void testHigherThan() {
-		final Card card1 = new Card(new Hearts(), new Jack());
-		final Card card2 = new Card(new Hearts(), new Ten());
-		assertTrue(card1.isHigherThan(new Hearts(), new Spades(), card2));
+		final Card card1 = new Card(Suit.HEARTS, Rank.JACK);
+		final Card card2 = new Card(Suit.HEARTS, Rank.TEN);
+		assertTrue(card1.isHigherThan(Suit.HEARTS, Suit.SPADES, card2));
 	}
 
 }

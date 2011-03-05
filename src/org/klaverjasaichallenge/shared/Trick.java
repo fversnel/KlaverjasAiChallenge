@@ -1,11 +1,9 @@
 package org.klaverjasaichallenge.shared;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.klaverjasaichallenge.shared.card.Card;
-import org.klaverjasaichallenge.shared.card.suit.Suit;
+import org.klaverjasaichallenge.shared.card.Suit;
 
 /**
  *

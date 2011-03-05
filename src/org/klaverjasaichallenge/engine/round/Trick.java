@@ -10,7 +10,7 @@ import org.klaverjasaichallenge.engine.score.Score;
 import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.Points;
 import org.klaverjasaichallenge.shared.card.Card;
-import org.klaverjasaichallenge.shared.card.suit.Suit;
+import org.klaverjasaichallenge.shared.card.Suit;
 
 /**
  *

@@ -8,8 +8,8 @@ import java.util.Stack;
 import org.apache.log4j.Logger;
 
 import org.klaverjasaichallenge.shared.card.Card;
-import org.klaverjasaichallenge.shared.card.suit.*;
-import org.klaverjasaichallenge.shared.card.rank.*;
+import org.klaverjasaichallenge.shared.card.Rank;
+import org.klaverjasaichallenge.shared.card.Suit;
 
 /**
  *

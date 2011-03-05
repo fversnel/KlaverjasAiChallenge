@@ -8,7 +8,7 @@ import org.klaverjasaichallenge.engine.Team;
 import org.klaverjasaichallenge.engine.round.action.*;
 import org.klaverjasaichallenge.engine.score.Score;
 import org.klaverjasaichallenge.shared.Points;
-import org.klaverjasaichallenge.shared.card.suit.*;
+import org.klaverjasaichallenge.shared.card.Suit;
 
 /**
  *
@@ -23,7 +23,7 @@ public class TestAccumulateTrickScore {
 		this.testData = new SampleRoundData();
 
 		this.roundData = this.testData.getRoundData();
-		this.roundData.setTrump(this.testData.getPlayerOne(), new Hearts());
+		this.roundData.setTrump(this.testData.getPlayerOne(), Suit.HEARTS);
 
 		new InformPlayersRuleSet(this.roundData).execute();
 		new DealCards(this.roundData).execute();

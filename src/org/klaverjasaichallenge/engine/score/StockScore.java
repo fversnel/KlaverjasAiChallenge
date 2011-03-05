@@ -3,8 +3,8 @@ package org.klaverjasaichallenge.engine.score;
 
 import org.klaverjasaichallenge.engine.round.Trick;
 import org.klaverjasaichallenge.shared.Points;
-import org.klaverjasaichallenge.shared.card.suit.Suit;
 import org.klaverjasaichallenge.shared.card.Card;
+import org.klaverjasaichallenge.shared.card.Suit;
 
 /**
  *

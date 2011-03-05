@@ -6,7 +6,7 @@ import org.junit.*;
 
 import org.klaverjasaichallenge.engine.round.action.*;
 import org.klaverjasaichallenge.shared.Player;
-import org.klaverjasaichallenge.shared.card.suit.Suit;
+import org.klaverjasaichallenge.shared.card.Suit;
 
 /**
  *
@@ -20,7 +20,7 @@ public class TestInformPlayersRoundStart {
 		this.testData = new SampleRoundData();
 
 		RoundData roundData = this.testData.getRoundData();
-		roundData.setTrump(this.testData.getPlayerOne(), mock(Suit.class));
+		roundData.setTrump(this.testData.getPlayerOne(), Suit.SPADES);
 
 		RoundAction informPlayersRoundStart = new InformPlayersRoundStart(roundData);
 		informPlayersRoundStart.execute();
@@ -29,8 +29,10 @@ public class TestInformPlayersRoundStart {
 	@Test
 	public void verifyStartOfRoundIndication() {
 		for(final Player player : this.testData.getTable()) {
-			verify(player).startOfRound(anyInt(), any(Suit.class),
-					anyInt(), anyInt(), anyInt(), anyInt());
+			verify(player).startOfRound(anyInt(), 
+				eq(this.testData.getRoundData().getTrump()),
+				anyInt(), anyInt(), anyInt(), anyInt());
 		}
 	}
+
 }

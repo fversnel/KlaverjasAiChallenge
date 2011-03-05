@@ -7,9 +7,8 @@ import org.junit.*;
 
 import org.klaverjasaichallenge.engine.round.action.*;
 import org.klaverjasaichallenge.shared.Trick;
-import org.klaverjasaichallenge.shared.Order;
 import org.klaverjasaichallenge.shared.Player;
-import org.klaverjasaichallenge.shared.card.suit.Suit;
+import org.klaverjasaichallenge.shared.card.Suit;
 
 /**
  *
@@ -23,7 +22,7 @@ public class TestPlayRound {
 		this.testData = new SampleRoundData();
 
 		RoundData roundData = this.testData.getRoundData();
-		roundData.setTrump(this.testData.getPlayerOne(), mock(Suit.class));
+		roundData.setTrump(this.testData.getPlayerOne(), Suit.CLUBS);
 
 		new InformPlayersRuleSet(roundData).execute();
 		new DealCards(roundData).execute();
