@@ -11,18 +11,53 @@ import org.klaverjasaichallenge.shared.Order;
 import org.klaverjasaichallenge.shared.Points;
 
 /**
- * TODO Make Suit and Rank enums.
  *
  * @author Joost Pastoor
  * @author Frank Versnel
  */
-public class Card {
-	private final Suit suit;
-	private final Rank rank;
+public enum Card {
+	SEVEN_OF_SPADES(Rank.SEVEN, Suit.SPADES),
+	EIGHT_OF_SPADES(Rank.EIGHT, Suit.SPADES),
+	NINE_OF_SPADES(Rank.NINE, Suit.SPADES),
+	TEN_OF_SPADES(Rank.TEN, Suit.SPADES),
+	JACK_OF_SPADES(Rank.JACK, Suit.SPADES),
+	QUEEN_OF_SPADES(Rank.QUEEN, Suit.SPADES),
+	KING_OF_SPADES(Rank.KING, Suit.SPADES),
+	ACE_OF_SPADES(Rank.ACE, Suit.SPADES),
 
-	public Card(final Suit suit, final Rank rank) {
-		this.suit = suit;
+	SEVEN_OF_CLUBS(Rank.SEVEN, Suit.CLUBS),
+	EIGHT_OF_CLUBS(Rank.EIGHT, Suit.CLUBS),
+	NINE_OF_CLUBS(Rank.NINE, Suit.CLUBS),
+	TEN_OF_CLUBS(Rank.TEN, Suit.CLUBS),
+	JACK_OF_CLUBS(Rank.JACK, Suit.CLUBS),
+	QUEEN_OF_CLUBS(Rank.QUEEN, Suit.CLUBS),
+	KING_OF_CLUBS(Rank.KING, Suit.CLUBS),
+	ACE_OF_CLUBS(Rank.ACE, Suit.CLUBS),
+
+	SEVEN_OF_HEARTS(Rank.SEVEN, Suit.HEARTS),
+	EIGHT_OF_HEARTS(Rank.EIGHT, Suit.HEARTS),
+	NINE_OF_HEARTS(Rank.NINE, Suit.HEARTS),
+	TEN_OF_HEARTS(Rank.TEN, Suit.HEARTS),
+	JACK_OF_HEARTS(Rank.JACK, Suit.HEARTS),
+	QUEEN_OF_HEARTS(Rank.QUEEN, Suit.HEARTS),
+	KING_OF_HEARTS(Rank.KING, Suit.HEARTS),
+	ACE_OF_HEARTS(Rank.ACE, Suit.HEARTS),
+
+	SEVEN_OF_DIAMONDS(Rank.SEVEN, Suit.DIAMONDS),
+	EIGHT_OF_DIAMONDS(Rank.EIGHT, Suit.DIAMONDS),
+	NINE_OF_DIAMONDS(Rank.NINE, Suit.DIAMONDS),
+	TEN_OF_DIAMONDS(Rank.TEN, Suit.DIAMONDS),
+	JACK_OF_DIAMONDS(Rank.JACK, Suit.DIAMONDS),
+	QUEEN_OF_DIAMONDS(Rank.QUEEN, Suit.DIAMONDS),
+	KING_OF_DIAMONDS(Rank.KING, Suit.DIAMONDS),
+	ACE_OF_DIAMONDS(Rank.ACE, Suit.DIAMONDS);
+
+	private final Rank rank;
+	private final Suit suit;
+
+	private Card(final Rank rank, final Suit suit) {
 		this.rank = rank;
+		this.suit = suit;
 	}
 
 	public Points getPoints(final Suit trump) {
@@ -94,8 +129,8 @@ public class Card {
 	}
 
 	public boolean equals(final Card toCompare) {
-		return this.getSuit().equals(toCompare.getSuit())
-				&& this.getRank().equals(toCompare.getRank());
+		return this.suit.equals(toCompare.getSuit()) &&
+				this.rank.equals(toCompare.getRank());
 	}
 
 	@Override
@@ -152,13 +187,6 @@ public class Card {
 		suits.addAll(Arrays.asList(Suit.values()));
 
 		return suits;
-	}
-
-	public static List<Rank> getRanks() {
-		final List<Rank> ranks = new LinkedList<Rank>();
-		ranks.addAll(Arrays.asList(Rank.values()));
-		
-		return ranks;
 	}
 
 }

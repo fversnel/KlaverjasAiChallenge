@@ -8,9 +8,8 @@ import org.klaverjasaichallenge.engine.round.Trick;
 import org.klaverjasaichallenge.engine.score.Score;
 import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.Points;
-import org.klaverjasaichallenge.shared.card.Card;
+import  org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.Suit;
-import org.klaverjasaichallenge.shared.card.Rank;
 
 /**
  *
@@ -30,10 +29,10 @@ public class TestScore {
 
 	@Test
 	public void testStockScore() {
-		this.addCard(new Card(Suit.HEARTS, Rank.SEVEN));
-		this.addCard(new Card(this.testTrump, Rank.JACK));
-		this.addCard(new Card(Suit.DIAMONDS, Rank.TEN));
-		this.addCard(new Card(Suit.SPADES, Rank.QUEEN));
+		this.addCard(Card.SEVEN_OF_HEARTS);
+		this.addCard(Card.JACK_OF_HEARTS);
+		this.addCard(Card.TEN_OF_DIAMONDS);
+		this.addCard(Card.QUEEN_OF_SPADES);
 
 		Points actual = new Score(this.testTrick).getStockScore();
 		Points expected = new Points(33);
@@ -43,10 +42,10 @@ public class TestScore {
 
 	@Test
 	public void testStuk() {
-		this.addCard(new Card(Suit.CLUBS, Rank.JACK));
-		this.addCard(new Card(this.testTrump, Rank.QUEEN));
-		this.addCard(new Card(Suit.DIAMONDS, Rank.TEN));
-		this.addCard(new Card(this.testTrump, Rank.KING));
+		this.addCard(Card.JACK_OF_CLUBS);
+		this.addCard(Card.QUEEN_OF_HEARTS);
+		this.addCard(Card.TEN_OF_DIAMONDS);
+		this.addCard(Card.KING_OF_HEARTS);
 
 		Points actual = new Score(this.testTrick).getRoemScore();
 		Points expected = new Points(20);
@@ -56,10 +55,10 @@ public class TestScore {
 
 	@Test
 	public void testNotStuk() {
-		this.addCard(new Card(Suit.CLUBS, Rank.QUEEN));
-		this.addCard(new Card(this.testTrump, Rank.QUEEN));
-		this.addCard(new Card(this.testTrump, Rank.JACK));
-		this.addCard(new Card(Suit.SPADES, Rank.EIGHT));
+		this.addCard(Card.QUEEN_OF_CLUBS);
+		this.addCard(Card.QUEEN_OF_HEARTS);
+		this.addCard(Card.JACK_OF_HEARTS);
+		this.addCard(Card.EIGHT_OF_SPADES);
 
 		Points actual = new Score(this.testTrick).getRoemScore();
 		Points expected = new Points(0);
@@ -69,10 +68,10 @@ public class TestScore {
 
 	@Test
 	public void testFourJacks() {
-		this.addCard(new Card(Suit.CLUBS, Rank.JACK));
-		this.addCard(new Card(Suit.HEARTS, Rank.JACK));
-		this.addCard(new Card(Suit.DIAMONDS, Rank.JACK));
-		this.addCard(new Card(Suit.SPADES, Rank.JACK));
+		this.addCard(Card.JACK_OF_CLUBS);
+		this.addCard(Card.JACK_OF_HEARTS);
+		this.addCard(Card.JACK_OF_DIAMONDS);
+		this.addCard(Card.JACK_OF_SPADES);
 
 		Points actual = new Score(this.testTrick).getRoemScore();
 		Points expected = new Points(200);
@@ -82,10 +81,10 @@ public class TestScore {
 
 	@Test
 	public void testFourCardsSameRank() {
-		this.addCard(new Card(Suit.CLUBS, Rank.QUEEN));
-		this.addCard(new Card(Suit.HEARTS, Rank.QUEEN));
-		this.addCard(new Card(Suit.DIAMONDS, Rank.QUEEN));
-		this.addCard(new Card(Suit.SPADES, Rank.QUEEN));
+		this.addCard(Card.QUEEN_OF_CLUBS);
+		this.addCard(Card.QUEEN_OF_HEARTS);
+		this.addCard(Card.QUEEN_OF_DIAMONDS);
+		this.addCard(Card.QUEEN_OF_SPADES);
 
 		Points actual = new Score(this.testTrick).getRoemScore();
 		Points expected = new Points(100);
@@ -95,10 +94,10 @@ public class TestScore {
 
 	@Test
 	public void testFourCardsNotSameRank() {
-		this.addCard(new Card(Suit.CLUBS, Rank.QUEEN));
-		this.addCard(new Card(Suit.HEARTS, Rank.QUEEN));
-		this.addCard(new Card(Suit.DIAMONDS, Rank.QUEEN));
-		this.addCard(new Card(Suit.SPADES, Rank.TEN));
+		this.addCard(Card.QUEEN_OF_CLUBS);
+		this.addCard(Card.QUEEN_OF_HEARTS);
+		this.addCard(Card.QUEEN_OF_DIAMONDS);
+		this.addCard(Card.TEN_OF_SPADES);
 
 		Points actual = new Score(this.testTrick).getRoemScore();
 		Points expected = new Points(0);
@@ -108,10 +107,10 @@ public class TestScore {
 
 	@Test
 	public void testFourConsecutiveCardsScore() {
-		this.addCard(new Card(Suit.CLUBS, Rank.QUEEN));
-		this.addCard(new Card(Suit.CLUBS, Rank.TEN));
-		this.addCard(new Card(Suit.CLUBS, Rank.JACK));
-		this.addCard(new Card(Suit.CLUBS, Rank.NINE));
+		this.addCard(Card.QUEEN_OF_CLUBS);
+		this.addCard(Card.TEN_OF_CLUBS);
+		this.addCard(Card.JACK_OF_CLUBS);
+		this.addCard(Card.NINE_OF_CLUBS);
 
 		Points actual = new Score(this.testTrick).getRoemScore();
 		Points expected = new Points(50);
@@ -121,10 +120,10 @@ public class TestScore {
 
 	@Test
 	public void testThreeConsecutiveCardsScore() {
-		this.addCard(new Card(Suit.HEARTS, Rank.SEVEN));
-		this.addCard(new Card(Suit.HEARTS, Rank.TEN));
-		this.addCard(new Card(Suit.HEARTS, Rank.JACK));
-		this.addCard(new Card(Suit.HEARTS, Rank.NINE));
+		this.addCard(Card.SEVEN_OF_HEARTS);
+		this.addCard(Card.TEN_OF_HEARTS);
+		this.addCard(Card.JACK_OF_HEARTS);
+		this.addCard(Card.NINE_OF_HEARTS);
 
 		Points actual = new Score(this.testTrick).getRoemScore();
 		Points expected = new Points(20);
@@ -134,10 +133,10 @@ public class TestScore {
 
 	@Test
 	public void testNoThreeConsecutiveCardsScore() {
-		this.addCard(new Card(Suit.HEARTS, Rank.SEVEN));
-		this.addCard(new Card(Suit.CLUBS, Rank.TEN));
-		this.addCard(new Card(Suit.HEARTS, Rank.JACK));
-		this.addCard(new Card(Suit.HEARTS, Rank.NINE));
+		this.addCard(Card.SEVEN_OF_HEARTS);
+		this.addCard(Card.TEN_OF_CLUBS);
+		this.addCard(Card.JACK_OF_CLUBS);
+		this.addCard(Card.NINE_OF_HEARTS);
 
 		Points actual = new Score(this.testTrick).getRoemScore();
 		Points expected = new Points(0);
@@ -147,10 +146,10 @@ public class TestScore {
 
 	@Test
 	public void testNoThreeConsecutiveCardsScore2() {
-		this.addCard(new Card(Suit.SPADES, Rank.NINE));
-		this.addCard(new Card(Suit.SPADES, Rank.KING));
-		this.addCard(new Card(Suit.SPADES, Rank.TEN));
-		this.addCard(new Card(Suit.SPADES, Rank.QUEEN));
+		this.addCard(Card.NINE_OF_SPADES);
+		this.addCard(Card.KING_OF_SPADES);
+		this.addCard(Card.TEN_OF_SPADES);
+		this.addCard(Card.QUEEN_OF_SPADES);
 
 		Points actual = new Score(this.testTrick).getRoemScore();
 		Points expected = new Points(0);
@@ -160,10 +159,10 @@ public class TestScore {
 
 	@Test
 	public void testStukAndThreeConsecutiveCardsScore() {
-		this.addCard(new Card(this.testTrump, Rank.QUEEN));
-		this.addCard(new Card(this.testTrump, Rank.SEVEN));
-		this.addCard(new Card(this.testTrump, Rank.JACK));
-		this.addCard(new Card(this.testTrump, Rank.KING));
+		this.addCard(Card.QUEEN_OF_HEARTS);
+		this.addCard(Card.SEVEN_OF_HEARTS);
+		this.addCard(Card.JACK_OF_HEARTS);
+		this.addCard(Card.KING_OF_HEARTS);
 
 		Points actual = new Score(this.testTrick).getRoemScore();
 		Points expected = new Points(40);
@@ -172,23 +171,11 @@ public class TestScore {
 	}
 
 	@Test
-	public void testStukAndThreeConsecutiveCardsScore2() {
-		this.addCard(new Card(this.testTrump, Rank.SEVEN));
-		this.addCard(new Card(this.testTrump, Rank.NINE));
-		this.addCard(new Card(this.testTrump, Rank.EIGHT));
-
-		Points actual = new Score(this.testTrick).getRoemScore();
-		Points expected = new Points(20);
-
-		assertEquals(expected.getPoints(), actual.getPoints());
-	}
-
-	@Test
 	public void testStukAndFourConsecutiveCardsScore() {
-		this.addCard(new Card(this.testTrump, Rank.QUEEN));
-		this.addCard(new Card(this.testTrump, Rank.TEN));
-		this.addCard(new Card(this.testTrump, Rank.JACK));
-		this.addCard(new Card(this.testTrump, Rank.KING));
+		this.addCard(Card.QUEEN_OF_HEARTS);
+		this.addCard(Card.TEN_OF_HEARTS);
+		this.addCard(Card.JACK_OF_HEARTS);
+		this.addCard(Card.KING_OF_HEARTS);
 
 		Points actual = new Score(this.testTrick).getRoemScore();
 		Points expected = new Points(70);

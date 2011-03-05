@@ -27,58 +27,58 @@ public class TestRotterdamRuleSet {
 
 	@Test
 	public void testIfPlayerCanUnderTrump() {
-		Card trickCard = new Card(Suit.HEARTS, Rank.QUEEN);
+		Card trickCard = Card.QUEEN_OF_HEARTS;
 		Trick trick = this.createMockTrick(Suit.HEARTS, Suit.HEARTS,
 				trickCard, trickCard);
 
-		Card cardToPlay = new Card(Suit.HEARTS, Rank.SEVEN);
+		Card cardToPlay = Card.SEVEN_OF_HEARTS;
 		List<Card> cardsInHand = new LinkedList<Card>();
 		cardsInHand.add(cardToPlay);
-		cardsInHand.add(new Card(Suit.HEARTS, Rank.JACK));
+		cardsInHand.add(Card.JACK_OF_HEARTS);
 
 		assertFalse(this.ruleSet.isLegalCard(trick, cardToPlay, cardsInHand));
 	}
 
 	@Test
 	public void testIfPlayerFollowsLeadingSuit() {
-		Card trickCard = new Card(Suit.HEARTS, Rank.QUEEN);
+		Card trickCard = Card.QUEEN_OF_HEARTS;
 		Trick trick = this.createMockTrick(Suit.HEARTS, Suit.SPADES,
 				trickCard, null);
 
-		Card cardToPlay = new Card(Suit.SPADES, Rank.SEVEN);
+		Card cardToPlay = Card.SEVEN_OF_SPADES;
 		List<Card> cardsInHand = new LinkedList<Card>();
 		cardsInHand.add(cardToPlay);
-		cardsInHand.add(new Card(Suit.HEARTS, Rank.JACK));
+		cardsInHand.add(Card.JACK_OF_HEARTS);
 
 		assertFalse(this.ruleSet.isLegalCard(trick, cardToPlay, cardsInHand));
 	}
 
 	@Test
 	public void testIfPlayerHasToTrump() {
-		Card trickCard = new Card(Suit.HEARTS, Rank.QUEEN);
+		Card trickCard = Card.QUEEN_OF_HEARTS;
 		Trick trick = this.createMockTrick(Suit.HEARTS, Suit.SPADES,
 				trickCard, null);
 
-		Card cardToPlay = new Card(Suit.DIAMONDS, Rank.SEVEN);
+		Card cardToPlay = Card.SEVEN_OF_DIAMONDS;
 		List<Card> cardsInHand = new LinkedList<Card>();
 		cardsInHand.add(cardToPlay);
-		cardsInHand.add(new Card(Suit.SPADES, Rank.EIGHT));
-		cardsInHand.add(new Card(Suit.DIAMONDS, Rank.JACK));
+		cardsInHand.add(Card.EIGHT_OF_SPADES);
+		cardsInHand.add(Card.JACK_OF_DIAMONDS);
 
 		assertFalse(this.ruleSet.isLegalCard(trick, cardToPlay, cardsInHand));
 	}
 
 	@Test
 	public void testIfPlayerCanPlayAnyCard() {
-		Card trickCard = new Card(Suit.HEARTS, Rank.QUEEN);
+		Card trickCard = Card.QUEEN_OF_HEARTS;
 		Trick trick = this.createMockTrick(Suit.HEARTS, Suit.SPADES,
 				trickCard, null);
 
-		Card cardToPlay = new Card(Suit.SPADES, Rank.QUEEN);
+		Card cardToPlay = Card.QUEEN_OF_SPADES;
 		List<Card> cardsInHand = new LinkedList<Card>();
 		cardsInHand.add(cardToPlay);
-		cardsInHand.add(new Card(Suit.DIAMONDS, Rank.JACK));
-		cardsInHand.add(new Card(Suit.DIAMONDS, Rank.ACE));
+		cardsInHand.add(Card.JACK_OF_DIAMONDS);
+		cardsInHand.add(Card.ACE_OF_DIAMONDS);
 
 		assertTrue(this.ruleSet.isLegalCard(trick, cardToPlay, cardsInHand));
 	}

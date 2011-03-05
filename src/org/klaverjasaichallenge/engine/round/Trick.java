@@ -4,7 +4,7 @@ package org.klaverjasaichallenge.engine.round;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.HashMap;
+import java.util.EnumMap;
 
 import org.klaverjasaichallenge.engine.score.Score;
 import org.klaverjasaichallenge.shared.Player;
@@ -33,7 +33,7 @@ public class Trick {
 	private Suit leadingSuit;
 
 	public Trick(final Suit trump, final boolean isLastTrick) {
-		this.cards = new HashMap<Card, Player>();
+		this.cards = new EnumMap<Card, Player>(Card.class);
 		this.trump = trump;
 		this.isLastTrick = isLastTrick;
 	}

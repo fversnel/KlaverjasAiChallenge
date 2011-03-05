@@ -8,8 +8,6 @@ import java.util.Stack;
 import org.apache.log4j.Logger;
 
 import org.klaverjasaichallenge.shared.card.Card;
-import org.klaverjasaichallenge.shared.card.Rank;
-import org.klaverjasaichallenge.shared.card.Suit;
 
 /**
  *
@@ -17,8 +15,6 @@ import org.klaverjasaichallenge.shared.card.Suit;
  * @author Frank Versnel
  */
 public class Deck {
-	private static final int TOTAL_NUMBER_OF_CARDS = 32;
-
 	private final Stack<Card> cards;
 
 	private final Logger logger;
@@ -38,18 +34,12 @@ public class Deck {
 	}
 
 	private Stack<Card> createDeck() {
-		final Stack<Card> cards = new Stack<Card>();
-		for(final Suit suit : Card.getSuits()) {
-			for(final Rank rank : Card.getRanks()) {
-				cards.add(new Card(suit, rank));
-			}
+		final Stack<Card> newDeck = new Stack<Card>();
+		for(final Card card : Card.values()) {
+			newDeck.add(card);
 		}
 
-		assert(cards.size() == TOTAL_NUMBER_OF_CARDS) : "The deck contains " +
-				cards.size() + " cards, but should contain "
-				+ TOTAL_NUMBER_OF_CARDS + " cards.";
-
-		return cards;
+		return newDeck;
 	}
 
 	private void shuffleDeck(final List<Card> cards) {

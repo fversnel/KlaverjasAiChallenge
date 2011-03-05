@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.LinkedList;
 
 import org.klaverjasaichallenge.shared.card.Card;
-import org.klaverjasaichallenge.shared.card.Rank;
 import org.klaverjasaichallenge.shared.card.Suit;
 
 /**
@@ -21,11 +20,13 @@ public class TestCard {
 		List<Card> cardsToTest = new LinkedList<Card>();
 		Suit trump = Suit.HEARTS;
 		Suit leadingSuit = Suit.CLUBS;
-		final Card expected = new Card(trump, Rank.JACK);
-		cardsToTest.add(new Card(Suit.CLUBS, Rank.ACE));
+		final Card expected = Card.JACK_OF_HEARTS;
+
+		cardsToTest.add(Card.ACE_OF_CLUBS);
 		cardsToTest.add(expected);
-		cardsToTest.add(new Card(Suit.DIAMONDS, Rank.JACK));
-		cardsToTest.add(new Card(trump, Rank.TEN));
+		cardsToTest.add(Card.JACK_OF_DIAMONDS);
+		cardsToTest.add(Card.TEN_OF_HEARTS);
+
 		final Card actual = Card.max(trump, leadingSuit, cardsToTest);
 		assertEquals(expected,actual);
 	}
@@ -33,20 +34,23 @@ public class TestCard {
 	@Test
 	public void testMax2() {
 		List<Card> cardsToTest = new LinkedList<Card>();
-		final Card expected = new Card(Suit.CLUBS, Rank.SEVEN);
+		final Card expected = Card.SEVEN_OF_CLUBS;
 		Suit leadingSuit = Suit.SPADES;
-		cardsToTest.add(new Card(Suit.SPADES, Rank.JACK));
-		cardsToTest.add(new Card(Suit.SPADES, Rank.QUEEN));
-		cardsToTest.add(new Card(Suit.SPADES, Rank.KING));
+
+		cardsToTest.add(Card.JACK_OF_SPADES);
+		cardsToTest.add(Card.QUEEN_OF_SPADES);
+		cardsToTest.add(Card.KING_OF_SPADES);
 		cardsToTest.add(expected);
-		final Card actual = Card.max(Suit.CLUBS,leadingSuit, cardsToTest);
+
+		final Card actual = Card.max(Suit.CLUBS, leadingSuit,
+			cardsToTest);
 		assertEquals(expected,actual);
 	}
 
 	@Test
 	public void testHigherThan() {
-		final Card card1 = new Card(Suit.HEARTS, Rank.JACK);
-		final Card card2 = new Card(Suit.HEARTS, Rank.TEN);
+		final Card card1 = Card.JACK_OF_HEARTS;
+		final Card card2 = Card.TEN_OF_HEARTS;
 		assertTrue(card1.isHigherThan(Suit.HEARTS, Suit.SPADES, card2));
 	}
 

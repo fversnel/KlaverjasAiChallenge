@@ -27,7 +27,7 @@ public class TestTrick {
 
 	@Test
 	public void testGetCardFromPlayer() {
-		Card expected = new Card(Suit.HEARTS, Rank.SEVEN);
+		Card expected = Card.SEVEN_OF_HEARTS;
 		this.testTrick.addCard(this.testPlayer, expected);
 
 		Card actual =
