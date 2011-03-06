@@ -1,10 +1,11 @@
 /**
  *
  */
-package org.klaverjasaichallenge.shared;
+package org.klaverjasaichallenge.shared.ruleset;
 
 import java.util.List;
 
+import org.klaverjasaichallenge.shared.Trick;
 import org.klaverjasaichallenge.shared.card.Card;
 
 

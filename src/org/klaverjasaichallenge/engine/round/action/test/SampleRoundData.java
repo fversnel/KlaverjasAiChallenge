@@ -7,8 +7,8 @@ import org.klaverjasaichallenge.engine.Table;
 import org.klaverjasaichallenge.engine.Team;
 import org.klaverjasaichallenge.engine.round.action.*;
 import org.klaverjasaichallenge.shared.Player;
-import org.klaverjasaichallenge.shared.RotterdamRuleSet;
-import org.klaverjasaichallenge.shared.RuleSet;
+import org.klaverjasaichallenge.shared.ruleset.RotterdamRuleSet;
+import org.klaverjasaichallenge.shared.ruleset.RuleSet;
 
 /**
  *

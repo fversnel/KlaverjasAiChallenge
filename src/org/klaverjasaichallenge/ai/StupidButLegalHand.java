@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.klaverjasaichallenge.shared.Trick;
-import org.klaverjasaichallenge.shared.RuleSet;
+import org.klaverjasaichallenge.shared.ruleset.RuleSet;
 import org.klaverjasaichallenge.shared.card.Card;
 
 /**

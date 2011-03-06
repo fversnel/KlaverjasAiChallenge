@@ -13,8 +13,8 @@ import org.klaverjasaichallenge.engine.round.Round;
 import org.klaverjasaichallenge.engine.score.Score;
 import org.klaverjasaichallenge.shared.KlaverJasAI;
 import org.klaverjasaichallenge.shared.Points;
-import org.klaverjasaichallenge.shared.RotterdamRuleSet;
-import org.klaverjasaichallenge.shared.RuleSet;
+import org.klaverjasaichallenge.shared.ruleset.RotterdamRuleSet;
+import org.klaverjasaichallenge.shared.ruleset.RuleSet;
 
 /**
  *

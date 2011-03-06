@@ -10,7 +10,7 @@ import org.klaverjasaichallenge.engine.Team;
 import org.klaverjasaichallenge.engine.round.Hand;
 import org.klaverjasaichallenge.engine.round.Trick;
 import org.klaverjasaichallenge.engine.score.Score;
-import org.klaverjasaichallenge.shared.RuleSet;
+import org.klaverjasaichallenge.shared.ruleset.RuleSet;
 import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.card.Suit;
 

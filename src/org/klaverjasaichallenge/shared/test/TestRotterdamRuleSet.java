@@ -9,8 +9,8 @@ import java.util.LinkedList;
 import org.junit.*;
 
 import org.klaverjasaichallenge.shared.Trick;
-import org.klaverjasaichallenge.shared.RuleSet;
-import org.klaverjasaichallenge.shared.RotterdamRuleSet;
+import org.klaverjasaichallenge.shared.ruleset.RuleSet;
+import org.klaverjasaichallenge.shared.ruleset.RotterdamRuleSet;
 import org.klaverjasaichallenge.shared.card.*;
 
 /**

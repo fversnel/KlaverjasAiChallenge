@@ -103,7 +103,7 @@
     </junit>
   </target>
 
-  <target name="distribution" depends="compile" description="Creates a jar file from the class files in the 'build' directory and outputs it in the 'dist' directory">
+  <target name="distribution" depends="test" description="Creates a jar file from the class files in the 'build' directory and outputs it in the 'dist' directory">
     <mkdir dir="${dir.distribution}" />
     <manifest file="${dir.distribution}/MANIFEST.MF">
       <attribute name="Main-Class" value="${main.class}" />

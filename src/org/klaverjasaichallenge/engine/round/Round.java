@@ -11,7 +11,7 @@ import org.klaverjasaichallenge.engine.round.action.InformPlayersRuleSet;
 import org.klaverjasaichallenge.engine.round.action.RoundAction;
 import org.klaverjasaichallenge.engine.round.action.RoundData;
 import org.klaverjasaichallenge.engine.score.Score;
-import org.klaverjasaichallenge.shared.RuleSet;
+import org.klaverjasaichallenge.shared.ruleset.RuleSet;
 
 public class Round {
 	private final RoundData roundData;

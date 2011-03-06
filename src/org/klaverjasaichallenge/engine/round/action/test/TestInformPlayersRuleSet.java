@@ -3,7 +3,7 @@ package org.klaverjasaichallenge.engine.round.action.test;
 import org.junit.*;
 import org.klaverjasaichallenge.engine.round.action.*;
 import org.klaverjasaichallenge.shared.Player;
-import org.klaverjasaichallenge.shared.RuleSet;
+import org.klaverjasaichallenge.shared.ruleset.RuleSet;
 
 import static org.mockito.Mockito.*;
 
