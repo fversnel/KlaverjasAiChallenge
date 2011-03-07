@@ -1,10 +1,12 @@
 
 package org.klaverjasaichallenge.engine.round;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.EnumMap;
+import java.util.Map.Entry;
 
 import org.klaverjasaichallenge.engine.score.Score;
 import org.klaverjasaichallenge.shared.Player;
@@ -60,6 +62,20 @@ public class Trick {
 	public Map<Card, Player> getCardsWithPlayers() {
 		return this.cards;
 	}
+	
+	/**
+	 * This function transforms getCards (who has Player objects as value)
+	 * to a getCards with PlayerID's as value, so its safe to pass them to
+	 * clients.
+	 * 
+	 * @return Cards mapped to player ID's
+	 */
+	public Map<Card, Integer> getCardsWithPlayersIds() {
+		Map<Card, Integer> cardsWithPlayersIds = new HashMap<Card, Integer>();
+		for(Entry<Card, Player> cardWithPlayer : this.cards.entrySet())
+			cardsWithPlayersIds.put(cardWithPlayer.getKey(), cardWithPlayer.getValue().hashCode()) ;
+		return cardsWithPlayersIds;
+	}	
 
 	public Card getCardFromPlayer(final int playerId) {
 		Card playerCard = null;

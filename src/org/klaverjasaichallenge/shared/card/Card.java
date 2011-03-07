@@ -188,5 +188,12 @@ public enum Card {
 
 		return suits;
 	}
+	
+	public static List<Rank> getRanks() {
+		final List<Rank> ranks = new LinkedList<Rank>();
+		ranks.addAll(Arrays.asList(Rank.values()));
+
+		return ranks;
+	}	
 
 }
