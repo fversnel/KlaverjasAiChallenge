@@ -1,10 +1,12 @@
 
 package org.klaverjasaichallenge.engine.round;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.EnumMap;
+import java.util.Map.Entry;
 
 import org.klaverjasaichallenge.engine.score.Score;
 import org.klaverjasaichallenge.shared.Player;
@@ -60,6 +62,20 @@ public class Trick {
 	public Map<Card, Player> getCardsWithPlayers() {
 		return this.cards;
 	}
+	
+	/**
+	 * This function transforms getCards (who has Player objects as value)
+	 * to a getCards with PlayerID's as value, so its safe to pass them to
+	 * clients.
+	 * 
+	 * @return Cards mapped to player ID's
+	 */
+	public Map<Card, Integer> getCardsWithPlayersIds() {
+		Map<Card, Integer> cardsWithPlayersIds = new HashMap<Card, Integer>();
+		for(Entry<Card, Player> cardWithPlayer : this.cards.entrySet())
+			cardsWithPlayersIds.put(cardWithPlayer.getKey(), cardWithPlayer.getValue().hashCode()) ;
+		return cardsWithPlayersIds;
+	}	
 
 	public Card getCardFromPlayer(final int playerId) {
 		Card playerCard = null;
@@ -104,9 +120,7 @@ public class Trick {
 		assert(this.cards.keySet().size() == TOTAL_CARDS) : "Cannot determine a winner " +
 												   "if a trick is not fully played yet.";
 
-		final Card highestCard = Card.max(this.trump, this.leadingSuit, new
-				LinkedList<Card>(this.cards.keySet()));
-		return this.cards.get(highestCard);
+		return this.cards.get(this.getHighestCard());
 	}
 
 	/**
@@ -118,8 +132,20 @@ public class Trick {
 	}
 
 	public Card getHighestCard() {
-		return Card.max(this.trump, this.leadingSuit, new
-				LinkedList<Card>(this.cards.keySet()));
+		assert(!cards.isEmpty()) : "Cannot determine the maximum on a stack of 0 cards.";
+
+		Card highestCard = null;
+
+		org.klaverjasaichallenge.shared.Trick thisTrick =
+				new org.klaverjasaichallenge.shared.Trick(this);
+		for(Card card : this.cards.keySet()) {
+			if(highestCard == null ||
+					card.isHigherThan(thisTrick, highestCard)) {
+				highestCard = card;
+			}
+		}
+
+		return highestCard;
 	}
 
 }

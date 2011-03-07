@@ -9,6 +9,7 @@ import java.util.LinkedList;
 
 import org.klaverjasaichallenge.shared.Order;
 import org.klaverjasaichallenge.shared.Points;
+import org.klaverjasaichallenge.shared.Trick;
 
 /**
  *
@@ -88,6 +89,16 @@ public enum Card {
 		return this.rank.getRoemOrder();
 	}
 
+	public boolean isHigherThan(final Trick trick, final Card card) {
+		return this.isHigherThan(trick.getTrump(), trick.getLeadingSuit(), card);
+	}
+
+	/**
+	 * @deprecated isHigherThan() is never valid outside a given Trick.
+	 * Therefore, do not pass the trump and the leading suit separately into
+	 * this method but use isHigherThan(trump, card) instead.
+	 */
+	@Deprecated
 	public boolean isHigherThan(final Suit trump, final Suit leadingSuit, final Card card) {
 		Boolean result = null;
 
@@ -138,6 +149,10 @@ public enum Card {
 		return this.rank + " of " + this.suit;
 	}
 
+	/**
+	 * @deprecated use {@link Trick#getHighestCard} instead.
+	 */
+	@Deprecated
 	public static Card max(final Suit trump, final Suit leadingSuit, final List<Card> cards) {
 		assert(!cards.isEmpty()) : "Cannot determine the maximum on a stack of 0 cards.";
 
@@ -170,6 +185,11 @@ public enum Card {
 		return highestCard;
 	}
 
+	/**
+	 * TODO Introduce the concept of Hand in the shared package, so this
+	 * helper method can be put in that class, which is much more
+	 * appropriate than as a helper method in Card.
+	 */
 	public static boolean hasSuit(final Suit suit, final List<Card> cards) {
 		boolean check = false;
 
@@ -188,5 +208,12 @@ public enum Card {
 
 		return suits;
 	}
+	
+	public static List<Rank> getRanks() {
+		final List<Rank> ranks = new LinkedList<Rank>();
+		ranks.addAll(Arrays.asList(Rank.values()));
+
+		return ranks;
+	}	
 
 }
