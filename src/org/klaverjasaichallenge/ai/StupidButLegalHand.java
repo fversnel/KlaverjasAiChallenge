@@ -3,6 +3,7 @@ package org.klaverjasaichallenge.ai;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.klaverjasaichallenge.shared.Hand;
 import org.klaverjasaichallenge.shared.Trick;
 import org.klaverjasaichallenge.shared.ruleset.RuleSet;
 import org.klaverjasaichallenge.shared.card.Card;
@@ -13,10 +14,10 @@ import org.klaverjasaichallenge.shared.card.Card;
  * @author Frank Versnel
  */
 public class StupidButLegalHand {
-	private List<Card> cards;
+	private Hand hand;
 
-	public StupidButLegalHand(List<Card> cards) {
-		this.cards = cards;
+	public StupidButLegalHand(Hand hand) {
+		this.hand = hand;
 	}
 
 	/**
@@ -28,8 +29,8 @@ public class StupidButLegalHand {
 	public List<Card> getLegalCards(final RuleSet ruleSet, final Trick
 			trick) {
 		List<Card> legalCards =  new LinkedList<Card>();
-		for(final Card card : this.cards) {
-			if(ruleSet.isLegalCard(trick, card, this.cards)) {
+		for(final Card card : this.hand.getCards()) {
+			if(ruleSet.isLegalCard(trick, card, this.hand)) {
 				legalCards.add(card);
 			}
 		}
@@ -40,7 +41,7 @@ public class StupidButLegalHand {
 	}
 
 	public List<Card> getCards() {
-		return this.cards;
+		return this.hand.getCards();
 	}
 
 }

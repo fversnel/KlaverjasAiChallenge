@@ -62,12 +62,12 @@ public class Trick {
 	public Map<Card, Player> getCardsWithPlayers() {
 		return this.cards;
 	}
-	
+
 	/**
 	 * This function transforms getCards (who has Player objects as value)
 	 * to a getCards with PlayerID's as value, so its safe to pass them to
 	 * clients.
-	 * 
+	 *
 	 * @return Cards mapped to player ID's
 	 */
 	public Map<Card, Integer> getCardsWithPlayersIds() {
@@ -75,7 +75,7 @@ public class Trick {
 		for(Entry<Card, Player> cardWithPlayer : this.cards.entrySet())
 			cardsWithPlayersIds.put(cardWithPlayer.getKey(), cardWithPlayer.getValue().hashCode()) ;
 		return cardsWithPlayersIds;
-	}	
+	}
 
 	public Card getCardFromPlayer(final int playerId) {
 		Card playerCard = null;
@@ -132,7 +132,7 @@ public class Trick {
 	}
 
 	public Card getHighestCard() {
-		assert(!cards.isEmpty()) : "Cannot determine the maximum on a stack of 0 cards.";
+		assert(!this.cards.isEmpty()) : "Cannot determine the maximum on a stack of 0 cards.";
 
 		Card highestCard = null;
 

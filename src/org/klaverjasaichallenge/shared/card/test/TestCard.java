@@ -1,11 +1,13 @@
 package org.klaverjasaichallenge.shared.card.test;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 import org.junit.*;
 import java.util.List;
 import java.util.LinkedList;
 
+import org.klaverjasaichallenge.shared.Trick;
 import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.Suit;
 
@@ -51,7 +53,12 @@ public class TestCard {
 	public void testHigherThan() {
 		final Card card1 = Card.JACK_OF_HEARTS;
 		final Card card2 = Card.TEN_OF_HEARTS;
-		assertTrue(card1.isHigherThan(Suit.HEARTS, Suit.SPADES, card2));
+		
+		Trick trick = mock(Trick.class);
+		when(trick.getTrump()).thenReturn(Suit.HEARTS);
+		when(trick.getLeadingSuit()).thenReturn(Suit.SPADES);
+		
+		assertTrue(card1.isHigherThan(trick, card2));
 	}
 
 }

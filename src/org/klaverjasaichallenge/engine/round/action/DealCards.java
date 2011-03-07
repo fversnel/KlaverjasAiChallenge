@@ -1,7 +1,7 @@
 package org.klaverjasaichallenge.engine.round.action;
 
 import org.klaverjasaichallenge.engine.round.Deck;
-import org.klaverjasaichallenge.engine.round.Hand;
+import org.klaverjasaichallenge.shared.Hand;
 import org.klaverjasaichallenge.shared.Player;
 
 /**
@@ -29,7 +29,7 @@ public class DealCards extends RoundAction {
 
 	private Hand dealHand(final Deck deck, final Player player) {
 		final Hand playersHand = new Hand(deck);
-		player.giveCards(playersHand.getCards());
+		player.giveCards(playersHand.clone());
 
 		return playersHand;
 	}

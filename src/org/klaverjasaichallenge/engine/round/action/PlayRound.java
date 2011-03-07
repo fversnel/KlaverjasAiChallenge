@@ -1,14 +1,12 @@
 package org.klaverjasaichallenge.engine.round.action;
 
-import java.util.List;
-
 // Import log4j classes.
 import org.apache.log4j.Logger;
 
 import org.klaverjasaichallenge.engine.Table;
 import org.klaverjasaichallenge.engine.round.CheatException;
-import org.klaverjasaichallenge.engine.round.Hand;
 import org.klaverjasaichallenge.engine.round.Trick;
+import org.klaverjasaichallenge.shared.Hand;
 import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.ruleset.RuleSet;
@@ -81,13 +79,11 @@ public class PlayRound extends RoundAction {
 	private void playCard(final Trick trick, final Player player,
 			final Card card) throws CheatException {
 		final Hand playersHand = this.roundData.getPlayersHand(player);
-		final List<Card> playersCards = playersHand.getCards();
 
 		RuleSet ruleSet = this.roundData.getRuleSet();
 		if(ruleSet.isLegalCard(new org.klaverjasaichallenge.shared.Trick(trick),
-					card, playersCards)
-				&& playersHand.drawCard(card)) {
-			trick.addCard(player, card);
+					card, playersHand) && playersHand.drawCard(card)) {
+				trick.addCard(player, card);
 		} else {
 			throw new CheatException("Player " + player + " cheated " +
 					"with " + card + " and hand " + playersHand.getCards());

@@ -3,6 +3,7 @@ package org.klaverjasaichallenge.ai;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.klaverjasaichallenge.shared.Hand;
 import org.klaverjasaichallenge.shared.Trick;
 import org.klaverjasaichallenge.shared.KlaverJasAI;
 import org.klaverjasaichallenge.shared.Order;
@@ -38,8 +39,8 @@ public class StupidButLegalAI implements KlaverJasAI {
 	}
 
 	@Override
-	public void giveCards(List<Card> hand) {
-		this.hand = new StupidButLegalHand(hand);
+	public void giveCards(Hand cards) {
+		this.hand = new StupidButLegalHand(cards);
 
 		// Empty the list of cards played, because its a new round
 		this.cardsPlayed = new LinkedList<Card>();

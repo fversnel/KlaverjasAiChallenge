@@ -1,12 +1,11 @@
 package org.klaverjasaichallenge.engine.round.action.test;
 
-import java.util.List;
-
 import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
 import org.junit.*;
 
 import org.klaverjasaichallenge.engine.round.action.*;
+import org.klaverjasaichallenge.shared.Hand;
 import org.klaverjasaichallenge.shared.Player;
 
 /**
@@ -33,11 +32,10 @@ public class TestDealCards {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Test
 	public void verifyGiveCards() {
 		for(final Player player : this.roundData.getTable()) {
-			verify(player).giveCards(any(List.class));
+			verify(player).giveCards(any(Hand.class));
 		}
 	}
 

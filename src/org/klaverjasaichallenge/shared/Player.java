@@ -4,8 +4,6 @@
 package org.klaverjasaichallenge.shared;
 
 import org.klaverjasaichallenge.shared.ruleset.RuleSet;
-import java.util.List;
-
 import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.Suit;
 
@@ -30,7 +28,7 @@ public interface Player {
 	 *
 	 * @param cards the cards that are dealt to the player.
 	 */
-	public void giveCards(List<Card> cards);
+	public void giveCards(Hand cards);
 
 	/**
 	 * Whether you play on the given trump or not.

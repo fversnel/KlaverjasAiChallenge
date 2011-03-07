@@ -8,6 +8,7 @@ import java.util.LinkedList;
 
 import org.junit.*;
 
+import org.klaverjasaichallenge.shared.Hand;
 import org.klaverjasaichallenge.shared.Trick;
 import org.klaverjasaichallenge.shared.ruleset.RuleSet;
 import org.klaverjasaichallenge.shared.ruleset.RotterdamRuleSet;
@@ -36,7 +37,8 @@ public class TestRotterdamRuleSet {
 		cardsInHand.add(cardToPlay);
 		cardsInHand.add(Card.JACK_OF_HEARTS);
 
-		assertFalse(this.ruleSet.isLegalCard(trick, cardToPlay, cardsInHand));
+		assertFalse(this.ruleSet.isLegalCard(trick, cardToPlay, 
+					createMockHand(cardsInHand)));
 	}
 
 	@Test
@@ -50,7 +52,8 @@ public class TestRotterdamRuleSet {
 		cardsInHand.add(cardToPlay);
 		cardsInHand.add(Card.JACK_OF_HEARTS);
 
-		assertFalse(this.ruleSet.isLegalCard(trick, cardToPlay, cardsInHand));
+		assertFalse(this.ruleSet.isLegalCard(trick, cardToPlay,
+					createMockHand(cardsInHand)));
 	}
 
 	@Test
@@ -65,7 +68,8 @@ public class TestRotterdamRuleSet {
 		cardsInHand.add(Card.EIGHT_OF_SPADES);
 		cardsInHand.add(Card.JACK_OF_DIAMONDS);
 
-		assertFalse(this.ruleSet.isLegalCard(trick, cardToPlay, cardsInHand));
+		assertFalse(this.ruleSet.isLegalCard(trick, cardToPlay,
+					createMockHand(cardsInHand)));
 	}
 
 	@Test
@@ -80,7 +84,8 @@ public class TestRotterdamRuleSet {
 		cardsInHand.add(Card.JACK_OF_DIAMONDS);
 		cardsInHand.add(Card.ACE_OF_DIAMONDS);
 
-		assertTrue(this.ruleSet.isLegalCard(trick, cardToPlay, cardsInHand));
+		assertTrue(this.ruleSet.isLegalCard(trick, cardToPlay, 
+					createMockHand(cardsInHand)));
 	}
 
 	private Trick createMockTrick(final Suit leadingSuit, final Suit trump,
@@ -93,6 +98,12 @@ public class TestRotterdamRuleSet {
 		when(trick.getHighestTrump()).thenReturn(highestTrump);
 
 		return trick;
+	}
+	
+	private Hand createMockHand(final List<Card> cards) {
+		Hand mockHand = mock(Hand.class);
+		when(mockHand.getCards()).thenReturn(cards);
+		return mockHand;
 	}
 
 }

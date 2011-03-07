@@ -149,10 +149,6 @@ public enum Card {
 		return this.rank + " of " + this.suit;
 	}
 
-	/**
-	 * @deprecated use {@link Trick#getHighestCard} instead.
-	 */
-	@Deprecated
 	public static Card max(final Suit trump, final Suit leadingSuit, final List<Card> cards) {
 		assert(!cards.isEmpty()) : "Cannot determine the maximum on a stack of 0 cards.";
 
@@ -175,21 +171,22 @@ public enum Card {
 
 		for(Card card : cards) {
 			Suit cardSuit = card.getSuit();
-			if((highestCard == null && cardSuit.equals(trump)) ||
-					(cardSuit.equals(trump) &&
-					 card.getTrumpOrder().isHigherThan(highestCard.getTrumpOrder()))) {
-				highestCard = card;
+			
+			boolean isTrumpCard = cardSuit.equals(trump);
+			if(isTrumpCard) {
+				if(highestCard != null) {
+					if(card.getTrumpOrder().isHigherThan(highestCard.getTrumpOrder())) {
+						highestCard = card;
+					}
+				} else {
+					highestCard = card;
+				}
 			}
 		}
 
 		return highestCard;
 	}
 
-	/**
-	 * TODO Introduce the concept of Hand in the shared package, so this
-	 * helper method can be put in that class, which is much more
-	 * appropriate than as a helper method in Card.
-	 */
 	public static boolean hasSuit(final Suit suit, final List<Card> cards) {
 		boolean check = false;
 

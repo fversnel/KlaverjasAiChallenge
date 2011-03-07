@@ -3,8 +3,7 @@
  */
 package org.klaverjasaichallenge.shared.ruleset;
 
-import java.util.List;
-
+import org.klaverjasaichallenge.shared.Hand;
 import org.klaverjasaichallenge.shared.Trick;
 import org.klaverjasaichallenge.shared.card.Card;
 
@@ -25,7 +24,7 @@ public interface RuleSet {
 	 * @since 1.3
 	 */
 	public boolean isLegalCard(final Trick trick, final Card cardToCheck,
-			final List<Card> playerHand);
+			final Hand playerHand);
 
 	public int getNumberOfRounds();
 
