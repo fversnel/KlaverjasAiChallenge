@@ -8,7 +8,6 @@ import org.junit.*;
 import org.klaverjasaichallenge.engine.round.Trick;
 import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.card.Card;
-import org.klaverjasaichallenge.shared.card.Rank;
 import org.klaverjasaichallenge.shared.card.Suit;
 
 /**

@@ -33,6 +33,7 @@ public class TestDealCards {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void verifyGiveCards() {
 		for(final Player player : this.roundData.getTable()) {

@@ -7,7 +7,5 @@
 	<classpathentry kind="lib" path="lib/junit-4.8.2.jar"/>
 	<classpathentry kind="lib" path="lib/log4j-1.2.16.jar"/>
 	<classpathentry kind="lib" path="lib/mockito-all-1.8.5.jar"/>
-	<classpathentry kind="lib" path="lib/ai/JoostAI.jar"/>
-	<classpathentry kind="lib" path="lib/ai/PipoAI.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
