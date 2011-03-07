@@ -9,6 +9,9 @@ import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.Suit;
 
 /**
+ * TODO We might want to introduce the concept of a Hand for the shared
+ * package as well. This make things like Card.hasSuit(suit, hand) look like
+ * hand.hasSuit(suit), which is much nicer.
  *
  * @author Frank Versnel
  */
