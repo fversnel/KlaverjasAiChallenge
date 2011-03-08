@@ -140,8 +140,7 @@ public enum Card {
 	}
 
 	public boolean equals(final Card toCompare) {
-		return this.suit.equals(toCompare.getSuit()) &&
-				this.rank.equals(toCompare.getRank());
+		return this == toCompare;
 	}
 
 	@Override
@@ -149,6 +148,14 @@ public enum Card {
 		return this.rank + " of " + this.suit;
 	}
 
+	public static Card max(final Trick trick, final List<Card> cards) {
+		return Card.max(trick.getTrump(), trick.getLeadingSuit(), cards);
+	}
+
+	/**
+	 * TODO Replace trump and leadingsuit with trick.
+	 */
+	@Deprecated
 	public static Card max(final Suit trump, final Suit leadingSuit, final List<Card> cards) {
 		assert(!cards.isEmpty()) : "Cannot determine the maximum on a stack of 0 cards.";
 
@@ -171,7 +178,7 @@ public enum Card {
 
 		for(Card card : cards) {
 			Suit cardSuit = card.getSuit();
-			
+
 			boolean isTrumpCard = cardSuit.equals(trump);
 			if(isTrumpCard) {
 				if(highestCard != null) {
@@ -205,12 +212,12 @@ public enum Card {
 
 		return suits;
 	}
-	
+
 	public static List<Rank> getRanks() {
 		final List<Rank> ranks = new LinkedList<Rank>();
 		ranks.addAll(Arrays.asList(Rank.values()));
 
 		return ranks;
-	}	
+	}
 
 }

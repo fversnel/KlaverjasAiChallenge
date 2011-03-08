@@ -59,6 +59,10 @@ public class Trick {
 		return this.cards.size();
 	}
 
+	/**
+	 * @deprecated use {@link Trick#getCardFromPlayer} instead
+	 */
+	@Deprecated
 	public Map<Card, Player> getCardsWithPlayers() {
 		return this.cards;
 	}
@@ -68,8 +72,10 @@ public class Trick {
 	 * to a getCards with PlayerID's as value, so its safe to pass them to
 	 * clients.
 	 *
+	 * @deprecated use {@link Trick#getCardFromPlayer} instead
 	 * @return Cards mapped to player ID's
 	 */
+	@Deprecated
 	public Map<Card, Integer> getCardsWithPlayersIds() {
 		Map<Card, Integer> cardsWithPlayersIds = new HashMap<Card, Integer>();
 		for(Entry<Card, Player> cardWithPlayer : this.cards.entrySet())
@@ -132,20 +138,11 @@ public class Trick {
 	}
 
 	public Card getHighestCard() {
-		assert(!this.cards.isEmpty()) : "Cannot determine the maximum on a stack of 0 cards.";
+		return Card.max(Trick.convertToSharedTrick(this), this.getCards());
+	}
 
-		Card highestCard = null;
-
-		org.klaverjasaichallenge.shared.Trick thisTrick =
-				new org.klaverjasaichallenge.shared.Trick(this);
-		for(Card card : this.cards.keySet()) {
-			if(highestCard == null ||
-					card.isHigherThan(thisTrick, highestCard)) {
-				highestCard = card;
-			}
-		}
-
-		return highestCard;
+	private static org.klaverjasaichallenge.shared.Trick convertToSharedTrick(final Trick trick) {
+		return new org.klaverjasaichallenge.shared.Trick(trick);
 	}
 
 }

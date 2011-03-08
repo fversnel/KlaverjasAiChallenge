@@ -1,9 +1,11 @@
-package org.klaverjasaichallenge.engine.round;
+package org.klaverjasaichallenge.shared;
 
 import java.util.List;
 import java.util.LinkedList;
 
 import org.klaverjasaichallenge.shared.card.Card;
+import org.klaverjasaichallenge.shared.card.Suit;
+import org.klaverjasaichallenge.engine.round.Deck;
 
 /**
  *
@@ -17,6 +19,10 @@ public class Hand {
 
 	public Hand(final Deck deck) {
 		this.cards = this.drawHand(deck);
+	}
+
+	public Hand(final List<Card> cards) {
+		this.cards = cards;
 	}
 
 	/**
@@ -35,15 +41,31 @@ public class Hand {
 		return new LinkedList<Card>(this.cards);
 	}
 
+	public boolean canOverTrump(final Trick trick) {
+		boolean result = false;
+
+		final Card highestTrumpTrick = trick.getHighestTrump();
+
+		final Suit trump = trick.getTrump();
+		final Card highestTrumpPlayer = Card.highestTrump(trump, this.cards);
+
+		if(highestTrumpTrick != null && highestTrumpPlayer != null) {
+			result = highestTrumpPlayer.isHigherThan(trick,
+					highestTrumpTrick);
+		}
+
+		return result;
+	}
+
+	public Hand clone() {
+		return new Hand(new LinkedList<Card>(this.cards));
+	}
+
 	private List<Card> drawHand(final Deck deck) {
 		List<Card> hand = new LinkedList<Card>();
 		for (int i = 1; i <= CARDS_IN_HAND; i++) {
 			hand.add(deck.drawCard());
 		}
-
-		assert(hand.size() == CARDS_IN_HAND) : "Hand contains " +
-				hand.size() + " cards, but should contain "
-				+ CARDS_IN_HAND + " cards.";
 
 		return hand;
 	}

@@ -23,7 +23,7 @@
   <property name="compilation.includeAntRuntime" value="false" />
 
   <!-- Testing related properties -->
-  <property name="testing.formatter.type" value="brief" />
+  <property name="testing.formatter.type" value="plain" />
   <property name="testing.printsummary" value="yes" />
   <property name="testing.haltonfailure" value="yes" />
   <property name="testing.java.files" value="**/*Test*.java" />

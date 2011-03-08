@@ -28,12 +28,10 @@ public class StupidButLegalAI implements KlaverJasAI {
 
 	@Override
 	public Card getCard(Trick trick) {
-
 		List<Card> legalCards = this.hand.getLegalCards(this.ruleSet, trick);
-		List<Card> allCards = this.hand.getCards();
 
 		Card playedCard = legalCards.remove(0);
-		allCards.remove(playedCard);
+		this.hand.removeCard(playedCard);
 
 		return playedCard;
 	}

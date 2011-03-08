@@ -37,8 +37,8 @@ public class TestRotterdamRuleSet {
 		cardsInHand.add(cardToPlay);
 		cardsInHand.add(Card.JACK_OF_HEARTS);
 
-		assertFalse(this.ruleSet.isLegalCard(trick, cardToPlay, 
-					createMockHand(cardsInHand)));
+		assertFalse(this.ruleSet.isLegalCard(trick, cardToPlay,
+					new Hand(cardsInHand)));
 	}
 
 	@Test
@@ -53,7 +53,7 @@ public class TestRotterdamRuleSet {
 		cardsInHand.add(Card.JACK_OF_HEARTS);
 
 		assertFalse(this.ruleSet.isLegalCard(trick, cardToPlay,
-					createMockHand(cardsInHand)));
+					new Hand(cardsInHand)));
 	}
 
 	@Test
@@ -69,7 +69,7 @@ public class TestRotterdamRuleSet {
 		cardsInHand.add(Card.JACK_OF_DIAMONDS);
 
 		assertFalse(this.ruleSet.isLegalCard(trick, cardToPlay,
-					createMockHand(cardsInHand)));
+					new Hand(cardsInHand)));
 	}
 
 	@Test
@@ -84,8 +84,8 @@ public class TestRotterdamRuleSet {
 		cardsInHand.add(Card.JACK_OF_DIAMONDS);
 		cardsInHand.add(Card.ACE_OF_DIAMONDS);
 
-		assertTrue(this.ruleSet.isLegalCard(trick, cardToPlay, 
-					createMockHand(cardsInHand)));
+		assertTrue(this.ruleSet.isLegalCard(trick, cardToPlay,
+					new Hand(cardsInHand)));
 	}
 
 	private Trick createMockTrick(final Suit leadingSuit, final Suit trump,
@@ -98,12 +98,6 @@ public class TestRotterdamRuleSet {
 		when(trick.getHighestTrump()).thenReturn(highestTrump);
 
 		return trick;
-	}
-	
-	private Hand createMockHand(final List<Card> cards) {
-		Hand mockHand = mock(Hand.class);
-		when(mockHand.getCards()).thenReturn(cards);
-		return mockHand;
 	}
 
 }

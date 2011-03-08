@@ -44,4 +44,8 @@ public class StupidButLegalHand {
 		return this.hand.getCards();
 	}
 
+	public void removeCard(final Card card) {
+		this.hand.drawCard(card);
+	}
+
 }
