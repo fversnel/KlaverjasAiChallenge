@@ -29,7 +29,7 @@ public class RotterdamRuleSet implements RuleSet {
 		final Suit leadingSuit = trick.getLeadingSuit();
 		if(leadingSuit == null) {
 			result = true;
-		} else if(Card.hasSuit(leadingSuit, playerHand.getCards())) {
+		} else if(playerHand.hasSuit(leadingSuit)) {
 			final Suit cardSuit = cardToCheck.getSuit();
 			result = cardSuit.equals(leadingSuit);
 
@@ -41,7 +41,7 @@ public class RotterdamRuleSet implements RuleSet {
 		}
 		// Player doesn't have the leading suit but might be able to play
 		// trump. If he does have trump, he has to play it.
-		else if(Card.hasSuit(trump, playerHand.getCards())) {
+		else if(playerHand.hasSuit(trump)) {
 			result = this.playsTrumpRight(trick, playerHand, cardToCheck);
 		}
 
@@ -58,14 +58,30 @@ public class RotterdamRuleSet implements RuleSet {
 		boolean result = true;
 		final Suit trump = trick.getTrump();
 
-		if(Card.hasSuit(trump, playerHand.getCards())) {
-			if(playerHand.canOverTrump(trick)) {
+		if(playerHand.hasSuit(trump)){
+			if(this.canOverTrump(trick, playerHand)) {
 				result = cardToCheck.isHigherThan(trick,
 						trick.getHighestCard());
 			} else {
 				final Suit cardSuit = cardToCheck.getSuit();
 				result = cardSuit.equals(trump);
 			}
+		}
+
+		return result;
+	}
+
+	private boolean canOverTrump(final Trick trick, final Hand playerHand) {
+		boolean result = false;
+
+		final Card highestTrumpTrick = trick.getHighestTrump();
+
+		final Suit trump = trick.getTrump();
+		final Card highestTrumpPlayer = playerHand.highestTrump(trick);
+
+		if(highestTrumpTrick != null && highestTrumpPlayer != null) {
+			result = highestTrumpPlayer.isHigherThan(trick,
+					highestTrumpTrick);
 		}
 
 		return result;

@@ -152,9 +152,6 @@ public enum Card {
 		return Card.max(trick.getTrump(), trick.getLeadingSuit(), cards);
 	}
 
-	/**
-	 * TODO Replace trump and leadingsuit with trick.
-	 */
 	@Deprecated
 	public static Card max(final Suit trump, final Suit leadingSuit, final List<Card> cards) {
 		assert(!cards.isEmpty()) : "Cannot determine the maximum on a stack of 0 cards.";
@@ -179,13 +176,10 @@ public enum Card {
 		for(Card card : cards) {
 			Suit cardSuit = card.getSuit();
 
-			boolean isTrumpCard = cardSuit.equals(trump);
-			if(isTrumpCard) {
-				if(highestCard != null) {
-					if(card.getTrumpOrder().isHigherThan(highestCard.getTrumpOrder())) {
-						highestCard = card;
-					}
-				} else {
+			if(cardSuit.equals(trump)) {
+				if(highestCard == null) {
+					highestCard = card;
+				} else if(card.getTrumpOrder().isHigherThan(highestCard.getTrumpOrder())) {
 					highestCard = card;
 				}
 			}

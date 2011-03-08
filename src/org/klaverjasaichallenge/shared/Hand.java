@@ -13,9 +13,9 @@ import org.klaverjasaichallenge.engine.round.Deck;
  * @author Frank Versnel
  */
 public class Hand {
-	private static final int CARDS_IN_HAND = 8;
+	protected static final int CARDS_IN_HAND = 8;
 
-	private final List<Card> cards;
+	protected final List<Card> cards;
 
 	public Hand(final Deck deck) {
 		this.cards = this.drawHand(deck);
@@ -41,20 +41,12 @@ public class Hand {
 		return new LinkedList<Card>(this.cards);
 	}
 
-	public boolean canOverTrump(final Trick trick) {
-		boolean result = false;
+	public boolean hasSuit(final Suit suit) {
+		return Card.hasSuit(suit, this.cards);
+	}
 
-		final Card highestTrumpTrick = trick.getHighestTrump();
-
-		final Suit trump = trick.getTrump();
-		final Card highestTrumpPlayer = Card.highestTrump(trump, this.cards);
-
-		if(highestTrumpTrick != null && highestTrumpPlayer != null) {
-			result = highestTrumpPlayer.isHigherThan(trick,
-					highestTrumpTrick);
-		}
-
-		return result;
+	public Card highestTrump(final Trick trick) {
+		return Card.highestTrump(trick.getTrump(), this.cards);
 	}
 
 	public Hand clone() {
