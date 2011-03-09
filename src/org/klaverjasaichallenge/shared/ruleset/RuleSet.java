@@ -3,6 +3,8 @@
  */
 package org.klaverjasaichallenge.shared.ruleset;
 
+import java.util.List;
+
 import org.klaverjasaichallenge.shared.Hand;
 import org.klaverjasaichallenge.shared.Trick;
 import org.klaverjasaichallenge.shared.card.Card;
@@ -26,6 +28,13 @@ public interface RuleSet {
 	public boolean isLegalCard(final Trick trick, final Card cardToCheck,
 			final Hand playerHand);
 
+	/**
+	 * @deprecated This will be removed in 1.5. Use isLegalCard(Trick, Card, Hand) instead.
+	 */
+	@Deprecated 	
+	public boolean isLegalCard(final Trick trick, final Card cardToCheck,
+			final List<Card> playerHand);
+	
 	public int getNumberOfRounds();
 
 }

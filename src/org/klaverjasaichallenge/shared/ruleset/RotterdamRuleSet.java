@@ -87,5 +87,12 @@ public class RotterdamRuleSet implements RuleSet {
 		return result;
 	}
 
+	@Override
+	@Deprecated
+	public boolean isLegalCard(Trick trick, Card cardToCheck,
+			List<Card> cards) {
+		return this.isLegalCard(trick, cardToCheck, new Hand(cards));
+	}
+
 }
 
