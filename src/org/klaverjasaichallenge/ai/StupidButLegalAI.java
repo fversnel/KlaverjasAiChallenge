@@ -16,7 +16,7 @@ import org.klaverjasaichallenge.shared.card.Suit;
  * @author Joost Pastoor
  * @author Frank Versnel
  */
-public class StupidButLegalAI implements KlaverJasAI {
+public class StupidButLegalAI extends KlaverJasAI {
 	private RuleSet ruleSet;
 	private StupidButLegalHand hand;
 	private List<Card> cardsPlayed;

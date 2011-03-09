@@ -3,12 +3,17 @@
  */
 package org.klaverjasaichallenge.shared;
 
+import java.util.List;
+
 import org.klaverjasaichallenge.shared.ruleset.RuleSet;
 import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.Suit;
 
 
 /**
+ * TODO We have no efficient way to alter this interface without requiring
+ * the AI to adapt or be broken. A possible option might be to create
+ * an abstract class 
  *
  * @author Joost Pastoor
  * @author Frank Versnel
@@ -28,8 +33,8 @@ public interface Player {
 	 *
 	 * @param cards the cards that are dealt to the player.
 	 */
-	public void giveCards(Hand cards);
-
+	public void giveCards(Hand cards);	
+	
 	/**
 	 * Whether you play on the given trump or not.
 	 *
