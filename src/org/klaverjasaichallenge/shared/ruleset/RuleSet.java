@@ -4,6 +4,7 @@
 package org.klaverjasaichallenge.shared.ruleset;
 
 import java.util.List;
+import java.util.LinkedList;
 
 import org.klaverjasaichallenge.shared.Hand;
 import org.klaverjasaichallenge.shared.Trick;
@@ -15,7 +16,7 @@ import org.klaverjasaichallenge.shared.card.Card;
  * @author Joost Pastoor
  * @author Frank Versnel
  */
-public interface RuleSet {
+public abstract class RuleSet {
 
 	/**
 	 * @trick the trick on which the {@link cardToCheck} should be played.
@@ -25,16 +26,29 @@ public interface RuleSet {
 	 *
 	 * @since 1.3
 	 */
-	public boolean isLegalCard(final Trick trick, final Card cardToCheck,
+	public abstract boolean isLegalCard(final Trick trick, final Card cardToCheck,
 			final Hand playerHand);
 
 	/**
 	 * @deprecated This will be removed in 1.5. Use isLegalCard(Trick, Card, Hand) instead.
 	 */
-	@Deprecated 	
-	public boolean isLegalCard(final Trick trick, final Card cardToCheck,
+	@Deprecated
+	public abstract boolean isLegalCard(final Trick trick, final Card cardToCheck,
 			final List<Card> playerHand);
-	
-	public int getNumberOfRounds();
+
+	public Hand getLegalCards(final Trick trick, final Hand hand) {
+		List<Card> legalCards =  new LinkedList<Card>();
+		for(final Card card : hand.getCards()) {
+			if(this.isLegalCard(trick, card, hand)) {
+				legalCards.add(card);
+			}
+		}
+
+		assert(legalCards.size() > 0);
+
+		return new Hand(legalCards);
+	}
+
+	public abstract int getNumberOfRounds();
 
 }

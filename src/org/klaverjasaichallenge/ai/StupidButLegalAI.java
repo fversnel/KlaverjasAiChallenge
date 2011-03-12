@@ -18,7 +18,7 @@ import org.klaverjasaichallenge.shared.card.Suit;
  */
 public class StupidButLegalAI extends KlaverJasAI {
 	private RuleSet ruleSet;
-	private StupidButLegalHand hand;
+	private Hand hand;
 	private List<Card> cardsPlayed;
 
 	@Override
@@ -28,17 +28,17 @@ public class StupidButLegalAI extends KlaverJasAI {
 
 	@Override
 	public Card getCard(Trick trick) {
-		List<Card> legalCards = this.hand.getLegalCards(this.ruleSet, trick);
+		final Hand legalCards = this.ruleSet.getLegalCards(trick, this.hand);
 
-		Card playedCard = legalCards.remove(0);
-		this.hand.removeCard(playedCard);
+		final Card playedCard = legalCards.getCards().remove(0);
+		this.hand.drawCard(playedCard);
 
 		return playedCard;
 	}
 
 	@Override
 	public void giveCards(Hand cards) {
-		this.hand = new StupidButLegalHand(cards);
+		this.hand = cards;
 
 		// Empty the list of cards played, because its a new round
 		this.cardsPlayed = new LinkedList<Card>();
@@ -46,6 +46,7 @@ public class StupidButLegalAI extends KlaverJasAI {
 
 	@Override
 	public boolean playOnTrump(Suit trump, Order order) {
+		// Don't care, just always play on trump for convenience.
 		return true;
 	}
 
@@ -57,7 +58,7 @@ public class StupidButLegalAI extends KlaverJasAI {
 	@Override
 	public void startOfRound(int leadingPlayer, Suit trump, int yourId,
 			int teamMateId, int enemy1, int enemy2) {
-		// Don't care
+		// Don't care.
 	}
 
 	@Override
