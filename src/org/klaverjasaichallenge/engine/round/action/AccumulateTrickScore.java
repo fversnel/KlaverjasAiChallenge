@@ -42,7 +42,7 @@ public class AccumulateTrickScore extends RoundAction {
 			final Team winningTeam = this.table.getTeamFromPlayer(winningPlayer);
 
 			if(team.equals(winningTeam)) {
-				final Score trickScore = playedTrick.getScore();
+				final Score trickScore = new Score(playedTrick);
 				roundScore = Score.plus(roundScore, trickScore);
 			}
 		}

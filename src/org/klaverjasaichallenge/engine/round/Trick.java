@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.EnumMap;
 import java.util.Map.Entry;
 
-import org.klaverjasaichallenge.engine.score.Score;
 import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.Points;
 import org.klaverjasaichallenge.shared.card.Card;
@@ -21,8 +20,6 @@ import org.klaverjasaichallenge.shared.card.Suit;
  */
 public class Trick {
 	public static final int COUNT = 8;
-
-	private final static Points LAST_TRICK_POINTS = new Points(10);
 
 	private static final int FIRST_ADDED_CARD = 1;
 	private static final int TOTAL_CARDS = 4;
@@ -108,15 +105,8 @@ public class Trick {
 		return this.leadingSuit;
 	}
 
-	public Score getScore() {
-		Score score = new Score(this);
-
-		if(this.isLastTrick) {
-			score = new Score(Points.plus(score.getStockScore(),
-						LAST_TRICK_POINTS), score.getRoemScore());
-		}
-
-		return score;
+	public boolean isLastTrick() {
+		return this.isLastTrick;
 	}
 
 	/**

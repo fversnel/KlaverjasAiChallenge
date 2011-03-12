@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.klaverjasaichallenge.engine.Table;
 import org.klaverjasaichallenge.engine.round.CheatException;
 import org.klaverjasaichallenge.engine.round.Trick;
+import org.klaverjasaichallenge.engine.score.Score;
 import org.klaverjasaichallenge.shared.Hand;
 import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.card.Card;
@@ -40,7 +41,7 @@ public class PlayRound extends RoundAction {
 			table.nextTrick(winner);
 
 			this.logger.debug("--- Winner:  " + winner + " with " +
-					trick.getScore());
+					new Score(trick));
 		}
 
 		return new AccumulateTrickScore(this.roundData);
