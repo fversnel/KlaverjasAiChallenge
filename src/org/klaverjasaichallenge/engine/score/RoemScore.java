@@ -100,8 +100,6 @@ class RoemScore {
 	}
 
 	private static Points calculateStukScore(final Trick trick, final Suit trump) {
-		Points score = new Points();
-
 		boolean queen = false;
 		boolean king = false;
 		for(final Card trickCard : trick.getCards()) {
@@ -116,6 +114,7 @@ class RoemScore {
 			}
 		}
 
+		Points score = new Points();
 		if(king && queen) {
 			score = STUK;
 		}
