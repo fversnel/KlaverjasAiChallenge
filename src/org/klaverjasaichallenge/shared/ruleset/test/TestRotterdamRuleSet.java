@@ -1,4 +1,4 @@
-package org.klaverjasaichallenge.shared.test;
+package org.klaverjasaichallenge.shared.ruleset.test;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;

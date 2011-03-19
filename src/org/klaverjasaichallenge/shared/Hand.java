@@ -49,6 +49,7 @@ public class Hand {
 		return Card.highestTrump(trick.getTrump(), this.cards);
 	}
 
+	@Override
 	public Hand clone() {
 		return new Hand(new LinkedList<Card>(this.cards));
 	}

@@ -3,8 +3,6 @@
  */
 package org.klaverjasaichallenge.shared;
 
-import java.util.List;
-
 import org.klaverjasaichallenge.shared.ruleset.RuleSet;
 import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.Suit;

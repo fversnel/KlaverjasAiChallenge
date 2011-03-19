@@ -76,7 +76,6 @@ public class RotterdamRuleSet extends RuleSet {
 
 		final Card highestTrumpTrick = trick.getHighestTrump();
 
-		final Suit trump = trick.getTrump();
 		final Card highestTrumpPlayer = playerHand.highestTrump(trick);
 
 		if(highestTrumpTrick != null && highestTrumpPlayer != null) {

@@ -9,7 +9,6 @@ import java.util.EnumMap;
 import java.util.Map.Entry;
 
 import org.klaverjasaichallenge.shared.Player;
-import org.klaverjasaichallenge.shared.Points;
 import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.Suit;
 

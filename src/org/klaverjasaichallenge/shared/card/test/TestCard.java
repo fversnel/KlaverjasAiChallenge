@@ -38,7 +38,7 @@ public class TestCard {
 		List<Card> cardsToTest = new LinkedList<Card>();
 		final Card expected = Card.SEVEN_OF_CLUBS;
 		Suit leadingSuit = Suit.SPADES;
-
+		
 		cardsToTest.add(Card.JACK_OF_SPADES);
 		cardsToTest.add(Card.QUEEN_OF_SPADES);
 		cardsToTest.add(Card.KING_OF_SPADES);
