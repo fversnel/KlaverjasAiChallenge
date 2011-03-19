@@ -41,6 +41,9 @@
    <!-- Dependency checking related properties -->
   <property name="dependency.check.closure" value="true" />
 
+  <!-- Log4J will be included in the full jar -->
+  <property name="library.log4j" value="${dir.libraries}/log4j-1.2.16.jar"/>
+
   <!-- Project class path -->
   <path id="project.class.path">
     <fileset dir="lib">
@@ -126,6 +129,7 @@
     <jar destfile="${distribution.file}" manifest="${dir.distribution}/MANIFEST.MF" >
       <fileset dir="${dir.build}" includes="**/*.class"
           excludes="${testing.class.files}" />
+        <zipfileset src="${library.log4j}"/>
     </jar>
     <delete file="${dir.distribution}/MANIFEST.MF" />
   </target>
