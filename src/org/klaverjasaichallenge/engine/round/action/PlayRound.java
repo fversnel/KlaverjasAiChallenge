@@ -5,7 +5,7 @@ import org.apache.log4j.Logger;
 
 import org.klaverjasaichallenge.engine.Table;
 import org.klaverjasaichallenge.engine.round.CheatException;
-import org.klaverjasaichallenge.engine.round.Trick;
+import org.klaverjasaichallenge.engine.round.EngineTrick;
 import org.klaverjasaichallenge.engine.score.Score;
 import org.klaverjasaichallenge.shared.Hand;
 import org.klaverjasaichallenge.shared.Player;
@@ -30,8 +30,8 @@ public class PlayRound extends RoundAction {
 	@Override
 	public RoundAction execute() {
 		Table table = this.roundData.getTable();
-		for (int trickId = 1; trickId <= Trick.COUNT; trickId++) {
-			Trick trick = this.createNewTrick(trickId);
+		for (int trickId = 1; trickId <= EngineTrick.COUNT; trickId++) {
+			EngineTrick trick = this.createNewTrick(trickId);
 
 			this.playTrick(table, trick, trickId);
 			this.roundData.addPlayedTrick(trick);
@@ -47,19 +47,18 @@ public class PlayRound extends RoundAction {
 		return new AccumulateTrickScore(this.roundData);
 	}
 
-	private Trick createNewTrick(final int trickId) {
+	private EngineTrick createNewTrick(final int trickId) {
 		final Suit trump = this.roundData.getTrump();
-		final boolean isLastTrick = (trickId == Trick.COUNT);
-		return new Trick(trump, isLastTrick);
+		final boolean isLastTrick = (trickId == EngineTrick.COUNT);
+		return new EngineTrick(trump, isLastTrick);
 	}
 
-	private void playTrick(Table table, final Trick trick, final int trickId) {
+	private void playTrick(Table table, final EngineTrick trick, final int trickId) {
 		this.logger.debug("-- Starting trick " + trickId + " with trump " + trick.getTrump());
 
 		for(final Player currentPlayer : table) {
 			// Ask the player to return a card
-			final Card cardPlayed = currentPlayer.getCard(
-					new org.klaverjasaichallenge.shared.Trick(trick));
+			final Card cardPlayed = currentPlayer.getCard(trick);
 			try {
 				// Check if the card is valid
 				this.playCard(trick, currentPlayer, cardPlayed);
@@ -77,23 +76,22 @@ public class PlayRound extends RoundAction {
 	 *
 	 * @throws CheatException thrown when the player cheats.
 	 */
-	private void playCard(final Trick trick, final Player player,
+	private void playCard(final EngineTrick trick, final Player player,
 			final Card card) throws CheatException {
 		final Hand playersHand = this.roundData.getPlayersHand(player);
 
 		RuleSet ruleSet = this.roundData.getRuleSet();
-		if(ruleSet.isLegalCard(new org.klaverjasaichallenge.shared.Trick(trick),
-					card, playersHand) && playersHand.drawCard(card)) {
-				trick.addCard(player, card);
+		if(ruleSet.isLegalCard(trick.clone(), card, playersHand) && playersHand.drawCard(card)) {
+			trick.addCard(player, card);
 		} else {
 			throw new CheatException("Player " + player + " cheated " +
 					"with " + card + " and hand " + playersHand.getCards());
 		}
 	}
 
-	private void notifyPlayersEndTrick(final Table table, final Trick trick) {
+	private void notifyPlayersEndTrick(final Table table, final EngineTrick trick) {
 		for (final Player player : table) {
-			player.endOfTrick(new org.klaverjasaichallenge.shared.Trick(trick));
+			player.endOfTrick(trick.clone());
 		}
 	}
 

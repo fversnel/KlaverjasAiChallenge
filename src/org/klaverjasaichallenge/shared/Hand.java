@@ -5,7 +5,6 @@ import java.util.LinkedList;
 
 import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.Suit;
-import org.klaverjasaichallenge.engine.round.Deck;
 
 /**
  *

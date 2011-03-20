@@ -5,7 +5,7 @@ import static org.mockito.Mockito.*;
 
 import org.junit.*;
 
-import org.klaverjasaichallenge.engine.round.Trick;
+import org.klaverjasaichallenge.engine.round.EngineTrick;
 import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.Suit;
@@ -16,12 +16,12 @@ import org.klaverjasaichallenge.shared.card.Suit;
  */
 public class TestTrick {
 	private Player testPlayer;
-	private Trick testTrick;
+	private EngineTrick testTrick;
 
 	@Before
 	public void setUp() {
 		this.testPlayer = mock(Player.class);
-		this.testTrick = new Trick(Suit.HEARTS, false);
+		this.testTrick = new EngineTrick(Suit.HEARTS, false);
 	}
 
 	@Test

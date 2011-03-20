@@ -13,50 +13,29 @@ import org.klaverjasaichallenge.shared.card.Suit;
  * @author Joost Pastoor
  * @author Frank Versnel
  */
-public class Trick {
-	public final static int COUNT =
-		org.klaverjasaichallenge.engine.round.Trick.COUNT;
+public interface Trick {
+	public final static int COUNT = 8;
 
-	private org.klaverjasaichallenge.engine.round.Trick serverSideTrick;
+	public List<Card> getCards();
 
-	public Trick(org.klaverjasaichallenge.engine.round.Trick serverSideTrick) {
-		this.serverSideTrick = serverSideTrick;
-	}
+	public Suit getTrump();
 
-	public List<Card> getCards() {
-		return this.serverSideTrick.getCards();
-	}
-
-	public Suit getTrump() {
-		return this.serverSideTrick.getTrump();
-	}
-
-	public Suit getLeadingSuit() {
-		return this.serverSideTrick.getLeadingSuit();
-	}
+	public Suit getLeadingSuit();
 
 	/**
 	 * @return a map with the cards that are played by their associated
 	 * player ID's.
 	 */
-	public Map<Card, Integer> getCardsWithPlayers() {
-		return this.serverSideTrick.getCardsWithPlayersIds();
-	}	
+	public Map<Card, Integer> getCardsWithPlayers();
 	
 	/**
 	 * @return the card of the requested player or null if he didn't play
 	 * anything.
 	 */
-	public Card getCardFromPlayer(final int playerId) {
-		return this.serverSideTrick.getCardFromPlayer(playerId);
-	}
+	public Card getCardFromPlayer(final int playerId);
 
-	public Card getHighestTrump() {
-		return this.serverSideTrick.getHighestTrump();
-	}
+	public Card getHighestTrump();
 
-	public Card getHighestCard() {
-		return this.serverSideTrick.getHighestCard();
-	}
+	public Card getHighestCard();
 
 }

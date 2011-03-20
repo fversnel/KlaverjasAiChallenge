@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import org.junit.*;
-import org.klaverjasaichallenge.engine.round.Trick;
+import org.klaverjasaichallenge.engine.round.EngineTrick;
 import org.klaverjasaichallenge.engine.score.Score;
 import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.Points;
@@ -19,12 +19,12 @@ public class TestScore {
 	private static final boolean IS_LAST_TRICK = false;
 
 	private Suit testTrump;
-	private Trick testTrick;
+	private EngineTrick testTrick;
 
 	@Before
 	public void setUp() {
 		this.testTrump = Suit.HEARTS;
-		this.testTrick = new Trick(this.testTrump, IS_LAST_TRICK);
+		this.testTrick = new EngineTrick(this.testTrump, IS_LAST_TRICK);
 	}
 
 	@Test

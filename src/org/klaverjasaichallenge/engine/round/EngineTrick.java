@@ -9,6 +9,7 @@ import java.util.EnumMap;
 import java.util.Map.Entry;
 
 import org.klaverjasaichallenge.shared.Player;
+import org.klaverjasaichallenge.shared.Trick;
 import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.Suit;
 
@@ -17,20 +18,18 @@ import org.klaverjasaichallenge.shared.card.Suit;
  * @author Joost Pastoor
  * @author Frank Versnel
  */
-public class Trick {
-	public static final int COUNT = 8;
-
+public class EngineTrick implements Trick {
 	private static final int FIRST_ADDED_CARD = 1;
 	private static final int TOTAL_CARDS = 4;
 
-	private final Map<Card, Player> cards;
+	private Map<Card, Player> cards;
 	private final Suit trump;
 
 	private final boolean isLastTrick;
 
 	private Suit leadingSuit;
 
-	public Trick(final Suit trump, final boolean isLastTrick) {
+	public EngineTrick(final Suit trump, final boolean isLastTrick) {
 		this.cards = new EnumMap<Card, Player>(Card.class);
 		this.trump = trump;
 		this.isLastTrick = isLastTrick;
@@ -47,6 +46,7 @@ public class Trick {
 		assert(this.numberOfCards() <= TOTAL_CARDS) : "Trick cannot contain more than " + TOTAL_CARDS + ".";
 	}
 
+	@Override
 	public List<Card> getCards() {
 		return new LinkedList<Card>(this.cards.keySet());
 	}
@@ -56,29 +56,23 @@ public class Trick {
 	}
 
 	/**
-	 * @deprecated use {@link Trick#getCardFromPlayer} instead
-	 */
-	@Deprecated
-	public Map<Card, Player> getCardsWithPlayers() {
-		return this.cards;
-	}
-
-	/**
 	 * This function transforms getCards (who has Player objects as value)
 	 * to a getCards with PlayerID's as value, so its safe to pass them to
 	 * clients.
 	 *
-	 * @deprecated use {@link Trick#getCardFromPlayer} instead
+	 * @deprecated use {@link EngineTrick#getCardFromPlayer} instead
 	 * @return Cards mapped to player ID's
 	 */
+	@Override
 	@Deprecated
-	public Map<Card, Integer> getCardsWithPlayersIds() {
+	public Map<Card, Integer> getCardsWithPlayers() {
 		Map<Card, Integer> cardsWithPlayersIds = new HashMap<Card, Integer>();
 		for(Entry<Card, Player> cardWithPlayer : this.cards.entrySet())
 			cardsWithPlayersIds.put(cardWithPlayer.getKey(), cardWithPlayer.getValue().hashCode()) ;
 		return cardsWithPlayersIds;
 	}
 
+	@Override
 	public Card getCardFromPlayer(final int playerId) {
 		Card playerCard = null;
 
@@ -93,6 +87,7 @@ public class Trick {
 		return playerCard;
 	}
 
+	@Override
 	public Suit getTrump() {
 		return this.trump;
 	}
@@ -100,6 +95,7 @@ public class Trick {
 	/**
 	 * @return null if the trick has no cards.
 	 */
+	@Override
 	public Suit getLeadingSuit() {
 		return this.leadingSuit;
 	}
@@ -121,17 +117,23 @@ public class Trick {
 	/**
 	 * @return the highest trump or null if there is no trump on the table.
 	 */
+	@Override
 	public Card getHighestTrump() {
 		return Card.highestTrump(this.trump,
 				new LinkedList<Card>(this.cards.keySet()));
 	}
 
+	@Override
 	public Card getHighestCard() {
-		return Card.max(Trick.convertToSharedTrick(this), this.getCards());
+		return Card.max(this, this.getCards());
 	}
-
-	private static org.klaverjasaichallenge.shared.Trick convertToSharedTrick(final Trick trick) {
-		return new org.klaverjasaichallenge.shared.Trick(trick);
+	
+	@Override
+	public Trick clone() {
+		final EngineTrick newTrick = new EngineTrick(this.trump, this.isLastTrick);
+		newTrick.cards = this.cards;
+		newTrick.leadingSuit = this.leadingSuit;
+		return newTrick;
 	}
 
 }

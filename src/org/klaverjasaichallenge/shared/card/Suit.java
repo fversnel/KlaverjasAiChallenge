@@ -6,7 +6,7 @@ public enum Suit {
 	HEARTS("Hearts"),
 	DIAMONDS("Diamonds");
 
-	private final String prettyPrintName;
+	protected final String prettyPrintName;
 
 	private Suit(final String prettyPrintName) {
 		this.prettyPrintName = prettyPrintName;

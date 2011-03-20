@@ -8,7 +8,7 @@ import java.util.List;
  * @author Frank Versnel
  */
 public class Order implements Comparable<Order> {
-	private final int order;
+	protected final int order;
 
 	public Order(final int order) {
 		this.order = order;

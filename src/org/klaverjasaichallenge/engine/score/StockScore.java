@@ -1,7 +1,7 @@
 
 package org.klaverjasaichallenge.engine.score;
 
-import org.klaverjasaichallenge.engine.round.Trick;
+import org.klaverjasaichallenge.engine.round.EngineTrick;
 import org.klaverjasaichallenge.shared.Points;
 import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.Suit;
@@ -13,7 +13,7 @@ import org.klaverjasaichallenge.shared.card.Suit;
 class StockScore {
 	private final static Points LAST_TRICK_POINTS = new Points(10);
 
-	public static Points calculateScore(final Trick trick) {
+	public static Points calculateScore(final EngineTrick trick) {
 		Points totalPoints = new Points();
 		Suit trump = trick.getTrump();
 

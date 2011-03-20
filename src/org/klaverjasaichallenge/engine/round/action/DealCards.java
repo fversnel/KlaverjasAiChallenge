@@ -1,6 +1,6 @@
 package org.klaverjasaichallenge.engine.round.action;
 
-import org.klaverjasaichallenge.engine.round.Deck;
+import org.klaverjasaichallenge.shared.Deck;
 import org.klaverjasaichallenge.shared.Hand;
 import org.klaverjasaichallenge.shared.Player;
 

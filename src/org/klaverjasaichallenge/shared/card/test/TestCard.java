@@ -20,8 +20,8 @@ public class TestCard {
 	@Test
 	public void testMax() {
 		List<Card> cardsToTest = new LinkedList<Card>();
-		Suit trump = Suit.HEARTS;
-		Suit leadingSuit = Suit.CLUBS;
+		Trick trick = this.createMockTrick(Suit.CLUBS, Suit.HEARTS);
+
 		final Card expected = Card.JACK_OF_HEARTS;
 
 		cardsToTest.add(Card.ACE_OF_CLUBS);
@@ -29,23 +29,23 @@ public class TestCard {
 		cardsToTest.add(Card.JACK_OF_DIAMONDS);
 		cardsToTest.add(Card.TEN_OF_HEARTS);
 
-		final Card actual = Card.max(trump, leadingSuit, cardsToTest);
+		final Card actual = Card.max(trick, cardsToTest);
 		assertEquals(expected,actual);
 	}
 
 	@Test
 	public void testMax2() {
 		List<Card> cardsToTest = new LinkedList<Card>();
+		Trick trick = createMockTrick(Suit.SPADES, Suit.CLUBS);
+		
 		final Card expected = Card.SEVEN_OF_CLUBS;
-		Suit leadingSuit = Suit.SPADES;
 		
 		cardsToTest.add(Card.JACK_OF_SPADES);
 		cardsToTest.add(Card.QUEEN_OF_SPADES);
 		cardsToTest.add(Card.KING_OF_SPADES);
 		cardsToTest.add(expected);
 
-		final Card actual = Card.max(Suit.CLUBS, leadingSuit,
-			cardsToTest);
+		final Card actual = Card.max(trick,	cardsToTest);
 		assertEquals(expected,actual);
 	}
 
@@ -59,6 +59,15 @@ public class TestCard {
 		when(trick.getLeadingSuit()).thenReturn(Suit.SPADES);
 		
 		assertTrue(card1.isHigherThan(trick, card2));
+	}
+	
+	private Trick createMockTrick(final Suit leadingSuit, final Suit trump) {
+		Trick trick = mock(Trick.class);
+		
+		when(trick.getLeadingSuit()).thenReturn(leadingSuit);
+		when(trick.getTrump()).thenReturn(trump);
+		
+		return trick;
 	}
 
 }

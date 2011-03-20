@@ -3,7 +3,7 @@ package org.klaverjasaichallenge.engine.score;
 
 import java.util.List;
 
-import org.klaverjasaichallenge.engine.round.Trick;
+import org.klaverjasaichallenge.engine.round.EngineTrick;
 import org.klaverjasaichallenge.shared.Order;
 import org.klaverjasaichallenge.shared.Points;
 import org.klaverjasaichallenge.shared.card.Card;
@@ -24,7 +24,7 @@ class RoemScore {
 	private static final Order FIRST_HIGH_CARD = new Order(4);
 	private static final Order JACK_ORDER = Rank.JACK.getRoemOrder();
 
-	public static Points calculateScore(final Trick trick) {
+	public static Points calculateScore(final EngineTrick trick) {
 		Points score = new Points();
 
 		score = Points.plus(score, calculateFourCardsSameRankScore(trick));
@@ -34,7 +34,7 @@ class RoemScore {
 		return score;
 	}
 
-	private static Points calculateFourCardsSameRankScore(final Trick trick) {
+	private static Points calculateFourCardsSameRankScore(final EngineTrick trick) {
 		Points score = new Points();
 
 		final List<Card> cards = trick.getCards();
@@ -63,7 +63,7 @@ class RoemScore {
 		return score;
 	}
 
-	private static Points calculateConsecutiveCardsScore(final Trick trick) {
+	private static Points calculateConsecutiveCardsScore(final EngineTrick trick) {
 		Points score = new Points();
 
 		for(final Card card : trick.getCards()) {
@@ -99,7 +99,7 @@ class RoemScore {
 		return score;
 	}
 
-	private static Points calculateStukScore(final Trick trick, final Suit trump) {
+	private static Points calculateStukScore(final EngineTrick trick, final Suit trump) {
 		boolean queen = false;
 		boolean king = false;
 		for(final Card trickCard : trick.getCards()) {

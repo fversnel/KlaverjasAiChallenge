@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 import org.klaverjasaichallenge.engine.Table;
 import org.klaverjasaichallenge.engine.Team;
-import org.klaverjasaichallenge.engine.round.Trick;
+import org.klaverjasaichallenge.engine.round.EngineTrick;
 import org.klaverjasaichallenge.engine.score.Score;
 import org.klaverjasaichallenge.shared.ruleset.RuleSet;
 import org.klaverjasaichallenge.shared.Hand;
@@ -24,7 +24,7 @@ public class RoundData {
 	private Map<Player, Hand> playersHands;
 	private Suit trump;
 	private Player trumpPlayer;
-	private List<Trick> tricksPlayed;
+	private List<EngineTrick> tricksPlayed;
 	private Map<Team, Score> roundScores;
 
 	public RoundData(final Table table, final RuleSet ruleSet) {
@@ -32,7 +32,7 @@ public class RoundData {
 		this.ruleSet = ruleSet;
 
 		this.playersHands = new HashMap<Player, Hand>();
-		this.tricksPlayed = new LinkedList<Trick>();
+		this.tricksPlayed = new LinkedList<EngineTrick>();
 		this.roundScores = this.initializeRoundScores(table.getTeams());
 	}
 
@@ -69,11 +69,11 @@ public class RoundData {
 		this.playersHands.put(player, playersHand);
 	}
 
-	public List<Trick> getTricksPlayed() {
-		return new LinkedList<Trick>(this.tricksPlayed);
+	public List<EngineTrick> getTricksPlayed() {
+		return new LinkedList<EngineTrick>(this.tricksPlayed);
 	}
 
-	public void addPlayedTrick(final Trick playedTrick) {
+	public void addPlayedTrick(final EngineTrick playedTrick) {
 		this.tricksPlayed.add(playedTrick);
 	}
 

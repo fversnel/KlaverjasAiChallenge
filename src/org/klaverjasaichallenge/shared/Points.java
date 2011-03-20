@@ -5,9 +5,9 @@ package org.klaverjasaichallenge.shared;
  * @author Frank Versnel
  */
 public class Points {
-	private static final int DEFAULT_POINTS = 0;
+	protected static final int DEFAULT_POINTS = 0;
 
-	private int points;
+	protected int points;
 
 	public Points() {
 		this.points = DEFAULT_POINTS;

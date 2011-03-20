@@ -1,4 +1,4 @@
-package org.klaverjasaichallenge.engine.round;
+package org.klaverjasaichallenge.shared;
 
 import java.util.Collections;
 import java.util.List;
@@ -15,7 +15,7 @@ import org.klaverjasaichallenge.shared.card.Card;
  * @author Frank Versnel
  */
 public class Deck {
-	private final Stack<Card> cards;
+	protected final Stack<Card> cards;
 
 	private final Logger logger;
 

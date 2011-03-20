@@ -53,8 +53,8 @@ public enum Card {
 	KING_OF_DIAMONDS(Rank.KING, Suit.DIAMONDS),
 	ACE_OF_DIAMONDS(Rank.ACE, Suit.DIAMONDS);
 
-	private final Rank rank;
-	private final Suit suit;
+	protected final Rank rank;
+	protected final Suit suit;
 
 	private Card(final Rank rank, final Suit suit) {
 		this.rank = rank;
@@ -90,18 +90,10 @@ public enum Card {
 	}
 
 	public boolean isHigherThan(final Trick trick, final Card card) {
-		return this.isHigherThan(trick.getTrump(), trick.getLeadingSuit(), card);
-	}
-
-	/**
-	 * @deprecated isHigherThan() is never valid outside a given Trick.
-	 * Therefore, do not pass the trump and the leading suit separately into
-	 * this method but use isHigherThan(trump, card) instead.
-	 */
-	@Deprecated
-	public boolean isHigherThan(final Suit trump, final Suit leadingSuit, final Card card) {
 		Boolean result = null;
 
+		final Suit leadingSuit = trick.getLeadingSuit();
+		final Suit trump = trick.getTrump();
 		final Suit cardSuit = card.getSuit();
 
 		// If both are trumps
@@ -149,17 +141,12 @@ public enum Card {
 	}
 
 	public static Card max(final Trick trick, final List<Card> cards) {
-		return Card.max(trick.getTrump(), trick.getLeadingSuit(), cards);
-	}
-
-	@Deprecated
-	public static Card max(final Suit trump, final Suit leadingSuit, final List<Card> cards) {
 		assert(!cards.isEmpty()) : "Cannot determine the maximum on a stack of 0 cards.";
 
 		Card highestCard = cards.get(0);
 
 		for(Card card : cards) {
-			if(card.isHigherThan(trump, leadingSuit, highestCard)) {
+			if(card.isHigherThan(trick, highestCard)) {
 				highestCard = card;
 			}
 		}
