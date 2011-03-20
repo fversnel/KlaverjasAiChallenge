@@ -3,27 +3,27 @@ document open the README file.)
 
 KlaverjasAIChallenge is een game engine voor het spel klaverjas die het
 mogelijk maakt om verschillende AI's (Kunstmatige intelligentie) tegen elkaar
-te laten klaverjassen.
+te laten spelen.
 
 Hier volgt nuttige informatie tot het programmeren van een Klaverjas AI:
 - Source code van het project kan uitgecheckt worden met Mercurial dmv het
-  volgende command:
+  volgende commando:
   hg clone https://klaverjasaichallenge.googlecode.com/hg/ klaverjasaichallenge
 - In de package src/org/klaverjasaichallange/ai staat een voorbeeld AI, om te
   laten zien hoe een AI geimplementeerd zou kunnen worden.
-- De AI moet de KlaverJasAI interface implementeren (te vinden in de shared
-  package). 
+- De klaverjas.shared.jar package bevat classes die gebruikt dienen te worden
+  bij het compileren en schrijven van een AI. Deze package is te downloaden
+  van de google code site of the compileren vanaf source met behulp van Ant.
+- De AI moet de KlaverJasAI interface implementeren. 
 - De AI mag niet met z'n teammate communiceren over welke kaarten hij heeft
   enzovoort.
 - De AI mag niet valsspelen, als dit wel gebeurt zal de engine crashen
-  met eend RuntimeException.
-- Alle AI's moeten worden gecompileerd als jar file en vervolgens in de lib/ai
-  directory geplaatst worden.
-- De package shared bevat alle klassen die je in je AI mag gebruiken. Deze
-  kan afzonderlijk van de rest van de klaverjas engine gecompileerd worden.
-  Ant zal dit standaard doen als onderdeel van de 'distribution' task.
+  met een CheatException.
+- Om de AI daadwerkelijk te laten spelen dient gebruik gemaakt te worden van de
+  klaverjas.jar package. Deze package is zowel beschikbaar als download via
+  google code en compileerbaar vanaf source met Ant.
 
-Nog wat handige links over de spelregels van het Klaverjassen:
+Hier zijn de regels van klaverjassen terug te vinden:
 - http://nl.wikipedia.org/wiki/Klaverjassen
 
 Een begrippenlijst die van toepassing is op het spel:
