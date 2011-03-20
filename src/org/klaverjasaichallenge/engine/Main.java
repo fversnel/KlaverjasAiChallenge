@@ -24,9 +24,7 @@ import org.klaverjasaichallenge.shared.ruleset.RuleSet;
 public class Main {
 	private final static String AI_PACKAGE = "org.klaverjasaichallenge.ai.";
 	
-	private final static int TEAM_SIZE = 2;
-
-	private final static Logger logger = Logger.getLogger(Main.class.getName());
+	private final static Logger logger = Logger.getLogger(Main.class);
 
 	private static Score team1Score = new Score();
 	private static Score team2Score = new Score();
@@ -45,8 +43,9 @@ public class Main {
 				throw new RuntimeException("Number of games has to be higher than 0");
 			}
 
-			final Team team1 = createTeam(AI_PACKAGE + firstAI);
-			final Team team2 = createTeam(AI_PACKAGE + secondAI);
+			ClassLoader aiLoader = KlaverJasAI.class.getClassLoader();
+			final Team team1 = createTeam(AI_PACKAGE + firstAI, aiLoader);
+			final Team team2 = createTeam(AI_PACKAGE + secondAI, aiLoader);
 
 			play(team1, team2, numberOfGames, new RotterdamRuleSet());
 
@@ -83,9 +82,9 @@ public class Main {
 				// Change the order of the players
 				table.nextRound();
 
-				logger.debug("Game scores:");
-				logger.debug(team1 + " scored " + team1GameScore + " points.");
-				logger.debug(team2 + " scored " + team2GameScore + " points.");
+				logger.debug("\nGame scores:\n" +
+							team1 + " scored " + team1GameScore + " points.\n" +
+							team2 + " scored " + team2GameScore + " points.");
 			}
 
 			// Sum up the game score.
@@ -93,14 +92,14 @@ public class Main {
 			team2Score = Score.plus(team2Score, team2GameScore);
 		}
 
-		logger.info("Overall score for " + numberOfGames + " games:");
-		logger.info(team1 + " scored " + team1Score + " points.");
-		logger.info(team2 + " scored " + team2Score + " points.");
-		logger.info("Average score per game:");
-		logger.info(team1 + " scored " +
+		logger.info("\nOverall score for " + numberOfGames + " games:\n" +
+				team1 + " scored " + team1Score + " points.\n" +
+				team2 + " scored " + team2Score + " points.\n" +
+				"Average score per game:\n" +
+				team1 + " scored " +
 				Points.divide(team1Score.getTotalScore(), new
-					Points(numberOfGames)) + " points.");
-		logger.info(team2 + " scored " +
+					Points(numberOfGames)) + " points.\n" +
+				team2 + " scored " +
 				Points.divide(team2Score.getTotalScore(), new
 					Points(numberOfGames)) + " points.");
 	}
@@ -123,13 +122,11 @@ public class Main {
 				"the team given in the second argument.");
 	}
 
-	private static Team createTeam(final String aiName) {
-		Team team = null;
+	private static Team createTeam(final String aiName, ClassLoader aiLoader) {
 		try {
-			for(int i = 0; i < TEAM_SIZE; i++) {
-				Class<KlaverJasAI> newPlayer = (Class<KlaverJasAI>) Class.forName(aiName);
-				team = new Team(newPlayer.newInstance(), newPlayer.newInstance());
-			}
+			@SuppressWarnings("unchecked")
+			Class<KlaverJasAI> newPlayer = (Class<KlaverJasAI>) aiLoader.loadClass(aiName);
+			return new Team(newPlayer.newInstance(), newPlayer.newInstance());
 		} catch (InstantiationException e) {
 			logger.error("Unable to instantiate AI " + aiName, e);
 			throw new RuntimeException(e);
@@ -140,8 +137,6 @@ public class Main {
 			logger.error("AI " + aiName + " not found", e);
 			throw new RuntimeException(e);
 		}
-
-		return team;
 	}
 
 }

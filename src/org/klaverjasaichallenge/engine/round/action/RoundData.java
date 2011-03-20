@@ -18,20 +18,21 @@ import org.klaverjasaichallenge.shared.card.Suit;
  * @author Frank Versnel
  */
 public class RoundData {
+	private Map<Player, Hand> playersHands = new HashMap<Player, Hand>();
+	private List<EngineTrick> tricksPlayed = new LinkedList<EngineTrick>();
+	
+	private Map<Team, Score> roundScores;
+	
 	private Table table;
 	private final RuleSet ruleSet;
-	private Map<Player, Hand> playersHands;
+	
 	private Suit trump;
 	private Player trumpPlayer;
-	private List<EngineTrick> tricksPlayed;
-	private Map<Team, Score> roundScores;
 
 	public RoundData(final Table table, final RuleSet ruleSet) {
 		this.table = table;
 		this.ruleSet = ruleSet;
 
-		this.playersHands = new HashMap<Player, Hand>();
-		this.tricksPlayed = new LinkedList<EngineTrick>();
 		this.roundScores = this.initializeRoundScores(table.getTeams());
 	}
 

@@ -22,15 +22,14 @@ class EngineTrick implements Trick {
 	private static final int FIRST_ADDED_CARD = 1;
 	private static final int TOTAL_CARDS = 4;
 
-	private Map<Card, Player> cards;
+	private Map<Card, Player> cards = new EnumMap<Card, Player>(Card.class);
+
+	private Suit leadingSuit;
 	private final Suit trump;
 
 	private final boolean isLastTrick;
 
-	private Suit leadingSuit;
-
 	public EngineTrick(final Suit trump, final boolean isLastTrick) {
-		this.cards = new EnumMap<Card, Player>(Card.class);
 		this.trump = trump;
 		this.isLastTrick = isLastTrick;
 	}
@@ -61,11 +60,9 @@ class EngineTrick implements Trick {
 	 * to a getCards with PlayerID's as value, so its safe to pass them to
 	 * clients.
 	 *
-	 * @deprecated use {@link EngineTrick#getCardFromPlayer} instead
 	 * @return Cards mapped to player ID's
 	 */
 	@Override
-	@Deprecated
 	public Map<Card, Integer> getCardsWithPlayers() {
 		Map<Card, Integer> cardsWithPlayersIds = new HashMap<Card, Integer>();
 		for(Entry<Card, Player> cardWithPlayer : this.cards.entrySet())

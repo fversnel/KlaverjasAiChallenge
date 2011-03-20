@@ -29,13 +29,6 @@ public abstract class RuleSet {
 	public abstract boolean isLegalCard(final Trick trick, final Card cardToCheck,
 			final Hand playerHand);
 
-	/**
-	 * @deprecated This will be removed in 1.5. Use isLegalCard(Trick, Card, Hand) instead.
-	 */
-	@Deprecated
-	public abstract boolean isLegalCard(final Trick trick, final Card cardToCheck,
-			final List<Card> playerHand);
-
 	public Hand getLegalCards(final Trick trick, final Hand hand) {
 		List<Card> legalCards =  new LinkedList<Card>();
 		for(final Card card : hand.getCards()) {

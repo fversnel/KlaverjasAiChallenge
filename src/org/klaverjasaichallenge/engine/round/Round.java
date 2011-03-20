@@ -16,12 +16,10 @@ import org.klaverjasaichallenge.shared.ruleset.RuleSet;
 public class Round {
 	private final RoundData roundData;
 
-	private final Logger logger;
+	private final Logger logger = Logger.getLogger(getClass());
 
 	public Round(final Table table, final RuleSet ruleSet) {
 		this.roundData = this.initializeRound(table, ruleSet);
-
-		this.logger = Logger.getLogger(Round.class);
 	}
 
 	public void play() {

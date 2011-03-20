@@ -18,12 +18,10 @@ import org.klaverjasaichallenge.shared.card.Suit;
  * @author Frank Versnel
  */
 public class PlayRound extends RoundAction {
-	private final Logger logger;
+	private final Logger logger = Logger.getLogger(getClass());
 
 	public PlayRound(final RoundData roundData) {
 		super(roundData);
-
-		this.logger = Logger.getLogger(PlayRound.class);
 	}
 
 	@Override

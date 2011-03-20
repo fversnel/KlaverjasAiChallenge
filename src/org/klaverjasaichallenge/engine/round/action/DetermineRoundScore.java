@@ -19,18 +19,16 @@ import org.klaverjasaichallenge.shared.Points;
 public class DetermineRoundScore extends RoundAction {
 	private static final RoundAction NO_NEXT_ACTION = null;
 
+	private final Logger logger = Logger.getLogger(this.getClass());
+	
 	private final Table table;
 	private final Player trumpPlayer;
-
-	private final Logger logger;
 
 	public DetermineRoundScore(final RoundData roundData) {
 		super(roundData);
 
 		this.table = this.roundData.getTable();
 		this.trumpPlayer = this.roundData.getTrumpPlayer();
-
-		this.logger = Logger.getLogger(this.getClass());
 	}
 
 	@Override

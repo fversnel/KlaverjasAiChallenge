@@ -3,8 +3,6 @@
  */
 package org.klaverjasaichallenge.shared.ruleset;
 
-import java.util.List;
-
 import org.klaverjasaichallenge.shared.ruleset.RuleSet;
 
 import org.klaverjasaichallenge.shared.Hand;
@@ -84,13 +82,6 @@ public class RotterdamRuleSet extends RuleSet {
 		}
 
 		return result;
-	}
-
-	@Override
-	@Deprecated
-	public boolean isLegalCard(Trick trick, Card cardToCheck,
-			List<Card> cards) {
-		return this.isLegalCard(trick, cardToCheck, new Hand(cards));
 	}
 
 }

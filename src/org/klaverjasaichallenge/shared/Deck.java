@@ -17,14 +17,13 @@ import org.klaverjasaichallenge.shared.card.Card;
 public class Deck {
 	protected final Stack<Card> cards;
 
-	private final Logger logger;
+	private final Logger logger = Logger.getLogger(getClass());
 
 	public Deck() {
 		this.cards = this.createDeck();
 		this.shuffleDeck(this.cards);
 
-		this.logger = Logger.getLogger(Deck.class);
-		this.logger.debug(this.cards);
+		this.logger.debug("Deck contains: " + this.cards);
 	}
 
 	public Card drawCard() {
