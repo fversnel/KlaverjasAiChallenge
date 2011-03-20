@@ -25,7 +25,7 @@ public class Points {
 		return new Points(leftHandSide.getPoints() + rightHandSide.getPoints());
 	}
 
-	public static Points sub(final Points leftHandSide, final Points rightHandSide) {
+	public static Points subtract(final Points leftHandSide, final Points rightHandSide) {
 		return new Points(leftHandSide.getPoints() - rightHandSide.getPoints());
 	}
 
