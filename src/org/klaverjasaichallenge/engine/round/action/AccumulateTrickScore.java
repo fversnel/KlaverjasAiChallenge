@@ -5,7 +5,6 @@ import java.util.List;
 import org.klaverjasaichallenge.engine.Table;
 import org.klaverjasaichallenge.engine.Team;
 import org.klaverjasaichallenge.engine.score.Score;
-import org.klaverjasaichallenge.shared.Player;
 
 /**
  * Accumulates the score players have amassed this Round.
@@ -36,9 +35,9 @@ public class AccumulateTrickScore extends RoundAction {
 	private Score accumlateTrickScore(final Team team) {
 		Score roundScore = new Score();
 		List<EngineTrick> playedTricks = this.roundData.getTricksPlayed();
+		
 		for(EngineTrick playedTrick : playedTricks) {
-			final Player winningPlayer = playedTrick.getWinner();
-			final Team winningTeam = this.table.getTeamFromPlayer(winningPlayer);
+			final Team winningTeam = this.table.getTeamFromPlayer(playedTrick.getWinner());
 
 			if(team.equals(winningTeam)) {
 				final Score trickScore = new Score(playedTrick);

@@ -49,19 +49,20 @@ public class DetermineRoundScore extends RoundAction {
 
 		Team otherTeam = this.table.getOtherTeam(team);
 		Score otherTeamScore = this.roundData.getRoundScore(otherTeam);
+
+		// If we get wet:
+		if(team.hasPlayer(this.trumpPlayer) && Score.isWet(teamScore, otherTeamScore)) {
+			newTeamScore = new Score();
+
+			this.logger.debug("--- " + team + " goes wet! OMG!!!");
+		}
 		// If the other team gets wet:
-		if(otherTeam.hasPlayer(this.trumpPlayer) && Score.isWet(otherTeamScore, teamScore)) {
+		else if(otherTeam.hasPlayer(this.trumpPlayer) && Score.isWet(otherTeamScore, teamScore)) {
 			// The winning team gets the roem of both teams as well as the
 			// maximum stock score.
 			newTeamScore = new Score(Score.MAXIMUM_STOCK_SCORE,
 					Points.plus(teamScore.getRoemScore(),
 							otherTeamScore.getRoemScore()));
-		}
-		// If we get wet:
-		else if(team.hasPlayer(this.trumpPlayer) && Score.isWet(teamScore, otherTeamScore)) {
-			newTeamScore = new Score();
-
-			this.logger.debug("--- " + team + " goes wet! OMG!!!");
 		}
 
 		return newTeamScore;

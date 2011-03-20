@@ -65,7 +65,7 @@ public class RoundData {
 		return this.playersHands.get(player);
 	}
 
-	public void putPlayersHand(final Player player, final Hand playersHand) {
+	public void savePlayersHand(final Player player, final Hand playersHand) {
 		this.playersHands.put(player, playersHand);
 	}
 

@@ -47,6 +47,11 @@ public class Hand {
 	public Card highestTrump(final Trick trick) {
 		return Card.highestTrump(trick.getTrump(), this.cards);
 	}
+	
+	@Override
+	public String toString() {
+		return this.cards.toString();
+	}
 
 	@Override
 	public Hand clone() {

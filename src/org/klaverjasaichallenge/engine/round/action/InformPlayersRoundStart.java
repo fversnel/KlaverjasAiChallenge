@@ -19,6 +19,7 @@ public class InformPlayersRoundStart extends RoundAction {
 	public RoundAction execute() {
 		final int trumpPlayerId = this.roundData.getTrumpPlayer().hashCode();
 		Table roundTable = this.roundData.getTable();
+		
 		for(Player currentPlayer : roundTable) {
 			final Team playerTeam = roundTable.getTeamFromPlayer(currentPlayer);
 			final Team otherTeam = roundTable.getOtherTeam(currentPlayer);

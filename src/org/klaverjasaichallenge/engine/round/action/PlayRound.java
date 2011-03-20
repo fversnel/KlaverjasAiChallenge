@@ -8,6 +8,7 @@ import org.klaverjasaichallenge.engine.round.CheatException;
 import org.klaverjasaichallenge.engine.score.Score;
 import org.klaverjasaichallenge.shared.Hand;
 import org.klaverjasaichallenge.shared.Player;
+import org.klaverjasaichallenge.shared.Trick;
 import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.ruleset.RuleSet;
 import org.klaverjasaichallenge.shared.card.Suit;
@@ -27,7 +28,7 @@ public class PlayRound extends RoundAction {
 	@Override
 	public RoundAction execute() {
 		Table table = this.roundData.getTable();
-		for (int trickId = 1; trickId <= EngineTrick.COUNT; trickId++) {
+		for (int trickId = 1; trickId <= Trick.COUNT; trickId++) {
 			EngineTrick trick = this.createNewTrick(trickId);
 
 			this.playTrick(table, trick, trickId);
@@ -46,7 +47,7 @@ public class PlayRound extends RoundAction {
 
 	private EngineTrick createNewTrick(final int trickId) {
 		final Suit trump = this.roundData.getTrump();
-		final boolean isLastTrick = (trickId == EngineTrick.COUNT);
+		final boolean isLastTrick = (trickId == Trick.COUNT);
 		return new EngineTrick(trump, isLastTrick);
 	}
 
@@ -54,10 +55,10 @@ public class PlayRound extends RoundAction {
 		this.logger.debug("-- Starting trick " + trickId + " with trump " + trick.getTrump());
 
 		for(final Player currentPlayer : table) {
-			// Ask the player to return a card
 			final Card cardPlayed = currentPlayer.getCard(trick);
+			
+			// Check if the card is valid
 			try {
-				// Check if the card is valid
 				this.playCard(trick, currentPlayer, cardPlayed);
 			} catch (CheatException cheatException) {
 				throw new RuntimeException(cheatException);
@@ -76,13 +77,15 @@ public class PlayRound extends RoundAction {
 	private void playCard(final EngineTrick trick, final Player player,
 			final Card card) throws CheatException {
 		final Hand playersHand = this.roundData.getPlayersHand(player);
-
-		RuleSet ruleSet = this.roundData.getRuleSet();
-		if(ruleSet.isLegalCard(trick.clone(), card, playersHand) && playersHand.drawCard(card)) {
+		final RuleSet ruleSet = this.roundData.getRuleSet();
+		
+		final boolean cardIsLegal = ruleSet.isLegalCard(trick.clone(), card, playersHand);
+		final boolean cardIsInHand = playersHand.drawCard(card);
+		if(cardIsLegal && cardIsInHand) {
 			trick.addCard(player, card);
 		} else {
 			throw new CheatException("Player " + player + " cheated " +
-					"with " + card + " and hand " + playersHand.getCards());
+					"with " + card + " and hand " + playersHand);
 		}
 	}
 

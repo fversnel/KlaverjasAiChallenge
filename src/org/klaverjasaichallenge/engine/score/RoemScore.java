@@ -39,14 +39,12 @@ class RoemScore {
 
 		final List<Card> cards = trick.getCards();
 		final Card firstCard = cards.get(0);
-		final Rank cardRank = firstCard.getRank();
 		final Order cardOrder = firstCard.getRoemOrder();
 		if(cardOrder.isHigherOrSameAs(FIRST_HIGH_CARD)) {
 			boolean fourCardsSameRank = true;
 
 			for(Card currentCard : cards) {
-				final Rank currentCardRank = currentCard.getRank();
-				if(!(currentCardRank.equals(cardRank))) {
+				if(!(currentCard.hasSameRankAs(firstCard))) {
 					fourCardsSameRank = false;
 				}
 			}
@@ -102,13 +100,12 @@ class RoemScore {
 	private static Points calculateStukScore(final Trick trick, final Suit trump) {
 		boolean queen = false;
 		boolean king = false;
-		for(final Card trickCard : trick.getCards()) {
-			final Suit cardSuit = trickCard.getSuit();
-			final Rank cardRank = trickCard.getRank();
-			if(cardSuit.equals(trump)) {
-				if(cardRank.equals(Rank.QUEEN)) {
+		
+		for(final Card card : trick.getCards()) {
+			if(card.isOfSuit(trump)) {
+				if(card.isOfRank(Rank.QUEEN)) {
 					queen = true;
-				} else if(cardRank.equals(Rank.KING)) {
+				} else if(card.isOfRank(Rank.KING)) {
 					king = true;
 				}
 			}

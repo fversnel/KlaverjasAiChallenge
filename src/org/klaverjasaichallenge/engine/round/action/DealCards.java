@@ -20,8 +20,9 @@ public class DealCards extends RoundAction {
 		final Deck deck = new Deck();
 
 		for(final Player currentPlayer : this.roundData.getTable()) {
-			this.roundData.putPlayersHand(currentPlayer,
-					this.dealHand(deck, currentPlayer));
+			final Hand playersHand = this.dealHand(deck, currentPlayer);
+			
+			this.roundData.savePlayersHand(currentPlayer, playersHand);
 		}
 
 		return new DrawTrump(this.roundData);
@@ -29,6 +30,7 @@ public class DealCards extends RoundAction {
 
 	private Hand dealHand(final Deck deck, final Player player) {
 		final Hand playersHand = new Hand(deck);
+		
 		player.giveCards(playersHand.clone());
 
 		return playersHand;

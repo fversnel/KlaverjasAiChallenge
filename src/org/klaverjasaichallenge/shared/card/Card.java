@@ -121,6 +121,14 @@ public enum Card {
 	public boolean hasSameSuitAs(final Card cardToCompare) {
 		return this.suit.equals(cardToCompare.getSuit());
 	}
+	
+	public boolean isOfRank(final Rank rankToCompare) {
+		return this.rank.equals(rankToCompare);
+	}
+	
+	public boolean hasSameRankAs(final Card cardToCompare) {
+		return this.rank.equals(cardToCompare.getRank());
+	}
 
 	public boolean equals(final Card cardToCompare) {
 		return this == cardToCompare;
