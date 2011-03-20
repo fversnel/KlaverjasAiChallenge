@@ -1,7 +1,7 @@
 package org.klaverjasaichallenge.engine.score;
 
-import org.klaverjasaichallenge.engine.round.EngineTrick;
 import org.klaverjasaichallenge.shared.Points;
+import org.klaverjasaichallenge.shared.Trick;
 
 /**
  *
@@ -26,7 +26,7 @@ public class Score {
 		this.roemScore = roemScore;
 	}
 
-	public Score(final EngineTrick trick) {
+	public Score(final Trick trick) {
 		assert(trick.numberOfCards() == FULL_TRICK) : "Score cannot be calculated for " +
 				"a trick that is not finished. Trick contains " + trick.numberOfCards() +
 				", but should contain: " + FULL_TRICK + " cards.";

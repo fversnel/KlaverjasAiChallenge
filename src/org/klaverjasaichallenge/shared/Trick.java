@@ -38,4 +38,8 @@ public interface Trick {
 
 	public Card getHighestCard();
 
+	public int numberOfCards();
+
+	public boolean isLastTrick();
+
 }

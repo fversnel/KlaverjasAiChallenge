@@ -138,8 +138,8 @@
       <!-- Enable assertions -->
       <jvmarg value ="-ea"/>
 
-      <arg value="org.klaverjasaichallenge.ai.StupidButLegalAI"/>
-      <arg value="org.klaverjasaichallenge.ai.StupidButLegalAI"/>
+      <arg value="StupidButLegalAI"/>
+      <arg value="StupidButLegalAI"/>
       <arg value="10"/>
       <classpath>
         <path refid="project.class.path" />

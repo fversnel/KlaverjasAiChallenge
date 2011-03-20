@@ -1,5 +1,5 @@
 
-package org.klaverjasaichallenge.engine.round;
+package org.klaverjasaichallenge.engine.round.action;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,7 +18,7 @@ import org.klaverjasaichallenge.shared.card.Suit;
  * @author Joost Pastoor
  * @author Frank Versnel
  */
-public class EngineTrick implements Trick {
+class EngineTrick implements Trick {
 	private static final int FIRST_ADDED_CARD = 1;
 	private static final int TOTAL_CARDS = 4;
 
@@ -51,6 +51,7 @@ public class EngineTrick implements Trick {
 		return new LinkedList<Card>(this.cards.keySet());
 	}
 
+	@Override
 	public int numberOfCards() {
 		return this.cards.size();
 	}
@@ -100,6 +101,7 @@ public class EngineTrick implements Trick {
 		return this.leadingSuit;
 	}
 
+	@Override
 	public boolean isLastTrick() {
 		return this.isLastTrick;
 	}

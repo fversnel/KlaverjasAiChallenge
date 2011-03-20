@@ -22,6 +22,8 @@ import org.klaverjasaichallenge.shared.ruleset.RuleSet;
  * @author Frank Versnel
  */
 public class Main {
+	private final static String AI_PACKAGE = "org.klaverjasaichallenge.ai.";
+	
 	private final static int TEAM_SIZE = 2;
 
 	private final static Logger logger = Logger.getLogger(Main.class.getName());
@@ -43,8 +45,8 @@ public class Main {
 				throw new RuntimeException("Number of games has to be higher than 0");
 			}
 
-			final Team team1 = createTeam(firstAI);
-			final Team team2 = createTeam(secondAI);
+			final Team team1 = createTeam(AI_PACKAGE + firstAI);
+			final Team team2 = createTeam(AI_PACKAGE + secondAI);
 
 			play(team1, team2, numberOfGames, new RotterdamRuleSet());
 

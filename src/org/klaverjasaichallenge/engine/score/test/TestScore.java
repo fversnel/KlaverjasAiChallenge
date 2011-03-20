@@ -3,12 +3,15 @@ package org.klaverjasaichallenge.engine.score.test;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.junit.*;
-import org.klaverjasaichallenge.engine.round.EngineTrick;
+
 import org.klaverjasaichallenge.engine.score.Score;
-import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.Points;
-import  org.klaverjasaichallenge.shared.card.Card;
+import org.klaverjasaichallenge.shared.Trick;
+import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.Suit;
 
 /**
@@ -19,172 +22,135 @@ public class TestScore {
 	private static final boolean IS_LAST_TRICK = false;
 
 	private Suit testTrump;
-	private EngineTrick testTrick;
 
 	@Before
 	public void setUp() {
 		this.testTrump = Suit.HEARTS;
-		this.testTrick = new EngineTrick(this.testTrump, IS_LAST_TRICK);
 	}
 
 	@Test
 	public void testStockScore() {
-		this.addCard(Card.SEVEN_OF_HEARTS);
-		this.addCard(Card.JACK_OF_HEARTS);
-		this.addCard(Card.TEN_OF_DIAMONDS);
-		this.addCard(Card.QUEEN_OF_SPADES);
-
-		Points actual = new Score(this.testTrick).getStockScore();
-		Points expected = new Points(33);
-
-		assertEquals(expected.getPoints(), actual.getPoints());
+		Trick trick = this.createMockTrick(Card.SEVEN_OF_HEARTS, Card.JACK_OF_HEARTS, 
+				Card.TEN_OF_DIAMONDS, Card.QUEEN_OF_SPADES);
+		
+		this.testExpectedStockPoints(trick, new Points(33));
 	}
 
 	@Test
 	public void testStuk() {
-		this.addCard(Card.JACK_OF_CLUBS);
-		this.addCard(Card.QUEEN_OF_HEARTS);
-		this.addCard(Card.TEN_OF_DIAMONDS);
-		this.addCard(Card.KING_OF_HEARTS);
+		Trick trick = this.createMockTrick(Card.JACK_OF_CLUBS, Card.QUEEN_OF_HEARTS, 
+				Card.TEN_OF_DIAMONDS, Card.KING_OF_HEARTS);
 
-		Points actual = new Score(this.testTrick).getRoemScore();
-		Points expected = new Points(20);
-
-		assertEquals(expected.getPoints(), actual.getPoints());
+		this.testExpectedRoemPoints(trick, new Points(20));
 	}
 
 	@Test
 	public void testNotStuk() {
-		this.addCard(Card.QUEEN_OF_CLUBS);
-		this.addCard(Card.QUEEN_OF_HEARTS);
-		this.addCard(Card.JACK_OF_HEARTS);
-		this.addCard(Card.EIGHT_OF_SPADES);
+		Trick trick = this.createMockTrick(Card.QUEEN_OF_CLUBS, Card.QUEEN_OF_HEARTS, 
+				Card.JACK_OF_HEARTS, Card.EIGHT_OF_SPADES);
 
-		Points actual = new Score(this.testTrick).getRoemScore();
-		Points expected = new Points(0);
-
-		assertEquals(expected.getPoints(), actual.getPoints());
+		this.testExpectedRoemPoints(trick, new Points(0));
 	}
 
 	@Test
 	public void testFourJacks() {
-		this.addCard(Card.JACK_OF_CLUBS);
-		this.addCard(Card.JACK_OF_HEARTS);
-		this.addCard(Card.JACK_OF_DIAMONDS);
-		this.addCard(Card.JACK_OF_SPADES);
+		Trick trick = this.createMockTrick(Card.JACK_OF_CLUBS, Card.JACK_OF_HEARTS, 
+				Card.JACK_OF_DIAMONDS, Card.JACK_OF_SPADES);
 
-		Points actual = new Score(this.testTrick).getRoemScore();
-		Points expected = new Points(200);
-
-		assertEquals(expected.getPoints(), actual.getPoints());
+		this.testExpectedRoemPoints(trick, new Points(200));
 	}
 
 	@Test
 	public void testFourCardsSameRank() {
-		this.addCard(Card.QUEEN_OF_CLUBS);
-		this.addCard(Card.QUEEN_OF_HEARTS);
-		this.addCard(Card.QUEEN_OF_DIAMONDS);
-		this.addCard(Card.QUEEN_OF_SPADES);
+		Trick trick = this.createMockTrick(Card.QUEEN_OF_CLUBS, Card.QUEEN_OF_HEARTS, 
+				Card.QUEEN_OF_DIAMONDS, Card.QUEEN_OF_SPADES);
 
-		Points actual = new Score(this.testTrick).getRoemScore();
-		Points expected = new Points(100);
-
-		assertEquals(expected.getPoints(), actual.getPoints());
+		this.testExpectedRoemPoints(trick, new Points(100));
 	}
 
 	@Test
 	public void testFourCardsNotSameRank() {
-		this.addCard(Card.QUEEN_OF_CLUBS);
-		this.addCard(Card.QUEEN_OF_HEARTS);
-		this.addCard(Card.QUEEN_OF_DIAMONDS);
-		this.addCard(Card.TEN_OF_SPADES);
+		Trick trick = this.createMockTrick(Card.QUEEN_OF_CLUBS, Card.QUEEN_OF_HEARTS, 
+				Card.QUEEN_OF_DIAMONDS, Card.TEN_OF_SPADES);
 
-		Points actual = new Score(this.testTrick).getRoemScore();
-		Points expected = new Points(0);
-
-		assertEquals(expected.getPoints(), actual.getPoints());
+		this.testExpectedRoemPoints(trick, new Points(0));
 	}
 
 	@Test
 	public void testFourConsecutiveCardsScore() {
-		this.addCard(Card.QUEEN_OF_CLUBS);
-		this.addCard(Card.TEN_OF_CLUBS);
-		this.addCard(Card.JACK_OF_CLUBS);
-		this.addCard(Card.NINE_OF_CLUBS);
+		Trick trick = this.createMockTrick(Card.QUEEN_OF_CLUBS, Card.TEN_OF_CLUBS, 
+				Card.JACK_OF_CLUBS, Card.NINE_OF_CLUBS);
 
-		Points actual = new Score(this.testTrick).getRoemScore();
-		Points expected = new Points(50);
-
-		assertEquals(expected.getPoints(), actual.getPoints());
+		this.testExpectedRoemPoints(trick, new Points(50));
 	}
 
 	@Test
 	public void testThreeConsecutiveCardsScore() {
-		this.addCard(Card.SEVEN_OF_HEARTS);
-		this.addCard(Card.TEN_OF_HEARTS);
-		this.addCard(Card.JACK_OF_HEARTS);
-		this.addCard(Card.NINE_OF_HEARTS);
+		Trick trick = this.createMockTrick(Card.SEVEN_OF_HEARTS, Card.TEN_OF_HEARTS, 
+				Card.JACK_OF_HEARTS, Card.NINE_OF_HEARTS);
 
-		Points actual = new Score(this.testTrick).getRoemScore();
-		Points expected = new Points(20);
-
-		assertEquals(expected.getPoints(), actual.getPoints());
+		this.testExpectedRoemPoints(trick, new Points(20));
 	}
 
 	@Test
 	public void testNoThreeConsecutiveCardsScore() {
-		this.addCard(Card.SEVEN_OF_HEARTS);
-		this.addCard(Card.TEN_OF_CLUBS);
-		this.addCard(Card.JACK_OF_CLUBS);
-		this.addCard(Card.NINE_OF_HEARTS);
+		Trick trick = this.createMockTrick(Card.SEVEN_OF_HEARTS, Card.TEN_OF_CLUBS, 
+				Card.JACK_OF_CLUBS, Card.NINE_OF_HEARTS);
 
-		Points actual = new Score(this.testTrick).getRoemScore();
-		Points expected = new Points(0);
-
-		assertEquals(expected.getPoints(), actual.getPoints());
+		this.testExpectedRoemPoints(trick, new Points(0));
 	}
 
 	@Test
 	public void testNoThreeConsecutiveCardsScore2() {
-		this.addCard(Card.NINE_OF_SPADES);
-		this.addCard(Card.KING_OF_SPADES);
-		this.addCard(Card.TEN_OF_SPADES);
-		this.addCard(Card.QUEEN_OF_SPADES);
+		Trick trick = this.createMockTrick(Card.NINE_OF_SPADES, Card.KING_OF_SPADES, 
+				Card.TEN_OF_SPADES, Card.QUEEN_OF_SPADES);
 
-		Points actual = new Score(this.testTrick).getRoemScore();
-		Points expected = new Points(0);
-
-		assertEquals(expected.getPoints(), actual.getPoints());
+		this.testExpectedRoemPoints(trick, new Points(0));
 	}
 
 	@Test
 	public void testStukAndThreeConsecutiveCardsScore() {
-		this.addCard(Card.QUEEN_OF_HEARTS);
-		this.addCard(Card.SEVEN_OF_HEARTS);
-		this.addCard(Card.JACK_OF_HEARTS);
-		this.addCard(Card.KING_OF_HEARTS);
+		Trick trick = this.createMockTrick(Card.QUEEN_OF_HEARTS, Card.SEVEN_OF_HEARTS, 
+				Card.JACK_OF_HEARTS, Card.KING_OF_HEARTS);
 
-		Points actual = new Score(this.testTrick).getRoemScore();
-		Points expected = new Points(40);
-
-		assertEquals(expected.getPoints(), actual.getPoints());
+		this.testExpectedRoemPoints(trick, new Points(40));
 	}
 
 	@Test
 	public void testStukAndFourConsecutiveCardsScore() {
-		this.addCard(Card.QUEEN_OF_HEARTS);
-		this.addCard(Card.TEN_OF_HEARTS);
-		this.addCard(Card.JACK_OF_HEARTS);
-		this.addCard(Card.KING_OF_HEARTS);
+		Trick trick = this.createMockTrick(Card.QUEEN_OF_HEARTS, Card.TEN_OF_HEARTS, 
+				Card.JACK_OF_HEARTS, Card.KING_OF_HEARTS);
 
-		Points actual = new Score(this.testTrick).getRoemScore();
-		Points expected = new Points(70);
+		this.testExpectedRoemPoints(trick, new Points(70));
+	}
+	
+	private void testExpectedStockPoints(final Trick trick, final Points expected) {
+		Points actual = new Score(trick).getStockScore();
 
-		assertEquals(expected.getPoints(), actual.getPoints());
+		assertTrue(expected.equals(actual));
+	}
+	
+	private void testExpectedRoemPoints(final Trick trick, final Points expected) {
+		Points actual = new Score(trick).getRoemScore();
+
+		assertTrue(expected.equals(actual));
 	}
 
-	private void addCard(final Card card) {
-		this.testTrick.addCard(mock(Player.class), card);
+	private Trick createMockTrick(final Card firstCard, final Card secondCard, 
+			final Card thirdCard, final Card fourthCard) {
+		Trick trick = mock(Trick.class);
+		when(trick.getLeadingSuit()).thenReturn(firstCard.getSuit());
+		when(trick.getTrump()).thenReturn(this.testTrump);
+		when(trick.isLastTrick()).thenReturn(IS_LAST_TRICK);
+		
+		List<Card> trickCards = new LinkedList<Card>();
+		trickCards.add(firstCard);
+		trickCards.add(secondCard);
+		trickCards.add(thirdCard);
+		trickCards.add(fourthCard);
+		when(trick.getCards()).thenReturn(trickCards);
+		
+		return trick;
 	}
 
 }

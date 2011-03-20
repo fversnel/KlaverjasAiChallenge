@@ -5,7 +5,6 @@ import org.apache.log4j.Logger;
 
 import org.klaverjasaichallenge.engine.Table;
 import org.klaverjasaichallenge.engine.round.CheatException;
-import org.klaverjasaichallenge.engine.round.EngineTrick;
 import org.klaverjasaichallenge.engine.score.Score;
 import org.klaverjasaichallenge.shared.Hand;
 import org.klaverjasaichallenge.shared.Player;

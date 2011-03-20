@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.klaverjasaichallenge.engine.Table;
 import org.klaverjasaichallenge.engine.Team;
-import org.klaverjasaichallenge.engine.round.EngineTrick;
 import org.klaverjasaichallenge.engine.score.Score;
 import org.klaverjasaichallenge.shared.Player;
 
