@@ -1,7 +1,19 @@
+Changes in v1.4:
+- Sadly, 1.4 is not backwards compatible with 1.3.
+- Trick is now an interface instead of a class. The engine contains the only
+  known implementation which is package local, and thus cannot be used by the
+  AI's. 
+- Introduction of the Hand class to AI's. Previously this was a List of cards.
+  The Hand class is more sophisticated; providing the AI with several helper
+  methods for looking up the cards in his hand.
+- All shared classes can now be extended, their properties are now protected
+  instead of private.
+- Several changes on the interfaces of Card and Trick.
+
 Changes in v1.3:
 - Complete re-design of the Klaverjas engine. A round is now executed as a
   series of actions. Each action is defined in a seperate class.
-- Re-implementation of the Rotterdam ruleset. Undertrumping is now impossible.
+- Re-implementation of the Rotterdam rule set. Undertrumping is now impossible.
 - Added the notion of an engine-side Trick and a shared Trick. The shared
   Trick interfaces the engine Trick for all players, providing them only with
   the information that they need.
