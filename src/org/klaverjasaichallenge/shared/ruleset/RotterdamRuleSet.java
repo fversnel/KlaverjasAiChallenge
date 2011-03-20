@@ -28,8 +28,7 @@ public class RotterdamRuleSet extends RuleSet {
 		if(leadingSuit == null) {
 			result = true;
 		} else if(playerHand.hasSuit(leadingSuit)) {
-			final Suit cardSuit = cardToCheck.getSuit();
-			result = cardSuit.equals(leadingSuit);
+			result = cardToCheck.isOfSuit(leadingSuit);
 
 			// If the leading suit is trump we need to perform an extra
 			// check.
@@ -61,8 +60,7 @@ public class RotterdamRuleSet extends RuleSet {
 				result = cardToCheck.isHigherThan(trick,
 						trick.getHighestCard());
 			} else {
-				final Suit cardSuit = cardToCheck.getSuit();
-				result = cardSuit.equals(trump);
+				result = cardToCheck.isOfSuit(trump);
 			}
 		}
 

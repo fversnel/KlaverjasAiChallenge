@@ -3,9 +3,7 @@
  */
 package org.klaverjasaichallenge.shared.card;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.LinkedList;
 
 import org.klaverjasaichallenge.shared.Order;
 import org.klaverjasaichallenge.shared.Points;
@@ -89,40 +87,25 @@ public enum Card {
 		return this.rank.getRoemOrder();
 	}
 
-	public boolean isHigherThan(final Trick trick, final Card card) {
+	public boolean isHigherThan(final Trick trick, final Card cardToCompare) {
 		Boolean result = null;
 
 		final Suit leadingSuit = trick.getLeadingSuit();
 		final Suit trump = trick.getTrump();
-		final Suit cardSuit = card.getSuit();
 
-		// If both are trumps
-		if(this.suit.equals(trump) && cardSuit.equals(trump)) {
-			result = this.getTrumpOrder().isHigherThan(card.getTrumpOrder());
-		}
-		// If this card is a trump, but the card to compare it with is not
-		else if(this.suit.equals(trump) && !cardSuit.equals(trump)) {
+		if(this.isOfSuit(trump) && cardToCompare.isOfSuit(trump)) {
+			result = this.getTrumpOrder().isHigherThan(cardToCompare.getTrumpOrder());
+		} else if(this.isOfSuit(trump) && !cardToCompare.isOfSuit(trump)) {
 			result = true;
-		}
-		// If this card is not a trump, but the card to compare it with is
-		else if(!this.suit.equals(trump) && cardSuit.equals(trump)) {
+		} else if(!this.isOfSuit(trump) && cardToCompare.isOfSuit(trump)) {
 			result = false;
-		}
-		// If both cards are of the leading suit
-		else if(this.suit.equals(leadingSuit) && cardSuit.equals(leadingSuit)) {
-			result = this.getNormalOrder().isHigherThan(card.getNormalOrder());
-		}
-		// If this card is a leadingSuit, but the card to compare it with is not
-		else if(this.suit.equals(leadingSuit) && !cardSuit.equals(leadingSuit)) {
+		} else if(this.isOfSuit(leadingSuit) && cardToCompare.isOfSuit(leadingSuit)) {
+			result = this.getNormalOrder().isHigherThan(cardToCompare.getNormalOrder());
+		} else if(this.isOfSuit(leadingSuit) && !cardToCompare.isOfSuit(leadingSuit)) {
 			result = true;
-		}
-		// If this card is not a leadingSuit, but the card to compare it with is
-		else if(!this.suit.equals(leadingSuit) && cardSuit.equals(leadingSuit)) {
+		} else if(!this.isOfSuit(leadingSuit) && cardToCompare.isOfSuit(leadingSuit)) {
 			result = false;
-		}
-		// If both cards are not of leading suit comparing doesn't matter
-		// anymore so it will return false.
-		else if (!this.suit.equals(leadingSuit) && !cardSuit.equals(leadingSuit)) {
+		} else if (!this.isOfSuit(leadingSuit) && !cardToCompare.isOfSuit(leadingSuit)) {
 			result = false;
 		}
 
@@ -130,9 +113,17 @@ public enum Card {
 
 		return result;
 	}
+	
+	public boolean isOfSuit(final Suit suitToCompare) {
+		return this.suit.equals(suitToCompare);
+	}
 
-	public boolean equals(final Card toCompare) {
-		return this == toCompare;
+	public boolean hasSameSuitAs(final Card cardToCompare) {
+		return this.suit.equals(cardToCompare.getSuit());
+	}
+
+	public boolean equals(final Card cardToCompare) {
+		return this == cardToCompare;
 	}
 
 	@Override
@@ -161,9 +152,7 @@ public enum Card {
 		Card highestCard = null;
 
 		for(Card card : cards) {
-			Suit cardSuit = card.getSuit();
-
-			if(cardSuit.equals(trump)) {
+			if(card.isOfSuit(trump)) {
 				if(highestCard == null) {
 					highestCard = card;
 				} else if(card.getTrumpOrder().isHigherThan(highestCard.getTrumpOrder())) {
@@ -179,26 +168,12 @@ public enum Card {
 		boolean check = false;
 
 		for(Card card : cards) {
-			if(card.getSuit().equals(suit)) {
+			if(card.isOfSuit(suit)) {
 				check = true;
 			}
 		}
 
 		return check;
-	}
-
-	public static List<Suit> getSuits() {
-		final List<Suit> suits = new LinkedList<Suit>();
-		suits.addAll(Arrays.asList(Suit.values()));
-
-		return suits;
-	}
-
-	public static List<Rank> getRanks() {
-		final List<Rank> ranks = new LinkedList<Rank>();
-		ranks.addAll(Arrays.asList(Rank.values()));
-
-		return ranks;
 	}
 
 }

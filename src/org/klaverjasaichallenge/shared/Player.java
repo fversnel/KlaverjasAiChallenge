@@ -20,7 +20,7 @@ public interface Player {
 
 	/**
 	 * The first thing in a game of Klaverjas is informing which {@link
-	 * RuleSet} is used (Rotterdams, Amsterdams). The AI can use this ruleset
+	 * RuleSet} is used (Rotterdam, Amsterdam). The AI can use this ruleset
 	 * to determine his legal cards for each trick.
 	 */
 	public void giveRuleSet(final RuleSet ruleSet);

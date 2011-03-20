@@ -8,11 +8,11 @@ import org.klaverjasaichallenge.shared.card.Suit;
 
 /*
  * The {@link Trick} is one of the main concepts in a round of Klaverjas.
- * Each round consists of eight tricks, each trick contains of four {@link
+ * Each round consists of eight tricks, each trick contains four {@link
  * Card}'s.  In turns, each {@link org.klaverjasaichallenge.shared.Player}
  * plays a card in the trick, after which a winner is determined. The winner
- * gets all points of the cards in the trick and is also the first to
- * play a card in the next trick (unless its the last trick in a round).
+ * gets all points of the cards in the trick and is also the first to play a
+ * card in the next trick (unless its the last trick in a round).
  *
  * @author Joost Pastoor
  * @author Frank Versnel

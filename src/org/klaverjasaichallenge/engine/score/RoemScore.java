@@ -74,7 +74,7 @@ class RoemScore {
 			for(final Card otherCard : trick.getCards()) {
 				final Order orderDifference = Order.minus(card.getRoemOrder(),
 						otherCard.getRoemOrder());
-				if(card.getSuit().equals(otherCard.getSuit())) {
+				if(card.hasSameSuitAs(otherCard)) {
 					if(orderDifference.equals(new Order(1))) {
 						oneRankDifference = true;
 					}

@@ -27,7 +27,7 @@ public class DrawTrump extends RoundAction {
 	private final Suit trumpDrawn;
 
 	public DrawTrump(final RoundData roundData) {
-		this(roundData, Card.getSuits());
+		this(roundData, Suit.asList());
 	}
 
 	@Override

@@ -38,7 +38,7 @@ class EngineTrick implements Trick {
 		this.cards.put(cardPlayed, player);
 
 		if(this.cards.size() == FIRST_ADDED_CARD) {
-			this.leadingSuit = cardPlayed.getSuit();
+			cardPlayed.isOfSuit(this.leadingSuit);
 		}
 
 		assert(this.leadingSuit != null);

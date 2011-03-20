@@ -1,5 +1,9 @@
 package org.klaverjasaichallenge.shared.card;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.klaverjasaichallenge.shared.Order;
 import org.klaverjasaichallenge.shared.Points;
 
@@ -70,6 +74,13 @@ public enum Rank {
 	@Override
 	public String toString() {
 		return this.prettyPrintName;
+	}
+	
+	public static List<Rank> asList() {
+		final List<Rank> ranks = new LinkedList<Rank>();
+		ranks.addAll(Arrays.asList(Rank.values()));
+
+		return ranks;
 	}
 
 }

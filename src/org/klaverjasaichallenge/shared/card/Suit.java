@@ -1,5 +1,9 @@
 package org.klaverjasaichallenge.shared.card;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+
 public enum Suit {
 	SPADES("Spades"),
 	CLUBS("Clubs"),
@@ -19,6 +23,13 @@ public enum Suit {
 	@Override
 	public String toString() {
 		return this.prettyPrintName;
+	}
+	
+	public static List<Suit> asList() {
+		final List<Suit> suits = new LinkedList<Suit>();
+		suits.addAll(Arrays.asList(Suit.values()));
+
+		return suits;
 	}
 
 }
