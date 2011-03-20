@@ -21,14 +21,14 @@ public enum Rank {
 	ACE("Ace", new Order(8), new Order(6), new Order(8), new Points(11),
 				new Points(11));
 
-	protected final String prettyPrintName;
+	private final String prettyPrintName;
 
-	protected final Order normalOrder;
-	protected final Order roemOrder;
-	protected final Order trumpOrder;
+	private final Order normalOrder;
+	private final Order roemOrder;
+	private final Order trumpOrder;
 
-	protected final Points normalPoints;
-	protected final Points trumpPoints;
+	private final Points normalPoints;
+	private final Points trumpPoints;
 
 	private Rank(final String prettyPrintName, final Order normalOrder,
 			final Order trumpOrder, final Order roemOrder,

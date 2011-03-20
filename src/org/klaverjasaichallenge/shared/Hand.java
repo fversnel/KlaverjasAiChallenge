@@ -12,9 +12,9 @@ import org.klaverjasaichallenge.shared.card.Suit;
  * @author Frank Versnel
  */
 public class Hand {
-	protected static final int CARDS_IN_HAND = 8;
+	protected static final int CARDS_IN_FULL_HAND = 8;
 
-	protected final List<Card> cards;
+	protected List<Card> cards;
 
 	public Hand(final Deck deck) {
 		this.cards = this.drawHand(deck);
@@ -55,7 +55,7 @@ public class Hand {
 
 	private List<Card> drawHand(final Deck deck) {
 		List<Card> hand = new LinkedList<Card>();
-		for (int i = 1; i <= CARDS_IN_HAND; i++) {
+		for (int i = 1; i <= CARDS_IN_FULL_HAND; i++) {
 			hand.add(deck.drawCard());
 		}
 

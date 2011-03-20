@@ -16,7 +16,7 @@ import org.klaverjasaichallenge.shared.card.Suit;
  * @author Frank Versnel
  */
 public class RotterdamRuleSet extends RuleSet {
-	protected static final int NUMBER_OF_ROUNDS = 16;
+	protected final static int NUMBER_OF_ROUNDS = 16;
 
 	@Override
 	public boolean isLegalCard(final Trick trick, final Card cardToCheck,

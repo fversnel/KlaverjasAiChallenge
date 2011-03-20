@@ -53,8 +53,8 @@ public enum Card {
 	KING_OF_DIAMONDS(Rank.KING, Suit.DIAMONDS),
 	ACE_OF_DIAMONDS(Rank.ACE, Suit.DIAMONDS);
 
-	protected final Rank rank;
-	protected final Suit suit;
+	private final Rank rank;
+	private final Suit suit;
 
 	private Card(final Rank rank, final Suit suit) {
 		this.rank = rank;
