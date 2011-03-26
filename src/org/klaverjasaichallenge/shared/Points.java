@@ -5,7 +5,7 @@ package org.klaverjasaichallenge.shared;
  * @author Frank Versnel
  */
 public class Points {
-	private static final int DEFAULT = 0;
+	protected static final int DEFAULT = 0;
 	
 	protected int points;
 	

@@ -38,10 +38,10 @@ class EngineTrick implements Trick {
 		this.cards.put(cardPlayed, player);
 
 		if(this.cards.size() == FIRST_ADDED_CARD) {
-			cardPlayed.isOfSuit(this.leadingSuit);
+			this.leadingSuit = cardPlayed.getSuit();
 		}
 
-		assert(this.leadingSuit != null);
+		assert(this.leadingSuit != null) : "The leading suit was not properly determined.";
 		assert(this.numberOfCards() <= TOTAL_CARDS) : "Trick cannot contain more than " + TOTAL_CARDS + ".";
 	}
 

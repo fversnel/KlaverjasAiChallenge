@@ -1,13 +1,18 @@
 Changes in v1.4:
 - Sadly, 1.4 is not backwards compatible with 1.3.
+- Almost all methods in the Player class have been renamed to better represent
+  their purpose.
 - Trick is now an interface instead of a class. The engine contains the only
   known implementation which is package local, and thus cannot be used by the
-  AI's. 
+  AI's (to prevent them from cheating). 
 - Introduction of the Hand class to AI's. Previously this was a List of cards.
-  The Hand class is more sophisticated; providing the AI with several helper
-  methods for looking up the cards in his hand.
-- All shared classes can now be extended, their properties are now protected
-  instead of private.
+  The Hand class is more sophisticated; providing the AI's with several helper
+  methods for looking up the cards in their hands.
+- All shared classes (except for Card, Rank, and Suit) can now be extended,
+  their fields are now protected instead of private.
+- The application now keeps track of the play count, wet count, and march
+  count of the AI's.
+- Card, Ranks, and Suits are now enums.
 - Several changes on the interfaces of Card and Trick.
 
 Changes in v1.3:
