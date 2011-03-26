@@ -8,7 +8,7 @@
 
   <!-- Version numbers -->
   <property name="shared.package.version" value="1.4" />
-  <property name="klaverjasaiachallenge.package.version" value="1.4" />
+  <property name="klaverjasaichallenge.package.version" value="1.4" />
 
   <!-- Directories used -->
   <property name="dir.source" location="src" />
