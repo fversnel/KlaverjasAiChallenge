@@ -34,11 +34,15 @@ public class Points {
 	}
 
 	public static boolean biggerThan(final Points leftHandSide, final Points rightHandSide) {
-		return leftHandSide.getPoints() > rightHandSide.getPoints() ? true : false;
+		return leftHandSide.getPoints() > rightHandSide.getPoints();
 	}
 
 	public static boolean biggerThanOrEquals(final Points leftHandSide, final Points rightHandSide) {
-		return leftHandSide.getPoints() >= rightHandSide.getPoints() ? true : false;
+		return leftHandSide.getPoints() >= rightHandSide.getPoints();
+	}
+	
+	public static boolean smallerThan(final Points leftHandSide, final Points rightHandSide) {
+		return leftHandSide.getPoints() < rightHandSide.getPoints();
 	}
 
 	public boolean equals(Points points) {

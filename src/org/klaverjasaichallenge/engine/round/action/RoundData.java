@@ -21,7 +21,7 @@ public class RoundData {
 	private Map<Player, Hand> playersHands = new HashMap<Player, Hand>();
 	private List<EngineTrick> tricksPlayed = new LinkedList<EngineTrick>();
 	
-	private Map<Team, Score> roundScores;
+	private Map<Team, Score> roundScores = new HashMap<Team, Score>();
 	
 	private Table table;
 	private final RuleSet ruleSet;
@@ -32,8 +32,6 @@ public class RoundData {
 	public RoundData(final Table table, final RuleSet ruleSet) {
 		this.table = table;
 		this.ruleSet = ruleSet;
-
-		this.roundScores = this.initializeRoundScores(table.getTeams());
 	}
 
 	public Table getTable() {
@@ -87,15 +85,6 @@ public class RoundData {
 
 	public Map<Team, Score> getRoundScores() {
 		return this.roundScores;
-	}
-
-	private Map<Team, Score> initializeRoundScores(final List<Team> teams) {
-		final Map<Team, Score> roundScores = new HashMap<Team, Score>();
-		for (final Team team : teams) {
-			roundScores.put(team, new Score());
-		}
-
-		return roundScores;
 	}
 
 }

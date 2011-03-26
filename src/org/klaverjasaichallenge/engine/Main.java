@@ -76,8 +76,8 @@ public class Main {
 				round.play();
 
 				// Sum up the round score to the total score for each team this game
-				team1GameScore = Score.plus(team1GameScore, round.getScore(team1));
-				team2GameScore = Score.plus(team2GameScore, round.getScore(team2));
+				team1GameScore.plus(round.getScore(team1));
+				team2GameScore.plus(round.getScore(team2));
 
 				// Change the order of the players
 				table.nextRound();
@@ -88,8 +88,8 @@ public class Main {
 			}
 
 			// Sum up the game score.
-			team1Score = Score.plus(team1Score, team1GameScore);
-			team2Score = Score.plus(team2Score, team2GameScore);
+			team1Score.plus(team1GameScore);
+			team2Score.plus(team2GameScore);
 		}
 
 		logger.info("\nOverall score for " + numberOfGames + " games:\n" +

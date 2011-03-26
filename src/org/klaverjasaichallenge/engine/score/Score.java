@@ -13,8 +13,12 @@ public class Score {
 
 	private static final int FULL_TRICK = 4;
 
-	private final Points stockScore;
-	private final Points roemScore;
+	private Points stockScore;
+	private Points roemScore;
+	
+	private int wetCount = 0;
+	private int marchCount = 0;
+	private int playCount = 0;
 
 	public Score() {
 		this.stockScore = new Points();
@@ -46,37 +50,64 @@ public class Score {
 	public Points getTotalScore() {
 		return Points.plus(getRoemScore(), getStockScore());
 	}
-
-	public static Score plus(final Score leftScore, final Score rightScore) {
-		return new Score(
-				Points.plus(leftScore.getStockScore(),rightScore.getStockScore()),
-				Points.plus(leftScore.getRoemScore(),rightScore.getRoemScore()));
+	
+	public void incrementWetCount() {
+		this.wetCount++;
+	}
+	
+	public int getWetCount() {
+		return this.wetCount;
+	}
+	
+	public void incrementPlayCount() {
+		this.playCount++;
 	}
 
-	public static boolean totalScorebiggerThan(final Score leftHandSide, final
-			Score rightHandSide) {
-		return Points.biggerThan(leftHandSide.getTotalScore(),
-				rightHandSide.getTotalScore());
+	public int getPlayCount() {
+		return this.playCount;
+	}
+	
+	public void incrementMarchCount() {
+		this.marchCount++;
+	}
+	
+	public int getMarchCount() {
+		return this.marchCount;
 	}
 
-	public static boolean totalScoreBiggerThanOrEquals(final Score
-			leftHandSide, final Score rightHandSide) {
-		return Points.biggerThanOrEquals(leftHandSide.getTotalScore(),
-				rightHandSide.getTotalScore());
+	public void plus(final Score otherScore) {
+		this.stockScore = Points.plus(this.stockScore, otherScore.getStockScore());
+		this.roemScore = Points.plus(this.roemScore, otherScore.getRoemScore());
+
+		this.playCount = this.playCount + otherScore.getPlayCount();
+		this.marchCount = this.marchCount + otherScore.getMarchCount();
+		this.wetCount = this.wetCount + otherScore.getWetCount();
 	}
 
-	public static boolean isWet(Score offensiveScore, Score defensiveScore) {
-		return (Score.totalScoreBiggerThanOrEquals(defensiveScore, offensiveScore));
+	public boolean totalScorebiggerThan(final Score otherScore) {
+		return Points.biggerThan(this.getTotalScore(),
+				otherScore.getTotalScore());
 	}
 
-	public static boolean isMarching(Score offensiveScore) {
-		return (offensiveScore.getStockScore().equals(Score.MAXIMUM_STOCK_SCORE));
+	public boolean totalScoreBiggerThanOrEquals(final Score otherScore) {
+		return Points.biggerThanOrEquals(this.getTotalScore(),
+				otherScore.getTotalScore());
+	}
+	
+	public boolean totalScoreSmallerThan(final Score otherScore) {
+		return Points.smallerThan(this.getTotalScore(),
+				otherScore.getTotalScore());
 	}
 
 	@Override
 	public String toString() {
-		return "Score [Total: "+this.getTotalScore()+", Stock: " +
-			this.getStockScore() +", Roem: " + this.getRoemScore() + "]";
+		return "Score [Total: " + this.getTotalScore() + 
+				", Stock: " + this.stockScore + 
+				", Roem: " + this.roemScore +
+				", Play count: " + this.playCount +
+				", Wet count: " + this.wetCount +
+				", March count: " + this.marchCount +
+				"]";
 	}
 
 }

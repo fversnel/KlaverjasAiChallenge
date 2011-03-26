@@ -39,7 +39,7 @@ public class TestAccumulateTrickScore {
 		for(final Team team : this.roundData.getTeams()) {
 			Score teamScore = this.roundData.getRoundScore(team);
 			System.out.println(team + " " +teamScore);
-			scoreBothTeams = Score.plus(scoreBothTeams, teamScore);
+			scoreBothTeams.plus(teamScore);
 		}
 
 		Points stockScoreBothTeams = scoreBothTeams.getStockScore();
