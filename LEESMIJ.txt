@@ -9,19 +9,22 @@ Hier volgt nuttige informatie tot het programmeren van een Klaverjas AI:
 - Source code van het project kan uitgecheckt worden met Mercurial dmv het
   volgende commando:
   hg clone https://klaverjasaichallenge.googlecode.com/hg/ klaverjasaichallenge
-- In de package src/org/klaverjasaichallange/ai staat een voorbeeld AI, om te
+- In de package src/org/klaverjasaichallenge/ai staat een voorbeeld AI, om te
   laten zien hoe een AI geimplementeerd zou kunnen worden.
 - De klaverjas.shared.jar package bevat classes die gebruikt dienen te worden
   bij het compileren en schrijven van een AI. Deze package is te downloaden
   van de google code site of the compileren vanaf source met behulp van Ant.
 - De AI moet de KlaverJasAI interface implementeren. 
+- De implementatie van de KlaverJasAI interface moet in de package:
+  org.klaverjasaichallenge.ai
 - De AI mag niet met z'n teammate communiceren over welke kaarten hij heeft
   enzovoort.
 - De AI mag niet valsspelen, als dit wel gebeurt zal de engine crashen
   met een CheatException.
 - Om de AI daadwerkelijk te laten spelen dient gebruik gemaakt te worden van de
-  klaverjas.jar package. Deze package is zowel beschikbaar als download via
-  google code en compileerbaar vanaf source met Ant.
+  command-line interface van de klaverjas.jar package. Deze package is zowel
+  beschikbaar als download via google code en compileerbaar vanaf source met
+  Ant.
 
 Hier zijn de regels van klaverjassen terug te vinden:
 - http://nl.wikipedia.org/wiki/Klaverjassen

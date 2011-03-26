@@ -60,7 +60,7 @@ public class DetermineRoundScore extends RoundAction {
 			newTeamScore = new Score();
 			newTeamScore.incrementWetCount();
 			
-			this.logger.debug("--- " + team + " goes wet! OMG!!!");
+			this.logger.debug(team + " goes wet! OMG!!!");
 		}
 		
 		final boolean otherTeamPlays = !teamPlays;
@@ -86,7 +86,7 @@ public class DetermineRoundScore extends RoundAction {
 						teamScore.getRoemScore(), Score.MARCH_POINTS));
 			newTeamScore.incrementMarchCount();
 
-			this.logger.debug("--- " + team + " goes marching.");
+			this.logger.debug(team + " goes marching.");
 		}
 
 		return newTeamScore;

@@ -8,7 +8,7 @@ To write an AI for the klaverjasaichallenge, the following information is of
 use to you:
 - Source code can be checked out using Mercurial:
   hg clone https://klaverjasaichallenge.googlecode.com/hg/ klaverjasaichallenge
-- In package src/org/klaverjasaichallange/ai there is an example of a very
+- In package src/org/klaverjasaichallenge/ai there is an example of a very
   simple AI to get you started.
 - The AI has to implement the KlaverJasAI interface.
 - The shared package provides useful (helper) classes for your AI. Use it to
@@ -17,8 +17,9 @@ use to you:
 - The AI must not communicate with his teammate.
 - The AI must not cheat, but if he does the application will crash with a
   CheatException.
-- To run your AI you can download the klaverjas.jar file from the google code
-  site or compile it from source using Ant.
+- To run your AI you can download the klaverjas.jar using the command-line
+  interface. Downloads via google code site or compile it from source using
+  Ant.
 
 The rules of klaverjas can be found here:
 - http://en.wikipedia.org/wiki/Klaverjas
