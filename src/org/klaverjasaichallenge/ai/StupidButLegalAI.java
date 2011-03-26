@@ -58,7 +58,6 @@ public class StupidButLegalAI extends KlaverJasAI {
 
 	/**
 	 * {@inheritDoc}
-	 * 
 	 * We don't care about this, just always play on the trump.
 	 */
 	@Override
@@ -77,6 +76,7 @@ public class StupidButLegalAI extends KlaverJasAI {
 
 	/**
 	 * {@inheritDoc}
+	 * We don't care about this.
 	 */
 	@Override
 	public void notifyStartOfRound(int leadingPlayer, Suit trump, int yourId,

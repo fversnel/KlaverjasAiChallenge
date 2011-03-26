@@ -26,8 +26,8 @@ public class Hand {
 	}
 
 	/**
-	 * @return true if the card was in his hand; false if it was not. If the
-	 * card was in his hand, it has been removed.
+	 * @return true if the card was in the hand; false if it was not. If the
+	 * card was in the hand, it has been removed.
 	 */
 	public boolean drawCard(final Card card) {
 		return this.cards.remove(card);
