@@ -20,7 +20,7 @@ public class TestInformPlayersRuleSet {
 	}
 
 	/**
-	 * Verify that on each player the method {@link Player#giveRuleSet(RuleSet)}
+	 * Verify that on each player the method {@link Player#notifyRuleset(RuleSet)}
 	 * is called.
 	 */
 	@Test
@@ -31,7 +31,7 @@ public class TestInformPlayersRuleSet {
 		informPlayersRuleSet.execute();
 
 		for(Player player : this.testData.getTable()) {
-			verify(player).giveRuleSet(any(RuleSet.class));
+			verify(player).notifyRuleset(any(RuleSet.class));
 		}
 	}
 

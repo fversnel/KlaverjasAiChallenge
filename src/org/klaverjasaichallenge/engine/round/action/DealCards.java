@@ -31,7 +31,7 @@ public class DealCards extends RoundAction {
 	private Hand dealHand(final Deck deck, final Player player) {
 		final Hand playersHand = new Hand(deck);
 		
-		player.giveCards(playersHand.clone());
+		player.receiveCards(playersHand.clone());
 
 		return playersHand;
 	}

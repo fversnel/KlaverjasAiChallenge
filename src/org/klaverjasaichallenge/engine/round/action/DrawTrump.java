@@ -7,7 +7,6 @@ import java.util.Collections;
 import org.apache.log4j.Logger;
 
 import org.klaverjasaichallenge.shared.Player;
-import org.klaverjasaichallenge.shared.Order;
 import org.klaverjasaichallenge.shared.card.Suit;
 
 /**
@@ -36,7 +35,7 @@ public class DrawTrump extends RoundAction {
 			// Start the round if the player wants to go on the trump.
 			// Start the round anyway, forcing the current player to go on the
 			// trump, when the third trump is drawn.
-			final boolean voluntaryPlay = player.playOnTrump(this.trumpDrawn, new Order(playerIndex));
+			final boolean voluntaryPlay = player.playsOnTrump(this.trumpDrawn, playerIndex);
 			final boolean forcedPlay = this.availableTrumps.size() == FORCED_PLAY_ON_TRUMP;
 			if(voluntaryPlay || forcedPlay) {
 				this.roundData.setTrump(player, this.trumpDrawn);

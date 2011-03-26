@@ -7,6 +7,7 @@ import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.Suit;
 
 /**
+ * Represents the cards in your hand.
  *
  * @author Joost Pastoor
  * @author Frank Versnel

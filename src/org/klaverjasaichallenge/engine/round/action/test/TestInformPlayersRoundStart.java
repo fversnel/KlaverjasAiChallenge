@@ -29,7 +29,7 @@ public class TestInformPlayersRoundStart {
 	@Test
 	public void verifyStartOfRoundIndication() {
 		for(final Player player : this.testData.getTable()) {
-			verify(player).startOfRound(anyInt(), 
+			verify(player).notifyStartOfRound(anyInt(), 
 				eq(this.testData.getRoundData().getTrump()),
 				anyInt(), anyInt(), anyInt(), anyInt());
 		}

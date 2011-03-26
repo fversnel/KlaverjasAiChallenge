@@ -6,7 +6,7 @@ import org.junit.*;
 import java.util.List;
 import java.util.LinkedList;
 
-import org.klaverjasaichallenge.shared.Order;
+import org.klaverjasaichallenge.shared.card.Order;
 
 /**
  *

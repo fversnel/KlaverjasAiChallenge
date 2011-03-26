@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.klaverjasaichallenge.shared.Order;
 import org.klaverjasaichallenge.shared.Points;
 
 public enum Rank {

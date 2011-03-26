@@ -5,7 +5,6 @@ package org.klaverjasaichallenge.shared.card;
 
 import java.util.List;
 
-import org.klaverjasaichallenge.shared.Order;
 import org.klaverjasaichallenge.shared.Points;
 import org.klaverjasaichallenge.shared.Trick;
 

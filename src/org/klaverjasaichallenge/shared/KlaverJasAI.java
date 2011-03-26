@@ -2,12 +2,11 @@ package org.klaverjasaichallenge.shared;
 
 
 /**
- * KlaverJasAI is the abstract class that AI's need to extend to
- * be able to act as AI player in the game.
+ * A klaverjas player that is represented by an AI.
+ * Implement this class when writing your own AI.
  *
  * @author Joost Pastoor
  * @author Frank Versnel
- * @since 1.0
  */
 public abstract class KlaverJasAI implements Player {
 	

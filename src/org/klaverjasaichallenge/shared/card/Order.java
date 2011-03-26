@@ -1,4 +1,4 @@
-package org.klaverjasaichallenge.shared;
+package org.klaverjasaichallenge.shared.card;
 
 import java.util.Collections;
 import java.util.List;
@@ -48,4 +48,5 @@ public class Order implements Comparable<Order> {
 	public static void sort(List<Order> orders) {
 		Collections.sort(orders);
 	}
+	
 }

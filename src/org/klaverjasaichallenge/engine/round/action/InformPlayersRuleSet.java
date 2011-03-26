@@ -16,7 +16,7 @@ public class InformPlayersRuleSet extends RoundAction {
 	@Override
 	public RoundAction execute() {
 		for(final Player player : this.roundData.getTable()) {
-			player.giveRuleSet(this.roundData.getRuleSet());
+			player.notifyRuleset(this.roundData.getRuleSet());
 		}
 
 		return new DealCards(this.roundData);

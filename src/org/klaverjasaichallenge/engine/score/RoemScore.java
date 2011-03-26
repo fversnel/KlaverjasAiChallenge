@@ -3,10 +3,10 @@ package org.klaverjasaichallenge.engine.score;
 
 import java.util.List;
 
-import org.klaverjasaichallenge.shared.Order;
 import org.klaverjasaichallenge.shared.Points;
 import org.klaverjasaichallenge.shared.Trick;
 import org.klaverjasaichallenge.shared.card.Card;
+import org.klaverjasaichallenge.shared.card.Order;
 import org.klaverjasaichallenge.shared.card.Rank;
 import org.klaverjasaichallenge.shared.card.Suit;
 

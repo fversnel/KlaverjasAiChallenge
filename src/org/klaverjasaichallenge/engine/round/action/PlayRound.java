@@ -55,7 +55,7 @@ public class PlayRound extends RoundAction {
 		this.logger.debug("-- Starting trick " + trickId + " with trump " + trick.getTrump());
 
 		for(final Player currentPlayer : table) {
-			final Card cardPlayed = currentPlayer.getCard(trick);
+			final Card cardPlayed = currentPlayer.playCard(trick);
 			
 			// Check if the card is valid
 			try {
@@ -91,7 +91,7 @@ public class PlayRound extends RoundAction {
 
 	private void notifyPlayersEndTrick(final Table table, final EngineTrick trick) {
 		for (final Player player : table) {
-			player.endOfTrick(trick.clone());
+			player.notifyEndOfTrick(trick.clone());
 		}
 	}
 

@@ -35,7 +35,7 @@ public class TestDealCards {
 	@Test
 	public void verifyGiveCards() {
 		for(final Player player : this.roundData.getTable()) {
-			verify(player).giveCards(any(Hand.class));
+			verify(player).receiveCards(any(Hand.class));
 		}
 	}
 

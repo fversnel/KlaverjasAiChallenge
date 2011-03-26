@@ -29,7 +29,7 @@ public class InformPlayersRoundStart extends RoundAction {
 			final int enemy1Id = otherTeam.getFirstPlayer().hashCode();
 			final int enemy2Id = otherTeam.getSecondPlayer().hashCode();
 
-			currentPlayer.startOfRound(trumpPlayerId, this.roundData.getTrump(),
+			currentPlayer.notifyStartOfRound(trumpPlayerId, this.roundData.getTrump(),
 					currentPlayerId, teamMateId, enemy1Id, enemy2Id);
 		}
 

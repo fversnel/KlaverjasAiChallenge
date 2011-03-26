@@ -34,14 +34,14 @@ public class TestPlayRound {
 	@Test
 	public void verifyGetCard() {
 		for(final Player player : this.testData.getTable()) {
-			verify(player, times(Trick.COUNT)).getCard(any(Trick.class));
+			verify(player, times(Trick.COUNT)).playCard(any(Trick.class));
 		}
 	}
 
 	@Test
 	public void verifyEndOfTrick() {
 		for(final Player player : this.testData.getTable()) {
-			verify(player, times(Trick.COUNT)).endOfTrick(any(Trick.class));
+			verify(player, times(Trick.COUNT)).notifyEndOfTrick(any(Trick.class));
 		}
 	}
 
