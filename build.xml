@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <project name="KlaverjasAIChallenge" default="compile" basedir=".">
-  <description></description>
+  <property name="creator.name" value="Joost Pastoor and Frank Versnel" />
 
-  <property name="project.name" value="KlaverjasAIChallenge" />
-  <property name="creator.name" value="Joost Pastoor" />
-
-  <!-- Version numbers -->
-  <property name="shared.package.version" value="1.4" />
-  <property name="klaverjasaichallenge.package.version" value="1.4" />
+  <property name="version" value="1.4" />
 
   <!-- Directories used -->
   <property name="dir.source" location="src" />
@@ -60,7 +55,7 @@
     <echo>Using: ${ant.version}</echo>
     <echo>Using: Java version ${ant.java.version} (${java.vendor})</echo>
     <echo>Using: Java version ${preferred.java.version} to compile source files</echo>
-    <echo>Project: ${ant.project.name}</echo>
+    <echo>Project: ${ant.project.name} (${version})</echo>
     <echo>Project base directory: ${basedir}</echo>
     <echo>Operating System: ${os.name} ${os.version} (${os.arch})</echo>
   </target>
@@ -104,8 +99,8 @@
   <target name="shared_distribution" depends="test" description="Creates a jar file of all the classes that an AI can use. This jar file should be used to compile your AI.">
     <mkdir dir="${dir.distribution}" />
     <manifest file="${dir.distribution}/MANIFEST.MF">
-      <attribute name="Specification-Version" value="${shared.package.version}"/>
-      <attribute name="Implementation-Version" value="${shared.package.version} ${TODAY}"/>
+      <attribute name="Specification-Version" value="${version}"/>
+      <attribute name="Implementation-Version" value="${version} ${TODAY}"/>
     </manifest>
     <jar destfile="${distribution.shared.file}"
         manifest="${dir.distribution}/MANIFEST.MF">
@@ -121,8 +116,8 @@
 
   <target name="full_distribution" depends="shared_distribution" description="Creates a jar file containing all class and source files. This jar file can be used to let AI's play klaverjas with each other.">
     <manifest file="${dir.distribution}/MANIFEST.MF">
-      <attribute name="Specification-Version" value="${klaverjasaichallenge.package.version}"/>
-      <attribute name="Implementation-Version" value="${klaverjasaichallenge.package.version} ${TODAY}"/>
+      <attribute name="Specification-Version" value="${version}"/>
+      <attribute name="Implementation-Version" value="${version} ${TODAY}"/>
       <attribute name="Main-Class" value="${main.class}" />
     </manifest>
     <jar destfile="${distribution.file}" manifest="${dir.distribution}/MANIFEST.MF" >
