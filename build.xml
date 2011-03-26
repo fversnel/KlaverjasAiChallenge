@@ -3,7 +3,7 @@
 <project name="KlaverjasAIChallenge" default="compile" basedir=".">
   <property name="creator.name" value="Joost Pastoor and Frank Versnel" />
 
-  <property name="version" value="1.4" />
+  <property name="version" value="1.5" />
 
   <!-- Directories used -->
   <property name="dir.source" location="src" />
