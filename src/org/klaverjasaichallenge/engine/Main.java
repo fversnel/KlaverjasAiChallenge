@@ -80,9 +80,9 @@ public class Main {
 				// Change the order of the players
 				table.nextRound();
 
-				logger.debug("\nGame scores:\n" +
-							team1 + " scored " + team1GameScore + " points.\n" +
-							team2 + " scored " + team2GameScore + " points.");
+				logger.debug("\nRound scores:\n" +
+							team1 + " scored " + roundResult.getScore(team1) + " points.\n" +
+							team2 + " scored " + roundResult.getScore(team2) + " points.");
 			}
 
 			// Sum up the game score.
