@@ -12,6 +12,7 @@
   <property name="dir.logfiles" location="log" />
   <property name="dir.libraries" location="lib" />
   <property name="dir.dependency.cache" location="depcache" />
+  <property name="dir.resources" location="${dir.source}/resources" />
 
   <!-- Compilation related properties -->
   <property name="preferred.java.version" value="1.6" />
@@ -43,7 +44,7 @@
 
   <!-- Project class path -->
   <path id="project.class.path">
-    <fileset dir="lib">
+    <fileset dir="${dir.libraries}">
       <include name="*.jar"/>
     </fileset>
   </path>
@@ -125,6 +126,7 @@
     <jar destfile="${distribution.file}" manifest="${dir.distribution}/MANIFEST.MF" >
       <fileset dir="${dir.build}" includes="**/*.class"
           excludes="${testing.class.files}" />
+      <fileset dir="${dir.resources}" includes="**/*.*"/>
       <zipfileset src="${library.slf4j.api}"/>
       <zipfileset src="${library.logback.core}"/>
       <zipfileset src="${library.logback.classic}"/>
@@ -133,17 +135,13 @@
   </target>
 
   <target name="run" depends="full_distribution" description="Run the distribution.">
-    <java classname="${main.class}" fork="true" >
+    <java jar="${distribution.file}" fork="true" >
       <!-- Enable assertions -->
       <jvmarg value ="-ea"/>
 
       <arg value="StupidButLegalAI"/>
       <arg value="StupidButLegalAI"/>
       <arg value="10"/>
-      <classpath>
-        <path refid="project.class.path" />
-        <pathelement path="${distribution.file}"/>
-      </classpath>
     </java>
   </target>
 
