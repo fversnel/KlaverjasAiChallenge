@@ -1,14 +1,16 @@
 package org.klaverjasaichallenge.engine.round.action;
 
-// Import log4j classes.
 import org.apache.log4j.Logger;
 
 import org.klaverjasaichallenge.engine.Table;
 import org.klaverjasaichallenge.engine.round.CheatException;
+import org.klaverjasaichallenge.engine.round.EngineTrick;
+import org.klaverjasaichallenge.engine.round.data.CardsDealt;
+import org.klaverjasaichallenge.engine.round.data.PlayedTricks;
+import org.klaverjasaichallenge.engine.round.data.TrumpPlayer;
 import org.klaverjasaichallenge.engine.score.Score;
 import org.klaverjasaichallenge.shared.Hand;
 import org.klaverjasaichallenge.shared.Player;
-import org.klaverjasaichallenge.shared.Trick;
 import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.ruleset.RuleSet;
 import org.klaverjasaichallenge.shared.card.Suit;
@@ -18,54 +20,55 @@ import org.klaverjasaichallenge.shared.card.Suit;
  * @author Joost Pastoor
  * @author Frank Versnel
  */
-public class PlayRound extends RoundAction {
-	private final Logger logger = Logger.getLogger(getClass());
+public class PlayRound implements RoundAction<PlayedTricks> {
+	public static final int TOTAL_NUMBER_OF_TRICKS = 8;
+	
+	private static final Logger logger = Logger.getLogger(PlayRound.class);
+	
+	private final RuleSet ruleSet;
+	private final Table table;
+	private final CardsDealt cardsDealt;
 
-	public PlayRound(final RoundData roundData) {
-		super(roundData);
+	private final Suit trump;
+
+	public PlayRound(final RuleSet ruleSet, final Table table, final TrumpPlayer trumpPlayer, final CardsDealt cardsDealt) {
+		this.ruleSet = ruleSet;
+		this.table = table;
+		this.cardsDealt = cardsDealt;
+		
+		this.trump = trumpPlayer.getTrump();
 	}
 
 	@Override
-	public RoundAction execute() {
-		Table table = this.roundData.getTable();
-		for (int trickId = 1; trickId <= Trick.COUNT; trickId++) {
-			EngineTrick trick = this.createNewTrick(trickId);
-
-			this.playTrick(table, trick, trickId);
-			this.roundData.addPlayedTrick(trick);
-			this.notifyPlayersEndTrick(table, trick);
-
-			final Player winner = trick.getWinner();
-			table.nextTrick(winner);
-
-			this.logger.debug("--- Winner:  " + winner + " with " +
-					new Score(trick));
-		}
-
-		return new AccumulateTrickScore(this.roundData);
-	}
-
-	private EngineTrick createNewTrick(final int trickId) {
-		final Suit trump = this.roundData.getTrump();
-		final boolean isLastTrick = (trickId == Trick.COUNT);
-		return new EngineTrick(trump, isLastTrick);
-	}
-
-	private void playTrick(Table table, final EngineTrick trick, final int trickId) {
-		this.logger.debug("-- Starting trick " + trickId + " with trump " + trick.getTrump());
-
-		for(final Player currentPlayer : table) {
-			final Card cardPlayed = currentPlayer.playCard(trick);
+	public PlayedTricks execute() {
+		final PlayedTricks result = new PlayedTricks();
+		
+		for (int trickId = 1; trickId <= TOTAL_NUMBER_OF_TRICKS; trickId++) {
+			EngineTrick playedTrick = this.playTrick(trickId);
+			result.addPlayedTrick(playedTrick);
 			
-			// Check if the card is valid
-			try {
-				this.playCard(trick, currentPlayer, cardPlayed);
-			} catch (CheatException cheatException) {
-				throw new RuntimeException(cheatException);
-			}
+			this.notifyPlayersEndTrick(playedTrick);
 
-			this.logger.debug("--- " + currentPlayer + " played " + cardPlayed);
+			final Player winner = playedTrick.getWinner();
+			this.table.nextTrick(winner);
+			logger.debug("Winner:  " + winner + " with " +
+					new Score(playedTrick));
 		}
+
+		return result;
+	}
+
+	private EngineTrick playTrick(final int trickId) {
+		final boolean isLastTrick = (trickId == TOTAL_NUMBER_OF_TRICKS);
+		EngineTrick trick = new EngineTrick(this.trump, isLastTrick);
+		
+		logger.debug("Starting trick " + trickId + " with trump " + trick.getTrump());
+
+		for(final Player currentPlayer : this.table) {
+			this.playCard(trick, currentPlayer);
+		}
+		
+		return trick;
 	}
 
 	/**
@@ -74,23 +77,23 @@ public class PlayRound extends RoundAction {
 	 *
 	 * @throws CheatException thrown when the player cheats.
 	 */
-	private void playCard(final EngineTrick trick, final Player player,
-			final Card card) throws CheatException {
-		final Hand playersHand = this.roundData.getPlayersHand(player);
-		final RuleSet ruleSet = this.roundData.getRuleSet();
+	private void playCard(final EngineTrick trick, final Player player) {
+		final Card cardPlayed = player.playCard(trick);
+		final Hand playersHand = this.cardsDealt.get(player);
 		
-		final boolean cardIsLegal = ruleSet.isLegalCard(trick.clone(), card, playersHand);
-		final boolean cardIsInHand = playersHand.drawCard(card);
+		final boolean cardIsLegal = this.ruleSet.isLegalCard(trick.clone(), cardPlayed, playersHand);
+		final boolean cardIsInHand = playersHand.drawCard(cardPlayed);
 		if(cardIsLegal && cardIsInHand) {
-			trick.addCard(player, card);
+			trick.addCard(player, cardPlayed);
+			logger.debug(player + " played " + cardPlayed);
 		} else {
 			throw new CheatException("Player " + player + " cheated " +
-					"with " + card + " and hand " + playersHand);
+					"with " + cardPlayed + " and hand " + playersHand);
 		}
 	}
 
-	private void notifyPlayersEndTrick(final Table table, final EngineTrick trick) {
-		for (final Player player : table) {
+	private void notifyPlayersEndTrick(final EngineTrick trick) {
+		for (final Player player : this.table) {
 			player.notifyEndOfTrick(trick.clone());
 		}
 	}

@@ -6,10 +6,10 @@ package org.klaverjasaichallenge.engine;
 // Import log4j classes.
 import org.apache.log4j.Logger;
 import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.Level;
 
 // Import the necessary klaverjas classes to get started.
 import org.klaverjasaichallenge.engine.round.Round;
+import org.klaverjasaichallenge.engine.round.data.RoundResult;
 import org.klaverjasaichallenge.engine.score.Score;
 import org.klaverjasaichallenge.shared.KlaverJasAI;
 import org.klaverjasaichallenge.shared.Points;
@@ -30,8 +30,8 @@ public class Main {
 	private static Score team2Score = new Score();
 
 	public static void main(String[] args) {
-		initializeLogger(Level.DEBUG);
-
+		BasicConfigurator.configure();
+		
 		System.setSecurityManager(new SecurityManager());
 
 		if(args.length == 3){
@@ -73,11 +73,11 @@ public class Main {
 
 				// Play the round
 				Round round = new Round(table, ruleSet);
-				round.play();
+				RoundResult roundResult = round.play();
 
 				// Sum up the round score to the total score for each team this game
-				team1GameScore.plus(round.getScore(team1));
-				team2GameScore.plus(round.getScore(team2));
+				team1GameScore = team1GameScore.plus(roundResult.getScore(team1));
+				team2GameScore = team2GameScore.plus(roundResult.getScore(team2));
 
 				// Change the order of the players
 				table.nextRound();
@@ -88,8 +88,8 @@ public class Main {
 			}
 
 			// Sum up the game score.
-			team1Score.plus(team1GameScore);
-			team2Score.plus(team2GameScore);
+			team1Score = team1Score.plus(team1GameScore);
+			team2Score = team2Score.plus(team2GameScore);
 		}
 
 		logger.info("\nOverall score for " + numberOfGames + " games:\n" +
@@ -102,15 +102,6 @@ public class Main {
 				team2 + " scored " +
 				Points.divide(team2Score.getTotalScore(), new
 					Points(numberOfGames)) + " points.");
-	}
-
-	private static void initializeLogger(Level level) {
-		// Set up a simple configuration that logs on the console.
-		BasicConfigurator.configure();
-		// There are two levels that are currently useful:
-		// DEBUG - Displays all messages
-		// INFO - Only displays the AI battle's end results.
-		logger.setLevel(level);
 	}
 
 	private static void printHelpMessage() {

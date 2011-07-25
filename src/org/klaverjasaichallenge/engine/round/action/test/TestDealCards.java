@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.*;
 
 import org.klaverjasaichallenge.engine.round.action.*;
+import org.klaverjasaichallenge.engine.round.data.CardsDealt;
 import org.klaverjasaichallenge.shared.Hand;
 import org.klaverjasaichallenge.shared.Player;
 
@@ -13,28 +14,27 @@ import org.klaverjasaichallenge.shared.Player;
  * @author Frank Versnel
  */
 public class TestDealCards {
-	private RoundData roundData;
-
-	private RoundAction dealCardsAction;
-
+	private SampleRoundData testData;
+	
+	private CardsDealt cardsDealt;
+	
 	@Before
 	public void setUp() {
-		this.roundData = new SampleRoundData().getRoundData();
-
-		this.dealCardsAction = new DealCards(this.roundData);
-		this.dealCardsAction.execute();
+		this.testData = new SampleRoundData();
+		
+		this.cardsDealt = new DealCards(this.testData.getTable()).execute();
 	}
 
 	@Test
 	public void testHandsExists() {
-		for(final Player player : this.roundData.getTable()) {
-			assertNotNull(this.roundData.getPlayersHand(player));
+		for(final Player player : this.testData.getTable()) {
+			assertNotNull(this.cardsDealt.get(player));
 		}
 	}
 
 	@Test
 	public void verifyGiveCards() {
-		for(final Player player : this.roundData.getTable()) {
+		for(final Player player : this.testData.getTable()) {
 			verify(player).receiveCards(any(Hand.class));
 		}
 	}

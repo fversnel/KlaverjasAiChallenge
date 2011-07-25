@@ -44,4 +44,8 @@ public class Deck {
 	private void shuffleDeck(final List<Card> cards) {
 		Collections.shuffle(cards);
 	}
+
+	public boolean isEmpty() {
+		return this.cards.isEmpty();
+	}
 }

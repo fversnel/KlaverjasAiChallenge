@@ -1,25 +1,31 @@
 package org.klaverjasaichallenge.engine.round.action;
 
+import org.klaverjasaichallenge.engine.Table;
 import org.klaverjasaichallenge.shared.Player;
+import org.klaverjasaichallenge.shared.ruleset.RuleSet;
 
 /**
  *
  * @author Joost Pastoor
  * @author Frank Versnel
  */
-public class InformPlayersRuleSet extends RoundAction {
+public class InformPlayersRuleSet implements RoundAction<Void> {
 
-	public InformPlayersRuleSet(final RoundData roundData) {
-		super(roundData);
+	private Table table;
+	private RuleSet ruleSet;
+
+	public InformPlayersRuleSet(final RuleSet ruleSet, final Table table) {
+		this.ruleSet = ruleSet;
+		this.table = table;
 	}
 
 	@Override
-	public RoundAction execute() {
-		for(final Player player : this.roundData.getTable()) {
-			player.notifyRuleset(this.roundData.getRuleSet());
+	public Void execute() {
+		for(final Player player : this.table) {
+			player.notifyRuleset(this.ruleSet);
 		}
-
-		return new DealCards(this.roundData);
+		
+		return null;
 	}
 
 }

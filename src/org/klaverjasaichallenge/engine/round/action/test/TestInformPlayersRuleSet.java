@@ -13,23 +13,19 @@ import static org.mockito.Mockito.*;
  */
 public class TestInformPlayersRuleSet {
 	private SampleRoundData testData;
-
+	
 	@Before
 	public void setUp() {
 		this.testData = new SampleRoundData();
+		
+		new InformPlayersRuleSet(this.testData.getRotterdamRuleSet(), this.testData.getTable()).execute();
 	}
-
 	/**
 	 * Verify that on each player the method {@link Player#notifyRuleset(RuleSet)}
 	 * is called.
 	 */
 	@Test
 	public void verifyGiveRuleSet() {
-		RoundData roundData = this.testData.getRoundData();
-
-		RoundAction informPlayersRuleSet = new InformPlayersRuleSet(roundData);
-		informPlayersRuleSet.execute();
-
 		for(Player player : this.testData.getTable()) {
 			verify(player).notifyRuleset(any(RuleSet.class));
 		}

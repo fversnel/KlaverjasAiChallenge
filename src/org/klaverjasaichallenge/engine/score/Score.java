@@ -8,17 +8,10 @@ import org.klaverjasaichallenge.shared.Trick;
  * @author Frank Versnel
  */
 public class Score {
-	public static final Points MAXIMUM_STOCK_SCORE = new Points(162);
-	public static final Points MARCH_POINTS = new Points(100);
-
 	private static final int FULL_TRICK = 4;
 
-	private Points stockScore;
-	private Points roemScore;
-	
-	private int wetCount = 0;
-	private int marchCount = 0;
-	private int playCount = 0;
+	private final Points stockScore;
+	private final Points roemScore;
 
 	public Score() {
 		this.stockScore = new Points();
@@ -50,39 +43,6 @@ public class Score {
 	public Points getTotalScore() {
 		return Points.plus(getRoemScore(), getStockScore());
 	}
-	
-	public void incrementWetCount() {
-		this.wetCount++;
-	}
-	
-	public int getWetCount() {
-		return this.wetCount;
-	}
-	
-	public void incrementPlayCount() {
-		this.playCount++;
-	}
-
-	public int getPlayCount() {
-		return this.playCount;
-	}
-	
-	public void incrementMarchCount() {
-		this.marchCount++;
-	}
-	
-	public int getMarchCount() {
-		return this.marchCount;
-	}
-
-	public void plus(final Score otherScore) {
-		this.stockScore = Points.plus(this.stockScore, otherScore.getStockScore());
-		this.roemScore = Points.plus(this.roemScore, otherScore.getRoemScore());
-
-		this.playCount = this.playCount + otherScore.getPlayCount();
-		this.marchCount = this.marchCount + otherScore.getMarchCount();
-		this.wetCount = this.wetCount + otherScore.getWetCount();
-	}
 
 	public boolean totalScorebiggerThan(final Score otherScore) {
 		return Points.biggerThan(this.getTotalScore(),
@@ -98,15 +58,18 @@ public class Score {
 		return Points.smallerThan(this.getTotalScore(),
 				otherScore.getTotalScore());
 	}
+	
+	public Score plus(Score score) {
+		final Points resultStockScore = Points.plus(getStockScore(), score.getStockScore());
+		final Points resultRoemScore = Points.plus(getRoemScore(), score.getRoemScore());
+		return new Score(resultStockScore, resultRoemScore);
+	}
 
 	@Override
 	public String toString() {
 		return "Score [Total: " + this.getTotalScore() + 
 				", Stock: " + this.stockScore + 
 				", Roem: " + this.roemScore +
-				", Play count: " + this.playCount +
-				", Wet count: " + this.wetCount +
-				", March count: " + this.marchCount +
 				"]";
 	}
 

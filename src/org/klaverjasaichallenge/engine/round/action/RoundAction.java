@@ -1,16 +1,17 @@
 package org.klaverjasaichallenge.engine.round.action;
 
 /**
+ * An arbitrary action in a round of Klaverjas.
  *
  * @author Frank Versnel
  */
-public abstract class RoundAction {
-	protected final RoundData roundData;
+public interface RoundAction<T> {
 
-	public RoundAction(final RoundData roundData) {
-		this.roundData = roundData;
-	}
-
-	public abstract RoundAction execute();
+	/**
+	 * Execute the action.
+	 * 
+	 * @return the result of the executed action
+	 */
+	public abstract T execute();
 
 }

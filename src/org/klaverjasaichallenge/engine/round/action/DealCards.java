@@ -1,5 +1,8 @@
 package org.klaverjasaichallenge.engine.round.action;
 
+import org.apache.log4j.Logger;
+import org.klaverjasaichallenge.engine.Table;
+import org.klaverjasaichallenge.engine.round.data.CardsDealt;
 import org.klaverjasaichallenge.shared.Deck;
 import org.klaverjasaichallenge.shared.Hand;
 import org.klaverjasaichallenge.shared.Player;
@@ -9,30 +12,37 @@ import org.klaverjasaichallenge.shared.Player;
  * @author Joost Pastoor
  * @author Frank Versnel
  */
-public class DealCards extends RoundAction {
+public class DealCards implements RoundAction<CardsDealt> {
+	private static final Logger logger = Logger.getLogger(DealCards.class);
 
-	public DealCards(final RoundData roundData) {
-		super(roundData);
+	private Table table;
+
+	public DealCards(final Table table) {
+		this.table = table;
 	}
 
 	@Override
-	public RoundAction execute() {
+	public CardsDealt execute() {
 		final Deck deck = new Deck();
+		final CardsDealt cardsDealt = new CardsDealt();
 
-		for(final Player currentPlayer : this.roundData.getTable()) {
-			final Hand playersHand = this.dealHand(deck, currentPlayer);
+		for(final Player currentPlayer : this.table) {
+			final Hand dealtHand = this.dealHand(deck, currentPlayer);
 			
-			this.roundData.savePlayersHand(currentPlayer, playersHand);
+			cardsDealt.put(currentPlayer, dealtHand);
 		}
+		
+		assert(deck.isEmpty());
 
-		return new DrawTrump(this.roundData);
+		return cardsDealt;
 	}
 
 	private Hand dealHand(final Deck deck, final Player player) {
 		final Hand playersHand = new Hand(deck);
 		
 		player.receiveCards(playersHand.clone());
-
+		logger.debug(player + " gets cards " + playersHand);
+		
 		return playersHand;
 	}
 

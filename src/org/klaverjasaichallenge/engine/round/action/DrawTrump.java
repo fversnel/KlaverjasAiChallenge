@@ -1,11 +1,11 @@
 package org.klaverjasaichallenge.engine.round.action;
 
-import java.util.List;
 import java.util.Collections;
+import java.util.Stack;
 
-// Import log4j classes.
 import org.apache.log4j.Logger;
-
+import org.klaverjasaichallenge.engine.Table;
+import org.klaverjasaichallenge.engine.round.data.TrumpPlayer;
 import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.card.Suit;
 
@@ -16,52 +16,43 @@ import org.klaverjasaichallenge.shared.card.Suit;
  * @author Joost Pastoor
  * @author Frank Versnel
  */
-public class DrawTrump extends RoundAction {
-	private static final int FORCED_PLAY_ON_TRUMP = 1;
+public class DrawTrump implements RoundAction<TrumpPlayer> {
+	private static final Logger logger = Logger.getLogger(DrawTrump.class);
+	
+	private static final int MINIMUM_AVAILABLE_TRUMPS_LEFT = 1;
 
-	private final Logger logger = Logger.getLogger(DrawTrump.class);
+	private final Table table;
 
-	private final List<Suit> availableTrumps;
-	private final Suit trumpDrawn;
+	private final Stack<Suit> availableTrumps;
 
-	public DrawTrump(final RoundData roundData) {
-		this(roundData, Suit.asList());
+	public DrawTrump(final Table table) {
+		this.table = table;
+		
+		this.availableTrumps = new Stack<Suit>();
+		this.availableTrumps.addAll(Suit.asList());
+		Collections.shuffle(this.availableTrumps);
 	}
 
 	@Override
-	public RoundAction execute() {
+	public TrumpPlayer execute() {
+		assert(this.availableTrumps.size() >= MINIMUM_AVAILABLE_TRUMPS_LEFT);
+		
+		final Suit trumpDrawn = this.availableTrumps.pop();
+		
 		int playerIndex = 0;
-		for(Player player : this.roundData.getTable()) {
-			// Start the round if the player wants to go on the trump.
-			// Start the round anyway, forcing the current player to go on the
-			// trump, when the third trump is drawn.
-			final boolean voluntaryPlay = player.playsOnTrump(this.trumpDrawn, playerIndex);
-			final boolean forcedPlay = this.availableTrumps.size() == FORCED_PLAY_ON_TRUMP;
+		for(Player player : this.table) {
+			
+			final boolean voluntaryPlay = player.playsOnTrump(trumpDrawn, playerIndex);
+			final boolean forcedPlay = this.availableTrumps.size() == MINIMUM_AVAILABLE_TRUMPS_LEFT;
 			if(voluntaryPlay || forcedPlay) {
-				this.roundData.setTrump(player, this.trumpDrawn);
-				
-				this.logger.debug(player + " goes on " +
-						this.trumpDrawn);
-
-				return new InformPlayersRoundStart(this.roundData);
+				logger.debug(player + " plays on trump " + trumpDrawn);
+				return new TrumpPlayer(player, trumpDrawn);
 			}
 
 			playerIndex++;
 		}
 
-		return new DrawTrump(this.roundData, this.availableTrumps);
-	}
-
-	private DrawTrump(final RoundData roundData, final List<Suit> availableTrumps) {
-		super(roundData);
-
-		this.availableTrumps = availableTrumps;
-		Collections.shuffle(this.availableTrumps);
-		this.trumpDrawn = this.getAvailableTrump();
-	}
-
-	private Suit getAvailableTrump() {
-		return this.availableTrumps.remove(0);
+		return execute();
 	}
 
 }

@@ -5,30 +5,32 @@ import static org.junit.Assert.*;
 import org.junit.*;
 
 import org.klaverjasaichallenge.engine.round.action.*;
+import org.klaverjasaichallenge.engine.round.data.TrumpPlayer;
 
 /**
  *
  * @author Frank Versnel
  */
 public class TestDrawTrump {
-	private RoundData testData;
-
+	private SampleRoundData testData;
+	
+	private TrumpPlayer trumpPlayer;
+	
 	@Before
 	public void setUp() {
-		this.testData = new SampleRoundData().getRoundData();
-
-		RoundAction drawTrump = new DrawTrump(this.testData);
-		drawTrump.execute();
+		this.testData = new SampleRoundData();
+		
+		this.trumpPlayer = new DrawTrump(this.testData.getTable()).execute();
 	}
 
 	@Test
 	public void testIfTrumpExists() {
-		assertNotNull(this.testData.getTrump());
+		assertNotNull(this.trumpPlayer.getTrump());
 	}
 
 	@Test
 	public void testIfTrumpPlayerExists() {
-		assertNotNull(this.testData.getTrumpPlayer());
+		assertNotNull(this.trumpPlayer.getPlayer());
 	}
 
 }
