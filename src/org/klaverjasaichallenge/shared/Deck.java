@@ -5,7 +5,8 @@ import java.util.List;
 import java.util.Stack;
 
 // Import log4j classes.
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.klaverjasaichallenge.shared.card.Card;
 
@@ -17,7 +18,7 @@ import org.klaverjasaichallenge.shared.card.Card;
 public class Deck {
 	protected Stack<Card> cards;
 
-	private final Logger logger = Logger.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public Deck() {
 		this.cards = this.createDeck();

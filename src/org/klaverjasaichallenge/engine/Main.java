@@ -4,8 +4,8 @@
 package org.klaverjasaichallenge.engine;
 
 // Import log4j classes.
-import org.apache.log4j.Logger;
-import org.apache.log4j.BasicConfigurator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // Import the necessary klaverjas classes to get started.
 import org.klaverjasaichallenge.engine.round.Round;
@@ -24,14 +24,12 @@ import org.klaverjasaichallenge.shared.ruleset.RuleSet;
 public class Main {
 	private final static String AI_PACKAGE = "org.klaverjasaichallenge.ai.";
 	
-	private final static Logger logger = Logger.getLogger(Main.class);
+	private final static Logger logger = LoggerFactory.getLogger(Main.class);
 
 	private static Score team1Score = new Score();
 	private static Score team2Score = new Score();
 
 	public static void main(String[] args) {
-		BasicConfigurator.configure();
-		
 		System.setSecurityManager(new SecurityManager());
 
 		if(args.length == 3){

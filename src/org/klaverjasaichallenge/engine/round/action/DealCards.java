@@ -1,6 +1,7 @@
 package org.klaverjasaichallenge.engine.round.action;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.klaverjasaichallenge.engine.Table;
 import org.klaverjasaichallenge.engine.round.data.CardsDealt;
 import org.klaverjasaichallenge.shared.Deck;
@@ -13,7 +14,7 @@ import org.klaverjasaichallenge.shared.Player;
  * @author Frank Versnel
  */
 public class DealCards implements RoundAction<CardsDealt> {
-	private static final Logger logger = Logger.getLogger(DealCards.class);
+	private static final Logger logger = LoggerFactory.getLogger(DealCards.class);
 
 	private Table table;
 

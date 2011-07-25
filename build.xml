@@ -36,8 +36,10 @@
    <!-- Dependency checking related properties -->
   <property name="dependency.check.closure" value="true" />
 
-  <!-- Log4J will be included in the full jar -->
-  <property name="library.log4j" value="${dir.libraries}/log4j-1.2.16.jar"/>
+  <!-- Libraries included in the full jar -->
+  <property name="library.slf4j.api" value="${dir.libraries}/slf4j-api-1.6.1.jar"/>
+  <property name="library.logback.core" value="${dir.libraries}/logback-core-0.9.29.jar"/>
+  <property name="library.logback.classic" value="${dir.libraries}/logback-classic-0.9.29.jar"/>
 
   <!-- Project class path -->
   <path id="project.class.path">
@@ -123,7 +125,9 @@
     <jar destfile="${distribution.file}" manifest="${dir.distribution}/MANIFEST.MF" >
       <fileset dir="${dir.build}" includes="**/*.class"
           excludes="${testing.class.files}" />
-      <zipfileset src="${library.log4j}"/>
+      <zipfileset src="${library.slf4j.api}"/>
+      <zipfileset src="${library.logback.core}"/>
+      <zipfileset src="${library.logback.classic}"/>
     </jar>
     <delete file="${dir.distribution}/MANIFEST.MF" />
   </target>

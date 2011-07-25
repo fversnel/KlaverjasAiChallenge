@@ -3,7 +3,8 @@ package org.klaverjasaichallenge.engine.round.action;
 import java.util.Collections;
 import java.util.Stack;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.klaverjasaichallenge.engine.Table;
 import org.klaverjasaichallenge.engine.round.data.TrumpPlayer;
 import org.klaverjasaichallenge.shared.Player;
@@ -17,7 +18,7 @@ import org.klaverjasaichallenge.shared.card.Suit;
  * @author Frank Versnel
  */
 public class DrawTrump implements RoundAction<TrumpPlayer> {
-	private static final Logger logger = Logger.getLogger(DrawTrump.class);
+	private static final Logger logger = LoggerFactory.getLogger(DrawTrump.class);
 	
 	private static final int MINIMUM_AVAILABLE_TRUMPS_LEFT = 1;
 

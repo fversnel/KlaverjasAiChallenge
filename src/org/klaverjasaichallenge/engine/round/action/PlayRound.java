@@ -1,6 +1,7 @@
 package org.klaverjasaichallenge.engine.round.action;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.klaverjasaichallenge.engine.Table;
 import org.klaverjasaichallenge.engine.round.CheatException;
@@ -23,7 +24,7 @@ import org.klaverjasaichallenge.shared.card.Suit;
 public class PlayRound implements RoundAction<PlayedTricks> {
 	public static final int TOTAL_NUMBER_OF_TRICKS = 8;
 	
-	private static final Logger logger = Logger.getLogger(PlayRound.class);
+	private static final Logger logger = LoggerFactory.getLogger(PlayRound.class);
 	
 	private final RuleSet ruleSet;
 	private final Table table;
