@@ -17,6 +17,8 @@ public class KlaverjasGame {
 	private int numberOfRounds;
 	
 	public KlaverjasGame(final RuleSet ruleSet, final Team team1, final Team team2, final int numberOfRounds) {
+		assert(numberOfRounds > 0) : "Number of games has to be higher than 0";
+		
 		this.ruleSet = ruleSet;
 		
 		this.team1 = team1;

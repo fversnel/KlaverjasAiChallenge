@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 // Import the necessary klaverjas classes to get started.
+import org.klaverjasaichallenge.human.CommandLinePlayer;
 import org.klaverjasaichallenge.shared.KlaverJasAI;
 import org.klaverjasaichallenge.shared.ruleset.RotterdamRuleSet;
 import org.klaverjasaichallenge.shared.ruleset.RuleSet;
@@ -30,13 +31,8 @@ public class Main {
 			final String secondAI = args[1];
 			final int numberOfRounds = Integer.valueOf(args[2]);
 
-			if(numberOfRounds <= 0) {
-				throw new RuntimeException("Number of games has to be higher than 0");
-			}
-
-			ClassLoader aiLoader = KlaverJasAI.class.getClassLoader();
-			final Team team1 = createTeam(AI_PACKAGE + firstAI, aiLoader);
-			final Team team2 = createTeam(AI_PACKAGE + secondAI, aiLoader);
+			final Team team1 = new Team(new CommandLinePlayer(), createAI(AI_PACKAGE + firstAI));
+			final Team team2 = new Team(createAI(AI_PACKAGE + secondAI), createAI(AI_PACKAGE + secondAI));
 
 			play(new RotterdamRuleSet(), team1, team2, numberOfRounds);
 
@@ -75,11 +71,12 @@ public class Main {
 				"the team given in the second argument.");
 	}
 
-	private static Team createTeam(final String aiName, ClassLoader aiLoader) {
+	private static KlaverJasAI createAI(final String aiName) {
+		ClassLoader aiLoader = KlaverJasAI.class.getClassLoader();
 		try {
 			@SuppressWarnings("unchecked")
-			Class<KlaverJasAI> newPlayer = (Class<KlaverJasAI>) aiLoader.loadClass(aiName);
-			return new Team(newPlayer.newInstance(), newPlayer.newInstance());
+			Class<KlaverJasAI> newAi = (Class<KlaverJasAI>) aiLoader.loadClass(aiName);
+			return newAi.newInstance();
 		} catch (InstantiationException e) {
 			logger.error("Unable to instantiate AI " + aiName, e);
 			throw new RuntimeException(e);

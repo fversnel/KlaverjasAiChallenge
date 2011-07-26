@@ -9,7 +9,7 @@
     </encoder>
   </appender>
 
-  <logger name="org.klaverjasaichallenge" level="DEBUG"/>
+  <logger name="org.klaverjasaichallenge" level="INFO"/>
 
   <root>          
     <appender-ref ref="STDOUT" />

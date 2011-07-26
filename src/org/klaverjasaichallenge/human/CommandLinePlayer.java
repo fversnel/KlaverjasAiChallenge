@@ -10,13 +10,11 @@ import org.klaverjasaichallenge.util.Console;
 
 public class CommandLinePlayer implements Player {
 	
-	private Console console;
+	private Console console = new Console(System.in, System.out);
 	
 	private Hand cardsInHand;
 	
-	public CommandLinePlayer() {
-		this.console = new Console(System.in, System.out);
-	}
+	private int trickCount = 1;
 
 	@Override
 	public void notifyRuleset(RuleSet ruleSet) {
@@ -32,18 +30,20 @@ public class CommandLinePlayer implements Player {
 
 	@Override
 	public boolean playsOnTrump(Suit trump, int turn) {
-		return Boolean.valueOf(console.readLine("Do you want to play on trump %s?", trump, turn));
+		String trumpAcceptancePrompt = String.format("Do you want to play on trump %s in turn %d?", trump, turn);
+		return this.console.yesNoPrompt(trumpAcceptancePrompt);
 	}
 
 	@Override
 	public void notifyStartOfRound(int leadingPlayer, Suit trump, int yourId,
 			int teamMateId, int enemy1Id, int enemy2Id) {
-		console.printf("playing on trump %s", trump);
+		this.console.printf("playing on trump %s\n", trump);
 	}
 
 	@Override
 	public Card playCard(Trick trick) {
-		int cardIndex = Integer.valueOf(console.readLine("play a card from your hand: %s", cardsInHand));
+		this.console.printf("Cards played before you in trick %d: %s", this.trickCount, trick);
+		int cardIndex = Integer.valueOf(console.readLine("play a card from your hand:\n %s\n", cardsInHand));
 		Card cardToPlay = cardsInHand.getCards().get(cardIndex);
 		cardsInHand.drawCard(cardToPlay);
 		return cardToPlay;
@@ -51,7 +51,8 @@ public class CommandLinePlayer implements Player {
 
 	@Override
 	public void notifyEndOfTrick(Trick trick) {
-		// Do nothing
+		this.console.printf("The following trick was played: %s", trick);
+		this.trickCount++;
 	}
 	
 	@Override

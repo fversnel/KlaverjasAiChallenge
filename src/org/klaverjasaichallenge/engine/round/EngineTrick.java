@@ -134,5 +134,16 @@ public class EngineTrick implements Trick {
 		newTrick.leadingSuit = this.leadingSuit;
 		return newTrick;
 	}
+	
+	@Override
+	public String toString() {
+		String result = "";
+		for(final Card card : this.cards.keySet()) {
+			final Player player = this.cards.get(card);
+			result += String.format("\n%s played %s", player, card);
+		}
+		result += "\n";
+		return result;
+	}
 
 }
