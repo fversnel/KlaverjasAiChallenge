@@ -20,7 +20,7 @@ import org.klaverjasaichallenge.shared.ruleset.RuleSet;
  */
 public class Main {
 	private final static String AI_PACKAGE = "org.klaverjasaichallenge.ai.";
-	
+
 	private final static Logger logger = LoggerFactory.getLogger(Main.class);
 
 	public static void main(String[] args) {
@@ -31,7 +31,7 @@ public class Main {
 			final String secondAI = args[1];
 			final int numberOfRounds = Integer.valueOf(args[2]);
 
-			final Team team1 = new Team(new CommandLinePlayer(), createAI(AI_PACKAGE + firstAI));
+			final Team team1 = new Team(createAI(AI_PACKAGE + firstAI), createAI(AI_PACKAGE + firstAI));
 			final Team team2 = new Team(createAI(AI_PACKAGE + secondAI), createAI(AI_PACKAGE + secondAI));
 
 			play(new RotterdamRuleSet(), team1, team2, numberOfRounds);
@@ -50,14 +50,14 @@ public class Main {
 
 		logger.info(String.format("Overall score for %d rounds:%n " +
 				"%s scored %s,%n%d plays, %d wets, %d marches%n" +
-				"%s scored %s,%n%d plays, %d wets, %d marches", 
-				numberOfRounds, 
-				team1, overallScore.getScore(team1), 
-				overallScore.getNumberOfPlays(team1), 
+				"%s scored %s,%n%d plays, %d wets, %d marches",
+				numberOfRounds,
+				team1, overallScore.getScore(team1),
+				overallScore.getNumberOfPlays(team1),
 				overallScore.getNumberOfWets(team1),
 				overallScore.getNumberOfMarchings(team1),
 				team2, overallScore.getScore(team2),
-				overallScore.getNumberOfPlays(team2), 
+				overallScore.getNumberOfPlays(team2),
 				overallScore.getNumberOfWets(team2),
 				overallScore.getNumberOfMarchings(team2)));
 	}
