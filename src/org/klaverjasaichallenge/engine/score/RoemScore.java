@@ -2,6 +2,8 @@
 package org.klaverjasaichallenge.engine.score;
 
 import java.util.List;
+import com.google.common.collect.Iterables;
+import com.google.common.base.Predicate;
 
 import org.klaverjasaichallenge.shared.Points;
 import org.klaverjasaichallenge.shared.Trick;
@@ -98,25 +100,24 @@ class RoemScore {
 	}
 
 	private static Points calculateStukScore(final Trick trick, final Suit trump) {
-		boolean queen = false;
-		boolean king = false;
-		
-		for(final Card card : trick.getCards()) {
-			if(card.isOfSuit(trump)) {
-				if(card.isOfRank(Rank.QUEEN)) {
-					queen = true;
-				} else if(card.isOfRank(Rank.KING)) {
-					king = true;
-				}
-			}
-		}
+		boolean queenAvailable = Iterables.any(trick.getCards(), new IsCard(trump, Rank.QUEEN));
+		boolean kingAvailable = Iterables.any(trick.getCards(), new IsCard(trump, Rank.KING));
 
-		Points score = new Points();
-		if(king && queen) {
-			score = STUK;
-		}
-
-		return score;
+		return kingAvailable && queenAvailable ? STUK : new Points();
 	}
+
+	private static class IsCard implements Predicate<Card> {
+		private final Suit suit;
+		private final Rank rank;
+
+		public IsCard(final Suit suit, final Rank rank) {
+			this.suit = suit;
+			this.rank = rank;
+		}
+
+		public boolean apply(Card card) {
+			return card.isOfSuit(suit) && card.isOfRank(rank);
+		}
+	};
 
 }

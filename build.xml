@@ -41,6 +41,7 @@
   <property name="library.slf4j.api" value="${dir.libraries}/slf4j-api-1.6.1.jar"/>
   <property name="library.logback.core" value="${dir.libraries}/logback-core-0.9.29.jar"/>
   <property name="library.logback.classic" value="${dir.libraries}/logback-classic-0.9.29.jar"/>
+  <property name="library.guava" value="${dir.libraries}/guava-10.0.1.jar"/>
 
   <!-- Project class path -->
   <path id="project.class.path">
@@ -130,6 +131,7 @@
       <zipfileset src="${library.slf4j.api}"/>
       <zipfileset src="${library.logback.core}"/>
       <zipfileset src="${library.logback.classic}"/>
+      <zipfileset src="${library.guava}"/>
     </jar>
     <delete file="${dir.distribution}/MANIFEST.MF" />
   </target>

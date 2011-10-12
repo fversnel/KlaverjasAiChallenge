@@ -4,6 +4,8 @@
 package org.klaverjasaichallenge.shared.card;
 
 import java.util.List;
+import com.google.common.collect.Iterables;
+import com.google.common.base.Predicate;
 
 import org.klaverjasaichallenge.shared.Points;
 import org.klaverjasaichallenge.shared.Trick;
@@ -112,7 +114,7 @@ public enum Card {
 
 		return result;
 	}
-	
+
 	public boolean isOfSuit(final Suit suitToCompare) {
 		return this.suit.equals(suitToCompare);
 	}
@@ -120,11 +122,11 @@ public enum Card {
 	public boolean hasSameSuitAs(final Card cardToCompare) {
 		return this.suit.equals(cardToCompare.getSuit());
 	}
-	
+
 	public boolean isOfRank(final Rank rankToCompare) {
 		return this.rank.equals(rankToCompare);
 	}
-	
+
 	public boolean hasSameRankAs(final Card cardToCompare) {
 		return this.rank.equals(cardToCompare.getRank());
 	}
@@ -171,16 +173,12 @@ public enum Card {
 		return highestCard;
 	}
 
-	public static boolean hasSuit(final Suit suit, final List<Card> cards) {
-		boolean check = false;
-
-		for(Card card : cards) {
-			if(card.isOfSuit(suit)) {
-				check = true;
+	public static boolean hasSuit(final Suit requestedSuit, final List<Card> cards) {
+		return Iterables.any(cards, new Predicate<Card>() {
+			public boolean apply(Card card) {
+				return card.isOfSuit(requestedSuit);
 			}
-		}
-
-		return check;
+		});
 	}
 
 }
