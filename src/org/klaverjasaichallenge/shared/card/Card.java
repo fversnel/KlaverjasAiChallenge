@@ -4,6 +4,7 @@
 package org.klaverjasaichallenge.shared.card;
 
 import java.util.List;
+import java.util.Arrays;
 import com.google.common.collect.Iterables;
 import com.google.common.base.Predicate;
 
@@ -89,30 +90,9 @@ public enum Card {
 	}
 
 	public boolean isHigherThan(final Trick trick, final Card cardToCompare) {
-		Boolean result = null;
+		Card highestCard = new CardComparator(trick).max(this, cardToCompare);
 
-		final Suit leadingSuit = trick.getLeadingSuit();
-		final Suit trump = trick.getTrump();
-
-		if(this.isOfSuit(trump) && cardToCompare.isOfSuit(trump)) {
-			result = this.getTrumpOrder().isHigherThan(cardToCompare.getTrumpOrder());
-		} else if(this.isOfSuit(trump) && !cardToCompare.isOfSuit(trump)) {
-			result = true;
-		} else if(!this.isOfSuit(trump) && cardToCompare.isOfSuit(trump)) {
-			result = false;
-		} else if(this.isOfSuit(leadingSuit) && cardToCompare.isOfSuit(leadingSuit)) {
-			result = this.getNormalOrder().isHigherThan(cardToCompare.getNormalOrder());
-		} else if(this.isOfSuit(leadingSuit) && !cardToCompare.isOfSuit(leadingSuit)) {
-			result = true;
-		} else if(!this.isOfSuit(leadingSuit) && cardToCompare.isOfSuit(leadingSuit)) {
-			result = false;
-		} else if (!this.isOfSuit(leadingSuit) && !cardToCompare.isOfSuit(leadingSuit)) {
-			result = false;
-		}
-
-		assert(result != null);
-
-		return result;
+		return this.equals(highestCard);
 	}
 
 	public boolean isOfSuit(final Suit suitToCompare) {
@@ -143,40 +123,34 @@ public enum Card {
 	public static Card max(final Trick trick, final List<Card> cards) {
 		assert(!cards.isEmpty()) : "Cannot determine the maximum on a stack of 0 cards.";
 
-		Card highestCard = cards.get(0);
-
-		for(Card card : cards) {
-			if(card.isHigherThan(trick, highestCard)) {
-				highestCard = card;
-			}
-		}
-
-		return highestCard;
+		return new CardComparator(trick).max(cards);
 	}
 
 	/**
 	 * @return returns null if there is no trump.
 	 */
 	public static Card highestTrump(final Suit trump, final List<Card> cards) {
-		Card highestCard = null;
-
-		for(Card card : cards) {
-			if(card.isOfSuit(trump)) {
-				if(highestCard == null) {
-					highestCard = card;
-				} else if(card.getTrumpOrder().isHigherThan(highestCard.getTrumpOrder())) {
-					highestCard = card;
-				}
+		Iterable<Card> trumpCards = Iterables.filter(cards, new Predicate<Card>() {
+			public boolean apply(final Card card) {
+				return card.isOfSuit(trump);
 			}
-		}
+		});
 
-		return highestCard;
+		return Iterables.isEmpty(trumpCards) ? null : new CardComparator(trump).max(cards);
 	}
 
 	public static boolean hasSuit(final Suit requestedSuit, final List<Card> cards) {
 		return Iterables.any(cards, new Predicate<Card>() {
 			public boolean apply(Card card) {
 				return card.isOfSuit(requestedSuit);
+			}
+		});
+	}
+
+	public static Card get(final Suit suit, final Rank rank) {
+		return Iterables.find(Arrays.asList(Card.values()), new Predicate<Card>() {
+			public boolean apply(Card card) {
+				return card.isOfSuit(suit) && card.isOfRank(rank);
 			}
 		});
 	}

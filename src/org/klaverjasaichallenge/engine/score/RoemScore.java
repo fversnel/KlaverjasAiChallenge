@@ -17,7 +17,7 @@ import org.klaverjasaichallenge.shared.card.Suit;
  * @author Frank Versnel
  */
 class RoemScore {
-	private static final Points FOUR_JACKS = new Points(200);
+	private static final Points FOUR_JACKS = new Points(100);
 	private static final Points FOUR_CARDS_SAME_RANK = new Points(100);
 	private static final Points FOUR_CONSECUTIVE_CARDS = new Points(50);
 	private static final Points THREE_CONSECUTIVE_CARDS = new Points(20);
@@ -31,7 +31,7 @@ class RoemScore {
 
 		score = Points.plus(score, calculateFourCardsSameRankScore(trick));
 		score = Points.plus(score, calculateConsecutiveCardsScore(trick));
-		score = Points.plus(score, calculateStukScore(trick, trick.getTrump()));
+		score = Points.plus(score, calculateStukScore(trick));
 
 		return score;
 	}
@@ -39,24 +39,19 @@ class RoemScore {
 	private static Points calculateFourCardsSameRankScore(final Trick trick) {
 		Points score = new Points();
 
-		final List<Card> cards = trick.getCards();
-		final Card firstCard = cards.get(0);
-		final Order cardOrder = firstCard.getRoemOrder();
-		if(cardOrder.isHigherOrSameAs(FIRST_HIGH_CARD)) {
-			boolean fourCardsSameRank = true;
-
-			for(Card currentCard : cards) {
-				if(!(currentCard.hasSameRankAs(firstCard))) {
-					fourCardsSameRank = false;
-				}
+		final Card firstCard = trick.getCards().get(0);
+		final boolean fourCardsSameRank = Iterables.all(trick.getCards(), new Predicate<Card>() {
+			public boolean apply(final Card card) {
+				return card.hasSameRankAs(firstCard);
 			}
+		});
 
-			if(fourCardsSameRank) {
-				if(cardOrder.equals(JACK_ORDER)) {
-					score = FOUR_JACKS;
-				} else {
-					score = FOUR_CARDS_SAME_RANK;
-				}
+		final Order cardOrder = firstCard.getRoemOrder();
+		if(cardOrder.isHigherOrSameAs(FIRST_HIGH_CARD) && fourCardsSameRank) {
+			score = FOUR_CARDS_SAME_RANK;
+
+			if(cardOrder.equals(JACK_ORDER)) {
+				score = Points.plus(score, FOUR_JACKS);
 			}
 		}
 
@@ -89,8 +84,7 @@ class RoemScore {
 
 			if(oneRankDifference && twoRanksDifference && threeRanksDifference) {
 				score = FOUR_CONSECUTIVE_CARDS;
-			}
-			else if((oneRankDifference && twoRanksDifference) &&
+			} else if((oneRankDifference && twoRanksDifference) &&
 					Points.biggerThan(THREE_CONSECUTIVE_CARDS, score)) {
 				score = THREE_CONSECUTIVE_CARDS;
 			}
@@ -99,25 +93,14 @@ class RoemScore {
 		return score;
 	}
 
-	private static Points calculateStukScore(final Trick trick, final Suit trump) {
-		boolean queenAvailable = Iterables.any(trick.getCards(), new IsCard(trump, Rank.QUEEN));
-		boolean kingAvailable = Iterables.any(trick.getCards(), new IsCard(trump, Rank.KING));
+	private static Points calculateStukScore(final Trick trick) {
+		final Suit trump = trick.getTrump();
+		final List<Card> cards = trick.getCards();
+
+		boolean queenAvailable = cards.contains(Card.get(trump, Rank.QUEEN));
+		boolean kingAvailable = cards.contains(Card.get(trump, Rank.KING));
 
 		return kingAvailable && queenAvailable ? STUK : new Points();
 	}
-
-	private static class IsCard implements Predicate<Card> {
-		private final Suit suit;
-		private final Rank rank;
-
-		public IsCard(final Suit suit, final Rank rank) {
-			this.suit = suit;
-			this.rank = rank;
-		}
-
-		public boolean apply(Card card) {
-			return card.isOfSuit(suit) && card.isOfRank(rank);
-		}
-	};
 
 }
