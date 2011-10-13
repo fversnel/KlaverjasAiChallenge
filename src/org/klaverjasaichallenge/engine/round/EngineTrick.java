@@ -7,6 +7,10 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.EnumMap;
 import java.util.Map.Entry;
+import com.google.common.base.Function;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Maps;
 
 import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.Trick;
@@ -64,25 +68,20 @@ public class EngineTrick implements Trick {
 	 */
 	@Override
 	public Map<Card, Integer> getCardsWithPlayers() {
-		Map<Card, Integer> cardsWithPlayersIds = new HashMap<Card, Integer>();
-		for(Entry<Card, Player> cardWithPlayer : this.cards.entrySet())
-			cardsWithPlayersIds.put(cardWithPlayer.getKey(), cardWithPlayer.getValue().hashCode()) ;
-		return cardsWithPlayersIds;
+		return Maps.transformValues(this.cards, new Function<Player, Integer>() {
+			public Integer apply(final Player player) {
+				return player.hashCode();
+			}
+		});
 	}
 
 	@Override
 	public Card getCardFromPlayer(final int playerId) {
-		Card playerCard = null;
-
-		for(final Card card : this.cards.keySet()) {
-			Player player = this.cards.get(card);
-
-			if(player != null && player.hashCode() == playerId) {
-				playerCard = card;
+		return Iterables.find(this.cards.keySet(), new Predicate<Card>() {
+			public boolean apply(final Card card) {
+				return cards.get(card).hashCode() == playerId;
 			}
-		}
-
-		return playerCard;
+		});
 	}
 
 	@Override
@@ -103,9 +102,6 @@ public class EngineTrick implements Trick {
 		return this.isLastTrick;
 	}
 
-	/**
-	 * @return null if there is no card played yet.
-	 */
 	public Player getWinner() {
 		assert(this.cards.keySet().size() == TOTAL_CARDS) : "Cannot determine a winner " +
 												   "if a trick is not fully played yet.";
@@ -126,7 +122,7 @@ public class EngineTrick implements Trick {
 	public Card getHighestCard() {
 		return Card.max(this, this.getCards());
 	}
-	
+
 	@Override
 	public Trick clone() {
 		final EngineTrick newTrick = new EngineTrick(this.trump, this.isLastTrick);
@@ -134,7 +130,7 @@ public class EngineTrick implements Trick {
 		newTrick.leadingSuit = this.leadingSuit;
 		return newTrick;
 	}
-	
+
 	@Override
 	public String toString() {
 		String result = "";
