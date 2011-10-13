@@ -9,5 +9,6 @@
 	<classpathentry kind="lib" path="lib/slf4j-api-1.6.1.jar"/>
 	<classpathentry kind="lib" path="lib/logback-classic-0.9.29.jar"/>
 	<classpathentry kind="lib" path="lib/logback-core-0.9.29.jar"/>
+	<classpathentry kind="lib" path="/PipoAI/build/libs/PipoAI-1.2-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

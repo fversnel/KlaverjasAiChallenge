@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.EnumMap;
 import java.util.Map.Entry;
+import com.google.common.base.Optional;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
@@ -28,7 +29,7 @@ public class EngineTrick implements Trick {
 
 	private Map<Card, Player> cards = new EnumMap<Card, Player>(Card.class);
 
-	private Suit leadingSuit;
+	private Optional<Suit> leadingSuit = Optional.absent();
 	private final Suit trump;
 
 	private final boolean isLastTrick;
@@ -42,10 +43,10 @@ public class EngineTrick implements Trick {
 		this.cards.put(cardPlayed, player);
 
 		if(this.cards.size() == FIRST_ADDED_CARD) {
-			this.leadingSuit = cardPlayed.getSuit();
+			this.leadingSuit = Optional.of(cardPlayed.getSuit());
 		}
 
-		assert(this.leadingSuit != null) : "The leading suit was not properly determined.";
+		assert(this.leadingSuit.isPresent()) : "The leading suit was not properly determined.";
 		assert(this.numberOfCards() <= TOTAL_CARDS) : "Trick cannot contain more than " + TOTAL_CARDS + ".";
 	}
 
@@ -89,12 +90,9 @@ public class EngineTrick implements Trick {
 		return this.trump;
 	}
 
-	/**
-	 * @return null if the trick has no cards.
-	 */
 	@Override
 	public Suit getLeadingSuit() {
-		return this.leadingSuit;
+		return this.leadingSuit.orNull();
 	}
 
 	@Override

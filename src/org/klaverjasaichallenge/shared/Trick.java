@@ -2,6 +2,7 @@ package org.klaverjasaichallenge.shared;
 
 import java.util.List;
 import java.util.Map;
+import com.google.common.base.Optional;
 
 import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.Suit;

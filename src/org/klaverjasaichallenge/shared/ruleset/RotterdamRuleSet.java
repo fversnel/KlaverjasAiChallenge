@@ -3,6 +3,8 @@
  */
 package org.klaverjasaichallenge.shared.ruleset;
 
+import com.google.common.base.Optional;
+
 import org.klaverjasaichallenge.shared.ruleset.RuleSet;
 
 import org.klaverjasaichallenge.shared.Hand;
@@ -24,15 +26,16 @@ public class RotterdamRuleSet extends RuleSet {
 		boolean result = true;
 
 		final Suit trump = trick.getTrump();
-		final Suit leadingSuit = trick.getLeadingSuit();
-		if(leadingSuit == null) {
+		final Optional<Suit> leadingSuit = Optional.fromNullable(trick.getLeadingSuit());
+
+		if(!leadingSuit.isPresent()) {
 			result = true;
-		} else if(playerHand.hasSuit(leadingSuit)) {
-			result = cardToCheck.isOfSuit(leadingSuit);
+		} else if(playerHand.hasSuit(leadingSuit.get())) {
+			result = cardToCheck.isOfSuit(leadingSuit.get());
 
 			// If the leading suit is trump we need to perform an extra
 			// check.
-			if(leadingSuit.equals(trump)) {
+			if(leadingSuit.get().equals(trump)) {
 				result = this.playsTrumpRight(trick, playerHand, cardToCheck);
 			}
 		}
@@ -70,12 +73,11 @@ public class RotterdamRuleSet extends RuleSet {
 	private boolean canOverTrump(final Trick trick, final Hand playerHand) {
 		boolean result = false;
 
-		final Card highestTrumpTrick = trick.getHighestTrump();
-		final Card highestTrumpPlayer = playerHand.highestTrump(trick);
+		final Optional<Card> highestTrumpTrick = Optional.fromNullable(trick.getHighestTrump());
+		final Optional<Card> highestTrumpPlayer = Optional.fromNullable(playerHand.highestTrump(trick));
 
-		if(highestTrumpTrick != null && highestTrumpPlayer != null) {
-			result = highestTrumpPlayer.isHigherThan(trick,
-					highestTrumpTrick);
+		if(highestTrumpTrick.isPresent() && highestTrumpPlayer.isPresent()) {
+			result = highestTrumpPlayer.get().isHigherThan(trick, highestTrumpTrick.get());
 		}
 
 		return result;
