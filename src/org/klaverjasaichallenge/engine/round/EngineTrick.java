@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.EnumMap;
 import java.util.Map.Entry;
+import java.util.NoSuchElementException;
 import com.google.common.base.Optional;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
@@ -78,11 +79,15 @@ public class EngineTrick implements Trick {
 
 	@Override
 	public Card getCardFromPlayer(final int playerId) {
-		return Iterables.find(this.cards.keySet(), new Predicate<Card>() {
-			public boolean apply(final Card card) {
-				return cards.get(card).hashCode() == playerId;
-			}
-		});
+		try {
+			return Iterables.find(this.cards.keySet(), new Predicate<Card>() {
+				public boolean apply(final Card card) {
+					return cards.get(card).hashCode() == playerId;
+				}
+			});
+		} catch(NoSuchElementException e) {
+			return null;
+		}
 	}
 
 	@Override

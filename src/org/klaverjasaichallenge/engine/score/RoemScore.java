@@ -37,14 +37,14 @@ class RoemScore {
 	}
 
 	private static Points calculateFourCardsSameRankScore(final Trick trick) {
-		Points score = new Points();
-
 		final Card firstCard = trick.getCards().get(0);
 		final boolean fourCardsSameRank = Iterables.all(trick.getCards(), new Predicate<Card>() {
 			public boolean apply(final Card card) {
 				return card.hasSameRankAs(firstCard);
 			}
 		});
+
+		Points score = new Points();
 
 		final Order cardOrder = firstCard.getRoemOrder();
 		if(cardOrder.isHigherOrSameAs(FIRST_HIGH_CARD) && fourCardsSameRank) {
@@ -94,8 +94,8 @@ class RoemScore {
 	}
 
 	private static Points calculateStukScore(final Trick trick) {
-		final Suit trump = trick.getTrump();
 		final List<Card> cards = trick.getCards();
+		final Suit trump = trick.getTrump();
 
 		boolean queenAvailable = cards.contains(Card.get(trump, Rank.QUEEN));
 		boolean kingAvailable = cards.contains(Card.get(trump, Rank.KING));

@@ -19,7 +19,7 @@ import org.klaverjasaichallenge.shared.card.Suit;
  */
 public class DrawTrump implements RoundAction<TrumpPlayer> {
 	private static final Logger logger = LoggerFactory.getLogger(DrawTrump.class);
-	
+
 	private static final int MINIMUM_AVAILABLE_TRUMPS_LEFT = 1;
 
 	private final Table table;
@@ -28,7 +28,7 @@ public class DrawTrump implements RoundAction<TrumpPlayer> {
 
 	public DrawTrump(final Table table) {
 		this.table = table;
-		
+
 		this.availableTrumps = new Stack<Suit>();
 		this.availableTrumps.addAll(Suit.asList());
 		Collections.shuffle(this.availableTrumps);
@@ -37,12 +37,12 @@ public class DrawTrump implements RoundAction<TrumpPlayer> {
 	@Override
 	public TrumpPlayer execute() {
 		assert(this.availableTrumps.size() >= MINIMUM_AVAILABLE_TRUMPS_LEFT);
-		
+
 		final Suit trumpDrawn = this.availableTrumps.pop();
-		
+
 		int playerIndex = 0;
 		for(Player player : this.table) {
-			
+
 			final boolean voluntaryPlay = player.playsOnTrump(trumpDrawn, playerIndex);
 			final boolean forcedPlay = this.availableTrumps.size() == MINIMUM_AVAILABLE_TRUMPS_LEFT;
 			if(voluntaryPlay || forcedPlay) {

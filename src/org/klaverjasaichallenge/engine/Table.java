@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.LinkedList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import com.google.common.collect.Iterables;
+import com.google.common.base.Predicate;
 
 import org.klaverjasaichallenge.shared.Player;
 
@@ -58,17 +60,11 @@ public class Table implements Iterable<Player> {
 	}
 
 	public Team getOtherTeam(final Team team) {
-		Team result = null;
-
-		for(final Team otherTeam : this.teams) {
-			if(!team.equals(otherTeam)) {
-				result = otherTeam;
+		return Iterables.find(this.teams, new Predicate<Team>() {
+			public boolean apply(final Team someTeam) {
+				return !someTeam.equals(team);
 			}
-		}
-
-		assert(result != null) : "Could not find other team.";
-
-		return result;
+		});
 	}
 
 	public Team getOtherTeam(final Player player) {
@@ -90,19 +86,12 @@ public class Table implements Iterable<Player> {
 	 * is not in) will be returned.
 	 */
 	private Team getTeam(final Player player, final boolean otherTeam) {
-		Team selectedTeam = null;
-
-		for(Team team : this.teams) {
-			if(team.hasPlayer(player) && !otherTeam) {
-				selectedTeam = team;
-			} else if (!team.hasPlayer(player) && otherTeam) {
-				selectedTeam = team;
+		return Iterables.find(this.teams, new Predicate<Team>() {
+			public boolean apply(final Team team) {
+				return (team.hasPlayer(player) && !otherTeam) ||
+						(!team.hasPlayer(player) && otherTeam);
 			}
-		}
-
-		assert(selectedTeam != null);
-
-		return selectedTeam;
+		});
 	}
 
 	private List<Team> initializeTeams(final Team teamOne, final Team teamTwo) {

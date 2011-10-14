@@ -23,31 +23,32 @@ import org.klaverjasaichallenge.shared.card.Suit;
  */
 public class PlayRound implements RoundAction<PlayedTricks> {
 	public static final int TOTAL_NUMBER_OF_TRICKS = 8;
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(PlayRound.class);
-	
+
 	private final RuleSet ruleSet;
 	private final Table table;
 	private final CardsDealt cardsDealt;
 
 	private final Suit trump;
 
-	public PlayRound(final RuleSet ruleSet, final Table table, final TrumpPlayer trumpPlayer, final CardsDealt cardsDealt) {
+	public PlayRound(final RuleSet ruleSet, final Table table,
+			final TrumpPlayer trumpPlayer, final CardsDealt cardsDealt) {
 		this.ruleSet = ruleSet;
 		this.table = table;
 		this.cardsDealt = cardsDealt;
-		
+
 		this.trump = trumpPlayer.getTrump();
 	}
 
 	@Override
 	public PlayedTricks execute() {
 		final PlayedTricks result = new PlayedTricks();
-		
+
 		for (int trickId = 1; trickId <= TOTAL_NUMBER_OF_TRICKS; trickId++) {
 			EngineTrick playedTrick = this.playTrick(trickId);
 			result.addPlayedTrick(playedTrick);
-			
+
 			this.notifyPlayersEndTrick(playedTrick);
 
 			final Player winner = playedTrick.getWinner();
@@ -62,13 +63,13 @@ public class PlayRound implements RoundAction<PlayedTricks> {
 	private EngineTrick playTrick(final int trickId) {
 		final boolean isLastTrick = (trickId == TOTAL_NUMBER_OF_TRICKS);
 		EngineTrick trick = new EngineTrick(this.trump, isLastTrick);
-		
+
 		logger.debug("Starting trick " + trickId + " with trump " + trick.getTrump());
 
 		for(final Player currentPlayer : this.table) {
 			this.playCard(trick, currentPlayer);
 		}
-		
+
 		return trick;
 	}
 
@@ -81,9 +82,10 @@ public class PlayRound implements RoundAction<PlayedTricks> {
 	private void playCard(final EngineTrick trick, final Player player) {
 		final Card cardPlayed = player.playCard(trick);
 		final Hand playersHand = this.cardsDealt.get(player);
-		
+
 		final boolean cardIsLegal = this.ruleSet.isLegalCard(trick.clone(), cardPlayed, playersHand);
 		final boolean cardIsInHand = playersHand.drawCard(cardPlayed);
+
 		if(cardIsLegal && cardIsInHand) {
 			trick.addCard(player, cardPlayed);
 			logger.debug(player + " played " + cardPlayed);
