@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 
 import org.junit.*;
 
-import org.klaverjasaichallenge.engine.round.action.*;
 import org.klaverjasaichallenge.engine.round.data.CardsDealt;
 import org.klaverjasaichallenge.engine.round.data.PlayedTricks;
 import org.klaverjasaichallenge.engine.round.data.TrumpPlayer;

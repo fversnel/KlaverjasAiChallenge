@@ -37,7 +37,6 @@ public class Deck {
 		for(final Card card : Card.values()) {
 			newDeck.add(card);
 		}
-
 		return newDeck;
 	}
 
