@@ -30,6 +30,6 @@ jar {
 }
 
 run {
-	def commandLineArgs = ['StupidButLegalAI', 'StupidButLegalAI', '10000']
+	def commandLineArgs = ['StupidButLegalAI', 'StupidButLegalAI', '10']
 	args commandLineArgs
 }
