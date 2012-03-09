@@ -17,7 +17,7 @@ import org.klaverjasaichallenge.shared.card.Suit;
  * @author Frank Versnel
  */
 class RoemScore {
-	private static final Points FOUR_JACKS = new Points(100);
+	private static final Points FOUR_JACKS_SAME_RANK = new Points(200);
 	private static final Points FOUR_CARDS_SAME_RANK = new Points(100);
 	private static final Points FOUR_CONSECUTIVE_CARDS = new Points(50);
 	private static final Points THREE_CONSECUTIVE_CARDS = new Points(20);
@@ -44,17 +44,19 @@ class RoemScore {
 			}
 		});
 
-		Points score = Points.ZERO();
-
 		final Order cardOrder = firstCard.getRoemOrder();
-		if(cardOrder.isHigherOrSameAs(FIRST_HIGH_CARD) && fourCardsSameRank) {
-			score = FOUR_CARDS_SAME_RANK;
+		final boolean cardsAreHighRank = cardOrder.isHigherOrSameAs(FIRST_HIGH_CARD);
 
+		Points score;
+		if(cardsAreHighRank && fourCardsSameRank) {
 			if(cardOrder.equals(JACK_ORDER)) {
-				score = score.plus(FOUR_JACKS);
+				score = FOUR_JACKS_SAME_RANK;
+			} else {
+				score = FOUR_CARDS_SAME_RANK;
 			}
+		} else {
+			score = Points.ZERO();
 		}
-
 		return score;
 	}
 
@@ -100,7 +102,13 @@ class RoemScore {
 		boolean queenAvailable = cards.contains(Card.get(trump, Rank.QUEEN));
 		boolean kingAvailable = cards.contains(Card.get(trump, Rank.KING));
 
-		return kingAvailable && queenAvailable ? STUK : Points.ZERO();
+		Points score;
+		if(kingAvailable && queenAvailable) {
+			score = STUK;
+		} else {
+			score = Points.ZERO();
+		}
+		return score;
 	}
 
 }
