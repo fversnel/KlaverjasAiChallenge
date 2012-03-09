@@ -38,7 +38,7 @@ public class Hand {
 	}
 
 	public List<Card> getCards() {
-		return new LinkedList<Card>(this.cards);
+		return new ArrayList<Card>(this.cards);
 	}
 
 	public boolean hasSuit(final Suit suit) {
