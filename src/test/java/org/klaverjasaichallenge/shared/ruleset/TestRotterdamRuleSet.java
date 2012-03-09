@@ -3,8 +3,8 @@ package org.klaverjasaichallenge.shared.ruleset;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.LinkedList;
 
 import org.junit.*;
 
@@ -79,7 +79,7 @@ public class TestRotterdamRuleSet {
 				trickCard, null);
 
 		Card cardToPlay = Card.QUEEN_OF_SPADES;
-		List<Card> cardsInHand = new LinkedList<Card>();
+		List<Card> cardsInHand = new ArrayList<Card>();
 		cardsInHand.add(cardToPlay);
 		cardsInHand.add(Card.JACK_OF_DIAMONDS);
 		cardsInHand.add(Card.ACE_OF_DIAMONDS);

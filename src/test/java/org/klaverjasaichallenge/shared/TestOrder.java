@@ -3,8 +3,9 @@ package org.klaverjasaichallenge.shared;
 import static org.junit.Assert.*;
 
 import org.junit.*;
+
+import java.util.ArrayList;
 import java.util.List;
-import java.util.LinkedList;
 
 import org.klaverjasaichallenge.shared.card.Order;
 
@@ -16,7 +17,7 @@ public class TestOrder {
 
 	@Test
 	public void testSort() {
-		List<Order> actualOrders = new LinkedList<Order>();
+		List<Order> actualOrders = new ArrayList<Order>();
 		actualOrders.add(new Order(5));
 		actualOrders.add(new Order(3));
 		actualOrders.add(new Order(1));

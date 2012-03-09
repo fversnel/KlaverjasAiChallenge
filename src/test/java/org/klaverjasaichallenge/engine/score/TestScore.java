@@ -3,9 +3,6 @@ package org.klaverjasaichallenge.engine.score;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import org.junit.*;
 
 import org.klaverjasaichallenge.engine.round.EngineTrick;

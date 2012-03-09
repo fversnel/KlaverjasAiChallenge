@@ -1,7 +1,7 @@
 package org.klaverjasaichallenge.shared;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.LinkedList;
 
 import org.klaverjasaichallenge.shared.card.Card;
 import org.klaverjasaichallenge.shared.card.Suit;
@@ -56,11 +56,11 @@ public class Hand {
 
 	@Override
 	public Hand clone() {
-		return new Hand(new LinkedList<Card>(this.cards));
+		return new Hand(new ArrayList<Card>(this.cards));
 	}
 
 	private List<Card> drawHand(final Deck deck) {
-		List<Card> hand = new LinkedList<Card>();
+		List<Card> hand = new ArrayList<Card>();
 		for (int i = 1; i <= CARDS_IN_FULL_HAND; i++) {
 			hand.add(deck.drawCard());
 		}

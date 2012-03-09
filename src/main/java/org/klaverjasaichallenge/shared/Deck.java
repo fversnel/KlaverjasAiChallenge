@@ -24,7 +24,7 @@ public class Deck {
 		this.cards = this.createDeck();
 		this.shuffleDeck(this.cards);
 
-		this.logger.debug("Deck contains: " + this.cards);
+		logger.debug("Deck contains: " + this.cards);
 	}
 
 	public Card drawCard() {

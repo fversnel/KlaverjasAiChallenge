@@ -1,7 +1,6 @@
 package org.klaverjasaichallenge.engine.round.action;
 
 import org.junit.*;
-import org.klaverjasaichallenge.engine.round.action.*;
 import org.klaverjasaichallenge.shared.Player;
 import org.klaverjasaichallenge.shared.ruleset.RuleSet;
 

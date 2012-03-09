@@ -6,8 +6,6 @@ package org.klaverjasaichallenge.engine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.klaverjasaichallenge.human.CommandLinePlayer;
-import org.klaverjasaichallenge.shared.KlaverJasAI;
 import org.klaverjasaichallenge.shared.ruleset.RotterdamRuleSet;
 import org.klaverjasaichallenge.shared.ruleset.RuleSet;
 

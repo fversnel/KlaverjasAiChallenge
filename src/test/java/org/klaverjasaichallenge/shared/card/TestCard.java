@@ -4,8 +4,9 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import org.junit.*;
+
+import java.util.ArrayList;
 import java.util.List;
-import java.util.LinkedList;
 
 import org.klaverjasaichallenge.shared.Trick;
 import org.klaverjasaichallenge.shared.card.Card;
@@ -19,7 +20,7 @@ public class TestCard {
 
 	@Test
 	public void testMax() {
-		List<Card> cardsToTest = new LinkedList<Card>();
+		List<Card> cardsToTest = new ArrayList<Card>();
 		Trick trick = this.createMockTrick(Suit.CLUBS, Suit.HEARTS);
 
 		final Card expected = Card.JACK_OF_HEARTS;
@@ -35,7 +36,7 @@ public class TestCard {
 
 	@Test
 	public void testMax2() {
-		List<Card> cardsToTest = new LinkedList<Card>();
+		List<Card> cardsToTest = new ArrayList<Card>();
 		Trick trick = createMockTrick(Suit.SPADES, Suit.CLUBS);
 
 		final Card expected = Card.SEVEN_OF_CLUBS;

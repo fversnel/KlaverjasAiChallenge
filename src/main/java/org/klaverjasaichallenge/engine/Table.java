@@ -5,7 +5,6 @@ package org.klaverjasaichallenge.engine;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.LinkedList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import com.google.common.collect.Iterables;
@@ -102,7 +101,7 @@ public class Table implements Iterable<Player> {
 	}
 
 	private List<Player> initializePlayerPositions(final Team teamOne, final Team teamTwo) {
-		final List<Player> positions =  new LinkedList<Player>();
+		final List<Player> positions =  new ArrayList<Player>();
 		positions.add(teamOne.getFirstPlayer());
 		positions.add(teamTwo.getFirstPlayer());
 		positions.add(teamOne.getSecondPlayer());

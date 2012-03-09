@@ -1,12 +1,10 @@
 
 package org.klaverjasaichallenge.engine.round;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.LinkedList;
 import java.util.Map;
 import java.util.EnumMap;
-import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import com.google.common.base.Optional;
 import com.google.common.base.Function;
@@ -53,7 +51,7 @@ public class EngineTrick implements Trick {
 
 	@Override
 	public List<Card> getCards() {
-		return new LinkedList<Card>(this.cards.keySet());
+		return new ArrayList<Card>(this.cards.keySet());
 	}
 
 	@Override
@@ -118,7 +116,7 @@ public class EngineTrick implements Trick {
 	@Override
 	public Card getHighestTrump() {
 		return Card.highestTrump(this.trump,
-				new LinkedList<Card>(this.cards.keySet()));
+				new ArrayList<Card>(this.cards.keySet()));
 	}
 
 	@Override

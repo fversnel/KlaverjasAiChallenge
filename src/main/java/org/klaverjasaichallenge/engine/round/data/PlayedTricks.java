@@ -1,7 +1,7 @@
 package org.klaverjasaichallenge.engine.round.data;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +21,7 @@ public class PlayedTricks {
 	}
 
 	public List<Trick> getTricksPlayed() {
-		return new LinkedList<Trick>(this.playedTricks.keySet());
+		return new ArrayList<Trick>(this.playedTricks.keySet());
 	}
 
 	public Player getWinner(final Trick playedTrick) {

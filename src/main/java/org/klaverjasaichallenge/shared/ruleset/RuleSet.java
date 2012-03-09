@@ -3,8 +3,6 @@
  */
 package org.klaverjasaichallenge.shared.ruleset;
 
-import java.util.List;
-import java.util.LinkedList;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
