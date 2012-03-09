@@ -4,3 +4,6 @@ syntax: glob
 *.orig
 .gradle
 build/
+.classpath
+.settings/
+.project
