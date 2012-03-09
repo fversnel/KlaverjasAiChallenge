@@ -43,7 +43,7 @@ public class KlaverjasGame {
 			// Change the order of the players
 			table.nextRound();
 
-			logger.info(String.format("\nRound scores:\n %s scored %s\n%s scored %s",
+			logger.info(String.format("\nRound scores:\n%s scored %s\n%s scored %s",
 						this.team1, roundResult.getScore(this.team1),
 						this.team2, roundResult.getScore(this.team2)));
 		}

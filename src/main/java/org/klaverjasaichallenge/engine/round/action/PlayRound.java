@@ -63,7 +63,7 @@ public class PlayRound implements RoundAction<PlayedTricks> {
 		final boolean isLastTrick = (trickId == TOTAL_NUMBER_OF_TRICKS);
 		EngineTrick trick = new EngineTrick(this.trump, isLastTrick);
 
-		logger.info("Starting trick %d with trump ", trickId, trick.getTrump());
+		logger.info("Starting trick {} with trump {}", trickId, trick.getTrump());
 
 		for(final Player currentPlayer : this.table) {
 			this.playCard(trick, currentPlayer);

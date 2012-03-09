@@ -48,7 +48,7 @@ public class Main {
 		KlaverjasGame klaverjasGame = new KlaverjasGame(ruleSet, team1, team2, numberOfRounds);
 		OverallScore overallScore = klaverjasGame.play();
 
-		logger.info(String.format("Overall score for %d rounds:%n " +
+		logger.info(String.format("Overall score for %d rounds:%n" +
 				"%s scored %s,%n%d plays, %d wets, %d marches%n" +
 				"%s scored %s,%n%d plays, %d wets, %d marches",
 				numberOfRounds,
