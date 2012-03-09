@@ -43,8 +43,8 @@ public class Order implements Comparable<Order> {
 		return this.order == toCompare.getOrder();
 	}
 
-	public static Order minus(final Order leftHandSide, final Order rightHandSide) {
-		return new Order(leftHandSide.getOrder() - rightHandSide.getOrder());
+	public Order minus(final Order rightHandSide) {
+		return new Order(this.order - rightHandSide.order);
 	}
 
 	public static void sort(List<Order> orders) {

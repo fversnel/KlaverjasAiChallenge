@@ -14,8 +14,8 @@ public class Score {
 	private final Points roemScore;
 
 	public Score() {
-		this.stockScore = new Points();
-		this.roemScore = new Points();
+		this.stockScore = Points.ZERO();
+		this.roemScore = Points.ZERO();
 	}
 
 	public Score(final Points stockScore, final Points roemScore) {
@@ -41,36 +41,31 @@ public class Score {
 	}
 
 	public Points getTotalScore() {
-		return Points.plus(getRoemScore(), getStockScore());
+		return getRoemScore().plus(getStockScore());
 	}
 
 	public boolean totalScorebiggerThan(final Score otherScore) {
-		return Points.biggerThan(this.getTotalScore(),
-				otherScore.getTotalScore());
+		return this.getTotalScore().biggerThan(otherScore.getTotalScore());
 	}
 
 	public boolean totalScoreBiggerThanOrEquals(final Score otherScore) {
-		return Points.biggerThanOrEquals(this.getTotalScore(),
-				otherScore.getTotalScore());
+		return this.getTotalScore().biggerThanOrEquals(otherScore.getTotalScore());
 	}
-	
+
 	public boolean totalScoreSmallerThan(final Score otherScore) {
-		return Points.smallerThan(this.getTotalScore(),
-				otherScore.getTotalScore());
+		return this.getTotalScore().smallerThan(otherScore.getTotalScore());
 	}
-	
+
 	public Score plus(Score score) {
-		final Points resultStockScore = Points.plus(getStockScore(), score.getStockScore());
-		final Points resultRoemScore = Points.plus(getRoemScore(), score.getRoemScore());
+		final Points resultStockScore = getStockScore().plus(score.getStockScore());
+		final Points resultRoemScore = getRoemScore().plus(score.getRoemScore());
 		return new Score(resultStockScore, resultRoemScore);
 	}
 
 	@Override
 	public String toString() {
-		return "Score [Total: " + this.getTotalScore() + 
-				", Stock: " + this.stockScore + 
-				", Roem: " + this.roemScore +
-				"]";
+		return String.format("Score [Total: %s, Stock: %s, Roem: %s",
+				this.getTotalScore(), this.stockScore, this.roemScore);
 	}
 
 }

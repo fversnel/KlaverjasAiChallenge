@@ -14,16 +14,16 @@ class StockScore {
 	private final static Points LAST_TRICK_POINTS = new Points(10);
 
 	public static Points calculateScore(final Trick trick) {
-		Points totalPoints = new Points();
+		Points totalPoints = Points.ZERO();
 		final Suit trump = trick.getTrump();
 
 		for(final Card card : trick.getCards()) {
 			final Points cardPoints = card.getPoints(trump);
-			totalPoints = Points.plus(totalPoints, cardPoints);
+			totalPoints = totalPoints.plus(cardPoints);
 		}
 
 		if(trick.isLastTrick()) {
-			totalPoints = Points.plus(totalPoints, LAST_TRICK_POINTS);
+			totalPoints = totalPoints.plus(LAST_TRICK_POINTS);
 		}
 
 		return totalPoints;

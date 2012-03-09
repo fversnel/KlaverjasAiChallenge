@@ -5,44 +5,35 @@ package org.klaverjasaichallenge.shared;
  * @author Frank Versnel
  */
 public class Points {
-	protected static final int DEFAULT = 0;
 
-	protected int points;
-
-	public Points() {
-		this.points = DEFAULT;
-	}
+	protected final int points;
 
 	public Points(final int points) {
 		this.points = points;
+	}
+
+	public static Points ZERO() {
+		return new Points(0);
 	}
 
 	public int getPoints() {
 		return this.points;
 	}
 
-	public static Points plus(final Points leftHandSide, final Points rightHandSide) {
-		return new Points(leftHandSide.getPoints() + rightHandSide.getPoints());
+	public Points plus(final Points rightHandSide) {
+		return new Points(this.points + rightHandSide.points);
 	}
 
-	public static Points subtract(final Points leftHandSide, final Points rightHandSide) {
-		return new Points(leftHandSide.getPoints() - rightHandSide.getPoints());
+	public boolean biggerThan(final Points rightHandSide) {
+		return this.points > rightHandSide.points;
 	}
 
-	public static Points divide(final Points leftHandSide, final Points rightHandSide) {
-		return new Points(leftHandSide.getPoints() / rightHandSide.getPoints());
+	public boolean biggerThanOrEquals(final Points rightHandSide) {
+		return this.points >= rightHandSide.points;
 	}
 
-	public static boolean biggerThan(final Points leftHandSide, final Points rightHandSide) {
-		return leftHandSide.getPoints() > rightHandSide.getPoints();
-	}
-
-	public static boolean biggerThanOrEquals(final Points leftHandSide, final Points rightHandSide) {
-		return leftHandSide.getPoints() >= rightHandSide.getPoints();
-	}
-
-	public static boolean smallerThan(final Points leftHandSide, final Points rightHandSide) {
-		return leftHandSide.getPoints() < rightHandSide.getPoints();
+	public boolean smallerThan(final Points rightHandSide) {
+		return this.points < rightHandSide.points;
 	}
 
 	@Override
@@ -53,7 +44,7 @@ public class Points {
 
 	@Override
 	public String toString() {
-		return Integer.toString(this.getPoints()) + " points";
+		return Integer.toString(this.points) + " points";
 	}
 
 }

@@ -83,9 +83,8 @@ public class RoundResult {
 			// maximum stock score.
 			final Score trickScoreOtherTeam = accumulateTrickScore(otherTeam);
 
-			newTeamScore = new Score(MAXIMUM_STOCK_SCORE,
-					Points.plus(trickScoreTeam.getRoemScore(),
-							trickScoreOtherTeam.getRoemScore()));
+			newTeamScore = new Score(MAXIMUM_STOCK_SCORE, trickScoreTeam.getRoemScore().plus(
+						trickScoreOtherTeam.getRoemScore()));
 		}
 
 		return newTeamScore;
@@ -95,8 +94,7 @@ public class RoundResult {
 		Score newTeamScore = trickScoreTeam;
 
 		if(isMarching(team)) {
-			newTeamScore = new Score(trickScoreTeam.getStockScore(), Points.plus(
-					trickScoreTeam.getRoemScore(), MARCH_POINTS));
+			newTeamScore = new Score(trickScoreTeam.getStockScore(), trickScoreTeam.getRoemScore().plus(MARCH_POINTS));
 		}
 
 		return newTeamScore;

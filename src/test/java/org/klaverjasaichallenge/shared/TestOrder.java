@@ -58,7 +58,7 @@ public class TestOrder {
 		Order testOrder2 = new Order(3);
 
 		int expected = 2;
-		int actual = Order.minus(testOrder1, testOrder2).getOrder();
+		int actual = testOrder1.minus(testOrder2).getOrder();
 
 		assertEquals(expected, actual);
 	}

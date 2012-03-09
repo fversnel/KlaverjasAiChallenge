@@ -27,11 +27,11 @@ class RoemScore {
 	private static final Order JACK_ORDER = Rank.JACK.getRoemOrder();
 
 	public static Points calculateScore(final Trick trick) {
-		Points score = new Points();
+		Points score = Points.ZERO();
 
-		score = Points.plus(score, calculateFourCardsSameRankScore(trick));
-		score = Points.plus(score, calculateConsecutiveCardsScore(trick));
-		score = Points.plus(score, calculateStukScore(trick));
+		score = score.plus(calculateFourCardsSameRankScore(trick));
+		score = score.plus(calculateConsecutiveCardsScore(trick));
+		score = score.plus(calculateStukScore(trick));
 
 		return score;
 	}
@@ -44,14 +44,14 @@ class RoemScore {
 			}
 		});
 
-		Points score = new Points();
+		Points score = Points.ZERO();
 
 		final Order cardOrder = firstCard.getRoemOrder();
 		if(cardOrder.isHigherOrSameAs(FIRST_HIGH_CARD) && fourCardsSameRank) {
 			score = FOUR_CARDS_SAME_RANK;
 
 			if(cardOrder.equals(JACK_ORDER)) {
-				score = Points.plus(score, FOUR_JACKS);
+				score = score.plus(FOUR_JACKS);
 			}
 		}
 
@@ -59,7 +59,7 @@ class RoemScore {
 	}
 
 	private static Points calculateConsecutiveCardsScore(final Trick trick) {
-		Points score = new Points();
+		Points score = Points.ZERO();
 
 		for(final Card card : trick.getCards()) {
 			boolean oneRankDifference = false;
@@ -67,7 +67,7 @@ class RoemScore {
 			boolean threeRanksDifference = false;
 
 			for(final Card otherCard : trick.getCards()) {
-				final Order orderDifference = Order.minus(card.getRoemOrder(),
+				final Order orderDifference = card.getRoemOrder().minus(
 						otherCard.getRoemOrder());
 				if(card.hasSameSuitAs(otherCard)) {
 					if(orderDifference.equals(new Order(1))) {
@@ -85,7 +85,7 @@ class RoemScore {
 			if(oneRankDifference && twoRanksDifference && threeRanksDifference) {
 				score = FOUR_CONSECUTIVE_CARDS;
 			} else if((oneRankDifference && twoRanksDifference) &&
-					Points.biggerThan(THREE_CONSECUTIVE_CARDS, score)) {
+					THREE_CONSECUTIVE_CARDS.biggerThan(score)) {
 				score = THREE_CONSECUTIVE_CARDS;
 			}
 		}
@@ -100,7 +100,7 @@ class RoemScore {
 		boolean queenAvailable = cards.contains(Card.get(trump, Rank.QUEEN));
 		boolean kingAvailable = cards.contains(Card.get(trump, Rank.KING));
 
-		return kingAvailable && queenAvailable ? STUK : new Points();
+		return kingAvailable && queenAvailable ? STUK : Points.ZERO();
 	}
 
 }
