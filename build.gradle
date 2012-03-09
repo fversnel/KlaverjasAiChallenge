@@ -1,0 +1,34 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'application'
+
+projectName = 'Klaverjas AI Challenge'
+sourceCompatibility = 1.6
+version = '1.6-SNAPSHOT'
+mainClassName = 'org.klaverjasaichallenge.engine.Main'
+defaultTasks 'clean', 'test'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.6.+'
+    compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.+'
+    compile group: 'ch.qos.logback', name: 'logback-core', version: '1.+'
+    compile group: 'com.google.guava', name: 'guava', version: '11.+'
+    testCompile group: 'junit', name: 'junit', version: '4.+'
+    testCompile group: 'org.mockito', name: 'mockito-all', version: '1.+'
+}
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': projectName, 'Implementation-Version': version
+    }
+	from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+}
+
+run {
+	def commandLineArgs = ['StupidButLegalAI', 'StupidButLegalAI', '10']
+	args commandLineArgs
+}

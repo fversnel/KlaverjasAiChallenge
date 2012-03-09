@@ -1,9 +1,6 @@
 syntax: glob
 
-bin/
-depcache/
-log/
-dist/
 *.swp
 *.orig
-lib/ai/
+.gradle
+build/

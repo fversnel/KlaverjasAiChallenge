@@ -1,0 +1,81 @@
+package org.klaverjasaichallenge.shared.card;
+
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+
+import org.klaverjasaichallenge.shared.Points;
+
+public enum Rank {
+	SEVEN("Seven", new Order(1), new Order(1), new Order(1), new Points(0),
+			new Points(0)),
+	EIGHT("Eight", new Order(2), new Order(2), new Order(2), new Points(0),
+				new Points(0)),
+	NINE("Nine", new Order(3), new Order(7), new Order(3), new Points(0),
+				new Points(14)),
+	TEN("Ten", new Order(7), new Order(5), new Order(4), new Points(10),
+				new Points(10)),
+	JACK("Jack", new Order(4), new Order(8), new Order(5), new Points(2),
+				new Points(20)),
+	QUEEN("Queen", new Order(5), new Order(3), new Order(6), new Points(3),
+				new Points(3)),
+	KING("King", new Order(6), new Order(4), new Order(7), new Points(4),
+				new Points(4)),
+	ACE("Ace", new Order(8), new Order(6), new Order(8), new Points(11),
+				new Points(11));
+
+	private final String prettyPrintName;
+
+	private final Order normalOrder;
+	private final Order roemOrder;
+	private final Order trumpOrder;
+
+	private final Points normalPoints;
+	private final Points trumpPoints;
+
+	private Rank(final String prettyPrintName, final Order normalOrder,
+			final Order trumpOrder, final Order roemOrder,
+			final Points normalPoints, final Points trumpPoints) {
+		this.prettyPrintName = prettyPrintName;
+
+		this.normalOrder = normalOrder;
+		this.trumpOrder = trumpOrder;
+		this.roemOrder = roemOrder;
+
+		this.normalPoints = normalPoints;
+		this.trumpPoints = trumpPoints;
+	}
+
+	public Order getNormalOrder() {
+		return this.normalOrder;
+	}
+
+	public Order getTrumpOrder() {
+		return this.trumpOrder;
+	}
+
+	public Order getRoemOrder() {
+		return this.roemOrder;
+	}
+
+	public Points getNormalPoints() {
+		return this.normalPoints;
+	}
+
+	public Points getTrumpPoints() {
+		return this.trumpPoints;
+	}
+
+	@Override
+	public String toString() {
+		return this.prettyPrintName;
+	}
+
+	public static List<Rank> asList() {
+		final List<Rank> ranks = new LinkedList<Rank>();
+		ranks.addAll(Arrays.asList(Rank.values()));
+
+		return ranks;
+	}
+
+}
