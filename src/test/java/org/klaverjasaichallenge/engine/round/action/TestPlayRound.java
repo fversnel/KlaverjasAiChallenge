@@ -48,7 +48,7 @@ public class TestPlayRound {
 
 	@Test
 	public void verifyPlayedTricks() {
-		assertEquals(this.roundResult.getTricksPlayed().size(), PlayRound.TOTAL_NUMBER_OF_TRICKS);
+		assertEquals(PlayRound.TOTAL_NUMBER_OF_TRICKS, this.roundResult.getTricksPlayed().size());
 	}
 
 }
