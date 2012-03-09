@@ -107,7 +107,7 @@ public class EngineTrick implements Trick {
 
 	public Player getWinner() {
 		assert(this.cards.keySet().size() == TOTAL_CARDS) : "Cannot determine a winner " +
-												   "if a trick is not fully played yet.";
+				"if a trick is not fully played yet.";
 
 		return this.cards.get(this.getHighestCard());
 	}

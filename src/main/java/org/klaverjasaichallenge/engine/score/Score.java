@@ -64,7 +64,7 @@ public class Score {
 
 	@Override
 	public String toString() {
-		return String.format("Score [Total: %s, Stock: %s, Roem: %s",
+		return String.format("[Total: %s, Stock: %s, Roem: %s]",
 				this.getTotalScore(), this.stockScore, this.roemScore);
 	}
 

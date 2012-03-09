@@ -33,8 +33,7 @@ public class KlaverjasGame {
 		OverallScore overallScore = new OverallScore();
 
 		for(int currentRoundId = 1; currentRoundId <= this.numberOfRounds; currentRoundId++) {
-			logger.debug("- Starting round: " + currentRoundId + " with " +
-					"Players: " + table);
+			logger.info("Starting round: {}, with Players: {}", currentRoundId, table);
 
 			// Play the round
 			Round round = new Round(table, this.ruleSet);
@@ -44,9 +43,9 @@ public class KlaverjasGame {
 			// Change the order of the players
 			table.nextRound();
 
-			logger.debug("\nRound scores:\n" +
-						this.team1 + " scored " + roundResult.getScore(this.team1) + " points.\n" +
-						this.team2 + " scored " + roundResult.getScore(this.team2) + " points.");
+			logger.info(String.format("\nRound scores:\n %s scored %s\n%s scored %s",
+						this.team1, roundResult.getScore(this.team1),
+						this.team2, roundResult.getScore(this.team2)));
 		}
 
 		return overallScore;

@@ -46,7 +46,7 @@ public class DrawTrump implements RoundAction<TrumpPlayer> {
 			final boolean voluntaryPlay = player.playsOnTrump(trumpDrawn, playerIndex);
 			final boolean forcedPlay = this.availableTrumps.size() == MINIMUM_AVAILABLE_TRUMPS_LEFT;
 			if(voluntaryPlay || forcedPlay) {
-				logger.debug(player + " plays on trump " + trumpDrawn);
+				logger.info("{} plays on trump {}", player, trumpDrawn);
 				return new TrumpPlayer(player, trumpDrawn);
 			}
 

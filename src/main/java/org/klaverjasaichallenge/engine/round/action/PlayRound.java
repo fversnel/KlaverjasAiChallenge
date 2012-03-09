@@ -53,8 +53,7 @@ public class PlayRound implements RoundAction<PlayedTricks> {
 
 			final Player winner = playedTrick.getWinner();
 			this.table.nextTrick(winner);
-			logger.debug("Winner:  " + winner + " with " +
-					new Score(playedTrick));
+			logger.info("Winner: {} with {}", winner, new Score(playedTrick));
 		}
 
 		return result;
@@ -64,7 +63,7 @@ public class PlayRound implements RoundAction<PlayedTricks> {
 		final boolean isLastTrick = (trickId == TOTAL_NUMBER_OF_TRICKS);
 		EngineTrick trick = new EngineTrick(this.trump, isLastTrick);
 
-		logger.debug("Starting trick " + trickId + " with trump " + trick.getTrump());
+		logger.info("Starting trick %d with trump ", trickId, trick.getTrump());
 
 		for(final Player currentPlayer : this.table) {
 			this.playCard(trick, currentPlayer);
@@ -88,10 +87,10 @@ public class PlayRound implements RoundAction<PlayedTricks> {
 
 		if(cardIsLegal && cardIsInHand) {
 			trick.addCard(player, cardPlayed);
-			logger.debug(player + " played " + cardPlayed);
+			logger.info("{} played {}", player, cardPlayed);
 		} else {
-			throw new CheatException("Player " + player + " cheated " +
-					"with " + cardPlayed + " and hand " + playersHand);
+			throw new CheatException(String.format("Player %s cheated with %s and hand %s",
+					player, cardPlayed, playersHand));
 		}
 	}
 

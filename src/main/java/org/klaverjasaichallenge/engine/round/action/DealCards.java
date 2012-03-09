@@ -29,10 +29,10 @@ public class DealCards implements RoundAction<CardsDealt> {
 
 		for(final Player currentPlayer : this.table) {
 			final Hand dealtHand = this.dealHand(deck, currentPlayer);
-			
+
 			cardsDealt.put(currentPlayer, dealtHand);
 		}
-		
+
 		assert(deck.isEmpty());
 
 		return cardsDealt;
@@ -40,10 +40,10 @@ public class DealCards implements RoundAction<CardsDealt> {
 
 	private Hand dealHand(final Deck deck, final Player player) {
 		final Hand playersHand = new Hand(deck);
-		
+
 		player.receiveCards(playersHand.clone());
-		logger.debug(player + " gets cards " + playersHand);
-		
+		logger.info("{} gets cards: {}", player, playersHand);
+
 		return playersHand;
 	}
 

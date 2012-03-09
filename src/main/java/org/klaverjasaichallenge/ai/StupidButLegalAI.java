@@ -12,7 +12,7 @@ import org.klaverjasaichallenge.shared.card.Suit;
 
 /**
  * A simple AI that demonstrates the basic principles of how to create
- * your own Klaverjas AI. This AI can also be used for testing purposes, 
+ * your own Klaverjas AI. This AI can also be used for testing purposes,
  * for example for using of playing against your own AI.
  *
  * @author Joost Pastoor
@@ -89,7 +89,7 @@ public class StupidButLegalAI extends KlaverJasAI {
 	 */
 	@Override
 	public String toString() {
-		return "StupidButLegalAI (" + this.hashCode() + ")";
+		return String.format("StupidButLegalAI [%d]", this.hashCode());
 	}
 
 }

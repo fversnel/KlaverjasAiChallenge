@@ -28,8 +28,7 @@ public class Deck {
 	}
 
 	public Card drawCard() {
-		assert(!this.cards.isEmpty()) : "You can't draw cards from an " +
-										 "empty deck.";
+		assert(!this.cards.isEmpty()) : "You can't draw cards from an empty deck.";
 		return this.cards.pop();
 	}
 

@@ -48,7 +48,7 @@ public class Team {
 
 	@Override
 	public String toString() {
-		return "Team: (" + this.playerOne + " and " + this.playerTwo + ")";
+		return String.format("Team: [%s, %s]", this.playerOne, this.playerTwo);
 	}
 
 }
