@@ -33,7 +33,7 @@ public class TestRotterdamRuleSet {
 				trickCard, trickCard);
 
 		Card cardToPlay = Card.SEVEN_OF_HEARTS;
-		List<Card> cardsInHand = new LinkedList<Card>();
+		List<Card> cardsInHand = new ArrayList<Card>();
 		cardsInHand.add(cardToPlay);
 		cardsInHand.add(Card.JACK_OF_HEARTS);
 
@@ -48,7 +48,7 @@ public class TestRotterdamRuleSet {
 				trickCard, null);
 
 		Card cardToPlay = Card.SEVEN_OF_SPADES;
-		List<Card> cardsInHand = new LinkedList<Card>();
+		List<Card> cardsInHand = new ArrayList<Card>();
 		cardsInHand.add(cardToPlay);
 		cardsInHand.add(Card.JACK_OF_HEARTS);
 
@@ -63,7 +63,7 @@ public class TestRotterdamRuleSet {
 				trickCard, null);
 
 		Card cardToPlay = Card.SEVEN_OF_DIAMONDS;
-		List<Card> cardsInHand = new LinkedList<Card>();
+		List<Card> cardsInHand = new ArrayList<Card>();
 		cardsInHand.add(cardToPlay);
 		cardsInHand.add(Card.EIGHT_OF_SPADES);
 		cardsInHand.add(Card.JACK_OF_DIAMONDS);
