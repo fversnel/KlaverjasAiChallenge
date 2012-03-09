@@ -16,9 +16,9 @@ import org.klaverjasaichallenge.shared.card.Card;
  * @author Frank Versnel
  */
 public class Deck {
-	protected Stack<Card> cards;
+	private static final Logger logger = LoggerFactory.getLogger(Deck.class);
 
-	private final Logger logger = LoggerFactory.getLogger(getClass());
+	protected Stack<Card> cards;
 
 	public Deck() {
 		this.cards = this.createDeck();

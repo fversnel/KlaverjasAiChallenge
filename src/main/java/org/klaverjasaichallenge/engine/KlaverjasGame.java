@@ -7,26 +7,26 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class KlaverjasGame {
-	private final static Logger logger = LoggerFactory.getLogger(KlaverjasGame.class);
+	private static final Logger logger = LoggerFactory.getLogger(KlaverjasGame.class);
 
 	private RuleSet ruleSet;
-	
+
 	private final Team team1;
 	private final Team team2;
 
 	private int numberOfRounds;
-	
+
 	public KlaverjasGame(final RuleSet ruleSet, final Team team1, final Team team2, final int numberOfRounds) {
 		assert(numberOfRounds > 0) : "Number of games has to be higher than 0";
-		
+
 		this.ruleSet = ruleSet;
-		
+
 		this.team1 = team1;
 		this.team2 = team2;
-		
+
 		this.numberOfRounds = numberOfRounds;
 	}
-	
+
 	public OverallScore play() {
 		// Create a table object to coordinate the round starters
 		Table table = new Table(this.team1, this.team2);
@@ -48,7 +48,7 @@ public class KlaverjasGame {
 						this.team1 + " scored " + roundResult.getScore(this.team1) + " points.\n" +
 						this.team2 + " scored " + roundResult.getScore(this.team2) + " points.");
 		}
-		
+
 		return overallScore;
 	}
 
