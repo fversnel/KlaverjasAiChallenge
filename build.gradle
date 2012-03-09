@@ -24,11 +24,12 @@ dependencies {
 jar {
     manifest {
         attributes 'Implementation-Title': projectName, 'Implementation-Version': version
+		attributes 'Main-Class': mainClassName
     }
 	from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 }
 
 run {
-	def commandLineArgs = ['StupidButLegalAI', 'StupidButLegalAI', '10']
+	def commandLineArgs = ['StupidButLegalAI', 'StupidButLegalAI', '10000']
 	args commandLineArgs
 }

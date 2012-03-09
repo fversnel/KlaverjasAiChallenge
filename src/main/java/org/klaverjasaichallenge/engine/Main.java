@@ -34,7 +34,8 @@ public class Main {
 			final Team team1 = new Team(createAI(AI_PACKAGE + firstAI), createAI(AI_PACKAGE + firstAI));
 			final Team team2 = new Team(createAI(AI_PACKAGE + secondAI), createAI(AI_PACKAGE + secondAI));
 
-			play(new RotterdamRuleSet(), team1, team2, numberOfRounds);
+			long playDuration = play(new RotterdamRuleSet(), team1, team2, numberOfRounds);
+			logger.info("Play duration: {}ms", playDuration);
 
 		} else {
 			logger.error("You have to pass three program arguments in order " +
@@ -43,10 +44,12 @@ public class Main {
 		}
 	}
 
-	private static void play(final RuleSet ruleSet, final Team team1, final Team team2,
+	private static long play(final RuleSet ruleSet, final Team team1, final Team team2,
 			final int numberOfRounds) {
 		KlaverjasGame klaverjasGame = new KlaverjasGame(ruleSet, team1, team2, numberOfRounds);
+		long startTime = System.currentTimeMillis();
 		OverallScore overallScore = klaverjasGame.play();
+		long endTime = System.currentTimeMillis() - startTime;
 
 		logger.info(String.format("Overall score for %d rounds:%n" +
 				"%s scored %s,%n%d plays, %d wets, %d marches%n" +
@@ -60,6 +63,8 @@ public class Main {
 				overallScore.getNumberOfPlays(team2),
 				overallScore.getNumberOfWets(team2),
 				overallScore.getNumberOfMarchings(team2)));
+
+		return endTime;
 	}
 
 	private static void printHelpMessage() {
