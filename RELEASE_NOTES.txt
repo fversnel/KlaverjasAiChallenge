@@ -1,3 +1,7 @@
+Changes in v1.6:
+- Minor optimizations.
+- Now using Gradle as the build system.
+
 Changes in v1.5:
 This is a maintainance release containing the following changes:
 - Refactored the engine by providing a more loosely coupled contract between
