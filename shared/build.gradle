@@ -1,0 +1,7 @@
+	
+	jar {
+		manifest {
+			attributes 'Implementation-Title': project.name, 'Implementation-Version': version
+		}
+		from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+	}

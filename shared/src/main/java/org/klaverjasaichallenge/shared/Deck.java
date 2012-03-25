@@ -1,12 +1,9 @@
 package org.klaverjasaichallenge.shared;
 
 import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
-
-// Import log4j classes.
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import org.klaverjasaichallenge.shared.card.Card;
 
@@ -16,20 +13,11 @@ import org.klaverjasaichallenge.shared.card.Card;
  * @author Frank Versnel
  */
 public class Deck {
-	private static final Logger logger = LoggerFactory.getLogger(Deck.class);
-
 	protected Stack<Card> cards;
 
 	public Deck() {
 		this.cards = this.createDeck();
-		this.shuffleDeck(this.cards);
-
-		logger.debug("Deck contains: " + this.cards);
-	}
-
-	public Card drawCard() {
-		assert(!this.cards.isEmpty()) : "You can't draw cards from an empty deck.";
-		return this.cards.pop();
+		Collections.shuffle(cards);
 	}
 
 	private Stack<Card> createDeck() {
@@ -40,11 +28,16 @@ public class Deck {
 		return newDeck;
 	}
 
-	private void shuffleDeck(final List<Card> cards) {
-		Collections.shuffle(cards);
+	public Card drawCard() {
+		assert(!this.cards.isEmpty()) : "You can't draw cards from an empty deck.";
+		return this.cards.pop();
 	}
 
 	public boolean isEmpty() {
 		return this.cards.isEmpty();
+	}
+
+	public List<Card> getCards() {
+		return new ArrayList<Card>(cards);
 	}
 }

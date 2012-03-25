@@ -25,6 +25,7 @@ public class DealCards implements RoundAction<CardsDealt> {
 	@Override
 	public CardsDealt execute() {
 		final Deck deck = new Deck();
+		logger.debug("Cards in deck: {}", deck.getCards());
 		final CardsDealt cardsDealt = new CardsDealt();
 
 		for(final Player currentPlayer : this.table) {
