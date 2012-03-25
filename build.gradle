@@ -1,8 +1,9 @@
+apply plugin: 'eclipse'
+
 defaultTasks 'clean', 'test'
 
 subprojects {
 	apply plugin: 'java'
-	apply plugin: 'eclipse'
 	
 	sourceCompatibility = 1.6
 	group = 'org.klaverjasaichallenge'
