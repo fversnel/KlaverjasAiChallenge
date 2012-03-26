@@ -1,6 +1,7 @@
 apply plugin: 'application'
 
-mainClassName = 'org.klaverjasaichallenge.engine.Main'
+ext.mainClass = 'org.klaverjasaichallenge.engine.Main'
+ext.commandLineArgs = ['StupidButLegalAI', 'StupidButLegalAI', '10']
 
 dependencies {
 	compile project(':shared')
@@ -12,12 +13,11 @@ dependencies {
 jar {
 	manifest {
 		attributes 'Implementation-Title': project.name, 'Implementation-Version': version
-		attributes 'Main-Class': mainClassName
+		attributes 'Main-Class': mainClass
 	}
 	from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 }
 
 run {
-	def commandLineArgs = ['StupidButLegalAI', 'StupidButLegalAI', '10']
 	args commandLineArgs
 }
