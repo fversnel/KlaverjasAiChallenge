@@ -3,8 +3,8 @@ apply plugin: 'eclipse'
 defaultTasks 'clean', 'test'
 
 ext.sourceCompatibility = 1.6
-ext.name = "Klaverjas AI Challenge"
-group = "org.klaverjasaichallenge"
+project.ext.name = "Klaverjas AI Challenge"
+project.ext.group = "org.klaverjasaichallenge"
 
 subprojects {
 	apply plugin: 'java'
