@@ -2,8 +2,6 @@ syntax: glob
 
 *.swp
 *.orig
-.gradle
-build/
-.classpath
-.settings/
-.project
+target/
+.lein-failures
+p/
