@@ -1,6 +1,10 @@
-(ns klaverjas.core)
+(ns org.klaverjasaichallenge.core
+  (:require [org.klaverjasaichallenge.game :as game]
+            [org.klaverjasaichallenge.player :as player]))
 
 (defn -main
-  "I don't do a whole lot."
+  ""
   [& args]
-  (println "Hello, World!"))
+  (do (println "Starting Klaverjas AI Challenge"))
+  (let [players (map #(player/stupid-but-legal-ai %) (range 4))]
+    (game/play-game :rotterdam-ruleset players 5)))

@@ -7,9 +7,13 @@
                                           trump or not.")
   (play-card [player ruleset hand-cards trick-cards trump]))
 
-(defrecord StupidButLegalAi []
+(defrecord StupidButLegalAi [id]
   Player
   (play-trump? [player hand-cards trump] true)
   (play-card [player ruleset hand-cards trick-cards trump] 
     (let [legal-cards (ruleset/get-legal-cards ruleset hand-cards trick-cards trump)]
-      (first legal-cards))))
+      (first legal-cards)))
+  (toString [player] (str "Stupid but Legal AI: " id)))
+
+(defn stupid-but-legal-ai [id]
+  (StupidButLegalAi. id))

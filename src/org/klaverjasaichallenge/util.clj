@@ -6,3 +6,8 @@
   [pred coll]
   (if (some pred coll) (filter pred coll) coll))
 
+(defn re-order
+  "Drops n items from the infinite version of the coll then returns the coll with its original size.
+  For example: (re-order [:a :b :c :d] 2) will return [:c :d :a :b]."
+  [coll n]
+  (->> coll cycle (drop n) (take (count coll))))
