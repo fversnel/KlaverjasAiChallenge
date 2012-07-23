@@ -1,7 +1,7 @@
 (ns org.klaverjasaichallenge.ruleset-test
   (:use clojure.test 
         org.klaverjasaichallenge.ruleset
-        org.klaverjasaichallenge.card))
+        [org.klaverjasaichallenge.card :only [card]]))
 
 (defn- test-legality
   [ruleset testcards]

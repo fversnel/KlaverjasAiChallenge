@@ -4,4 +4,3 @@
 
 (deftest deck-size
   (is (= 32 (count (deck)))))
-

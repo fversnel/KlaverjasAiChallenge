@@ -1,24 +1,24 @@
 (ns org.klaverjasaichallenge.game-test
-  (:use clojure.test 
+  (:require [org.klaverjasaichallenge.player :as player]
+            [org.klaverjasaichallenge.card :as card])
+  (:use clojure.test
         org.klaverjasaichallenge.game
-        org.klaverjasaichallenge.card
-        org.klaverjasaichallenge.ruleset
-        org.klaverjasaichallenge.player))
+        [org.klaverjasaichallenge.card :only [card]]))
 
 (def players [:aap :pipo :beer :mamaloe])
 
 (deftest test-deal-cards
-  (let [hands (deal-cards players (deck))]
+  (let [hands (deal-cards players (card/deck))]
     (doseq [hand hands] 
       (is (= (count (:cards hand)) 8)))))
 
 (defrecord PassTrumpPlayer []
-  Player
+  player/Player
   (play-trump? [player hand-cards trump] false)
   (play-card [player ruleset hand-cards trick-cards trump] nil))
 
 (defrecord PlayTrumpPlayer []
-  Player
+  player/Player
   (play-trump? [player hand-cards trump] true)
   (play-card [player ruleset hand-cards trick-cards trump] nil))
 
@@ -29,7 +29,7 @@
     (is (= (PlayTrumpPlayer.) (:player trump-player)))))
 
 (defrecord SimplePlayer []
-  Player
+  player/Player
   (play-trump? [player hand-cards trump] true)
   (play-card [player ruleset hand-cards trick-cards trump] 
     (first hand-cards)))
@@ -41,22 +41,11 @@
         trick-result (play-trick ruleset hands trump)]
     (is (= [{:player (SimplePlayer.) :card (card :seven :hearts)}] trick-result))))
 
-;(deftest test-determine-trick-winner
-;  (let [trick-result [{:player :mamaloe :card (card :seven :hearts)}
-;                      {:player :pipo :card (card :ace :spades)}
-;                      {:player :aap :card (card :jack :clubs)}
-;                      {:player :beer :card (card :nine :clubs)}]]
-;    (is (= (get-trick-winner trick-result :clubs) :aap))
-;    (is (= (get-trick-winner trick-result :spades) :pipo))
-;    (is (= (get-trick-winner trick-result :diamonds) :pipo))))
-
 (deftest test-update-hands
   (let [hands [{:player :some-player 
                 :cards [(card :seven :hearts) (card :nine :clubs)]}
                {:player :some-other-player 
                 :cards [(card :ten :hearts) (card :king :diamonds)]}]
-        actual-hand (update-hands hands [(card :seven :hearts) (card :ten :hearts)])]
+        actual-hand (update-hands [(card :seven :hearts) (card :ten :hearts)] hands)]
     (is (= [(card :nine :clubs)] (:cards (first actual-hand))))
     (is (= [(card :king :diamonds)] (:cards (second actual-hand))))))
-
-

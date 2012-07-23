@@ -22,6 +22,5 @@
   [trump cards]
   (sort-by #(card-order trump %) cards))
 
-(defn get-highest-card
-  [trump cards]
+(defn get-highest-card [trump cards]
   (last (sort-cards trump cards)))

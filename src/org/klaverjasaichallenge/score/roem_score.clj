@@ -1,6 +1,7 @@
 (ns org.klaverjasaichallenge.score.roem-score
-  (:use [clojure.set :only [subset?]] 
-         org.klaverjasaichallenge.card))
+  (:require [org.klaverjasaichallenge.card :as card])
+  (:use [clojure.set :only [subset?]]
+        [org.klaverjasaichallenge.card :only [card]]))
 
 (def high-ranks #{:ten :jack :queen :king :ace})
 (def roem-card-order [:seven :eight :nine :ten :jack :queen :king :ace])
@@ -10,7 +11,7 @@
   returns 0 otherwise."
   [trick-cards]
   (let [trick-ranks (map :rank trick-cards)
-        all-same-rank? (every? #(= % (first trick-ranks)) trick-ranks)
+        all-same-rank? (apply = trick-ranks)
         all-high-rank? (every? high-ranks trick-ranks)]
     (if (and all-high-rank? all-same-rank?) 100 0)))
 
@@ -23,19 +24,13 @@
 
 (defn- consecutive-cards?
   "Returns true if the trick-cards (of the same suit) have a consecutive order
-  of n length, returns false otherwise."
+  of length n, returns false otherwise."
   [trick-cards n]
-  ; Partition will make all possible combinations of consecutive cards
-  ; according to the roem-card-order, n specifies the size of the
-  ; partitions.
-  (let [consecutive-rank-combinations (partition n 1 roem-card-order)]
-    (some true?
-      ; Filter cards based on suit
-      (for [suit suits :let [cards-of-same-suit (filter #(suit? suit %) trick-cards)
-                             card-ranks (map :rank cards-of-same-suit)]]
-        ; Test if the given set of cards exists in at least one of
-        ; consecutive card combinations.
-        (some #(subset? % (set card-ranks)) consecutive-rank-combinations)))))
+  (let [consecutive-rank-combinations (partition n 1 roem-card-order)
+        consecutive-card-combinations 
+        (for [suit card/suits, rank-combination consecutive-rank-combinations] 
+          (map #(card % suit) rank-combination))]
+    (some #(subset? % (set trick-cards)) consecutive-card-combinations)))
 
 (defn three-consecutive-cards
   "Returns 20 (points) when there are three consecutive cards of the same
