@@ -4,10 +4,11 @@
   "Filters the collection based on the predicate if the predicate applies to at least one of
   the elements in the coll, otherwise returns the coll unfiltered."
   [pred coll]
-  (if (some pred coll) (filter pred coll) coll))
+  (let [filtered-coll (filter pred coll)]
+    (if (empty? filtered-coll) coll filtered-coll)))
 
 (defn re-order
-  "Drops n items from the infinite version of the coll then returns the coll with its original size.
+  "Shifts the position of the items. Keeps the original order of the items in tact.
   For example: (re-order [:a :b :c :d] 2) will return [:c :d :a :b]."
   [coll n]
   (->> coll cycle (drop n) (take (count coll))))

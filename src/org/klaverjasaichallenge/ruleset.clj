@@ -1,48 +1,42 @@
 (ns org.klaverjasaichallenge.ruleset
-  (:require [org.klaverjasaichallenge.card :as card]
+  (:require [org.klaverjasaichallenge.cards :as cards]
             [org.klaverjasaichallenge.trick :as trick])
   (:use [org.klaverjasaichallenge.util :only [filter-if]]))
 
-(defmulti get-legal-cards 
-  "Filters all hand cards that are legal to the trick."
-  (fn [ruleset hand-cards trick-cards trump] ruleset))
+(defmulti get-legal-cards
+  "Filters all the player's hand cards that are legal to the trick."
+  (fn [player-data] (:ruleset player-data)))
 
-(defn legal-card?
-  [ruleset card hand-cards trick-cards trump] 
-  (let [legal-cards (get-legal-cards ruleset hand-cards trick-cards trump)]
-    (contains? (set legal-cards) card)))
+(defn legal-card? [card player-data]
+  (contains? (set (get-legal-cards player-data)) card))
 
 (defn- over-trump-card? 
   "Returns true if the card is higher than the highest trump in the trick-cards, false if not. 
   Also returns false if there is no trump card in the trick."
-  [trick-cards trump card]
-  (let [trick-has-trump? (some #(card/suit? trump %) trick-cards)
-        highest-card (card/get-highest-card trump (conj trick-cards card))]
+  [{:keys [trick-cards trump]} card]
+  (let [trick-has-trump? (some (partial cards/suit? trump) trick-cards)
+        highest-card (cards/get-highest-card trump (conj trick-cards card))]
     (and trick-has-trump? (= highest-card card))))
 
 (defmethod get-legal-cards :rotterdam-ruleset
-  [ruleset hand-cards trick-cards trump] 
+  [{:keys [hand-cards trick-cards trump] :as player-data}] 
   (if-let [leading-suit (trick/get-leading-suit trick-cards)]
     (->> hand-cards
-      (filter-if #(card/suit? leading-suit %))
-      (filter-if #(card/suit? trump %))
-      (filter-if #(over-trump-card? trick-cards trump %)))
+      (filter-if (partial cards/suit? leading-suit))
+      (filter-if (partial cards/suit? trump))
+      (filter-if (partial over-trump-card? player-data)))
     hand-cards))
-
-(defn- mate-plays-highest-card?
-  [trick-cards trump]
-  (if-let [mates-card (trick/get-mates-card trick-cards)]
-    (= mates-card (card/get-highest-card trump trick-cards))
-    false))
-
+ 
 (defmethod get-legal-cards :amsterdam-ruleset
-  [ruleset hand-cards trick-cards trump] 
+  [{:keys [hand-cards trick-cards trump] :as player-data}] 
   (if-let [leading-suit (trick/get-leading-suit trick-cards)]
-    (let [mate-plays-highest-card? (mate-plays-highest-card? trick-cards trump)]
+    (let [partner-plays-highest-card?
+          (if-let [partner-card (last (drop-last trick-cards))]
+            (= partner-card (cards/get-highest-card trump trick-cards)))]
       (->> hand-cards
-        (filter-if #(card/suit? leading-suit %))
-        (filter-if #(and (card/suit? trump %) 
-                         (not mate-plays-highest-card?)))
-        (filter-if #(and (over-trump-card? trick-cards trump %) 
-                         (not mate-plays-highest-card?)))))
+        (filter-if (partial cards/suit? leading-suit))
+        (filter-if #(and (cards/suit? trump %) 
+                         (not partner-plays-highest-card?)))
+        (filter-if #(and (over-trump-card? player-data %) 
+                         (not partner-plays-highest-card?)))))
     hand-cards))

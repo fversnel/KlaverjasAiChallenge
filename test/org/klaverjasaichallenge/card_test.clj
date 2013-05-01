@@ -1,6 +1,6 @@
 (ns org.klaverjasaichallenge.card-test
   (:use clojure.test 
-        org.klaverjasaichallenge.card))
+        org.klaverjasaichallenge.cards))
 
 (deftest deck-size
-  (is (= 32 (count (deck)))))
+  (is (= 32 (count all-cards))))
