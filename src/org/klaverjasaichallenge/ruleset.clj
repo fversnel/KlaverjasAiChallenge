@@ -5,7 +5,7 @@
 
 (defmulti get-legal-cards
   "Filters all the player's hand cards that are legal to the trick."
-  (fn [player-data] (:ruleset player-data)))
+  :ruleset)
 
 (defn legal-card? [card player-data]
   (contains? (set (get-legal-cards player-data)) card))

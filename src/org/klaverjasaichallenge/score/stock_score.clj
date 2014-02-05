@@ -15,6 +15,7 @@
 
 (defn calculate-stock-score
   "Calculates the score without roem for a given set of cards."
-  [{:keys [trump trick-cards]}]
-  (let [card-points (map (partial get-card-points trump) trick-cards)]
-    (reduce + card-points)))
+  [trump cards]
+  (->> cards
+    (map (partial get-card-points trump))
+    (reduce +)))

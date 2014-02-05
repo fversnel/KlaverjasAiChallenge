@@ -3,7 +3,7 @@
             [org.klaverjasaichallenge.player :as player]
             [org.klaverjasaichallenge.ruleset :as rules]
             [org.klaverjasaichallenge.score.score :as score])
-  (:use [org.klaverjasaichallenge.util :only [re-order]]))
+  (:use [org.klaverjasaichallenge.util :only [re-order find-first]]))
 
 ; Datastructure for complete round:
 ;
@@ -20,14 +20,11 @@
 ;  
 ;  }
 
-(defn- player-id [id] {:player-id id})
-
 (defn- extract-player-data 
   [player-id {:keys [players hands] :as round-data}]
   (merge 
     (select-keys round-data [:ruleset :trump :trump-player-id])
     {:player-id player-id
-     :player (get players player-id)
      :hand-cards (get hands player-id)}))
 
 (defn deal-cards
@@ -38,44 +35,44 @@
     (zipmap player-ids hand-cards)))
 
 (defn draw-trump
-  [{:keys [player-order] :as round-data}]
-  (let [max-draw-count 2
-        trumps (shuffle (vec cards/suits))]
+  [max-draw-count {:keys [players player-order] :as round-data}]
+  (let [trumps (shuffle cards/suits)]
     (first
-      (for [trump trumps, player-id player-order
-            :let [player-data (extract-player-data player-id round-data)
-                  forced-play? (>= (.indexOf trumps trump) max-draw-count)
-                  voluntary-play? (player/.play-trump? (:player player-data) player-data)]
+      (for [draw-count (range 0 max-draw-count), player-id player-order
+            :let [trump (nth trumps draw-count)
+                  player-data (extract-player-data player-id (assoc round-data :trump trump))
+                  forced-play? (>= (+ draw-count 1) max-draw-count)
+                  voluntary-play? (player/.play-trump? (player-id players) player-data)]
             :when (or forced-play? voluntary-play?)]
         {:trump trump :trump-player-id player-id}))))
 
 (defn play-card
-  [{:keys [player-id player hand-cards] :as player-data}]
+  [player {:keys [player-id hand-cards] :as player-data}]
   (let [card-played (player/.play-card player player-data)]
     (if (rules/legal-card? card-played player-data) 
       card-played
       (throw (Exception. (str [player-id player] " cheated with " card-played
                               " and hand " hand-cards))))))
 
-(defn trick-cards [trick] (map :card trick))
+(def trick-cards (partial map :card))
 
 (defn play-trick
   "Returns for each player the card that they have chosen to play during the
   trick."
-  [{:keys [player-order] :as round-data}]
+  [{:keys [players player-order] :as round-data}]
   (do (reduce (fn [trick player-id] 
                 (let [player-data (assoc (extract-player-data player-id round-data)
                                          :trick-cards (trick-cards trick))
-                      card-played (play-card player-data)]
+                      card-played (play-card (player-id players) player-data)]
                   (conj trick {:player-id player-id :card card-played})))
               [] player-order)))
 
 (defn trick-winner
   [trump trick]
-  (let [trick-cards (trick-cards trick)
-        highest-card (cards/get-highest-card trump trick-cards)]
-    (:player-id 
-      (nth trick (.indexOf trick-cards highest-card)))))
+  (let [highest-card (cards/get-highest-card trump (trick-cards trick))]
+    (->> trick
+      (find-first #(= (:card %) highest-card))
+      :player-id)))
 
 (defn update-hands
   "Removes the cards that were played from the hands."
@@ -97,11 +94,11 @@
       round-data)))
 
 (defn initialize-round
-  [{:keys [player-order] :as game-data}]
+  [{:keys [player-order max-trump-draw-count] :as game-data}]
   (let [round-data (merge game-data 
                           {:hands (deal-cards player-order (cards/new-deck)) 
                            :tricks []})
-        trump-info (draw-trump round-data)]
+        trump-info (draw-trump max-trump-draw-count round-data)]
     (merge round-data trump-info)))
 
 (defn partner
@@ -154,7 +151,7 @@
 
 (defn initialize-game 
   [players ruleset]
-  (let [player-ids (map player-id (range (count players)))]
+  (let [player-ids (range (count players))]
     {:player-order player-ids
      :players (zipmap player-ids players)
      :ruleset ruleset}))

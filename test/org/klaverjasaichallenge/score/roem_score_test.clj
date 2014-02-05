@@ -24,4 +24,4 @@
 (deftest test-calculate-score
   (let [cards [(card :king :hearts) (card :seven :hearts) (card :eight :clubs) (card :queen :hearts)]]
     (is (= (calculate-roem-score {:trump :hearts :trick-cards cards}) 
-           (get-in scores [:stuk :points])))))
+           (get-in roem-types [:stuk :points])))))

@@ -29,14 +29,14 @@
           (map #(card % suit) rank-combination))]
     (some #(subset? % (set trick-cards)) consecutive-card-combinations)))
 
-(def scores 
+(def roem-types 
   {:four-high-cards-same-rank {:score-fn four-high-cards-same-rank? :points 100}
    :stuk {:score-fn stuk? :points 20}
    :three-consecutive-cards {:score-fn (partial consecutive-cards? 3) :points 30}
    :four-consecutive-cards {:score-fn (partial consecutive-cards? 4) :points 40}})
 
 (defn calculate-roem-score [{:keys [trump trick-cards] :as trick}]
-  (letfn [(calculate-score [{:keys [score-fn points]}]
-            (if (score-fn trick) points 0))]
-    (let [card-points (map #(calculate-score (get scores %)) (keys scores))]
-      (reduce + card-points))))
+  (->> (vals roem-types)
+    (map (fn [{:keys [score-fn points]}]
+           (if (score-fn trick) points 0)))
+    (reduce +)))
