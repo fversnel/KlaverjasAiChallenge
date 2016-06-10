@@ -27,16 +27,16 @@
             :let [trump (nth trumps draw-count)
                   player-data (extract-player-data player-id (assoc round-data :trump trump))
                   forced-play? (>= (+ draw-count 1) max-draw-count)
-                  voluntary-play? (player/.play-trump? (player-id players) player-data)]
+                  voluntary-play? (player/play-trump? (player-id players) player-data)]
             :when (or forced-play? voluntary-play?)]
         {:trump trump :trump-player-id player-id}))))
 
 (defn play-card
   [player {:keys [player-id hand-cards] :as player-data}]
-  (let [card-played (player/.play-card player player-data)]
+  (let [card-played (player/play-card player player-data)]
     (if (rules/legal-card? card-played player-data)
       (do
-        (println (str player-id " played " (cards/to-string card-played)))
+        (println (str player-id " played " card-played))
         card-played)
       (throw (Exception. (str [player-id player] " cheated with " card-played
                               " and hand " hand-cards))))))

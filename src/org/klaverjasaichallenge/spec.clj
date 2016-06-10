@@ -4,29 +4,8 @@
            [org.klaverjasaichallenge.cards :as cards]
            [org.klaverjasaichallenge.ruleset :as rules]
            [org.klaverjasaichallenge.player :as player])
-  (use [org.klaverjasaichallenge.util :only [same?]])
-  (:import (org.klaverjasaichallenge.player Player)))
+  (use [org.klaverjasaichallenge.util :only [same?]]))
 
-(def random-but-legal-ai
-  (reify Player
-    (play-trump? [_ _] (gen/generate (s/gen boolean?)))
-    (play-card [_ player-data]
-      (-> player-data
-          rules/legal-cards
-          set
-          s/gen
-          gen/generate))))
-
-(defprotocol HasDuplicates
-  (has-duplicates? [this] "Returns true iff the collection has duplicates"))
-
-(extend-protocol HasDuplicates
-  clojure.lang.Sequential
-  (has-duplicates? [s] (not= (count s) (count (distinct s))))
-  clojure.lang.IPersistentSet
-  (has-duplicates? [_] false)
-  clojure.lang.IPersistentMap
-  (has-duplicates? [_] false))
 
 (defn max-size
   "Returns true iff the coll is as big or smaller as the given size."
@@ -40,7 +19,7 @@
 
 (s/def ::card cards/all-cards)
 (s/def ::cards (s/and (s/* ::card)
-                      #(not (has-duplicates? %))))
+                      distinct-coll?))
 (s/def ::complete-deck (s/and ::cards
                               #(= cards/all-cards (set %))))
 (s/def ::suit cards/suits)
@@ -55,13 +34,13 @@
                             (max-size player-count)
                             sequential?))
 (s/def ::player (s/with-gen player/player?
-                            #(s/gen #{random-but-legal-ai})))
+                            #(s/gen #{player/random-but-legal-ai})))
 (s/def ::player-id integer?)
 (s/def ::trump-player-id ::player-id)
 (s/def ::players (s/and (s/map-of ::player-id ::player)
                         (exact-size player-count)))
 (s/def ::player-order (s/and (s/* ::player-id)
-                             #(not (has-duplicates? %))
+                             distinct-coll?
                              (exact-size player-count)
                              sequential?))
 ; TODO Provide custom generator?
@@ -77,14 +56,15 @@
 ; generate ruleset
 ; generate tricks that are legal
 (s/def ::trick-entry (s/keys :req-un [::player-id ::card]))
-#(s/gen {:trump (gen/generate ::trump)
+#(s/gen {:players (gen/generate ::players)
+         :trump (gen/generate ::trump)
          :ruleset (gen/generate ::ruleset)
          :tricks })
 
 
 
 (s/def ::trick (s/and (s/* ::trick-entry)
-                      #(not (has-duplicates? (map :player-id %)))
+                      #(distinct-coll? (map :player-id %))
                       #(s/valid? ::cards (map :card %))
                       (max-size player-count)
                       sequential?))

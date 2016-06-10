@@ -4,6 +4,11 @@
   [pred coll]
   (->> coll (filter pred) first))
 
+(defn distinct-coll? [coll]
+  (if (empty? coll)
+    false
+    (apply distinct? coll)))
+
 (defn filter-if
   "Filters the collection based on the predicate if the predicate applies to at least one of
   the elements in the coll, otherwise returns the coll unfiltered."

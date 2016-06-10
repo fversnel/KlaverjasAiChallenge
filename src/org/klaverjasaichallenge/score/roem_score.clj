@@ -1,7 +1,8 @@
 (ns org.klaverjasaichallenge.score.roem-score
   (:require [org.klaverjasaichallenge.cards :as cards])
   (:use [clojure.set :only [subset?]]
-        [org.klaverjasaichallenge.cards :only [card]]))
+        [org.klaverjasaichallenge.cards :only [card]]
+        [org.klaverjasaichallenge.util :only [distinct-coll?]]))
 
 (def roem-card-order [:7 :8 :9 :10 :J :Q :K :A])
 (def high-cards (set (for [rank #{:10 :J :Q :K :A}
@@ -9,9 +10,11 @@
                        (card rank suit))))
 
 (defn four-high-cards-same-rank?
-  "Returns true iff all trick cards are of the same rank."
+  "Returns true iff all trick cards are of the same high rank."
   [{:keys [trick-cards]}]
-  (contains? high-cards (set trick-cards)))
+  (and
+    (distinct-coll? (map :rank trick-cards))
+    (subset? (set trick-cards) high-cards)))
 
 (defn stuk?
   "Returns true iff the trick cards contain queen and king of trump."
