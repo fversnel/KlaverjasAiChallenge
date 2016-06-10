@@ -22,13 +22,13 @@
 (defn exact-size [size]
   (fn [coll] (= size (count coll))))
 
-(s/def ::card (set cards/all-cards))
+(s/def ::card cards/all-cards)
 (s/def ::cards (s/and (s/* ::card)
                       #(not (has-duplicates? %))))
 (s/def ::complete-deck (s/and ::cards
-                              #(= (set cards/all-cards) %)))
-(s/def ::suit (set cards/suits))
-(s/def ::rank (set cards/ranks))
+                              #(= cards/all-cards %)))
+(s/def ::suit cards/suits)
+(s/def ::rank cards/ranks)
 (s/def ::trump ::suit)
 (s/def ::ruleset keyword?)
 (def player-count 4)
