@@ -4,4 +4,4 @@
         org.klaverjasaichallenge.score.stock-score))
 
 (deftest test-stock-score
-  (is (= 152 (calculate-stock-score :clubs cards/all-cards))))
+  (is (= 152 (calculate-stock-score :♣ cards/all-cards))))

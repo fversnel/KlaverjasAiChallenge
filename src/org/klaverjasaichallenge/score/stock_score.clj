@@ -1,9 +1,9 @@
 (ns org.klaverjasaichallenge.score.stock-score
   (:require [org.klaverjasaichallenge.cards :as cards]))
 
-(def points 
-  {:normal {:seven 0 :eight 0 :nine 0 :jack 2 :queen 3 :king 4 :ten 10 :ace 11}
-   :trump {:seven 0 :eight 0 :queen 3 :king 4 :ten 10 :ace 11 :nine 14 :jack 20}
+(def points
+  {:normal {:7 0 :8 0 :9 0 :J 2 :Q 3 :K 4 :10 10 :A 11}
+   :trump {:7 0 :8 0 :Q 3 :K 4 :10 10 :A 11 :9 14 :J 20}
    :last-trick 10
    :march 100})
 

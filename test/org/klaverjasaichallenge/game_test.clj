@@ -35,7 +35,7 @@
 ;    (first hand-cards)))
 ;
 ;(deftest test-play-trick
-;  (let [ruleset :rotterdam-ruleset
+;  (let [ruleset :rotterdam
 ;        hands [{:player (SimplePlayer.) :cards [(card :seven :hearts)]}]
 ;        trump :hearts
 ;        trick-result (play-trick (play-card ruleset trump) hands)]

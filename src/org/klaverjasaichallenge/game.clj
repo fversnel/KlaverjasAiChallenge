@@ -5,24 +5,9 @@
             [org.klaverjasaichallenge.score.score :as score])
   (:use [org.klaverjasaichallenge.util :only [re-order find-first]]))
 
-; Datastructure for complete round:
-;
-; {:players {(player-id 1) team1player1, (player-id 2) team2player1, etc...}
-;  :player-order [(player-id 1) (player-id 2) (player-id 3) (player-id 4)]
-;  :hands {(player-id 1) #{(card :king :hearts) (card :queen :clubs) etc...}
-;          etc...}
-;  :ruleset :rotterdam-ruleset
-;  :trump :hearts
-;  :trump-player-id (player-id 1)
-;  :tricks [[{:player-id (player-id 1) :card (card :king :hearts)} 
-;            {:player-id (player-id 2) :card (card :seven :hearts)}]
-;                 etc...]
-;  
-;  }
-
-(defn- extract-player-data 
+(defn- extract-player-data
   [player-id {:keys [players hands] :as round-data}]
-  (merge 
+  (merge
     (select-keys round-data [:ruleset :trump :trump-player-id])
     {:player-id player-id
      :hand-cards (get hands player-id)}))
@@ -49,8 +34,10 @@
 (defn play-card
   [player {:keys [player-id hand-cards] :as player-data}]
   (let [card-played (player/.play-card player player-data)]
-    (if (rules/legal-card? card-played player-data) 
-      card-played
+    (if (rules/legal-card? card-played player-data)
+      (do
+        (println (str player-id " played " (cards/to-string card-played)))
+        card-played)
       (throw (Exception. (str [player-id player] " cheated with " card-played
                               " and hand " hand-cards))))))
 
@@ -60,7 +47,7 @@
   "Returns for each player the card that they have chosen to play during the
   trick."
   [{:keys [players player-order] :as round-data}]
-  (do (reduce (fn [trick player-id] 
+  (do (reduce (fn [trick player-id]
                 (let [player-data (assoc (extract-player-data player-id round-data)
                                          :trick-cards (trick-cards trick))
                       card-played (play-card (player-id players) player-data)]
@@ -69,7 +56,7 @@
 
 (defn trick-winner
   [trump trick]
-  (let [highest-card (cards/get-highest-card trump (trick-cards trick))]
+  (let [highest-card (cards/highest-card trump (trick-cards trick))]
     (->> trick
       (find-first #(= (:card %) highest-card))
       :player-id)))
@@ -95,8 +82,8 @@
 
 (defn initialize-round
   [{:keys [player-order max-trump-draw-count] :as game-data}]
-  (let [round-data (merge game-data 
-                          {:hands (deal-cards player-order (cards/new-deck)) 
+  (let [round-data (merge game-data
+                          {:hands  (deal-cards player-order (cards/deck))
                            :tricks []})
         trump-info (draw-trump max-trump-draw-count round-data)]
     (merge round-data trump-info)))
@@ -116,8 +103,8 @@
 
 ; {(player-id 1) {:total 100 :trump 20 :stock 80},
 ;  etc...}
-(defn score-round [{:keys [player-order trump tricks trump-player-id] 
-                    :as round-data}] 
+(defn score-round [{:keys [player-order trump tricks trump-player-id]
+                    :as round-data}]
   (let [teams (teams player-order)
         team (fn [player] (team teams player))
         winning-team (fn [trick] (team (trick-winner trump trick)))
@@ -126,7 +113,7 @@
         (reduce (fn [score trick]
                   (let [trick-cards (trick-cards trick)
                         is-last-trick? (= trick (last tricks))
-                        trick-score (score/calculate-trick-score 
+                        trick-score (score/calculate-trick-score
                                       {:trump trump :trick-cards trick-cards}
                                       is-last-trick?)
                         winning-team (winning-team trick)]
@@ -136,11 +123,11 @@
           other-team (first (remove #{trump-team} teams))
           trump-team-trick-score (get trick-scores trump-team)
           other-team-trick-score (get trick-scores other-team)
-          trump-team-has-highest-score? (> (score/total trump-team-trick-score) 
+          trump-team-has-highest-score? (> (score/total trump-team-trick-score)
                                            (score/total other-team-trick-score))
           ; TODO Add march bonus
-          trump-team-final-score (if trump-team-has-highest-score? 
-                                   trump-team-trick-score 
+          trump-team-final-score (if trump-team-has-highest-score?
+                                   trump-team-trick-score
                                    score/empty-score)
           other-team-final-score (if trump-team-has-highest-score?
                                    other-team-trick-score
@@ -149,7 +136,7 @@
        trump-team {:score trump-team-final-score}
        other-team {:score other-team-final-score}})))
 
-(defn initialize-game 
+(defn initialize-game
   [players ruleset]
   (let [player-ids (range (count players))]
     {:player-order player-ids

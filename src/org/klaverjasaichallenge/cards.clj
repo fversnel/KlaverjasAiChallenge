@@ -1,18 +1,26 @@
 (ns org.klaverjasaichallenge.cards)
 
-(def suits [:clubs :hearts :diamonds :spades])
-(def ranks [:seven :eight :nine :ten :jack :queen :king :ace])
-(defn card [rank suit] {:rank rank :suit suit})
-(defn suit? [suit card] (= (:suit card) suit))
-(defn rank? [rank card] (= (:rank card) rank))
-(defn card-type [trump card] (if (suit? trump card) :trump :normal))
+(def suits [:♣ :♥ :♦ :♠])
+(def ranks [:7 :8 :9 :10 :J :Q :K :A])
+(defn card
+  ([card-expr]
+   (let [[suit & rank] (name card-expr)]
+     (card (keyword (apply str rank))
+           (keyword (str suit)))))
+  ; TODO Order of rank and suit shouldn't matter
+  ([rank suit] {:rank rank :suit suit}))
+(defn cards [& cs] (map card cs))
+(defn has-suit? [suit card] (= (:suit card) suit))
+(defn has-rank? [rank card] (= (:rank card) rank))
+(defn card-type [trump card] (if (has-suit? trump card) :trump :normal))
 (def all-cards (for [suit suits rank ranks] (card rank suit)))
 
-(defn new-deck [] (shuffle all-cards))
+(defn deck [] (shuffle all-cards))
 
-(def card-order 
-  {:normal {:seven 0 :eight 1 :nine 2 :jack 3 :queen 4 :king 5 :ten 6 :ace 7} 
-   :trump {:seven 8 :eight 9 :queen 10 :king 11 :ten 12 :ace 13 :nine 14 :jack 15}})
+; TODO Rewrite this
+(def card-order
+  {:normal {:7 0 :8 1 :9 2 :J 3 :Q 4 :K 5 :10 6 :A 7}
+   :trump {:7 8 :8 9 :Q 10 :K 11 :10 12 :A 13 :9 14 :J 15}})
 
 (defn sort-cards
   "Sorts cards low to high."
@@ -20,5 +28,12 @@
   (sort-by (fn [card] (get-in card-order [(card-type trump card) (:rank card)]))
            cards))
 
-(defn get-highest-card [trump cards]
+(defn highest-card [trump cards]
   (last (sort-cards trump cards)))
+
+(defn to-string [card]
+  (str (name (:suit card))
+       (name (:rank card))))
+
+(defn to-keyword [card]
+  (keyword (to-string card)))

@@ -12,4 +12,4 @@
 ;  [& args]
 ;  (do (println "Starting Klaverjas AI Challenge"))
 ;  (let [players (map #(player/stupid-but-legal-ai %) (range 4))]
-;    (print-game (game/play-game :rotterdam-ruleset players 5))))
+;    (print-game (game/play-game :rotterdam players 5))))
