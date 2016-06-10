@@ -16,3 +16,11 @@
   For example: (re-order [:a :b :c :d] 2) will return [:c :d :a :b]."
   [coll n]
   (->> coll cycle (drop n) (take (count coll))))
+
+(defn same?
+  "Returns true if the collections only has values of the same thing.
+   When given an empty collection it will also return true."
+  [coll]
+  (if (empty? coll)
+    true
+    (apply = coll)))

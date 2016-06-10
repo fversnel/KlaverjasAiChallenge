@@ -7,9 +7,9 @@
                                      trump or not.")
   (play-card [player player-data]))
 
+(defn player? [x] (satisfies? Player x))
+
 (def stupid-but-legal-ai
   (reify Player
-    (play-trump? [player player-data] true)
-    (play-card [player player-data]
-      (let [legal-cards (rules/legal-cards player-data)]
-        (first legal-cards)))))
+    (play-trump? [_ _] true)
+    (play-card [_ player-data] (first (rules/legal-cards player-data)))))

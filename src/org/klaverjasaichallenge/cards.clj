@@ -1,5 +1,13 @@
 (ns org.klaverjasaichallenge.cards)
 
+(defrecord Card [rank suit]
+  Object
+  (toString [_] (str (name suit)
+                     (name rank))))
+
+(defmethod print-method Card [card ^java.io.Writer w]
+  (.write w (str card)))
+
 (def suits #{:♣ :♥ :♦ :♠})
 (def ranks #{:7 :8 :9 :10 :J :Q :K :A})
 (defn card
@@ -9,7 +17,7 @@
            (keyword (str suit)))))
   ([rank suit]
     {:pre [(suits suit) (ranks rank)]}
-    {:rank rank :suit suit}))
+    (Card. rank suit)))
 (defn cards [& cs] (map card cs))
 (defn has-suit? [suit card] (= (:suit card) suit))
 (defn has-rank? [rank card] (= (:rank card) rank))
@@ -32,9 +40,7 @@
 (defn highest-card [trump cards]
   (last (sort-cards trump cards)))
 
-(defn to-string [card]
-  (str (name (:suit card))
-       (name (:rank card))))
-
 (defn to-keyword [card]
-  (keyword (to-string card)))
+  (keyword
+    (str (name (:suit card))
+         (name (:rank card)))))
